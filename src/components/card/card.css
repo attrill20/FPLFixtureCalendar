@@ -1,0 +1,45 @@
+.cards {
+    display: flex;
+    justify-content: left;
+    color: red;
+    font-size: 1.5em;
+    border: 1px solid black;
+    margin-left: 5%;
+    margin-right: 5%;
+  }
+
+  .teams {
+    color: black;
+    font-size: 1.6em;
+    font-weight: bold;
+  }
+  
+  table {
+    border-collapse: collapse;
+    margin: 0 auto;
+    background-color: white;
+  }
+  
+  th,
+  td {
+    border: 1px solid black;
+    padding: 5px 10px;
+    text-align: center;
+  }
+  
+  th {
+    background-color: #ccc;
+  }
+  
+
+  .fixtures-table {
+    table-layout: fixed;
+    width: 100%;
+  }
+  
+  .fixtures-table td {
+    width: 20%;
+    text-align: center;
+    padding: 10px;
+  }
+  

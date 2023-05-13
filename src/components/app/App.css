@@ -1,0 +1,19 @@
+.app {
+  text-align: center;
+  color: black;
+  background-color: rgb(143, 175, 143);
+}
+
+.app-header {
+  font-size: x-large;
+}
+
+.sub-heading {
+  font-size: larger;
+}
+
+.cards  {
+  background-color: rgb(122, 152, 122);
+}
+
+

@@ -2,7 +2,7 @@
 
 Side Project - A FPL Fixture Calendar that shows the upcoming fixtures for each Premier League team and ranks them based on their difficulty. I aim to use this side project to practice my React, JS and CSS skills. Will eventually merge with the official FPL API or perhaps even create my own one to practice more advanced back-end skills. Any suggestions welcome!
 
-E-mail address: attrill20 @gmail.com
+E-mail address: attrill20@gmail.com
 
 ## To-Do List
 

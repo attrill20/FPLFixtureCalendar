@@ -22,5 +22,6 @@ Did some basic styling to check the files were all linked up properly, changed t
 
 A good start. Here's the first screenshot of progress:
 
-<img width="1652" alt="Screenshot 2023-05-13 at 23 42 55" src="https://github.com/attrill20/FPLFixtures/assets/123314687/45211f6e-dbf3-415d-9352-14f250a92419">
+<img width="1652" alt="Screenshot 2023-05-13 at 23 42 55" src="https://github.com/attrill20/FPLFixtureCalendar/assets/123314687/4cfe2324-0614-45e3-b7b5-bb58264b75ad">
+
 

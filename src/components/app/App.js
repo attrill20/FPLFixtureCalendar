@@ -2,9 +2,33 @@ import React from 'react';
 import './App.css';
 import CardList from '../cardlist/cardlist';
 
+import MUNbadge from '../badges/MUNbadge.png';
+
+
 const teams = [
-  "Arsenal", "Aston Villa", "Bournemouth", "Brentford", "Brighton & Hove Albion", "Chelsea", "Crystal Palace", "Everton", "Fulham", "Leicester City", "Leeds United", "Liverpool", "Manchester City", "Manchester United", "Newcastle United", "Nottingham Forest", "Southampton", "Tottenham Hotspur", "West Ham United", "Wolverhampton Wanderers"
+  { name: "Arsenal", badge: null },
+  { name: "Aston Villa", badge: null },
+  { name: "Bournemouth", badge: null },
+  { name: "Brentford", badge: null },
+  { name: "Brighton & Hove Albion", badge: null },
+  { name: "Chelsea", badge: null },
+  { name: "Crystal Palace", badge: null },
+  { name: "Everton", badge: null },
+  { name: "Fulham", badge: null },
+  { name: "Leicester City", badge: null },
+  { name: "Leeds United", badge: null },
+  { name: "Liverpool", badge: null },
+  { name: "Manchester City", badge: null },
+  { name: "Manchester United", badge: MUNbadge },
+  { name: "Newcastle United", badge: null },
+  { name: "Nottingham Forest", badge: null },
+  { name: "Southampton", badge: null },
+  { name: "Tottenham Hotspur", badge: null },
+  { name: "West Ham United", badge: null },
+  { name: "Wolverhampton Wanderers", badge: null }
 ];
+
+
 
 const gw1 = [
   "West Ham United", "Brighton & Hove Albion", "Crystal Palace", "Wolverhampton Wanderers", "Nottingham Forest", "Leeds United", "Everton", "Aston Villa", "Southampton", "Chelsea", "Newcastle United", "Brentford", "Tottenham Hotspur", "Manchester City", "Fulham", "Manchester United", "Arsenal", "Bournemouth", "Leicester City", "Liverpool"
@@ -46,21 +70,3 @@ export default function App() {
     </div>
   );
 };
-
-/*
-TO-DO
-
-- add club badges 
-- display fixtures in a table
-- add a search bar to filter fixtures
-- import the FPL API
-- colour code fixture difficulty
-- add home and away display
-- reorder table based on fixture difficulty
-
-DONE:
-
-- Add GW number to each fixture
-- Add a dated ReadME
-
-*/

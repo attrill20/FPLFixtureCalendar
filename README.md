@@ -70,16 +70,16 @@ The API seems to be divided into (important parts only:
 8. My Team (Full URL: https://fantasy.premierleague.com/api/my-team/{manager_id}/)
 - picks (a list of players you have picked in your team), chips (list of unused chips), transfers (recent transfer information)
 
-9. Manager's Team Per Gameweek
+9. Manager's Team Per Gameweek (Full URL: https://fantasy.premierleague.com/api/entry/{manager_id}/event/{event_id}/picks/)
 - automatic_subs, entry_history, picks
 
-10. Event Status
+10. Event Status (Full URL: https://fantasy.premierleague.com/api/event-status/)
 - Shows when bonus / league tables etc have been processed
 
-11. Dream Team
+11. Dream Team (Example URL: https://fantasy.premierleague.com/api/dream-team/8/)
 - highest scoring team and overall star of the GW
 
-12. Set Piece Taker Notes
+12. Set Piece Taker Notes (Full URL: https://fantasy.premierleague.com/api/team/set-piece-notes/)
 - Looks to be handwritten notes on team's set piece takers
 
 Won't do anything with this data right now, but very interesting to have more information on how the API can be utilised. Started learning about SQL on the course today, so intrigued to see how that could possibly be implemeented into this project in the future too. A good day!

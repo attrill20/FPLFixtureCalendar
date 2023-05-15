@@ -35,7 +35,7 @@ Did some reading and research as to what API I would need to use to implement in
 
 Discovered that there is an inbuilt difficulty ranking buried within the FPL API ("team_h_difficulty": 4, "team_a_difficulty": 2) which ranks them out of 5. I presume this is what is being used by the other fixture difficulty calendars out there. Maybe I'll start with this, but would love to build my own algorithm for determining this possibly on a scale out of 10 for more control over this and to allow for a more refined way of navigating fixture difficulty for FPL managers.
 
-The API seems to be divided into (important parts only:
+The API seems to be divided into these sections:
 
 1. General Information (Full URL: https://fantasy.premierleague.com/api/bootstrap-static/)
 - events (basic information of every Gameweek such as average score, highest score, top scoring player, most captained, etc)

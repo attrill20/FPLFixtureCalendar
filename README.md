@@ -13,6 +13,7 @@ E-mail address: attrill20@gmail.com
 - Colour code fixture difficulty
 - Add home and away display
 - Reorder table based on fixture difficulty (create own algorithm?)
+- Shorten teams to 3-letter acronym
 
 ## 13/05/23
 

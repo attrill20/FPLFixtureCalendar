@@ -53,27 +53,33 @@ The API seems to be divided into (important parts only:
 - stats (contains a list of match facts that affect points of a player. It consists of goals_scored, assists, own_goals, penalties_saved, penalties_missed, yellow_cards, red_cards, saves, bonus, and bps data)
 
 3. Player's Detailed Data (Full URL: https://fantasy.premierleague.com/api/element-summary/{element_id}/)
-- fixtures (remaining fixtures)
-- history (previous fixtures and match stats)
-- history_past (previous season stats)
+- fixtures (remaining fixtures), history (previous fixtures and match stats), history_past (previous season stats)
 
 4. Gameweek Live Data (Full URL: https://fantasy.premierleague.com/api/event/{event_id}/live/)
-- id (refers to element id from bootstrap-static)
-- stats (player match stats)
-- explain (breakdown of player's points)
+- id (refers to element id from bootstrap-static), stats (player match stats), explain (breakdown of player's points)
 
-5. Manager / User Basic Information (Full URL: https://fantasy.premierleague.com/api/entry/{manager_id}/)
+5. Manager Basic Information (Full URL: https://fantasy.premierleague.com/api/entry/{manager_id}/)
+- name, id, info, joined, team name, team value, leagues
 
-6. Manager / User's History (Full URL: https://fantasy.premierleague.com/api/entry/{manager_id}/history/)
+6. Manager's History (Full URL: https://fantasy.premierleague.com/api/entry/{manager_id}/history/)
+- previous GWs, chips used, past seasons
 
 7. Classic League Standings (Full URL: https://fantasy.premierleague.com/api/leagues-classic/{league_id}/standings)
+- league, standings, new entries
 
 8. My Team (Full URL: https://fantasy.premierleague.com/api/my-team/{manager_id}/)
-- picks (a list of players you have picked in your team)
-- chips (list of unused chips)
-- transfers (recent transfer information)
+- picks (a list of players you have picked in your team), chips (list of unused chips), transfers (recent transfer information)
 
-9.
-10.
-11.
-12. 
+9. Manager's Team Per Gameweek
+- automatic_subs, entry_history, picks
+
+10. Event Status
+- Shows when bonus / league tables etc have been processed
+
+11. Dream Team
+- highest scoring team and overall star of the GW
+
+12. Set Piece Taker Notes
+- Looks to be handwritten notes on team's set piece takers
+
+Won't do anything with this data right now, but very interesting to have more information on how the API can be utilised. Started learning about SQL on the course today, so intrigued to see how that could possibly be implemeented into this project in the future too. A good day!

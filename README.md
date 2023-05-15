@@ -4,15 +4,15 @@ Side Project - A FPL Fixture Calendar that shows the upcoming fixtures for each 
 
 E-mail address: attrill20@gmail.com
 
-## To-Do List
+## Current To-Do List
 
-- add club badges 
-- display fixtures in a table
-- add a search bar to filter fixtures
-- import the FPL API
-- colour code fixture difficulty
-- add home and away display
-- reorder table based on fixture difficulty
+- Add club badges 
+- Display fixtures in a table
+- Add a search bar to filter fixtures
+- Import the FPL API
+- Colour code fixture difficulty
+- Add home and away display
+- Reorder table based on fixture difficulty (create own algorithm?)
 
 ## 13/05/23
 
@@ -24,4 +24,11 @@ A good start. Here's the first screenshot of progress:
 
 <img width="1652" alt="Screenshot 2023-05-13 at 23 42 55" src="https://github.com/attrill20/FPLFixtureCalendar/assets/123314687/4cfe2324-0614-45e3-b7b5-bb58264b75ad">
 
+## 15/05/23
 
+Did some reading and research as to what API I would need to use to implement in the project. Here are some useful links:
+
+- Live FPL Rank: https://www.livefpl.net/rank (useful website displaying loads of data, nice new design)
+- Official FPL API: https://fantasy.premierleague.com/api/fixtures/ (this is the full database, might need to filter for useful information)
+- Medium article: https://medium.com/@frenzelts/fantasy-premier-league-api-endpoints-a-detailed-guide-acbd5598eb19 (explains how to use the API)
+- Football Fallout Calendar: https://www.footballfallout.com/fpl/fixture-difficulty-planner (the current fixture calendar I use, aim to build on this)

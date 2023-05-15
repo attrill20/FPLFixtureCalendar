@@ -34,3 +34,23 @@ Did some reading and research as to what API I would need to use to implement in
 - Football Fallout Calendar: https://www.footballfallout.com/fpl/fixture-difficulty-planner (the current fixture calendar I use, aim to build on this)
 
 Discovered that there is an inbuilt difficulty ranking buried within the FPL API ("team_h_difficulty": 4, "team_a_difficulty": 2) which ranks them out of 5. I presume this is what is being used by the other fixture difficulty calendars out there. Maybe I'll start with this, but would love to build my own algorithm for determining this possibly on a scale out of 10 for more control over this and to allow for a more refined way of navigating fixture difficulty for FPL managers.
+
+The API seems to be divided into (important parts only:
+
+General Information (Full URL: https://fantasy.premierleague.com/api/bootstrap-static/)
+- events (basic information of every Gameweek such as average score, highest score, top scoring player, most captained, etc)
+- teams (basic information of current Premier League clubs)
+- total_players (total FPL players)
+- elements (information of all Premier League players including points, status, value, match stats (goals, assists, etc.), ICT index, etc)
+- element_types (basic information about player’s position (GK, DEF, MID, FWD))
+
+Fixtures (Full URL: https://fantasy.premierleague.com/api/fixtures/)
+- To get fixtures for specific Gameweek, you can add a parameter after the endpoint path (ex: fixtures?event=7)
+- You can also request only the upcoming fixtures using future parameter (ex: fixtures?future=1)
+- event (event id)
+- team_a and team_h refers to the team id in teams section of the bootstrap-static data
+- team_h_difficulty and team_a_difficulty is the FDR value calculated by FPL
+- stats (contains a list of match facts that affect points of a player. It consists of goals_scored, assists, own_goals, penalties_saved, penalties_missed, yellow_cards, red_cards, saves, bonus, and bps data)
+
+Player's Detailed Data (Full URL: https://fantasy.premierleague.com/api/element-summary/{element_id}/)
+- 

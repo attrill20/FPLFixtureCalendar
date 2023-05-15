@@ -37,14 +37,14 @@ Discovered that there is an inbuilt difficulty ranking buried within the FPL API
 
 The API seems to be divided into (important parts only:
 
-General Information (Full URL: https://fantasy.premierleague.com/api/bootstrap-static/)
+1. General Information (Full URL: https://fantasy.premierleague.com/api/bootstrap-static/)
 - events (basic information of every Gameweek such as average score, highest score, top scoring player, most captained, etc)
 - teams (basic information of current Premier League clubs)
 - total_players (total FPL players)
 - elements (information of all Premier League players including points, status, value, match stats (goals, assists, etc.), ICT index, etc)
 - element_types (basic information about player’s position (GK, DEF, MID, FWD))
 
-Fixtures (Full URL: https://fantasy.premierleague.com/api/fixtures/)
+2. Fixtures (Full URL: https://fantasy.premierleague.com/api/fixtures/)
 - To get fixtures for specific Gameweek, you can add a parameter after the endpoint path (ex: fixtures?event=7)
 - You can also request only the upcoming fixtures using future parameter (ex: fixtures?future=1)
 - event (event id)
@@ -52,5 +52,28 @@ Fixtures (Full URL: https://fantasy.premierleague.com/api/fixtures/)
 - team_h_difficulty and team_a_difficulty is the FDR value calculated by FPL
 - stats (contains a list of match facts that affect points of a player. It consists of goals_scored, assists, own_goals, penalties_saved, penalties_missed, yellow_cards, red_cards, saves, bonus, and bps data)
 
-Player's Detailed Data (Full URL: https://fantasy.premierleague.com/api/element-summary/{element_id}/)
-- 
+3. Player's Detailed Data (Full URL: https://fantasy.premierleague.com/api/element-summary/{element_id}/)
+- fixtures (remaining fixtures)
+- history (previous fixtures and match stats)
+- history_past (previous season stats)
+
+4. Gameweek Live Data (Full URL: https://fantasy.premierleague.com/api/event/{event_id}/live/)
+- id (refers to element id from bootstrap-static)
+- stats (player match stats)
+- explain (breakdown of player's points)
+
+5. Manager / User Basic Information (Full URL: https://fantasy.premierleague.com/api/entry/{manager_id}/)
+
+6. Manager / User's History (Full URL: https://fantasy.premierleague.com/api/entry/{manager_id}/history/)
+
+7. Classic League Standings (Full URL: https://fantasy.premierleague.com/api/leagues-classic/{league_id}/standings)
+
+8. My Team (Full URL: https://fantasy.premierleague.com/api/my-team/{manager_id}/)
+- picks (a list of players you have picked in your team)
+- chips (list of unused chips)
+- transfers (recent transfer information)
+
+9.
+10.
+11.
+12. 

@@ -8,10 +8,15 @@
     margin-right: 5%;
   }
 
-  .teams {
+  .team-name {
     color: black;
     font-size: 1.6em;
     font-weight: bold;
+  }
+
+  .team-badge {
+    width: 40%; /* Adjust the size as needed */
+    margin-top: 8px; /* Add margin to separate the badge from the team name */
   }
   
   table {

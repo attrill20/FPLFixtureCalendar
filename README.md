@@ -14,6 +14,7 @@ E-mail address: attrill20@gmail.com
 - Add home and away display
 - Reorder table based on fixture difficulty (create own algorithm?)
 - Shorten teams to 3-letter acronym
+- Add testing
 
 ## 13/05/23
 

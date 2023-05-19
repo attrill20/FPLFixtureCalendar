@@ -6,14 +6,13 @@
 
 .app-header {
   font-size: x-large;
+  padding-top: 2px;
 }
 
 .sub-heading {
   font-size: larger;
-}
-
-.cards  {
-  background-color: rgb(122, 152, 122);
+  padding-left: 10%;
+  padding-right: 10%;
 }
 
 

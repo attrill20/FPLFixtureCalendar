@@ -6,15 +6,14 @@ E-mail address: attrill20@gmail.com
 
 ## Current To-Do List
 
-- Add club badges 
-- Display fixtures in a table
-- Add a search bar to filter fixtures
+- Add a search bar / drop down to filter fixtures
 - Import the FPL API
 - Colour code fixture difficulty
 - Add home and away display
 - Reorder table based on fixture difficulty (create own algorithm?)
-- Shorten teams to 3-letter acronym
 - Add testing
+- Link to betting site for odds
+- Clean sheet percentage
 
 ## 13/05/23
 

@@ -1,27 +1,33 @@
 import React from 'react';
 import './card.css';
 
-export default function NewCard({ teams, gw1, gw2, gw3 }) {
-  const { name, badge } = teams;
+export default function NewCard({teams, gw1, gw2, gw3 }) {
+  
 
   return (
     <div className="card">
-      <table className="fixtures-table">
+       <table className="fixtures-table with-border">
         <tbody>
           <tr>
             <td className="team-info">
-              <span className="team-name">{name}</span>
-              <br></br>
-              <img className="team-badge" src={badge} alt={name} />
+              <span className="team-name">{teams.name}</span>
+              <br />
+              <img className="team-badge" src={teams.badge} alt={teams.name} />
             </td>
             <td className="fixture-info">
-              <b>GW1:</b> {gw1}
+              GW1: <b>{gw1.initial}</b> 
+              <br />
+              <img className="fixture-badge" src={gw1.badge} alt={gw1.name} />
             </td>
             <td className="fixture-info">
-              <b>GW2:</b> {gw2}
+              GW2: <b>{gw2.initial}</b> 
+              <br />
+              <img className="fixture-badge" src={gw2.badge} alt={gw2.name} />
             </td>
             <td className="fixture-info">
-              <b>GW3:</b> {gw3}
+              GW3: <b>{gw3.initial}</b> 
+              <br />
+              <img className="fixture-badge" src={gw3.badge} alt={gw3.name} />
             </td>
           </tr>
         </tbody>

@@ -1,9 +1,23 @@
+
+.fixtures-table {
+  table-layout: fixed;
+  width: 100%;
+}
+
+.fixtures-table td {
+  width: 20%;
+  text-align: center;
+  padding: 10px;
+
+}
+
+
 .cards {
     display: flex;
     justify-content: left;
-    color: red;
+    color: black;
     font-size: 1.5em;
-    border: 1px solid black;
+    border: 5px solid black; /* border here */
     margin-left: 5%;
     margin-right: 5%;
   }
@@ -15,7 +29,12 @@
   }
 
   .team-badge {
-    width: 40%; /* Adjust the size as needed */
+    height: 100px; /* Adjust the size as needed */
+    margin-top: 8px; /* Add margin to separate the badge from the team name */
+  }
+
+  .fixture-badge {
+    height: 70px; /* Adjust the size as needed */
     margin-top: 8px; /* Add margin to separate the badge from the team name */
   }
   
@@ -34,17 +53,5 @@
   
   th {
     background-color: #ccc;
-  }
-  
-
-  .fixtures-table {
-    table-layout: fixed;
-    width: 100%;
-  }
-  
-  .fixtures-table td {
-    width: 20%;
-    text-align: center;
-    padding: 10px;
   }
   

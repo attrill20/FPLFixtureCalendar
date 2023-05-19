@@ -7,10 +7,13 @@ E-mail address: attrill20@gmail.com
 ## Current To-Do List
 
 - Add a search bar / drop down to filter fixtures
+- Add home and away display
+- Add a header for the site
+
 - Import the FPL API
 - Colour code fixture difficulty
-- Add home and away display
 - Reorder table based on fixture difficulty (create own algorithm?)
+
 - Add testing
 - Link to betting site for odds
 - Clean sheet percentage

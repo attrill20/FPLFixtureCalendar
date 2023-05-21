@@ -137,13 +137,3 @@ export default function App() {
     </div>
   );
 };
-
-// function shuffleArray(array) { // this randomises the array of teams
-//   for (let i = array.length - 1; i > 0; i--) {
-//     const j = Math.floor(Math.random() * (i + 1));
-//     [array[i], array[j]] = [array[j], array[i]];
-//   }
-//   return array;
-// }
-
-// const randomTeams = shuffleArray(teams); // this is the randomised array of teams

@@ -129,7 +129,7 @@ export default function App() {
         <h1>Welcome to the FPL Fixture Difficulty Calendar</h1>
       </header>
       <div className="sub-heading">
-        <h2>Welcome to FPL Oracle's Fixture Difficulty Planner for the 2022/23 Fixtures. You can use this site to filter teams by upcoming GWs to help plan transfers for players with easier fixtures and maximise your returns. Best of luck!</h2>
+        <h2>Welcome to the Fixture Difficulty Planner for the 2022/23 Fixtures. You can use this site to filter teams by upcoming GWs to help plan transfers for players with easier fixtures and maximise your returns. Best of luck!</h2>
       </div>
       <div className = "cards">
         <CardList teams={teams} gw1={gw1} gw2={gw2} gw3={gw3}/>

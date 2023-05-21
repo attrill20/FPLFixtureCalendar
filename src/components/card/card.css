@@ -34,8 +34,8 @@
   }
 
   .fixture-badge {
-    height: 70px; /* Adjust the size as needed */
-    margin-top: 8px; /* Add margin to separate the badge from the team name */
+    height: 80px; /* Adjust the size as needed */
+    margin-top: 10px; /* Add margin to separate the badge from the team name */
   }
   
   table {
@@ -51,7 +51,4 @@
     text-align: center;
   }
   
-  th {
-    background-color: #ccc;
-  }
   

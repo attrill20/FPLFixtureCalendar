@@ -7,6 +7,14 @@ export default function NewCard({teams, gw1, gw2, gw3 }) {
   return (
     <div className="card">
        <table className="fixtures-table with-border">
+       <thead className="table-header"> {/* Add the thead element for the table header */}
+          <tr>
+            <th></th> {/* Leave the first cell in the header row empty */}
+            <th>GW1</th> {/* Add the column headers */}
+            <th>GW2</th>
+            <th>GW3</th>
+          </tr>
+        </thead>
         <tbody>
           <tr>
             <td className="team-info">

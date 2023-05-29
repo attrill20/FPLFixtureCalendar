@@ -23,17 +23,17 @@ export default function NewCard({teams, gw1, gw2, gw3 }) {
               <img className="team-badge" src={teams.badge} alt={teams.name} />
             </td>
             <td className="fixture-info">
-              GW1: <b>{gw1.initial}</b> 
+              GW1: <b>{gw1.initial}</b> {gw1.location}
               <br />
               <img className="fixture-badge" src={gw1.badge} alt={gw1.name} />
             </td>
             <td className="fixture-info">
-              GW2: <b>{gw2.initial}</b> 
+              GW2: <b>{gw2.initial}</b> {gw2.location}
               <br />
               <img className="fixture-badge" src={gw2.badge} alt={gw2.name} />
             </td>
             <td className="fixture-info">
-              GW3: <b>{gw3.initial}</b> 
+              GW3: <b>{gw3.initial}</b> {gw3.location}
               <br />
               <img className="fixture-badge" src={gw3.badge} alt={gw3.name} />
             </td>

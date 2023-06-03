@@ -15,6 +15,7 @@ E-mail address: attrill20@gmail.com
 - Reorder table based on fixture difficulty (create own algorithm?)
 
 - Add testing
+- Ensure accessibility
 - Link to betting site for odds
 - Clean sheet percentage
 

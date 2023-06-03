@@ -16,6 +16,15 @@
   padding-right: 10%;
 }
 
+.gameweek-dropdown select {
+  padding: 10px;
+  width: 1000px;
+  font-size: 25px;
+  text-align: center;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
 .cards {
 margin-top: 10px;
 }

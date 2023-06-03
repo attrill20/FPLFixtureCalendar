@@ -1,6 +1,7 @@
 import React from 'react';
 import './App.css';
 import CardList from '../cardlist/cardlist';
+import Dropdown from '../dropdown/dropdown';
 import { teams, gw1, gw2, gw3 } from '../dummy arrays/dummy';
 
 // rendering the react elements
@@ -15,11 +16,7 @@ export default function App() {
       </div>
       <div class="filter-container">
         <div className="gameweek-dropdown">
-               <select id="gameweek-dropdown">
-              <option value="GW1">1 Gameweek</option>
-              <option value="GW2">2 Gameweeks</option>
-              <option value="GW3">3 Gameweeks</option>
-            </select>
+          <Dropdown />
         </div>
       </div>
       <div className = "cards">

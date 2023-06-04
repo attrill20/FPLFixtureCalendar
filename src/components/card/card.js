@@ -1,7 +1,7 @@
 import React from 'react';
 import './card.css';
 
-export default function NewCard({teams, gw1, gw2, gw3 }) {
+export default function NewCard({teams, gameweeks}) {
   
 
   return (
@@ -22,12 +22,23 @@ export default function NewCard({teams, gw1, gw2, gw3 }) {
               <br />
               <img className="team-badge" src={teams.badge} alt={teams.name} />
             </td>
-            <td className="fixture-info">
-              GW1: <b>{gw1.initial}</b> {gw1.location}
+
+            {gameweeks.map ((fixture, index) => (
+                <td className="fixture-info">
+              GW1: <b>{fixture[index].initial}</b> {fixture[index].location}
               <br />
-              <img className="fixture-badge" src={gw1.badge} alt={gw1.name} />
+              <img className="fixture-badge" src={fixture[index].badge} alt={fixture[index].name} />
             </td>
-            <td className="fixture-info">
+            ))}
+
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  );
+}
+
+{/* <td className="fixture-info">
               GW2: <b>{gw2.initial}</b> {gw2.location}
               <br />
               <img className="fixture-badge" src={gw2.badge} alt={gw2.name} />
@@ -36,10 +47,4 @@ export default function NewCard({teams, gw1, gw2, gw3 }) {
               GW3: <b>{gw3.initial}</b> {gw3.location}
               <br />
               <img className="fixture-badge" src={gw3.badge} alt={gw3.name} />
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  );
-}
+            </td> */}

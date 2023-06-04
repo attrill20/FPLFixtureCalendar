@@ -1,11 +1,17 @@
-import React from 'react';
+import React, {useState} from 'react';
 import './App.css';
 import CardList from '../cardlist/cardlist';
 import Dropdown from '../dropdown/dropdown';
-import { teams, gw1, gw2, gw3 } from '../dummy arrays/dummy';
+import { teams, gameweeks } from '../dummy arrays/dummy';
 
 // rendering the react elements
 export default function App() {
+
+const [selectedGameweek, setSelectedGameweek] = useState()
+
+
+
+
   return (
     <div className="app">
       <header className="app-header">
@@ -20,7 +26,7 @@ export default function App() {
         </div>
       </div>
       <div className = "cards">
-        <CardList teams={teams} gw1={gw1} gw2={gw2} gw3={gw3}/>
+        <CardList teams={teams} gameweeks={gameweeks}/>
       </div>
     </div>
   );

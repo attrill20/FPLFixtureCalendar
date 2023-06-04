@@ -10,9 +10,9 @@ export default function Row({ teams, teamFixtures, rowIndex }) {
           {/* Add the thead element for the table header */}
           <tr>
             <th></th> {/* Leave the first cell in the header row empty */}
-            <th>GW1</th> {/* Add the column headers */}
-            <th>GW2</th>
-            <th>GW3</th>
+            {teamFixtures.map((_, index) => (
+              <th>{`GW ${index + 1}`}</th>
+            ))}
           </tr>
         </thead>
         <tbody>

@@ -99,7 +99,7 @@ Tidied up the UI of the site with a slightly brighter background and clear black
 
 ## 02/06/23
 
-Been a buys couple of weeks with my best friend's wedding and then starting the project week, but had a bit of time this evening to have a play with the project and added home(H) and away(a) tags to each fixture, which will later play into the difficulty calculation. Added a dropdown filter as you can see in the image below, but then had a lot of difficulty trying to actually link that up using useState and onChange! had a good chat with my coding mate about it and we tried a lot of things and think I may need to restructure the layout of my components to integrate what I was thinking. Will play that over and revisit it again soon. Here's the current look of it:
+Been a busy couple of weeks with my best friend's wedding and then starting the project week, but had a bit of time this evening to have a play with the project and added home(H) and away(a) tags to each fixture, which will later play into the difficulty calculation. Added a dropdown filter as you can see in the image below, but then had a lot of difficulty trying to actually link that up using useState and onChange! had a good chat with my coding mate about it and we tried a lot of things and think I may need to restructure the layout of my components to integrate what I was thinking. Will play that over and revisit it again soon. Here's the current look of it:
 
 ![Screenshot 2023-06-04 at 20 56 40](https://github.com/attrill20/FPLFixtureCalendar/assets/123314687/a2f11d02-e64e-49d7-af0d-37361bf0951d)
 

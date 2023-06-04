@@ -1,7 +1,7 @@
 import React from "react";
 import "./card.css";
 
-export default function Row({ teams, gameweeks }) {
+export default function Row({ teams, teamFixtures, rowIndex }) {
   return (
     <div className="card">
       <table className="fixtures-table with-border">
@@ -23,14 +23,15 @@ export default function Row({ teams, gameweeks }) {
               <img className="team-badge" src={teams.badge} alt={teams.name} />
             </td>
 
-            {gameweeks.map((fixture, index) => (
+            {teamFixtures.map((fixture) => (
               <td className="fixture-info">
-                GW1: <b>{fixture[index].initial}</b> {fixture[index].location}
+                GW1: <b>{fixture[rowIndex].initial}</b>{" "}
+                {fixture[rowIndex].location}
                 <br />
                 <img
                   className="fixture-badge"
-                  src={fixture[index].badge}
-                  alt={fixture[index].name}
+                  src={fixture[rowIndex].badge}
+                  alt={fixture[rowIndex].name}
                 />
               </td>
             ))}

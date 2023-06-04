@@ -114,3 +114,5 @@ export const gw3 = [
     { name: 'Bournemouth', initial: 'BOU', badge: BOUbadge, location: '(H)' },
     { name: 'Nottingham Forest', initial: 'NFO', badge: NFObadge, location: '(H)' }
 ];
+
+export const gameweeks = [gw1, gw2, gw3]

@@ -1,11 +1,11 @@
-import React from 'react';
+import React from "react";
 
-export default function Dropdown () {
-    return (
-        <select id="gameweek-dropdown">
-              <option value="GW1">1 Gameweek</option>
-              <option value="GW2">2 Gameweeks</option>
-              <option value="GW3">3 Gameweeks</option>
-        </select>
-    )
+export default function Dropdown({ handleGameweekChange }) {
+  return (
+    <select id="gameweek-dropdown" onChange={handleGameweekChange}>
+      <option value="1">1 Gameweek</option>
+      <option value="2">2 Gameweeks</option>
+      <option value="3">3 Gameweeks</option>
+    </select>
+  );
 }

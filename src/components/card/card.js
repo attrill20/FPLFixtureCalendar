@@ -42,8 +42,8 @@ export default function Row({ teams, teamFixtures, rowIndex }) {
   );
 }
 
-{
-  /* <td className="fixture-info">
+  
+  /* {<td className="fixture-info">
               GW2: <b>{gw2.initial}</b> {gw2.location}
               <br />
               <img className="fixture-badge" src={gw2.badge} alt={gw2.name} />
@@ -52,5 +52,4 @@ export default function Row({ teams, teamFixtures, rowIndex }) {
               GW3: <b>{gw3.initial}</b> {gw3.location}
               <br />
               <img className="fixture-badge" src={gw3.badge} alt={gw3.name} />
-            </td> */
-}
+            </td>} */

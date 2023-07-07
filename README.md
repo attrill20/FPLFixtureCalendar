@@ -23,7 +23,7 @@ E-mail address: attrill20@gmail.com
 
 ## 07/07/23
 
-Back to it
+Back to it today! Spent some time reacquainting myself with the app, good to be back on it. Tried to make a fetch request to the FPL API now the new season has launched, but struggled! Kept getting blocked by a CORS request - tried lots of things including middleware and creating my own proxy server, but kept getting errors. Will take a step back, think it over and come back to it on Sunday!
 
 ## 04/06/23
 

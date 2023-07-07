@@ -27,7 +27,7 @@ export default function App() {
           Best of luck!
         </h2>
       </div>
-      <div class="filter-container">
+      <div className="filter-container">
         <div className="gameweek-dropdown">
           <Dropdown handleGameweekChange={handleGameweekChange} />
         </div>

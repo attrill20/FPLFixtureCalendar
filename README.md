@@ -10,6 +10,7 @@ E-mail address: attrill20@gmail.com
 - Add home and away display
 - Add a header for the site
 - Add extra pages through React Router
+- Fix favicon
 
 - Import the FPL API
 - Colour code fixture difficulty

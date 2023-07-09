@@ -27,7 +27,7 @@ E-mail address: attrill20@gmail.com
 
 Good progress made today! Sorted out the CORS error by building my own server using Node.js and Express.js to handle the GET request and then allows CORS so the data can be accessed in the main app.js. This screenshot below may not look like much, but it was a big breakthrough for me to finally see real data from the FPL API being accessed by my site:
 
-<img width="741" alt="Screenshot 2023-07-09 at 19 12 46" src="https://github.com/attrill20/FPLFixtureCalendar/assets/123314687/d6e47a72-90ed-4bb3-bbc9-142bcbf9bf01">
+<img width="733" alt="Screenshot 2023-07-09 at 19 12 46" src="https://github.com/attrill20/FPLFixtureCalendar/assets/123314687/87a14913-62fa-4bd1-9f60-a5c6d0ea299a">
 
 Also deployed the site for the first time to Vercel to ensure that there is always a place to view my changes and will hopefully eventually be useful to users!
 

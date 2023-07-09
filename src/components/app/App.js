@@ -14,6 +14,13 @@ export default function App() {
 
   let filteredGameweeks = gameweeks.slice(0, numberOfGameweeks);
 
+  async function fetchFPL() {
+    const response = await fetch("http://localhost:3005")
+    const data = await response.json();
+    console.log(data);
+  }
+  fetchFPL()
+
   return (
     <div className="app">
       <header className="app-header">

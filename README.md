@@ -14,7 +14,8 @@ E-mail address: attrill20@gmail.com
 - Add extra pages through React Router
 - Fix favicon
 
-- Import the FPL API
+- Import the FPL API (started to console.log this)
+- Create a proper server to allow data to be displayed on the deployed version
 - Colour code fixture difficulty
 - Reorder table based on fixture difficulty (create own algorithm?)
 

@@ -1,0 +1,13 @@
+{
+  "name": "fpl-fixtures",
+  "version": "1.0.0",
+  "description": "Side Project - A FPL Fixture Calendar that shows the upcoming fixtures for each Premier League team and ranks them based on their difficulty. I aim to use this side project to practice my React, JS and CSS skills. Will eventually merge with the official FPL API or perhaps even create my own one to practice more advanced back-end skills. Any suggestions welcome!",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "cd server && node index.js & cd ./client && npm start"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

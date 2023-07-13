@@ -24,6 +24,14 @@ E-mail address: attrill20@gmail.com
 - Link to betting site for odds
 - Clean sheet percentage
 
+## 13/07/23
+
+Had a good play around with the API today, managed to find lots of player information and display it on the site. Here is some of the results of that:
+
+<img width="1049" alt="Screenshot 2023-07-13 at 16 40 18" src="https://github.com/attrill20/FPLFixtureCalendar/assets/123314687/c021a862-3108-4bca-bc06-6d3d1af60298">
+
+However, still finding it difficult to work out how to pull 2 seperate APIs (https://fantasy.premierleague.com/api/bootstrap-static/ for player info and https://fantasy.premierleague.com/api/fixtures/ for fixtures) as await Promise.all and then mapping through them is just creating errors. Will get back to this after the weekend I think!
+
 ## 09/07/23
 
 Good progress made today! Sorted out the CORS error by building my own server using Node.js and Express.js to handle the GET request and then allows CORS so the data can be accessed in the main app.js. This screenshot below may not look like much, but it was a big breakthrough for me to finally see real data from the FPL API being accessed by my site:

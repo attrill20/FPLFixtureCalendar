@@ -39,8 +39,14 @@ export default function App() {
           Best of luck!
         </h2>
         <h2>
-          <p>Test: {data && data.teams[0].name}</p>
-          <p>Test: {data && data.teams[19].name}</p>
+          <p>Test: {data && data.teams[0].name} - Short Name: {data && data.teams[0].short_name} - Strength: {data && data.teams[0].strength}</p>
+          <p>Test: {data && data.teams[19].name} - Short Name: {data && data.teams[19].short_name} - Strength: {data && data.teams[19].strength}</p>
+          <p>Player Name: {data && data.elements[400].web_name} - Selected By: {data && data.elements[400].selected_by_percent}% - Total Points: {data && data.elements[400].total_points}</p>
+          <p>Player Name: {data && data.elements[144].web_name} - Selected By: {data && data.elements[144].selected_by_percent}% - Total Points: {data && data.elements[144].total_points}</p>
+          <p>Player Name: {data && data.elements[18].web_name} - Selected By: {data && data.elements[18].selected_by_percent}% - Total Points: {data && data.elements[18].total_points}</p>
+          <img src={`https://resources.premierleague.com/premierleague/photos/players/110x140/p${data && data.elements[400].code}.png`} alt="text" />
+          <img src={`https://resources.premierleague.com/premierleague/photos/players/110x140/p${data && data.elements[144].code}.png`} alt="text" />
+          <img src={`https://resources.premierleague.com/premierleague/photos/players/110x140/p${data && data.elements[18].code}.png`} alt="text" />
         </h2>
       </div>
       <div className="filter-container">

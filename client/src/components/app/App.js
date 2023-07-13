@@ -21,7 +21,6 @@ export default function App() {
     const data = await response.json();
     setData(data);
     console.log(data);
-    console.log(data.teams[0].name)
   }
   fetchFPL()
 }, []);
@@ -38,7 +37,28 @@ export default function App() {
           transfers for players with easier fixtures and maximise your returns.
           Best of luck!
         </h2>
-        <h2>
+      </div>
+
+        {/* {data && data.map((apiData, index) => (
+        <div key={index}>
+          <h2>
+            <p>Test: {apiData && apiData.teams[0].name} - Short Name: {apiData && apiData.teams[0].short_name} - Strength: {apiData && apiData.teams[0].strength}</p>
+            <p>Test: {apiData && apiData.teams[19].name} - Short Name: {apiData && apiData.teams[19].short_name} - Strength: {apiData && apiData.teams[19].strength}</p>
+            <p>Player Name: {apiData && apiData.elements[400].web_name} - Selected By: {apiData && apiData.elements[400].selected_by_percent}% - Total Points: {apiData && apiData.elements[400].total_points}</p>
+            <p>Player Name: {apiData && apiData.elements[144].web_name} - Selected By: {apiData && apiData.elements[144].selected_by_percent}% - Total Points: {apiData && apiData.elements[144].total_points}</p>
+            <p>Player Name: {apiData && apiData.elements[18].web_name} - Selected By: {apiData && apiData.elements[18].selected_by_percent}% - Total Points: {apiData && apiData.elements[18].total_points}</p>
+            <img src={`https://resources.premierleague.com/premierleague/photos/players/110x140/p${apiData && apiData.elements[400].code}.png`} alt="text" />
+            <img src={`https://resources.premierleague.com/premierleague/photos/players/110x140/p${apiData && apiData.elements[144].code}.png`} alt="text" />
+            <img src={`https://resources.premierleague.com/premierleague/photos/players/110x140/p${apiData && apiData.elements[18].code}.png`} alt="text" />
+          </h2>
+          {Render fixtures or other data as needed}
+        </div>
+      ))} */}
+
+
+
+      <div className='FPL-Stats'>
+        {<h2>
           <p>Test: {data && data.teams[0].name} - Short Name: {data && data.teams[0].short_name} - Strength: {data && data.teams[0].strength}</p>
           <p>Test: {data && data.teams[19].name} - Short Name: {data && data.teams[19].short_name} - Strength: {data && data.teams[19].strength}</p>
           <p>Player Name: {data && data.elements[400].web_name} - Selected By: {data && data.elements[400].selected_by_percent}% - Total Points: {data && data.elements[400].total_points}</p>
@@ -47,8 +67,14 @@ export default function App() {
           <img src={`https://resources.premierleague.com/premierleague/photos/players/110x140/p${data && data.elements[400].code}.png`} alt="text" />
           <img src={`https://resources.premierleague.com/premierleague/photos/players/110x140/p${data && data.elements[144].code}.png`} alt="text" />
           <img src={`https://resources.premierleague.com/premierleague/photos/players/110x140/p${data && data.elements[18].code}.png`} alt="text" />
-        </h2>
+        </h2>}
+        {/* {/<h2>
+          <p>Fixture test: {data && data[0].team_h} v {data && data[0].team_a}</p>
+        </h2>} */}
       </div>
+      
+
+
       <div className="filter-container">
         <div className="gameweek-dropdown">
           <Dropdown handleGameweekChange={handleGameweekChange} />

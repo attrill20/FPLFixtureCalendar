@@ -4,10 +4,10 @@ import CardList from "../cardlist/cardlist";
 import Dropdown from "../dropdown/dropdown";
 import { teams, gameweeks } from "../dummy arrays/dummy";
 
-// rendering the react elements
 export default function App() {
   const [numberOfGameweeks, setNumberOfGameweeks] = useState(1);
   const [data, setData] = useState(null);
+  const [mainData, setMainData] = useState(null);
   const [fixturesData, setFixturesData] = useState(null);
 
   const handleGameweekChange = (event) => {
@@ -21,9 +21,9 @@ export default function App() {
     const response = await fetch("http://localhost:3005")
     const data = await response.json();
     setData(data);
+    setMainData(data.bootstrapData)
     setFixturesData(data.fixturesData)
     console.log(data);
-    console.log(fixturesData);
   }
   fetchFPL()
 }, []);
@@ -42,26 +42,26 @@ export default function App() {
         </h2>
       </div>
 
-
-
-
       <div className='FPL-Stats'>
-        {<h2>
-          <p>Test: {data && data.bootstrapData.teams[0].name} - Short Name: {data && data.bootstrapData.teams[0].short_name} - Strength: {data && data.bootstrapData.teams[0].strength}</p>
-          {/* <p>Test: {data && data.teams[19].name} - Short Name: {data && data.teams[19].short_name} - Strength: {data && data.teams[19].strength}</p>
-          <p>Player Name: {data && data.elements[400].web_name} - Selected By: {data && data.elements[400].selected_by_percent}% - Total Points: {data && data.elements[400].total_points}</p>
-          <p>Player Name: {data && data.elements[144].web_name} - Selected By: {data && data.elements[144].selected_by_percent}% - Total Points: {data && data.elements[144].total_points}</p>
-          <p>Player Name: {data && data.elements[18].web_name} - Selected By: {data && data.elements[18].selected_by_percent}% - Total Points: {data && data.elements[18].total_points}</p>
-          <img src={`https://resources.premierleague.com/premierleague/photos/players/110x140/p${data && data.elements[400].code}.png`} alt="text" />
-          <img src={`https://resources.premierleague.com/premierleague/photos/players/110x140/p${data && data.elements[144].code}.png`} alt="text" />
-          <img src={`https://resources.premierleague.com/premierleague/photos/players/110x140/p${data && data.elements[18].code}.png`} alt="text" /> */}
-        </h2>}
-        {<h2>
-          <p>Fixture test: {data && fixturesData[0].team_h} v {data && fixturesData[0].team_a}</p>
-        </h2>}
-      </div>
-      
+  {data && (
+    <h2>
+      <p> Test: {mainData.teams[0].name} - Short Name: {mainData.teams[0].short_name} - Strength: {mainData.teams[0].strength} </p>
+      <p>Test: {mainData.teams[19].name} - Short Name: {mainData.teams[19].short_name} - Strength: {mainData.teams[19].strength}</p>
+      <p>Player Name: {mainData.elements[400].web_name} - Selected By: {mainData.elements[400].selected_by_percent}% - Total Points: {mainData.elements[400].total_points}</p>
+      <p>Player Name: {mainData.elements[144].web_name} - Selected By: {mainData.elements[144].selected_by_percent}% - Total Points: {mainData.elements[144].total_points}</p>
+      <p>Player Name: {mainData.elements[18].web_name} - Selected By: {mainData.elements[18].selected_by_percent}% - Total Points: {mainData.elements[18].total_points}</p>
+      <img src={`https://resources.premierleague.com/premierleague/photos/players/110x140/p${mainData.elements[400].code}.png`} alt="text" />
+      <img src={`https://resources.premierleague.com/premierleague/photos/players/110x140/p${mainData.elements[144].code}.png`} alt="text" />
+      <img src={`https://resources.premierleague.com/premierleague/photos/players/110x140/p${mainData.elements[18].code}.png`} alt="text" />
+    </h2>
+  )}
 
+  {data && (
+    <h2>
+      <p>Fixture test: {fixturesData[0].team_h} v {fixturesData[0].team_a}</p>
+    </h2>
+  )}
+</div>
 
       <div className="filter-container">
         <div className="gameweek-dropdown">

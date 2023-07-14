@@ -8,6 +8,7 @@ import { teams, gameweeks } from "../dummy arrays/dummy";
 export default function App() {
   const [numberOfGameweeks, setNumberOfGameweeks] = useState(1);
   const [data, setData] = useState(null);
+  const [fixturesData, setFixturesData] = useState(null);
 
   const handleGameweekChange = (event) => {
     setNumberOfGameweeks(event.target.value);
@@ -20,7 +21,9 @@ export default function App() {
     const response = await fetch("http://localhost:3005")
     const data = await response.json();
     setData(data);
+    setFixturesData(data.fixturesData)
     console.log(data);
+    console.log(fixturesData);
   }
   fetchFPL()
 }, []);
@@ -39,38 +42,23 @@ export default function App() {
         </h2>
       </div>
 
-        {/* {data && data.map((apiData, index) => (
-        <div key={index}>
-          <h2>
-            <p>Test: {apiData && apiData.teams[0].name} - Short Name: {apiData && apiData.teams[0].short_name} - Strength: {apiData && apiData.teams[0].strength}</p>
-            <p>Test: {apiData && apiData.teams[19].name} - Short Name: {apiData && apiData.teams[19].short_name} - Strength: {apiData && apiData.teams[19].strength}</p>
-            <p>Player Name: {apiData && apiData.elements[400].web_name} - Selected By: {apiData && apiData.elements[400].selected_by_percent}% - Total Points: {apiData && apiData.elements[400].total_points}</p>
-            <p>Player Name: {apiData && apiData.elements[144].web_name} - Selected By: {apiData && apiData.elements[144].selected_by_percent}% - Total Points: {apiData && apiData.elements[144].total_points}</p>
-            <p>Player Name: {apiData && apiData.elements[18].web_name} - Selected By: {apiData && apiData.elements[18].selected_by_percent}% - Total Points: {apiData && apiData.elements[18].total_points}</p>
-            <img src={`https://resources.premierleague.com/premierleague/photos/players/110x140/p${apiData && apiData.elements[400].code}.png`} alt="text" />
-            <img src={`https://resources.premierleague.com/premierleague/photos/players/110x140/p${apiData && apiData.elements[144].code}.png`} alt="text" />
-            <img src={`https://resources.premierleague.com/premierleague/photos/players/110x140/p${apiData && apiData.elements[18].code}.png`} alt="text" />
-          </h2>
-          {Render fixtures or other data as needed}
-        </div>
-      ))} */}
 
 
 
       <div className='FPL-Stats'>
         {<h2>
-          <p>Test: {data && data.teams[0].name} - Short Name: {data && data.teams[0].short_name} - Strength: {data && data.teams[0].strength}</p>
-          <p>Test: {data && data.teams[19].name} - Short Name: {data && data.teams[19].short_name} - Strength: {data && data.teams[19].strength}</p>
+          <p>Test: {data && data.bootstrapData.teams[0].name} - Short Name: {data && data.bootstrapData.teams[0].short_name} - Strength: {data && data.bootstrapData.teams[0].strength}</p>
+          {/* <p>Test: {data && data.teams[19].name} - Short Name: {data && data.teams[19].short_name} - Strength: {data && data.teams[19].strength}</p>
           <p>Player Name: {data && data.elements[400].web_name} - Selected By: {data && data.elements[400].selected_by_percent}% - Total Points: {data && data.elements[400].total_points}</p>
           <p>Player Name: {data && data.elements[144].web_name} - Selected By: {data && data.elements[144].selected_by_percent}% - Total Points: {data && data.elements[144].total_points}</p>
           <p>Player Name: {data && data.elements[18].web_name} - Selected By: {data && data.elements[18].selected_by_percent}% - Total Points: {data && data.elements[18].total_points}</p>
           <img src={`https://resources.premierleague.com/premierleague/photos/players/110x140/p${data && data.elements[400].code}.png`} alt="text" />
           <img src={`https://resources.premierleague.com/premierleague/photos/players/110x140/p${data && data.elements[144].code}.png`} alt="text" />
-          <img src={`https://resources.premierleague.com/premierleague/photos/players/110x140/p${data && data.elements[18].code}.png`} alt="text" />
+          <img src={`https://resources.premierleague.com/premierleague/photos/players/110x140/p${data && data.elements[18].code}.png`} alt="text" /> */}
         </h2>}
-        {/* {/<h2>
-          <p>Fixture test: {data && data[0].team_h} v {data && data[0].team_a}</p>
-        </h2>} */}
+        {<h2>
+          <p>Fixture test: {data && fixturesData[0].team_h} v {data && fixturesData[0].team_a}</p>
+        </h2>}
       </div>
       
 

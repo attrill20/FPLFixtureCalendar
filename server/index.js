@@ -59,22 +59,55 @@
 
 
 
+// WORKING SINGLE API CALL
+// const express = require('express')
+// const app = express()
+// var cors = require('cors')
+// const port=3005
 
-const express = require('express')
-const app = express()
-var cors = require('cors')
-const port=3005
+// app.use(cors())
 
-app.use(cors())
+// app.get('/', async (req, res) => {
+//   const response = await fetch('https://fantasy.premierleague.com/api/bootstrap-static/')
+//   //   const response = await fetch('https://fantasy.premierleague.com/api/fixtures/')
+//   const details = await response.json();
+//   console.log(details)
+//   res.send(details)
+// })
+
+// app.listen(port, () => {
+//   console.log(`Example app listening on port ${port}`)
+// })
+
+const express = require('express');
+const cors = require('cors');
+
+const app = express();
+const port = 3005;
+
+app.use(cors());
 
 app.get('/', async (req, res) => {
-  const response = await fetch('https://fantasy.premierleague.com/api/bootstrap-static/')
-  //   const response = await fetch('https://fantasy.premierleague.com/api/fixtures/')
-  const details = await response.json();
-  console.log(details)
-  res.send(details)
-})
+
+    const bootstrapResponse = await fetch('https://fantasy.premierleague.com/api/bootstrap-static/');
+    const bootstrapData = await bootstrapResponse.json();
+    
+    const fixturesResponse = await fetch('https://fantasy.premierleague.com/api/fixtures/');
+    const fixturesData = await fixturesResponse.json();
+
+    console.log('Bootstrap Data:', bootstrapData);
+    console.log('Fixtures Data:', fixturesData);
+
+    const responseData = {
+      bootstrapData: bootstrapData,
+      fixturesData: fixturesData
+    };
+
+    res.send(responseData);
+});
 
 app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`)
-})
+  console.log(`Server is running on port ${port}`);
+});
+
+

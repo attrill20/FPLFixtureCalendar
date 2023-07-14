@@ -9,6 +9,32 @@
 
 // app.get('/', async (req, res) => {
 //   try {
+//     const responses = await Promise.all([
+//       fetch('https://fantasy.premierleague.com/api/bootstrap-static/'),
+//       fetch('https://fantasy.premierleague.com/api/fixtures/')
+//     ]);
+
+//     console.log(responses);
+
+//     const data = await Promise.all(responses.map(response => response.json()));
+    
+//     // Send the data as the response
+//     res.json(data);
+//   } catch (error) {
+//     // Send an error response if there's an error
+//     res.status(500).json({ error: 'An error occurred' });
+//     console.log(error)
+//   }
+// });
+
+// app.listen(port, () => {
+//   console.log(`Server is running on port ${port}`);
+// });
+
+
+/////
+
+//   try {
 //     const urls = [
 //       'https://fantasy.premierleague.com/api/bootstrap-static/',
 //       'https://fantasy.premierleague.com/api/fixtures/'
@@ -19,7 +45,9 @@
 
 //     console.log(apiData);
 //     res.send(apiData);
-//   } catch (error) {
+//   } 
+//   catch (error) 
+//   {
 //     console.error(error);
 //     res.status(500).send('Internal Server Error');
 //   }
@@ -41,18 +69,11 @@ app.use(cors())
 
 app.get('/', async (req, res) => {
   const response = await fetch('https://fantasy.premierleague.com/api/bootstrap-static/')
+  //   const response = await fetch('https://fantasy.premierleague.com/api/fixtures/')
   const details = await response.json();
   console.log(details)
   res.send(details)
 })
-
-// app.get('/', async (req, res) => {
-//   // const response = await fetch('https://fantasy.premierleague.com/api/bootstrap-static/')
-//   const response = await fetch('https://fantasy.premierleague.com/api/fixtures/')
-//   const body = await response.json();
-//   console.log(body)
-//   res.send(body)
-// })
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)

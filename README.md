@@ -24,6 +24,15 @@ E-mail address: attrill20@gmail.com
 - Link to betting site for odds
 - Clean sheet percentage
 
+## 18/07/23
+
+Came back to my app to find that all the player images had changed! Realised that I had targeted them within the img URL by bracket notation by their position in the array - which evidently changes when new players are added to the game. Quick fix by being more specific by identifying them by their player code and  all fixed (plus added a couple of extra favourite faces) - good lesson to be learned here about making sure my code is future proofed and won't have unexpected changes like this again!
+
+Then added a player search feature, so you can now type in a player name and it will return their image and some basic stats. All good practice in understanding the API better, learned how the web_name can be different than their surname and that capital letters were important, so added a line of code that converts both to lowercase before searching. Good progress, but need to get onto focussing on the fixtures again next time.
+
+<img width="1354" alt="Screenshot 2023-07-18 at 15 49 05" src="https://github.com/attrill20/FPLFixtureCalendar/assets/123314687/d3489fc5-e498-4d12-b953-9017e7c4852b">
+
+
 ## 13/07/23
 
 Had a good play around with the API today, managed to find lots of player information and display it on the site. Here is some of the results of that:

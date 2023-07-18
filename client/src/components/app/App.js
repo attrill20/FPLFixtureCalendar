@@ -9,6 +9,8 @@ export default function App() {
   const [data, setData] = useState(null);
   const [mainData, setMainData] = useState(null);
   const [fixturesData, setFixturesData] = useState(null);
+  const [targetWebName, setTargetWebName] = useState("");
+  const [targetedPlayer, setTargetedPlayer] = useState(null);
 
   const handleGameweekChange = (event) => {
     setNumberOfGameweeks(event.target.value);
@@ -16,6 +18,7 @@ export default function App() {
 
   let filteredGameweeks = gameweeks.slice(0, numberOfGameweeks);
 
+  // Fetch the FPL API data
   useEffect(() => {
     async function fetchFPL() {
     const response = await fetch("http://localhost:3005")
@@ -27,6 +30,27 @@ export default function App() {
   }
   fetchFPL()
 }, []);
+
+ // Function to target a player by their web name
+ const findPlayerByWebName = () => {
+  const lowercaseTargetWebName = targetWebName.toLowerCase();
+  const targetedPlayer = mainData.elements.find(
+    (player) => player.web_name.toLowerCase() === lowercaseTargetWebName
+  );
+  setTargetedPlayer(targetedPlayer);
+};
+
+// Handle input change for the web name
+const handleInputChange = (event) => {
+  setTargetWebName(event.target.value);
+};
+
+// Handle form submit
+const handleSubmit = (event) => {
+  event.preventDefault();
+  findPlayerByWebName();
+};
+
 
   return (
     <div className="app">
@@ -61,6 +85,26 @@ export default function App() {
       <p>Fixture test: {fixturesData[0].team_h} v {fixturesData[0].team_a}</p>
     </h2>
   )}
+
+  <form onSubmit={handleSubmit}>
+        <label>
+          Target Web Name:
+          <input type="text" value={targetWebName} onChange={handleInputChange} />
+        </label>
+        <button type="submit">Find Player</button>
+      </form>
+
+      {targetedPlayer ? (
+        <div>
+          <img src={`https://resources.premierleague.com/premierleague/photos/players/110x140/p${targetedPlayer.code}.png`}
+            alt={targetedPlayer.web_name} />
+          <p>Player Name: <strong>{targetedPlayer.web_name}</strong> </p>
+          <p>Selected By: <strong>{targetedPlayer.selected_by_percent}</strong></p>    
+          <p>Total Points: <strong>{" "}{targetedPlayer.total_points}</strong></p>
+        </div>
+      ) : (
+        <p>Player not found.</p>
+      )}
 </div>
 
       <div className="filter-container">

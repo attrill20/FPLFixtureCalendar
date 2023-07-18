@@ -97,7 +97,7 @@ const handleSubmit = (event) => {
           <img src={`https://resources.premierleague.com/premierleague/photos/players/110x140/p${targetedPlayer.code}.png`}
             alt={targetedPlayer.web_name} />
           <p>Player Name: <strong>{targetedPlayer.web_name}</strong> </p>
-          <p>Selected By: <strong>{targetedPlayer.selected_by_percent}</strong></p>    
+          <p>Selected By: <strong>{targetedPlayer.selected_by_percent}%</strong></p>    
           <p>Total Points: <strong>{targetedPlayer.total_points}</strong></p>
         </div>
       ) : (

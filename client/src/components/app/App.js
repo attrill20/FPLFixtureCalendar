@@ -68,27 +68,25 @@ const handleSubmit = (event) => {
 
       <div className='FPL-Stats'>
   {data && (
-    <h2>
+    <div>
       <p> Test: {mainData.teams[0].name} - Short Name: {mainData.teams[0].short_name} - Strength: {mainData.teams[0].strength} </p>
       <p>Test: {mainData.teams[19].name} - Short Name: {mainData.teams[19].short_name} - Strength: {mainData.teams[19].strength}</p>
       <p>Player Name: {mainData.elements[400].web_name} - Selected By: {mainData.elements[400].selected_by_percent}% - Total Points: {mainData.elements[400].total_points}</p>
       <p>Player Name: {mainData.elements[144].web_name} - Selected By: {mainData.elements[144].selected_by_percent}% - Total Points: {mainData.elements[144].total_points}</p>
       <p>Player Name: {mainData.elements[18].web_name} - Selected By: {mainData.elements[18].selected_by_percent}% - Total Points: {mainData.elements[18].total_points}</p>
-      <img src={`https://resources.premierleague.com/premierleague/photos/players/110x140/p${mainData.elements[400].code}.png`} alt="text" />
-      <img src={`https://resources.premierleague.com/premierleague/photos/players/110x140/p${mainData.elements[144].code}.png`} alt="text" />
-      <img src={`https://resources.premierleague.com/premierleague/photos/players/110x140/p${mainData.elements[18].code}.png`} alt="text" />
-    </h2>
+      <img src={`https://resources.premierleague.com/premierleague/photos/players/110x140/p${451340}.png`} alt="Mitoma" />
+      <img src={`https://resources.premierleague.com/premierleague/photos/players/110x140/p${176297}.png`} alt="Rashford" />
+      <img src={`https://resources.premierleague.com/premierleague/photos/players/110x140/p${223340}.png`} alt="Saka" />
+      <img src={`https://resources.premierleague.com/premierleague/photos/players/110x140/p${77794}.png`} alt="Trippier" />
+      <img src={`https://resources.premierleague.com/premierleague/photos/players/110x140/p${172780}.png`} alt="Maddison" />
+    </div>
   )}
 
-  {data && (
-    <h2>
-      <p>Fixture test: {fixturesData[0].team_h} v {fixturesData[0].team_a}</p>
-    </h2>
-  )}
-
+ 
   <form onSubmit={handleSubmit}>
+  <h2>Player Searcher!</h2>
         <label>
-          Target Web Name:
+          Type Player Name Here:
           <input type="text" value={targetWebName} onChange={handleInputChange} />
         </label>
         <button type="submit">Find Player</button>
@@ -100,11 +98,17 @@ const handleSubmit = (event) => {
             alt={targetedPlayer.web_name} />
           <p>Player Name: <strong>{targetedPlayer.web_name}</strong> </p>
           <p>Selected By: <strong>{targetedPlayer.selected_by_percent}</strong></p>    
-          <p>Total Points: <strong>{" "}{targetedPlayer.total_points}</strong></p>
+          <p>Total Points: <strong>{targetedPlayer.total_points}</strong></p>
         </div>
       ) : (
         <p>Player not found.</p>
       )}
+
+      {data && (
+    <h2>
+      <p>Fixture test: {fixturesData[0].team_h} v {fixturesData[0].team_a}</p>
+    </h2>
+  )}
 </div>
 
       <div className="filter-container">

@@ -2,7 +2,7 @@
 
 Side Project - A FPL Fixture Calendar that shows the upcoming fixtures for each Premier League team and ranks them based on their difficulty. I aim to use this side project to practice my React, JS and CSS skills. Will eventually merge with the official FPL API or perhaps even create my own one to practice more advanced back-end skills. Any suggestions welcome!
 
-Deployed at: https://fpl-fixture-calendar.vercel.app/
+Deployed at: https://fpl-fixture-calendar.vercel.app/ (currently under production!)
 
 E-mail address: attrill20@gmail.com
 
@@ -14,7 +14,6 @@ E-mail address: attrill20@gmail.com
 - Add extra pages through React Router
 - Fix favicon
 
-- Import the FPL API (started to console.log this)
 - Create a proper server to allow data to be displayed on the deployed version
 - Colour code fixture difficulty
 - Reorder table based on fixture difficulty (create own algorithm?)
@@ -23,6 +22,12 @@ E-mail address: attrill20@gmail.com
 - Ensure accessibility
 - Link to betting site for odds
 - Clean sheet percentage
+
+## 21/07/23
+
+Had a bit of time to work on the side project between interview prep this afternoon, so started working out how I was actually going to be able to access the fixtures for each team from the APIs. Started by making a simple array of the 20 teams in my code and giving them an ID for simplicity and then found the first fixture of the season and took the two team IDs from this and matched them to the array to generate the first fixture shown below. Then created a function that maps all of Arsenal's fixtures based on their team ID, slices the next 10 and adds in home/away info. Decent start, looking forward to building this into the fixture calendar itself soon:
+
+<img width="675" alt="Screenshot 2023-07-21 at 15 47 01" src="https://github.com/attrill20/FPLFixtureCalendar/assets/123314687/8814d87d-62cc-4809-b0ab-b6d7d9f330da">
 
 ## 18/07/23
 

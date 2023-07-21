@@ -18,6 +18,46 @@ export default function App() {
 
   let filteredGameweeks = gameweeks.slice(0, numberOfGameweeks);
 
+  let newTeams = [
+    { id: 0, name: null },
+    { id: 1, name: "Arsenal" },
+    { id: 2, name: "Aston Villa" },
+    { id: 3, name: "Bournemouth" },
+    { id: 4, name: "Brentford" },
+    { id: 5, name: "Brighton" },
+    { id: 6, name: "Burnley" },
+    { id: 7, name: "Chelsea" },
+    { id: 8, name: "Crystal Palace" },
+    { id: 9, name: "Everton" },
+    { id: 10, name: "Fulham" },
+    { id: 11, name: "Liverpool" },
+    { id: 12, name: "Luton" },
+    { id: 13, name: "Man City" },
+    { id: 14, name: "Man Utd" },
+    { id: 15, name: "Newcastle" },
+    { id: 16, name: "Notts Forest" },
+    { id: 17, name: "Sheffield Utd" },
+    { id: 18, name: "Spurs" },
+    { id: 19, name: "West Ham" },
+    { id: 20, name: "Wolves" }
+  ];
+
+function getArsenalFixtures() {
+  const arsenalTeamId = 1; 
+  const arsenalFixtures = fixturesData.filter(
+    fixture => fixture.team_h === arsenalTeamId || fixture.team_a === arsenalTeamId
+  );
+
+  // Return the next 10 fixtures
+  return arsenalFixtures.slice(0, 10).map(fixture => {
+    const opponent = fixture.team_h === arsenalTeamId ? newTeams[fixture.team_a].name : newTeams[fixture.team_h].name;
+    const home = fixture.team_h === arsenalTeamId;
+    return { opponent, home };
+  });
+}
+
+  
+  
   // Fetch the FPL API data
   useEffect(() => {
     async function fetchFPL() {
@@ -66,7 +106,7 @@ const handleSubmit = (event) => {
         </h2>
       </div>
 
-      <div className='FPL-Stats'>
+<div className='FPL-Stats'>
   {data && (
     <div>
       <p> Test: {mainData.teams[0].name} - Short Name: {mainData.teams[0].short_name} - Strength: {mainData.teams[0].strength} </p>
@@ -105,10 +145,22 @@ const handleSubmit = (event) => {
       )}
 
       {data && (
-    <h2>
-      <p>Fixture test: {fixturesData[0].team_h} v {fixturesData[0].team_a}</p>
-    </h2>
-  )}
+  <div>
+    <p>
+      <strong>Friday night fixture: </strong>{newTeams[fixturesData[2].team_h].name} v {newTeams[fixturesData[2].team_a].name}
+    </p>
+
+    <h2>Next 10 Arsenal's fixtures:</h2>
+    <ul>
+      {getArsenalFixtures().map(fixture => (
+        <li key={fixture.opponent}>
+          {fixture.opponent} ({fixture.home ? 'H' : 'a'})
+        </li>
+      ))}
+    </ul>
+  </div>
+)}
+
 </div>
 
       <div className="filter-container">

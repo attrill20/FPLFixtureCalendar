@@ -27,7 +27,7 @@ E-mail address: attrill20@gmail.com
 
 Had a bit of time to work on the side project between interview prep this afternoon, so started working out how I was actually going to be able to access the fixtures for each team from the APIs. Started by making a simple array of the 20 teams in my code and giving them an ID for simplicity and then found the first fixture of the season and took the two team IDs from this and matched them to the array to generate the first fixture shown below. Then created a function that maps all of Arsenal's fixtures based on their team ID, slices the next 10 and adds in home/away info. Decent start, looking forward to building this into the fixture calendar itself soon:
 
-<img width="350" alt="Screenshot 2023-07-21 at 15 54 01" src="https://github.com/attrill20/FPLFixtureCalendar/assets/123314687/70d735b4-254b-4e3c-a97c-04efb471aee6"><img width="656" alt="Screenshot 2023-07-21 at 15 53 46" src="https://github.com/attrill20/FPLFixtureCalendar/assets/123314687/f60c3376-f78f-4e65-bed7-e44d65b39e8e">
+<img width="250" alt="Screenshot 2023-07-21 at 15 54 01" src="https://github.com/attrill20/FPLFixtureCalendar/assets/123314687/70d735b4-254b-4e3c-a97c-04efb471aee6"><img width="606" alt="Screenshot 2023-07-21 at 15 53 46" src="https://github.com/attrill20/FPLFixtureCalendar/assets/123314687/f60c3376-f78f-4e65-bed7-e44d65b39e8e">
 
 
 ## 18/07/23

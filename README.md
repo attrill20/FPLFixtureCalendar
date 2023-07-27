@@ -17,11 +17,22 @@ E-mail address: attrill20@gmail.com
 - Create a proper server to allow data to be displayed on the deployed version
 - Colour code fixture difficulty
 - Reorder table based on fixture difficulty (create own algorithm?)
+- Fix issue over blank / double GWs (may need to define each GW first)
   
 - Add testing
 - Ensure accessibility
 - Link to betting site for odds
 - Clean sheet percentage
+
+## 27/07/23
+
+Been a busy time with lots of job interviews this week and graduation from the School of Code! But had some time for playing with the app this morning, so made some progress on adding i  the fixture difficulty calculation. Managed to get it displaying the 1-5 rating for each fixture from the API, and also created a total fixture difficulty rating (FDR) for the displayed number of fixtures (once I realised that I hadn't been updating the line of code for each team properly haha!). 
+
+<img width="477" alt="Screenshot 2023-07-27 at 10 42 09" src="https://github.com/attrill20/FPLFixtureCalendar/assets/123314687/248486eb-4b6e-49c1-9f54-f7b55973b00a">
+<img width="988" alt="Screenshot 2023-07-27 at 10 42 00" src="https://github.com/attrill20/FPLFixtureCalendar/assets/123314687/39c892a9-3850-47b6-9cd7-1037ed503688">
+
+However, then discovered some tricky edge cases as Luton for example have a blank GW coming up but that wasn't showing as my function purely searches for the next n fixtures for each team, so will probably need to later define GWs based on date and then search for fixtures within this (will also be important for when there are double gameweeks for teams too). I also added a reverse FDR variable, as this will make sense when teams do have DGWs etc as this is the best solution I can think of for incorporting these DGWs fixtures for teams - therefore a higher FDR rating will be a good thing for teams! Feel like I've really opened a can of worms with the calcuation side of it today, next time I might just move fowards with embedding the logic I currently do have into my table.
+
 
 ## 21/07/23
 

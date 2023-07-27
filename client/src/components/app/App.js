@@ -52,12 +52,11 @@ function getArsenalFixtures() {
   return arsenalFixtures.slice(0, 10).map(fixture => {
     const opponent = fixture.team_h === arsenalTeamId ? newTeams[fixture.team_a].name : newTeams[fixture.team_h].name;
     const home = fixture.team_h === arsenalTeamId;
-    return { opponent, home };
+    const difficulty = home ? fixture.team_h_difficulty : fixture.team_a_difficulty;
+  return { opponent, home, difficulty };
   });
 }
 
-  
-  
   // Fetch the FPL API data
   useEffect(() => {
     async function fetchFPL() {
@@ -150,14 +149,16 @@ const handleSubmit = (event) => {
       <strong>Friday night fixture: </strong>{newTeams[fixturesData[2].team_h].name} v {newTeams[fixturesData[2].team_a].name}
     </p>
 
-    <h2>Next 10 Arsenal's fixtures:</h2>
+    <h2>Arsenal's Next 10 Fixtures:</h2>
     <ul>
       {getArsenalFixtures().map(fixture => (
         <li key={fixture.opponent}>
           {fixture.opponent} ({fixture.home ? 'H' : 'a'})
+          - Difficulty: <strong>{fixture.difficulty}</strong>
         </li>
       ))}
     </ul>
+    <p>Total Score: </p>
   </div>
 )}
 

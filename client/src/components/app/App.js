@@ -42,20 +42,31 @@ export default function App() {
     { id: 20, name: "Wolves" }
   ];
 
-function getArsenalFixtures() {
-  const arsenalTeamId = 1; 
-  const arsenalFixtures = fixturesData.filter(
-    fixture => fixture.team_h === arsenalTeamId || fixture.team_a === arsenalTeamId
-  );
+  function getFixturesForTeam(teamId, numberOfFixtures) {
+    const teamFixtures = fixturesData.filter(
+      fixture => fixture.team_h === teamId || fixture.team_a === teamId
+    );
+  
+    // Calculate the total difficulty and return the requested number of fixtures
+    const nextFixtures = teamFixtures.slice(0, numberOfFixtures).map(fixture => {
+      const opponent = fixture.team_h === teamId ? newTeams[fixture.team_a].name : newTeams[fixture.team_h].name;
+      const home = fixture.team_h === teamId;
+      const difficulty = home ? fixture.team_h_difficulty : fixture.team_a_difficulty;
+      return { opponent, home, difficulty };
+    });
+  
+    // Calculate the total difficulty score
+    const totalDifficulty = nextFixtures.reduce((acc, fixture) => acc + fixture.difficulty, 0);
+    const reversedTotalDifficulty = (numberOfFixtures * 5) - totalDifficulty
+  
+    // Return the requested number of fixtures and the total difficulty
+    return { fixtures: nextFixtures, totalDifficulty, reversedTotalDifficulty };
+  }
 
-  // Return the next 10 fixtures
-  return arsenalFixtures.slice(0, 10).map(fixture => {
-    const opponent = fixture.team_h === arsenalTeamId ? newTeams[fixture.team_a].name : newTeams[fixture.team_h].name;
-    const home = fixture.team_h === arsenalTeamId;
-    const difficulty = home ? fixture.team_h_difficulty : fixture.team_a_difficulty;
-  return { opponent, home, difficulty };
-  });
-}
+  const arsenalFixtures = getFixturesForTeam(1, 5);
+  const manUnitedFixtures = getFixturesForTeam(14, 5);
+  // error below for Luton (should show a blank in GW2) - need to define the GWs and check for fixtures within that
+  const lutonFixtures = getFixturesForTeam(12, 5);
 
   // Fetch the FPL API data
   useEffect(() => {
@@ -149,16 +160,38 @@ const handleSubmit = (event) => {
       <strong>Friday night fixture: </strong>{newTeams[fixturesData[2].team_h].name} v {newTeams[fixturesData[2].team_a].name}
     </p>
 
-    <h2>Arsenal's Next 10 Fixtures:</h2>
+    <h2>Arsenal's Next 5 Fixtures:</h2>
     <ul>
-      {getArsenalFixtures().map(fixture => (
+      {arsenalFixtures.fixtures.map(fixture => (
         <li key={fixture.opponent}>
-          {fixture.opponent} ({fixture.home ? 'H' : 'a'})
+          {fixture.opponent} <strong>({fixture.home ? 'H' : 'a'})</strong>
           - Difficulty: <strong>{fixture.difficulty}</strong>
         </li>
       ))}
     </ul>
-    <p>Total Score: </p>
+    <p>Total Score: <strong>{arsenalFixtures.totalDifficulty} </strong> Reversed: <strong>{arsenalFixtures.reversedTotalDifficulty}</strong></p>
+
+    <h2>Man United's Next 5 Fixtures:</h2>
+    <ul>
+      {manUnitedFixtures.fixtures.map(fixture => (
+        <li key={fixture.opponent}>
+          {fixture.opponent} <strong>({fixture.home ? 'H' : 'a'})</strong>
+          - Difficulty: <strong>{fixture.difficulty}</strong>
+        </li>
+      ))}
+    </ul>
+    <p>Total Score: <strong>{manUnitedFixtures.totalDifficulty} </strong> Reversed: <strong>{manUnitedFixtures.reversedTotalDifficulty}</strong></p>
+
+    <h2>Luton's Next 5 Fixtures:</h2>
+    <ul>
+      {lutonFixtures.fixtures.map(fixture => (
+        <li key={fixture.opponent}>
+          {fixture.opponent} <strong>({fixture.home ? 'H' : 'a'})</strong>
+          - Difficulty: <strong>{fixture.difficulty}</strong>
+        </li>
+      ))}
+    </ul>
+    <p>Total Score: <strong>{lutonFixtures.totalDifficulty}</strong> Reversed: <strong>{lutonFixtures.reversedTotalDifficulty}</strong></p>
   </div>
 )}
 

@@ -2,7 +2,9 @@
 
 Side Project - A FPL Fixture Calendar that shows the upcoming fixtures for each Premier League team and ranks them based on their difficulty. I aim to use this side project to practice my React, JS and CSS skills. Will eventually merge with the official FPL API or perhaps even create my own one to practice more advanced back-end skills. Any suggestions welcome!
 
-Deployed at: https://fpl-fixture-calendar.vercel.app/ (currently under production!)
+To run: Clone repo, navigate to FPL-fixtures folder and enter 'npm start' in command line. Will start the server and load the site in browser
+
+Deployed at: https://fpl-fixture-calendar.vercel.app/ (currently under production - doesn't show data, unless local server is running)
 
 E-mail address: attrill20@gmail.com
 
@@ -23,6 +25,15 @@ E-mail address: attrill20@gmail.com
 - Ensure accessibility
 - Link to betting site for odds
 - Clean sheet percentage
+
+## 29/07/23
+
+A great day! Spent a bit of time integrating the previous week's play into the Fixture Calendar and it's actually showing real data now - very exciting! It is finally actually almost useful. Was quite daunting removing the dummy array and inputting the functions that the use the API into the pre-exisitng code for the calendar, but once I ironed out a few bugs (having to detract 1 from the teamIndex for example to match up with the incoming fixtures) it actually worked! Here it is:
+
+<img width="1654" alt="Screenshot 2023-07-29 at 13 36 03" src="https://github.com/attrill20/FPLFixtureCalendar/assets/123314687/babf3c67-55ff-4d6c-9431-e87529cb8302">
+
+Haven't quite been able to add the opponent badge in yet, but the basic data is correct. Also updated the dropwdown to select more games, but formatting starts to go a bit crazy after 5 fixtures shown so will need to allow the table to scroll. Next goals is to show overall fixture difficulty, colour code based on this, reorder based on difficulty of fixtures, fix the opponent badge issue and try to resolve the blank / DGW issue. Oh, and should probably think about splitting the site across multiple pages now using React Router. Lots to do!
+
 
 ## 27/07/23
 

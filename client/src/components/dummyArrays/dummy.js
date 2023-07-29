@@ -1,4 +1,3 @@
-
 // import badges
 import ARSbadge from '../badges/ARSbadge.png'
 import AVLbadge from '../badges/AVLbadge.png'

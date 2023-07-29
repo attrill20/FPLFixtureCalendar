@@ -5,11 +5,11 @@ export default function CardList({ teams, gameweeks, fixturesData, numberOfGamew
 
   return (
     <div className="table">
-      {teams.map((team, index) => (
+      {teams.slice(1).map((team, index) => (
         <Row
           teams={teams}
           fixturesData={fixturesData}
-          teamIndex={index}
+          teamIndex={index + 1}
           numberOfFixtures={numberOfGameweeks}
           key={index}
         />

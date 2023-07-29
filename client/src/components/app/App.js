@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./App.css";
 import CardList from "../cardlist/cardlist";
 import Dropdown from "../dropdown/dropdown";
-import { teams, gameweeks } from "../dummy arrays/dummy";
+import { teams, gameweeks } from "../dummyArrays/dummy";
 
 export default function App() {
   const [numberOfGameweeks, setNumberOfGameweeks] = useState(1);
@@ -40,7 +40,7 @@ export default function App() {
     { id: 18, name: "Spurs" },
     { id: 19, name: "West Ham" },
     { id: 20, name: "Wolves" }
-    
+
   ];
 
 

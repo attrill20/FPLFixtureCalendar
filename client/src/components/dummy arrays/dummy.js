@@ -5,6 +5,7 @@ import AVLbadge from '../badges/AVLbadge.png'
 import BOUbadge from '../badges/BOUbadge.png'
 import BREbadge from '../badges/BREbadge.png'
 import BHAbadge from '../badges/BHAbadge.png'
+import BURbadge from '../badges/BURbadge.png'
 import CHEbadge from '../badges/CHEbadge.png'
 import CRYbadge from '../badges/CRYbadge.png'
 import EVEbadge from '../badges/EVEbadge.png'
@@ -12,10 +13,12 @@ import FULbadge from '../badges/FULbadge.png'
 import LEIbadge from '../badges/LEIbadge.png'
 import LEEbadge from '../badges/LEEbadge.png'
 import LIVbadge from '../badges/LIVbadge.png'
+import LUTbadge from '../badges/LUTbadge.png'
 import MCIbadge from '../badges/MCIbadge.png'
 import MUNbadge from '../badges/MUNbadge.png'
 import NEWbadge from '../badges/NEWbadge.png'
 import NFObadge from '../badges/NFObadge.png'
+import SHUbadge from '../badges/SHUbadge.png'
 import SOUbadge from '../badges/SOUbadge.png'
 import TOTbadge from '../badges/TOTbadge.png'
 import WHUbadge from '../badges/WHUbadge.png'
@@ -28,18 +31,21 @@ export const teams = [
   { name: "Bournemouth", initial: "BOU", badge: BOUbadge },
   { name: "Brentford", initial: "BRE", badge: BREbadge },
   { name: "Brighton & Hove Albion", initial: "BHA", badge: BHAbadge },
+  { name: "Burnley", initial: "BUR", badge: BURbadge },
   { name: "Chelsea", initial: "CHE", badge: CHEbadge },
   { name: "Crystal Palace", initial: "CRY", badge: CRYbadge },
   { name: "Everton", initial: "EVE", badge: EVEbadge },
   { name: "Fulham", initial: "FUL", badge: FULbadge },
-  { name: "Leicester City", initial: "LEI", badge: LEIbadge },
-  { name: "Leeds United", initial: "LEE", badge: LEEbadge },
+  // { name: "Leicester City", initial: "LEI", badge: LEIbadge },
+  // { name: "Leeds United", initial: "LEE", badge: LEEbadge },
   { name: "Liverpool", initial: "LIV", badge: LIVbadge },
+  { name: "Luton Town", initial: "LUT", badge: LUTbadge },
   { name: "Manchester City", initial: "MCI", badge: MCIbadge },
   { name: "Manchester United", initial: "MUN", badge: MUNbadge },
   { name: "Newcastle United", initial: "NEW", badge: NEWbadge },
   { name: "Nottingham Forest", initial: "NFO", badge: NFObadge },
-  { name: "Southampton", initial: "SOU", badge: SOUbadge },
+  // { name: "Southampton", initial: "SOU", badge: SOUbadge },
+  { name: "Sheffield United", initial: "SHU", badge: SHUbadge },
   { name: "Tottenham Hotspur", initial: "TOT", badge: TOTbadge },
   { name: "West Ham United", initial: "WHU", badge: WHUbadge },
   { name: "Wolverhampton Wanderers", initial: "WOL", badge: WOLbadge }

@@ -46,7 +46,7 @@ export default function Row({ teams, fixturesData, teamIndex, numberOfFixtures }
         <tbody>
           <tr>
             <td className="team-info">
-              <span className="team-name">Team: {teamName}</span>
+              <span className="team-name">{teamName}</span>
               <br />
               <img className="team-badge" src={team.badge} alt={teamName} />
             </td>

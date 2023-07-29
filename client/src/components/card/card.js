@@ -54,7 +54,7 @@ export default function Row({ teams, fixturesData, teamIndex, numberOfFixtures }
             {teamFixturesData &&
               teamFixturesData.fixtures.map((fixture, index) => (
                 <td className="fixture-info" key={index}>
-                  Opponent: <b>{fixture.opponent}</b>{" "}
+                  <b>{fixture.opponent}</b>{" "}
                   {fixture.home ? "(H)" : "(A)"}
                   <br />
                   {/* Badge:  <img

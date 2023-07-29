@@ -5,7 +5,7 @@ import Dropdown from "../dropdown/dropdown";
 import { teams, gameweeks } from "../dummyArrays/dummy";
 
 export default function App() {
-  const [numberOfGameweeks, setNumberOfGameweeks] = useState(1);
+  const [numberOfGameweeks, setNumberOfGameweeks] = useState(5);
   const [data, setData] = useState(null);
   const [mainData, setMainData] = useState(null);
   const [fixturesData, setFixturesData] = useState(null);

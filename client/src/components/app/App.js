@@ -42,7 +42,10 @@ export default function App() {
     { id: 20, name: "Wolves" }
   ];
 
+
   function getFixturesForTeam(teamId, numberOfFixtures) {
+      if (!fixturesData) return null; // Check to handle null fixturesData
+    
     const teamFixtures = fixturesData.filter(
       fixture => fixture.team_h === teamId || fixture.team_a === teamId
     );

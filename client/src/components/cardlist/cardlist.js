@@ -1,17 +1,20 @@
 import React from "react";
 import Row from "../card/card";
 
-export default function CardList({ teams, gameweeks }) {
+export default function CardList({ teams, gameweeks, fixturesData, numberOfGameweeks }) {
+
   return (
     <div className="table">
-      {teams.map((teams, index) => (
+      {teams.map((team, index) => (
         <Row
           teams={teams}
-          teamFixtures={gameweeks}
+          fixturesData={fixturesData}
+          teamIndex={index}
+          numberOfFixtures={numberOfGameweeks}
           key={index}
-          rowIndex={index}
         />
       ))}
     </div>
   );
 }
+

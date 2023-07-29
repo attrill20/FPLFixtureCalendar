@@ -40,6 +40,7 @@ export default function App() {
     { id: 18, name: "Spurs" },
     { id: 19, name: "West Ham" },
     { id: 20, name: "Wolves" }
+    
   ];
 
 
@@ -206,7 +207,7 @@ const handleSubmit = (event) => {
         </div>
       </div>
       <div className="cards">
-        <CardList teams={teams} gameweeks={filteredGameweeks} />
+          <CardList teams={teams} gameweeks={filteredGameweeks} fixturesData={fixturesData} numberOfGameweeks={numberOfGameweeks} />
       </div>
     </div>
   );

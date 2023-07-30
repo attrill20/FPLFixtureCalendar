@@ -10,17 +10,15 @@ E-mail address: attrill20@gmail.com
 
 ## Current To-Do List
 
-- Add a search bar / drop down to filter fixtures
-- Add home and away display
 - Add a header for the site
 - Add extra pages through React Router
 - Fix favicon
   
 - Create a proper server to allow data to be displayed on the deployed version
-- Colour code fixture difficulty
-- Reorder table based on fixture difficulty (create own algorithm?)
+- Reorder table based on fixture difficulty (create own ranking - 1-5 not flexible enough)
 - Fix issue over blank / double GWs (may need to define each GW first)
 - Check that only upcoming fixtures display
+- Option to sort by team name / FDR in asc / desc
   
 - Add testing
 - Ensure accessibility
@@ -29,7 +27,7 @@ E-mail address: attrill20@gmail.com
 
 ## 30/07/23
 
-Really pleased with the progress made this weekend - it's getting there! Managed to get the opponent badges and added some nice colours based on difficulty. But kept running into problems when trying to get the table to reorder based on overall FDR and also can't work out how to remove the repeated table headings (but not sure if that's a good thing or not?), but sure I'll fix it next time! Think later this week I'll split the other player finder stuff into a new page and tidy up the site a bit to make it navigable. Enjoyable tinkering today though, learnt lots!
+Really pleased with the progress made this weekend - it's getting there! Managed to get the overall FDR displaying for each team, opponent badges and added some nice colours based on difficulty. But kept running into problems when trying to get the table to reorder based on overall FDR and also can't work out how to remove the repeated table headings (but not sure if that's a good thing or not?), but sure I'll fix it next time! Think later this week I'll split the other player finder stuff into a new page and tidy up the site a bit to make it navigable. Enjoyable tinkering today though, learnt lots!
 
 <img width="1738" alt="Screenshot 2023-07-30 at 19 11 09" src="https://github.com/attrill20/FPLFixtureCalendar/assets/123314687/fed9a4d6-9387-4174-b524-87343f45912c">
 

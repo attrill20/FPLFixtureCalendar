@@ -20,6 +20,7 @@ E-mail address: attrill20@gmail.com
 - Colour code fixture difficulty
 - Reorder table based on fixture difficulty (create own algorithm?)
 - Fix issue over blank / double GWs (may need to define each GW first)
+- Check that only upcoming fixtures display
   
 - Add testing
 - Ensure accessibility

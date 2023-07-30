@@ -22,15 +22,15 @@
     justify-content: left;
     color: black;
     font-size: 1.5em;
-    border: 5px solid black; /* border here */
-    margin-left: 5%;
-    margin-right: 5%;
+    border: 3px solid black; /* border here */
+    margin-left: 3%;
+    margin-right: 3%;
     overflow-wrap: break-word; 
   }
 
   .team-name {
     color: black;
-    font-size: 1.4em;
+    font-size: 1.2em;
     font-weight: bold;
     overflow-wrap: break-word; 
   }

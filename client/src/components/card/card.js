@@ -32,8 +32,9 @@ export default function Row({ teams, fixturesData, teamIndex, numberOfFixtures }
 
   const teamFixturesData = getFixturesForTeam(teamIndex);
 
+  
   return (
-    <div className="card">
+    <div>
       <table className="fixtures-table with-border">
         <thead className="table-header">
           <tr>
@@ -62,7 +63,7 @@ export default function Row({ teams, fixturesData, teamIndex, numberOfFixtures }
 
             {teamFixturesData &&
               teamFixturesData.fixtures.map((fixture, index) => (
-                <td className="fixture-info" key={index}>
+                <td className={`fixture-info difficulty-${fixture.difficulty}`} key={index}>
                   <b>{fixture.opponent}</b>{" "}
                   {fixture.home ? "(H)" : "(A)"}
                   <br />
@@ -72,7 +73,7 @@ export default function Row({ teams, fixturesData, teamIndex, numberOfFixtures }
                       alt={fixture.opponent}
                     />
                     <br />
-                  Difficulty: <strong>{fixture.difficulty}</strong>
+                    Difficulty: <strong>{fixture.difficulty}</strong>
                 </td>
               ))}
           </tr>

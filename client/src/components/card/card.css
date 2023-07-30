@@ -57,5 +57,26 @@
     padding: 5px 10px;
     text-align: center;
   }
-  
-  
+
+
+  .difficulty-1 {
+    background-color: green
+  }
+
+  .difficulty-2 {
+    background-color: lightseagreen
+  }
+
+  .difficulty-3 {
+    background-color: yellow
+  }
+
+  .difficulty-4 {
+    background-color: lightcoral
+  }
+
+  .difficulty-5 {
+    background-color: red
+  }
+
+

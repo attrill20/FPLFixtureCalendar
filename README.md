@@ -27,13 +27,20 @@ E-mail address: attrill20@gmail.com
 - Link to betting site for odds
 - Clean sheet percentage
 
+## 30/07/23
+
+Really pleased with the progress made this weekend - it's getting there! Managed to get the opponent badges and added some nice colours based on difficulty. But kept running into problems when trying to get the table to reorder based on overall FDR and also can't work out how to remove the repeated table headings (but not sure if that's a good thing or not?), but sure I'll fix it next time! Think later this week I'll split the other player finder stuff into a new page and tidy up the site a bit to make it navigable. Enjoyable tinkering today though, learnt lots!
+
+<img width="1738" alt="Screenshot 2023-07-30 at 19 11 09" src="https://github.com/attrill20/FPLFixtureCalendar/assets/123314687/fed9a4d6-9387-4174-b524-87343f45912c">
+
+
 ## 29/07/23
 
 A great day! Spent a bit of time integrating the previous week's play into the Fixture Calendar and it's actually showing real data now - very exciting! It is finally actually almost useful. Was quite daunting removing the dummy array and inputting the functions that the use the API into the pre-exisitng code for the calendar, but once I ironed out a few bugs (having to detract 1 from the teamIndex for example to match up with the incoming fixtures) it actually worked! Here it is:
 
 <img width="1654" alt="Screenshot 2023-07-29 at 13 36 03" src="https://github.com/attrill20/FPLFixtureCalendar/assets/123314687/babf3c67-55ff-4d6c-9431-e87529cb8302">
 
-Haven't quite been able to add the opponent badge in yet, but the basic data is correct. Also updated the dropwdown to select more games, but formatting starts to go a bit crazy after 5 fixtures shown so will need to allow the table to scroll. Next goals is to show overall fixture difficulty, colour code based on this, reorder based on difficulty of fixtures, fix the opponent badge issue and try to resolve the blank / DGW issue. Oh, and should probably think about splitting the site across multiple pages now using React Router. Lots to do!
+Haven't quite been able to add the opponent badge in yet, but the basic data is correct. Also updated the dropwdown to select more games, but formatting starts to go a bit crazy after 5 fixtures shown so will need to allow the table to scroll. Next goals are to show overall fixture difficulty, colour code based on this, reorder based on difficulty of fixtures, fix the opponent badge issue and try to resolve the blank / DGW issue. Oh, and should probably think about splitting the site across multiple pages now using React Router. Lots to do!
 
 
 ## 27/07/23

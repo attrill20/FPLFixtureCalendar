@@ -37,7 +37,8 @@ export default function Row({ teams, fixturesData, teamIndex, numberOfFixtures }
       <table className="fixtures-table with-border">
         <thead className="table-header">
           <tr>
-            <th></th>
+            <th>Team</th>
+            <th>FDR</th>
             {teamFixturesData &&
               teamFixturesData.fixtures.map((_, index) => (
                 <th key={index}>{`GW ${index + 1}`}</th>
@@ -51,6 +52,13 @@ export default function Row({ teams, fixturesData, teamIndex, numberOfFixtures }
               <br />
               <img className="team-badge" src={team.badge} alt={teamName} />
             </td>
+
+            <td className="FDR-info">
+            <span>FDR: </span> 
+            {teamFixturesData && (
+              <strong>{teamFixturesData.reversedTotalDifficulty}</strong>
+            )}
+          </td>
 
             {teamFixturesData &&
               teamFixturesData.fixtures.map((fixture, index) => (

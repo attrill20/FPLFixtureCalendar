@@ -1,7 +1,7 @@
 import React from "react";
 import Row from "../card/card";
 
-export default function CardList({ teams, gameweeks, fixturesData, numberOfGameweeks }) {
+export default function CardList({ teams, fixturesData, numberOfGameweeks }) {
 
   return (
     <div className="table">

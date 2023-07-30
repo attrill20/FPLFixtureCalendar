@@ -13,6 +13,9 @@
   background-color: rgba(188, 187, 187, 0.85);
 }
 
+.FDR-column {
+  width: 5%
+}
 
 .cards {
     display: flex;
@@ -22,12 +25,14 @@
     border: 5px solid black; /* border here */
     margin-left: 5%;
     margin-right: 5%;
+    overflow-wrap: break-word; 
   }
 
   .team-name {
     color: black;
-    font-size: 1.6em;
+    font-size: 1.4em;
     font-weight: bold;
+    overflow-wrap: break-word; 
   }
 
   .team-badge {

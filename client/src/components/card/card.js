@@ -55,9 +55,9 @@ export default function Row({ teams, fixturesData, teamIndex, numberOfFixtures }
             </td>
 
             <td className="FDR-column">
-            <span>FDR: </span> 
+            <span>Score: </span> 
             {teamFixturesData && (
-              <strong>{teamFixturesData.reversedTotalDifficulty}</strong>
+              <h2>{teamFixturesData.reversedTotalDifficulty}</h2>
             )}
           </td>
 
@@ -73,7 +73,7 @@ export default function Row({ teams, fixturesData, teamIndex, numberOfFixtures }
                       alt={fixture.opponent}
                     />
                     <br />
-                    Difficulty: <strong>{fixture.difficulty}</strong>
+                    {/* Difficulty: <strong>{fixture.difficulty}</strong> */}
                 </td>
               ))}
           </tr>

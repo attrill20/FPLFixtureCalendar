@@ -60,23 +60,23 @@
 
 
   .difficulty-1 {
-    background-color: green
+    background-color: rgb(96, 251, 96)
   }
 
   .difficulty-2 {
-    background-color: lightseagreen
+    background-color: rgb(179, 251, 208)
   }
 
   .difficulty-3 {
-    background-color: yellow
+    background-color: rgb(249, 249, 203)
   }
 
   .difficulty-4 {
-    background-color: lightcoral
+    background-color: rgb(255, 177, 128)
   }
 
   .difficulty-5 {
-    background-color: red
+    background-color: rgb(250, 178, 178)
   }
 
 

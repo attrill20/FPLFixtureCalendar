@@ -40,7 +40,6 @@ export default function App() {
     { id: 18, name: "Spurs" },
     { id: 19, name: "West Ham" },
     { id: 20, name: "Wolves" }
-
   ];
 
 

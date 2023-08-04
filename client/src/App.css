@@ -5,26 +5,6 @@
   padding-bottom: 20px;
 }
 
-.app-header {
-  font-size: x-large;
-  padding-top: 2px;
-}
-
-.sub-heading {
-  font-size: larger;
-  padding-left: 10%;
-  padding-right: 10%;
-}
-
-.gameweek-dropdown select {
-  padding: 10px;
-  width: 1000px;
-  font-size: 25px;
-  text-align: center;
-  border-radius: 5px;
-  border:3px solid #000000;
-}
-
 .cards {
 margin-top: 10px;
 }

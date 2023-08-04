@@ -1,5 +1,6 @@
 import React from 'react';
-import PlayerSearcher from '../components/playerSearcher/playerSearcher';
+import PlayerSearcher from '../../components/playerSearcher/playerSearcher';
+import "./PlayerSearcherPage.css";
 
 const PlayerSearcherPage= ({ data, mainData }) => {
   return (

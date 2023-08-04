@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./App.css";
 import CardList from "./components/cardlist/cardlist";
-import PlayerSearcher from "./components/playerSearcher/playerSearcher";
+import PlayerSearcherPage from "./pages/PlayerSearcherPage";
 import { teams } from "./components/dummyArrays/dummy";
 // import { Routes, Route } from "react-router-dom";
 
@@ -20,14 +20,9 @@ export default function App() {
     setData(data);
     setMainData(data.bootstrapData)
     setFixturesData(data.fixturesData)
-    console.log(data);
   }
   fetchFPL()
 }, []);
-
-
-
-
 
 
   return (
@@ -45,17 +40,11 @@ export default function App() {
       </div>
 
       <div className="cards">
-        <CardList
-          teams={teams}
-          fixturesData={fixturesData}
-        />
+        <CardList teams={teams} fixturesData={fixturesData} />
       </div>
 
       <div>
-      <PlayerSearcher 
-        data={data}
-        mainData={mainData}
-      />
+      <PlayerSearcherPage data={data} mainData={mainData} />
     </div>
 
     </div>

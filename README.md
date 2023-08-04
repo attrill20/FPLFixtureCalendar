@@ -10,20 +10,26 @@ E-mail address: attrill20@gmail.com
 
 ## Current To-Do List
 
-- Add a header for the site
-- Add extra pages through React Router
+- Add a header Navbar for the site
 - Fix favicon
   
 - Create a proper server to allow data to be displayed on the deployed version
-- Reorder table based on fixture difficulty (create own ranking - 1-5 not flexible enough)
+- Create more indepth FDR ranking (FPL 1-5 not specific enough)
 - Fix issue over blank / double GWs (may need to define each GW first)
 - Check that only upcoming fixtures display
-- Option to sort by team name / FDR in asc / desc
   
 - Add testing
 - Ensure accessibility
 - Link to betting site for odds
 - Clean sheet percentage
+
+## 04/08/23
+
+Had a good chat this morning with a former teammate from the course about his own FPL project, was nice to be able to share my progress and help him get going on his too!
+
+Finally managed to get the table to be able to be sorted by FDR, which was a huge step forwards! Need to sort the UI for it, but the button works well enough for now. Then spent the evening refactoring my code - managed to reduce app.js from 190 lines of code to 38 lines, so much cleaner now. Added React Router to the project, and moved the player searcher app to a different page, meaning the calendar homepage is much neater.
+
+Next job is to fix the blank GW issue and then try to get my server hosted somewhere, so I can actually deploy the site and share it with friends and on social media before the season actually starts next Friday!
 
 ## 30/07/23
 

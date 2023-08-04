@@ -11,6 +11,8 @@ export default function App() {
   const [fixturesData, setFixturesData] = useState(null);
   const [targetWebName, setTargetWebName] = useState("");
   const [targetedPlayer, setTargetedPlayer] = useState(null);
+  const [sortOrder, setSortOrder] = useState("desc"); // 1. New state variable for sorting
+
 
   const handleGameweekChange = (event) => {
     setNumberOfGameweeks(event.target.value);
@@ -44,7 +46,9 @@ export default function App() {
 
 
   function getFixturesForTeam(teamId, numberOfFixtures) {
-      if (!fixturesData) return null; // Check to handle null fixturesData
+    if (!fixturesData) {
+      return { fixtures: [], totalDifficulty: 0, reversedTotalDifficulty: 0 };
+    }
     
     const teamFixtures = fixturesData.filter(
       fixture => fixture.team_h === teamId || fixture.team_a === teamId
@@ -103,6 +107,19 @@ const handleSubmit = (event) => {
   event.preventDefault();
   findPlayerByWebName();
 };
+
+const handleTableReorder = () => {
+  setSortOrder((prevSortOrder) => (prevSortOrder === "asc" ? "desc" : "asc"));
+};
+
+const modifiedTeams = [];
+for (const team of teams) {
+  const { id } = team;
+  const { reversedTotalDifficulty } = getFixturesForTeam(id, numberOfGameweeks);
+  const modifiedTeam = { ...team, FDR: reversedTotalDifficulty };
+  modifiedTeams.push(modifiedTeam);
+};
+
 
 
   return (
@@ -205,8 +222,20 @@ const handleSubmit = (event) => {
           <Dropdown handleGameweekChange={handleGameweekChange} />
         </div>
       </div>
+
+      {/* 2. Reorder button */}
+        <button onClick={handleTableReorder}>
+          Reorder Table by FDR {sortOrder === "asc" ? "↑" : "↓"}
+        </button> 
+
       <div className="cards">
-          <CardList teams={teams} gameweeks={filteredGameweeks} fixturesData={fixturesData} numberOfGameweeks={numberOfGameweeks} />
+        
+        <CardList
+          teams={modifiedTeams} // Use the sorted teams instead of the original teams array
+          fixturesData={fixturesData}
+          numberOfGameweeks={numberOfGameweeks}
+          sortOrder={sortOrder} // Pass the sortOrder to the CardList component
+        />
       </div>
     </div>
   );

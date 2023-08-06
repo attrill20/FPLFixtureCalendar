@@ -12,10 +12,10 @@ export default function App() {
   const [fixturesData, setFixturesData] = useState(null);
   
 
-  // Fetch the FPL API data
+  // Fetch the FPL API data from new server
   useEffect(() => {
     async function fetchFPL() {
-    const response = await fetch("http://localhost:3005")
+    const response = await fetch("https://fpl-server-nine.vercel.app/api")
     const data = await response.json();
     setData(data);
     setMainData(data.bootstrapData)

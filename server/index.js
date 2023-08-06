@@ -2,7 +2,7 @@ const express = require('express');
 const cors = require('cors');
 
 const app = express();
-// const port = 3005;
+const port = 3005;
 
 app.use(cors());
 
@@ -25,11 +25,11 @@ app.get('/', async (req, res) => {
     res.send(responseData);
 });
 
-module.exports=app;
+// module.exports=app;
 
-// app.listen(port, () => {
-//   console.log(`Server is running on port ${port}`);
-// });
+app.listen(port, () => {
+  console.log(`Server is running on port ${port}`);
+});
 
 // test
 

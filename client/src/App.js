@@ -15,7 +15,7 @@ export default function App() {
   // Fetch the FPL API data
   useEffect(() => {
     async function fetchFPL() {
-    const response = await fetch("http://localhost:3005")
+    const response = await fetch("https://fpl-server-nine.vercel.app/api")
     const data = await response.json();
     setData(data);
     setMainData(data.bootstrapData)

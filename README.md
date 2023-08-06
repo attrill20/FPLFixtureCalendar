@@ -2,9 +2,9 @@
 
 Side Project - A FPL Fixture Calendar that shows the upcoming fixtures for each Premier League team and ranks them based on their difficulty. I aim to use this side project to practice my React, JS and CSS skills. Will eventually merge with the official FPL API or perhaps even create my own one to practice more advanced back-end skills. Any suggestions welcome!
 
-To run: Clone repo, navigate to FPL-fixtures folder and enter 'npm start' in command line. Will start the server and load the site in browser
+To run: Clone repo, navigate to FPL-fixtures folder and enter 'npm start' in command line. Will load the site in browser (the serverless function is delpoyed on Vercel in a seperate repo)
 
-Deployed at: https://fpl-fixture-calendar.vercel.app/ (currently under production - doesn't show data, unless local server is running)
+Deployed at: https://fpl-fixture-calendar.vercel.app/ (currently under production - not reactive on mobile yet)
 
 E-mail address: attrill20@gmail.com
 
@@ -13,7 +13,6 @@ E-mail address: attrill20@gmail.com
 - Add a header Navbar for the site
 - Fix favicon
   
-- Create a proper server to allow data to be displayed on the deployed version
 - Create more indepth FDR ranking (FPL 1-5 not specific enough)
 - Fix issue over blank / double GWs (may need to define each GW first)
 - Check that only upcoming fixtures display
@@ -22,6 +21,12 @@ E-mail address: attrill20@gmail.com
 - Ensure accessibility
 - Link to betting site for odds
 - Clean sheet percentage
+
+## 06/08/23
+
+A lot of faff and restructuring today - but finally the host is now fully hosted and deployed on Vercel! Had to create a new repo to store the server and create a serverless function, which constantly runs in the background. Now the delpoyed Vercel site and any localhost version can access the API data by fetching this data. 
+
+Doesn't sound like much, but felt like some huge wins today and learnt so much more about how serverless functions work and how to better restructure my project to allow access. Still need to do quite a lot of styling to the site, fix the blanl GW issue and add more detail to the player searcher. But go check it out - pleased with the progress: https://fpl-fixture-calendar.vercel.app/search
 
 ## 04/08/23
 

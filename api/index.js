@@ -2,7 +2,7 @@ const express = require('express');
 const cors = require('cors');
 
 const app = express();
-const port = 3005;
+// const port = 3005;
 
 app.use(cors());
 
@@ -14,8 +14,8 @@ app.get('/', async (req, res) => {
     const fixturesResponse = await fetch('https://fantasy.premierleague.com/api/fixtures/');
     const fixturesData = await fixturesResponse.json();
 
-    console.log('Bootstrap Data:', bootstrapData);
-    console.log('Fixtures Data:', fixturesData);
+    // console.log('Bootstrap Data:', bootstrapData);
+    // console.log('Fixtures Data:', fixturesData);
 
     const responseData = {
       bootstrapData: bootstrapData,
@@ -25,8 +25,10 @@ app.get('/', async (req, res) => {
     res.send(responseData);
 });
 
-app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
-});
+module.exports=app;
+
+// app.listen(port, () => {
+//   console.log(`Server is running on port ${port}`);
+// });
 
 

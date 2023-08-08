@@ -1,38 +1,58 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import "./card.css";
 
 export default function Row({ teams, fixturesData, teamIndex, numberOfFixtures }) {
-  function getFixturesForTeam(teamId) {
-    if (!fixturesData) return null; // Check to handle null fixturesData
+  const [teamFixturesData, setTeamFixturesData] = useState(null);
 
-    const teamFixtures = fixturesData.filter(
-      (fixture) => fixture.team_h === teamId || fixture.team_a === teamId
-    );
+  useEffect(() => {
+    function getFixturesForTeam(teamId) {
+      if (!fixturesData) return null;
 
-    // Calculate the total difficulty and return the requested number of fixtures
-    const nextFixtures = teamFixtures.slice(0, numberOfFixtures).map((fixture) => {
-      const opponentNumber = fixture.team_h === teamId ? fixture.team_a: fixture.team_h;
-      const opponent =
-        fixture.team_h === teamId ? teams[fixture.team_a].name : teams[fixture.team_h].name;
-      const home = fixture.team_h === teamId;
-      const difficulty = home ? fixture.team_h_difficulty : fixture.team_a_difficulty;
-      return { opponent, opponentNumber, home, difficulty };
-    });
+      const teamFixtures = fixturesData.filter(
+        (fixture) => fixture.team_h === teamId || fixture.team_a === teamId
+      );
 
-    // Calculate the total difficulty score
-    const totalDifficulty = nextFixtures.reduce((acc, fixture) => acc + fixture.difficulty, 0);
-    const reversedTotalDifficulty = numberOfFixtures * 5 - totalDifficulty;
+      const gameweekFixtures = new Array(numberOfFixtures).fill(null).map(() => []);
 
-    // Return the requested number of fixtures and the total difficulty
-    return { fixtures: nextFixtures, totalDifficulty, reversedTotalDifficulty };
-  }
+      teamFixtures.forEach((fixture) => {
+        if (fixture.event <= numberOfFixtures) {
+          const opponentNumber = fixture.team_h === teamId ? fixture.team_a : fixture.team_h;
+          const opponent =
+            fixture.team_h === teamId ? teams[fixture.team_a].name : teams[fixture.team_h].name;
+          const home = fixture.team_h === teamId;
+          const difficulty = home ? fixture.team_h_difficulty : fixture.team_a_difficulty;
+          const eventNumber = fixture.event - 1; // Adjust to 0-based index for array
+
+          if (!gameweekFixtures[eventNumber]) {
+            gameweekFixtures[eventNumber] = [];
+          }
+
+          gameweekFixtures[eventNumber].push({
+            opponent,
+            opponentNumber,
+            home,
+            difficulty,
+            eventNumber: fixture.event,
+          });
+        }
+      });
+
+      const totalDifficulty = gameweekFixtures.reduce(
+        (acc, fixtures) => acc + fixtures.reduce((acc, fixture) => acc + fixture.difficulty, 0),
+        0
+      );
+      const reversedTotalDifficulty = numberOfFixtures * 5 - totalDifficulty;
+
+      return { fixtures: gameweekFixtures, totalDifficulty, reversedTotalDifficulty };
+    }
+
+    const newFixturesData = getFixturesForTeam(teamIndex);
+    setTeamFixturesData(newFixturesData);
+  }, [teamIndex, numberOfFixtures, fixturesData, teams]);
 
   const team = teams[teamIndex];
   const teamName = team ? team.name : "";
 
-  const teamFixturesData = getFixturesForTeam(teamIndex);
-
-  
   return (
     <div>
       <table className="fixtures-table with-border">
@@ -55,25 +75,40 @@ export default function Row({ teams, fixturesData, teamIndex, numberOfFixtures }
             </td>
 
             <td className="FDR-column">
-            <span>Score: </span> 
-            {teamFixturesData && (
-              <h2>{teamFixturesData.reversedTotalDifficulty}</h2>
-            )}
-          </td>
+              <span>Score: </span>
+              {teamFixturesData && (
+                <h2>{teamFixturesData.reversedTotalDifficulty}</h2>
+              )}
+            </td>
 
             {teamFixturesData &&
-              teamFixturesData.fixtures.map((fixture, index) => (
-                <td className={`fixture-info difficulty-${fixture.difficulty}`} key={index}>
-                  <b>{fixture.opponent}</b>{" "}
-                  {fixture.home ? "(H)" : "(A)"}
-                  <br />
-                  <img
-                      className="fixture-badge"
-                      src={teams[fixture.opponentNumber].badge}
-                      alt={fixture.opponent}
-                    />
-                    <br />
-                    {/* Difficulty: <strong>{fixture.difficulty}</strong> */}
+              teamFixturesData.fixtures.map((gameweek, gameweekIndex) => (
+                <td key={gameweekIndex}>
+                  {gameweek.length > 0 ? (
+                    gameweek.map((fixture, index) => (
+                      <div
+                        className={`fixture-info difficulty-${fixture.difficulty}`}
+                        key={index}
+                      >
+                        <b>{fixture.opponent}</b>{" "}
+                        {fixture.home ? "(H)" : "(A)"}
+                        <br />
+                        <img
+                          className="fixture-badge"
+                          src={teams[fixture.opponentNumber].badge}
+                          alt={fixture.opponent}
+                        />
+                        <br />
+                        Difficulty: <strong>{fixture.difficulty}</strong>
+                        <br />
+                        Gameweek: <strong>{fixture.eventNumber}</strong>
+                      </div>
+                    ))
+                  ) : (
+                    <div className="fixture-info">
+                      <span>BLANK</span>
+                    </div>
+                  )}
                 </td>
               ))}
           </tr>

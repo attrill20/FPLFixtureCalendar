@@ -59,7 +59,7 @@ export default function Row({
 							opponent: "BLANK",
 							opponentNumber: 0,
 							difficulty: 5,
-							eventNumber: i + 1
+							eventNumber: i + 1,
 						},
 					];
 				}
@@ -125,45 +125,60 @@ export default function Row({
 							)}
 						</td>
 
-            {teamFixturesData &&
-              teamFixturesData.fixtures.map((gameweek, gameweekIndex) => (
-                <td key={gameweekIndex}>
-                  {gameweek.length > 0 ? (
-                    gameweek.map((fixture, index) => (
-                      <div
-                        className={`fixture-info difficulty-${fixture.difficulty}`}
-                        key={index}
-                      >
-                        <b>{fixture.opponent}</b>{" "}
-{fixture.opponentNumber !== 0 ? (fixture.home ? "(H)" : "(A)") : null}
-                        <br />
-                        {fixture.opponentNumber !== null && teams[fixture.opponentNumber]?.badge !== null ? (
-                          <img
-                            className="fixture-badge"
-                            src={teams[fixture.opponentNumber]?.badge}
-                            alt={fixture.opponent}
-                          />
-                        ) : (
-                          <span></span>
-                        )}
-                        <br />
-                        {/* Gameweek: <strong>{fixture.eventNumber}</strong> */}
-                      </div>
-                    ))
-                  ) : (
-                    <div className={`fixture-info difficulty-${5}`} key={gameweekIndex}>
-                      <b>BLANK</b>{" "}
-                      <br />
-                      {/* Difficulty: <strong>{5}</strong> */}
-                      <br />
-                      {/* Gameweek: <strong>{gameweekIndex + 1}</strong> */}
-                    </div>
-                  )}
-                </td>
-              ))}
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  );
+						{teamFixturesData &&
+							teamFixturesData.fixtures.map((gameweek, gameweekIndex) => (
+								<td key={gameweekIndex}>
+									{gameweek.length > 0 ? (
+										gameweek.map((fixture, index) => (
+											<div
+												className={`fixture-info difficulty-${fixture.difficulty}`}
+												key={index}>
+												<b>{fixture.opponent}</b>{" "}
+												{fixture.opponentNumber !== 0
+													? fixture.home
+														? "(H)"
+														: "(A)"
+													: null}
+												<br />
+												{fixture.opponentNumber !== null &&
+												teams[fixture.opponentNumber]?.badge !== null ? (
+													<img
+														className="fixture-badge"
+														src={teams[fixture.opponentNumber]?.badge}
+														alt={fixture.opponent}
+													/>
+												) : (
+													<span>
+														<br />
+														<br />
+														<br />
+														<br />
+													</span>
+												)}
+												<br />
+												{/* Gameweek: <strong>{fixture.eventNumber}</strong> */}
+											</div>
+										))
+									) : (
+										<div
+											className={`fixture-info difficulty-${5}`}
+											key={gameweekIndex}>
+											<b>BLANK</b>
+											<br />
+											<br />
+											<br />
+											<br />
+											<br />
+											{/* Difficulty: <strong>{5}</strong> */}
+											<br />
+											{/* Gameweek: <strong>{gameweekIndex + 1}</strong> */}
+										</div>
+									)}
+								</td>
+							))}
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	);
 }

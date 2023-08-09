@@ -22,6 +22,14 @@ E-mail address: attrill20@gmail.com
 - Link to betting site for odds
 - Clean sheet percentage
 
+## 09/08/23
+
+Got stuck into some difficult logic problems over the past day or so, but largely solved them! Managed to get blank GWs display for when a team doesn't have a fixture in that week. Odd way that FPL seem to manage this in the API, basically pushing it to the front of the array as it doesn't have a confirmed date. Then also, managed to get the displayed FDR to change based on that (with blanks adding 0 to the total difficulty ranking). However, still got a problem with the sorting logic, as that is worked out in the parent component so doesn't take into account the updated fixtures that have been added in the child. Might need to do some extreme refactoring to get this working next time!
+
+<img width="1757" alt="Screenshot 2023-08-09 at 19 00 04" src="https://github.com/attrill20/FPLFixtureCalendar/assets/123314687/924d3798-7646-46b5-a8e4-42d80815ab6d">
+
+Here's what it now looks like with the blank GW for Luton for example. Hoping to make the site presentable to share with friends on LinkedIn tomorrow as the FPL season is about to begin!
+
 ## 06/08/23
 
 A lot of faff and restructuring today - but finally the host is now fully hosted and deployed on Vercel! Had to create a new repo to store the server and create a serverless function, which constantly runs in the background. Now the delpoyed Vercel site and any localhost version can access the API data by fetching this data. 

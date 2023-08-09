@@ -54,7 +54,7 @@ export default function Row({
                     gameweekFixtures[i].push({
                         opponent: "BLANK",
                         opponentNumber: 0,
-                        difficulty: 5,
+                        difficulty: 6,
                         eventNumber: i + 1,
                     });
                 }
@@ -65,7 +65,7 @@ export default function Row({
                     acc + fixtures.reduce((acc, fixture) => acc + fixture.difficulty, 0),
                 0
             );
-            const reversedTotalDifficulty = numberOfFixtures * 5 - totalDifficulty;
+            const reversedTotalDifficulty = numberOfFixtures * 6 - totalDifficulty;
 
             return {
                 fixtures: gameweekFixtures,

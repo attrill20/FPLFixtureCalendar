@@ -2,39 +2,63 @@ import React, { useState } from "react";
 import "./playerSearcher.css";
 
 export default function PlayerSearcher({ data, mainData }) {
+  const [targetedPlayer, setTargetedPlayer] = useState(null);
+  const [targetWebName, setTargetWebName] = useState("");
+  const [targetedPlayer2, setTargetedPlayer2] = useState(null); // Separate state for the second instance
+  const [targetWebName2, setTargetWebName2] = useState(""); // Separate state for the second instance
 
-const [targetedPlayer, setTargetedPlayer] = useState(null);   
-const [targetWebName, setTargetWebName] = useState("");
-
-// Function to target a player by their web name
-const findPlayerByWebName = () => {
+  // First instance - Function to target a player by their web name
+  const findPlayerByWebName = () => {
     const lowercaseTargetWebName = targetWebName.toLowerCase();
     const targetedPlayer = mainData.elements.find(
       (player) => player.web_name.toLowerCase() === lowercaseTargetWebName
     );
     setTargetedPlayer(targetedPlayer);
   };
-  
-  // Handle input change for the web name
+
+  // Second instance - Function to target a player by their web name
+  const findPlayerByWebName2 = () => {
+    const lowercaseTargetWebName = targetWebName2.toLowerCase();
+    const targetedPlayer = mainData.elements.find(
+      (player) => player.web_name.toLowerCase() === lowercaseTargetWebName
+    );
+    setTargetedPlayer2(targetedPlayer);
+  };
+
+  // First instance - Handle input change for the web name
   const handleInputChange = (event) => {
     setTargetWebName(event.target.value);
   };
-  
-  // Handle form submit
+
+  // Second instance - Handle input change for the web name
+  const handleInputChange2 = (event) => {
+    setTargetWebName2(event.target.value);
+  };
+
+  // First instance - Handle form submit
   const handleSubmit = (event) => {
     event.preventDefault();
     findPlayerByWebName();
   };
 
+  // Second instance - Handle form submit
+  const handleSubmit2 = (event) => {
+    event.preventDefault();
+    findPlayerByWebName2();
+  };
+
+
     return(
 <div className='FPL-Stats'>
+<h2>Player Searcher!</h2>
+
       {data && (
         <div>
-          <p> Test: {mainData.teams[0].name} - Short Name: {mainData.teams[0].short_name} - Strength: {mainData.teams[0].strength} </p>
+          {/* <p> Test: {mainData.teams[0].name} - Short Name: {mainData.teams[0].short_name} - Strength: {mainData.teams[0].strength} </p>
           <p>Test: {mainData.teams[19].name} - Short Name: {mainData.teams[19].short_name} - Strength: {mainData.teams[19].strength}</p>
           <p>Player Name: {mainData.elements[400].web_name} - Selected By: {mainData.elements[400].selected_by_percent}% - Total Points: {mainData.elements[400].total_points}</p>
           <p>Player Name: {mainData.elements[144].web_name} - Selected By: {mainData.elements[144].selected_by_percent}% - Total Points: {mainData.elements[144].total_points}</p>
-          <p>Player Name: {mainData.elements[18].web_name} - Selected By: {mainData.elements[18].selected_by_percent}% - Total Points: {mainData.elements[18].total_points}</p>
+          <p>Player Name: {mainData.elements[18].web_name} - Selected By: {mainData.elements[18].selected_by_percent}% - Total Points: {mainData.elements[18].total_points}</p> */}
           <img src={`https://resources.premierleague.com/premierleague/photos/players/110x140/p${451340}.png`} alt="Mitoma" />
           <img src={`https://resources.premierleague.com/premierleague/photos/players/110x140/p${176297}.png`} alt="Rashford" />
           <img src={`https://resources.premierleague.com/premierleague/photos/players/110x140/p${223340}.png`} alt="Saka" />
@@ -44,7 +68,7 @@ const findPlayerByWebName = () => {
        )}
  
     <form onSubmit={handleSubmit}>
-        <h2>Player Searcher!</h2>
+     <h4>Type in a player's surname below to see a range of FPL stats displayed for them (check spelling / official FPL name if doesn't display): </h4>
            <label>
               Type Player Name Here:
               <input type="text" value={targetWebName} onChange={handleInputChange} />
@@ -57,8 +81,42 @@ const findPlayerByWebName = () => {
           <img src={`https://resources.premierleague.com/premierleague/photos/players/110x140/p${targetedPlayer.code}.png`}
             alt={targetedPlayer.web_name} />
           <p>Player Name: <strong>{targetedPlayer.web_name}</strong> </p>
+          <p>Team: <strong>{mainData.teams[(targetedPlayer.team -1)].name}</strong></p>
+
+
+          <p>Cost: <strong>{(targetedPlayer.now_cost / 10).toFixed(1)}m</strong></p>
+
           <p>Selected By: <strong>{targetedPlayer.selected_by_percent}%</strong></p>    
           <p>Total Points: <strong>{targetedPlayer.total_points}</strong></p>
+        
+        </div>
+      ) : (
+        <p>Player not found.</p>
+      )}
+    
+
+    <form onSubmit={handleSubmit2}>
+    
+           <label>
+              Type Player Name Here:
+              <input type="text" value={targetWebName2} onChange={handleInputChange2} />
+            </label>
+          <button type="submit">Find Player</button>
+      </form>
+
+      {targetedPlayer2 ? (
+        <div>
+          <img src={`https://resources.premierleague.com/premierleague/photos/players/110x140/p${targetedPlayer2.code}.png`}
+            alt={targetedPlayer2.web_name} />
+          <p>Player Name: <strong>{targetedPlayer2.web_name}</strong> </p>
+          <p>Team: <strong>{mainData.teams[(targetedPlayer2.team -1)].name}</strong></p>
+
+
+          <p>Cost: <strong>{(targetedPlayer2.now_cost / 10).toFixed(1)}m</strong></p>
+
+          <p>Selected By: <strong>{targetedPlayer2.selected_by_percent}%</strong></p>    
+          <p>Total Points: <strong>{targetedPlayer2.total_points}</strong></p>
+        
         </div>
       ) : (
         <p>Player not found.</p>

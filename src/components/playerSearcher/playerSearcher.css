@@ -1,0 +1,12 @@
+.player-searcher-container {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .player-searcher {
+    flex: 1;
+    margin: 10px;
+    padding: 10px;
+    border: 1px solid #ccc;
+  }
+  

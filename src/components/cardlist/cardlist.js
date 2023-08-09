@@ -36,7 +36,7 @@ export default function CardList({ teams, fixturesData }) {
       (acc, fixture) => acc + fixture.difficulty,
       0
     );
-    const reversedTotalDifficulty = numberOfFixtures * 5 - totalDifficulty;
+    const reversedTotalDifficulty = numberOfFixtures * 6 - totalDifficulty;
 
     // Return the requested number of fixtures and the total difficulty
     return { fixtures: nextFixtures, totalDifficulty, reversedTotalDifficulty };

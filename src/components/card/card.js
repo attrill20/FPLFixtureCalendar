@@ -115,7 +115,7 @@ export default function Row({
 						</td>
 
 						<td className="FDR-column">
-							<span>Score: </span>
+							<span className="score-display">Score: </span>
 							{teamFixturesData && (
 								<h2>{teamFixturesData.reversedTotalDifficulty}</h2>
 							)}
@@ -129,7 +129,7 @@ export default function Row({
 											<div
 												className={`fixture-info difficulty-${fixture.difficulty}`}
 												key={index}>
-												<b>{fixture.opponent}</b>{" "}
+												<b className="opponent-name">{fixture.opponent}</b>{" "}
 												{fixture.opponentNumber !== 0
 													? fixture.home
 														? "(H)"

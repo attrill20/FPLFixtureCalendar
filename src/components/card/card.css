@@ -85,20 +85,43 @@
     text-align: center;
   }
 
-/* Your existing CSS code */
+/* Add a media query for tablet devices */
+@media (max-width: 1500px) { /* Adjust the max-width as needed */
+ 
+  .FDR-column {
+    overflow-wrap: break-word; 
+    width: 8%; /* Adjust the width for tablet */
+  }
+}
+
+
 
 /* Add a media query for mobile devices */
 @media (max-width: 1000px) { /* Adjust the max-width as needed */
+
   .team-badge {
-    height: 50px; /* Adjust the size for mobile */
+    height: 50px; 
   }
 
   .fixture-badge {
-    height: 40px; /* Adjust the size for mobile */
+    height: 40px; 
   }
 
   .FDR-column {
     overflow-wrap: break-word; 
+    width: 10%; /* Adjust the width for mobile */
+  }
+
+  .team-name {
+    display: none;
+  }
+
+  .opponent-name {
+    display: none;
+  }
+
+  .score-display {
+    display: none;
   }
   
 }

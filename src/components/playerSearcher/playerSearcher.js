@@ -80,7 +80,7 @@ export default function PlayerSearcher({ data, mainData }) {
         <div>
           <img src={`https://resources.premierleague.com/premierleague/photos/players/110x140/p${targetedPlayer.code}.png`}
             alt={targetedPlayer.web_name} />
-          <p>Player Name: <strong>{targetedPlayer.web_name}</strong> </p>
+          <p>Player Name: <strong>{targetedPlayer.first_name} {targetedPlayer.second_name}</strong> </p>
           <p>Team: <strong>{mainData.teams[(targetedPlayer.team -1)].name}</strong></p>
 
 
@@ -108,7 +108,7 @@ export default function PlayerSearcher({ data, mainData }) {
         <div>
           <img src={`https://resources.premierleague.com/premierleague/photos/players/110x140/p${targetedPlayer2.code}.png`}
             alt={targetedPlayer2.web_name} />
-          <p>Player Name: <strong>{targetedPlayer2.web_name}</strong> </p>
+          <p>Player Name: <strong>{targetedPlayer2.first_name} {targetedPlayer2.second_name}</strong> </p>
           <p>Team: <strong>{mainData.teams[(targetedPlayer2.team -1)].name}</strong></p>
 
 

@@ -1,46 +1,76 @@
 import React, { useState } from "react";
-import Row from "../card/card";
-import Dropdown from "../dropdown/dropdown";
+import Row from "../card/card"; // Path to your Row component
+import Dropdown from "../dropdown/dropdown"; // Path to your Dropdown component
 import "./cardlist.css";
 
 export default function CardList({ teams, fixturesData }) {
   const [numberOfGameweeks, setNumberOfGameweeks] = useState(5);
   const [sortOrder, setSortOrder] = useState("desc");
 
-  function getFixturesForTeam(teamId, numberOfFixtures) {
-    if (!fixturesData) {
-      return { fixtures: [], totalDifficulty: 0, reversedTotalDifficulty: 0 };
-    }
+  const calculateReversedTotalDifficulty = (teamId, numberOfFixtures) => {
+    if (!fixturesData) return 0;
 
     const teamFixtures = fixturesData.filter(
       (fixture) => fixture.team_h === teamId || fixture.team_a === teamId
     );
 
-    // Calculate the total difficulty and return the requested number of fixtures
-    const nextFixtures = teamFixtures
-      .slice(0, numberOfFixtures)
-      .map((fixture) => {
-        const opponent =
-          fixture.team_h === teamId
+    const gameweekFixtures = new Array(numberOfFixtures)
+      .fill(null)
+      .map(() => []);
+
+    for (let i = 0; i < numberOfFixtures; i++) {
+      const gameweek = teamFixtures.filter(
+        (fixture) => fixture.event === i + 1
+      );
+
+      gameweekFixtures[i] = gameweek.map((fixture) => {
+        const opponentNumber =
+          fixture.team_h === teamId ? fixture.team_a : fixture.team_h;
+        const opponent = teams
+          ? fixture.team_h === teamId
             ? teams[fixture.team_a].name
-            : teams[fixture.team_h].name;
+            : teams[fixture.team_h].name
+          : "";
+
         const home = fixture.team_h === teamId;
         const difficulty = home
           ? fixture.team_h_difficulty
           : fixture.team_a_difficulty;
-        return { opponent, home, difficulty };
+
+        return {
+          opponent,
+          opponentNumber,
+          home,
+          difficulty,
+          eventNumber: fixture.event,
+        };
       });
 
-    // Calculate the total difficulty score
-    const totalDifficulty = nextFixtures.reduce(
-      (acc, fixture) => acc + fixture.difficulty,
+      // If there are no fixtures for the gameweek, add a blank fixture
+      if (gameweekFixtures[i].length === 0) {
+        gameweekFixtures[i].push({
+          opponent: "BLANK",
+          opponentNumber: 0,
+          difficulty: 6,
+          eventNumber: i + 1,
+        });
+      }
+    }
+
+    const totalDifficulty = gameweekFixtures.reduce(
+      (acc, fixtures) =>
+        acc + fixtures.reduce((acc, fixture) => acc + fixture.difficulty, 0),
       0
     );
     const reversedTotalDifficulty = numberOfFixtures * 6 - totalDifficulty;
 
-    // Return the requested number of fixtures and the total difficulty
-    return { fixtures: nextFixtures, totalDifficulty, reversedTotalDifficulty };
-  }
+    return reversedTotalDifficulty;
+  };
+
+  const calculateDifficulty = (reversedTotalDifficulty) => {
+    // Calculate difficulty logic (if needed)
+    return reversedTotalDifficulty;
+  };
 
   const handleGameweekChange = (event) => {
     setNumberOfGameweeks(event.target.value);
@@ -50,19 +80,18 @@ export default function CardList({ teams, fixturesData }) {
     setSortOrder((prevSortOrder) => (prevSortOrder === "asc" ? "desc" : "asc"));
   };
 
-  const modifiedTeams = teams.map((team) => {
-    const { id } = team;
-    const { reversedTotalDifficulty } = getFixturesForTeam(
-      id,
-      numberOfGameweeks
-    );
-    return { ...team, FDR: reversedTotalDifficulty };
-  });
+    // Remove the first team (index 0) before sorting and rendering
+    const teamsToRender = teams.slice(1);
 
-  const sortedTeams = [...modifiedTeams];
+
+  const sortedTeams = [...teamsToRender];
   sortedTeams.sort((teamA, teamB) => {
-    const fdrA = teamA.FDR;
-    const fdrB = teamB.FDR;
+    const fdrA = calculateReversedTotalDifficulty(teamA.id, numberOfGameweeks);
+    const fdrB = calculateReversedTotalDifficulty(teamB.id, numberOfGameweeks);
+
+    console.log(`Team A FDR: ${fdrA}, Team B FDR: ${fdrB}`);
+
+    // Toggle sorting based on sortOrder
     if (sortOrder === "asc") {
       return fdrA - fdrB;
     } else {
@@ -81,12 +110,14 @@ export default function CardList({ teams, fixturesData }) {
       </button>
 
       <div className="table">
-        {sortedTeams.slice(1).map((team, index) => (
+        {sortedTeams.map((team, index) => (
           <Row
-            teams={modifiedTeams}
+            teams={teams}
             fixturesData={fixturesData}
             teamIndex={team.id}
             numberOfFixtures={numberOfGameweeks}
+            calculateDifficulty={calculateDifficulty}
+            reversedTotalDifficulty={calculateReversedTotalDifficulty(team.id, numberOfGameweeks)}
             key={index}
           />
         ))}

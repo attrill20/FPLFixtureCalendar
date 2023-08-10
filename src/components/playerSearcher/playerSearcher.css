@@ -23,6 +23,10 @@
         width: 50%;
       }
 
+      .intro-text {
+        font-size: 1rem;
+      }
+
       .playerSearcher {
         display: flex;
         justify-content: center;

@@ -145,10 +145,8 @@ export default function Row({
 													/>
 												) : (
 													<span>
-														<br />
-														<br />
-														<br />
-														<br />
+														
+														
 													</span>
 												)}
 												<br />

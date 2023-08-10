@@ -146,7 +146,6 @@ export default function Row({
 												) : (
 													<span>
 														
-														
 													</span>
 												)}
 												<br />
@@ -158,13 +157,6 @@ export default function Row({
 											className={`fixture-info difficulty-${5}`}
 											key={gameweekIndex}>
 											<b>BLANK</b>
-											<br />
-											<br />
-											<br />
-											<br />
-											<br />
-											{/* Difficulty: <strong>{5}</strong> */}
-											<br />
 											{/* Gameweek: <strong>{gameweekIndex + 1}</strong> */}
 										</div>
 									)}

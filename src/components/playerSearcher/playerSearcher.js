@@ -75,9 +75,9 @@ export default function PlayerSearcher({ data, mainData }) {
        <div className ="playerSearcher">
     <form className="form" onSubmit={handleSubmit}>
      
-           <label>
+           <label className="form-label">
               Type Player Name Here:
-              <input type="text" value={targetWebName} onChange={handleInputChange} />
+              <input className="form-input" type="text" value={targetWebName} onChange={handleInputChange} />
             </label>
           <button type="submit">Find Player</button>
       </form>
@@ -87,9 +87,9 @@ export default function PlayerSearcher({ data, mainData }) {
     
     <form className= 'form' onSubmit={handleSubmit2}>
     
-           <label>
+           <label className="form-label">
               Type Player Name Here: 
-              <input type="text" value={targetWebName2} onChange={handleInputChange2} />
+              <input className="form-input" type="text" value={targetWebName2} onChange={handleInputChange2} />
             </label>
           <button type="submit">Find Player</button>
       </form>

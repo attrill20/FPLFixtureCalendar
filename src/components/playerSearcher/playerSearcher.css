@@ -33,6 +33,14 @@
         font-size: 1rem;
       }
 
+      .form-label {
+        font-size: 0.8rem;
+      }
+
+      .form-input {
+        width: 50%;
+      }
+
       .results-wrapper {
         font-size: 0.8rem;
       }

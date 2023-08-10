@@ -1,6 +1,8 @@
 .app-header {
     font-size: x-large;
     padding-top: 2px;
+    padding-left: 10%;
+    padding-right: 10%;
   }
   
   .sub-heading {
@@ -20,7 +22,9 @@
 @media (max-width: 1000px) { /* Adjust the max-width as needed */
 
   .app-header{
-    font-size:medium
+    font-size: medium;
+    padding-left: 2%;
+    padding-right: 2%;
   }
 
   .sub-heading{

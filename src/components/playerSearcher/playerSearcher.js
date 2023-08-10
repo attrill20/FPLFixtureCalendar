@@ -68,7 +68,7 @@ export default function PlayerSearcher({ data, mainData }) {
         </div>
        )}
        </div>
- 
+       <h4>Not sure who to pick? Compare player stats using the side by side comparison tool! </h4>
        <h4>Type in a player's surname below to see a range of FPL stats displayed for them (check spelling / official FPL name if doesn't display): </h4>
 
        <div className ="playerSearcher">

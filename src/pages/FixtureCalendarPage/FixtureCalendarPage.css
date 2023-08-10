@@ -5,8 +5,9 @@
   
   .sub-heading {
     font-size: large;
-    padding-left: 5%;
-    padding-right: 5%;
+    padding-left: 20%;
+    padding-right: 20%;
+   
   }
 
   .player-search-button {
@@ -24,6 +25,8 @@
 
   .sub-heading{
     font-size: 0.8rem;
+    padding-left: 5%;
+    padding-right: 5%;
   }
 
   .player-search-button{

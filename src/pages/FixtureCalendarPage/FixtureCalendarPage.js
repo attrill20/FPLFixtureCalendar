@@ -15,10 +15,14 @@ const FixtureCalendarPage= ({ teams, fixturesData }) => {
           You can use this site to filter teams by upcoming GWs to help plan
           transfers for players with easier fixtures and maximise your returns.
           Best of luck!
-        </h2>
+        </h2> 
+
+        <div className='player-search-button'>
+        Click here to access the Player Searcher tool:
         <Link to="/search">
             <button >Player Searcher</button>
           </Link>
+          </div>
       </div>
 
     <CardList teams={teams} fixturesData={fixturesData}  />

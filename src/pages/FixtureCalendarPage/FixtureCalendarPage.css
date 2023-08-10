@@ -8,3 +8,9 @@
     padding-left: 5%;
     padding-right: 5%;
   }
+
+  .player-search-button {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+  }

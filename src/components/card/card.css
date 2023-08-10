@@ -1,3 +1,5 @@
+/* // try overflow: scroll */
+
 .fixtures-table {
   table-layout: fixed;
   width: 100%;
@@ -33,8 +35,15 @@
   background-color: rgba(188, 187, 187, 0.85);
 }
 
-.FDR-column {
-  width: 4%;
+@media (min-width: 1000px) { /* Adjust the min-width as needed */
+  .FDR-column {
+    width: 4%; /* Adjust the width for desktop */
+    overflow-wrap: break-word;
+  }
+}
+
+.fixture-column {
+  overflow-wrap: break-word; 
 }
 
 .cards {
@@ -76,6 +85,23 @@
     text-align: center;
   }
 
+/* Your existing CSS code */
+
+/* Add a media query for mobile devices */
+@media (max-width: 1000px) { /* Adjust the max-width as needed */
+  .team-badge {
+    height: 50px; /* Adjust the size for mobile */
+  }
+
+  .fixture-badge {
+    height: 40px; /* Adjust the size for mobile */
+  }
+
+  .FDR-column {
+    overflow-wrap: break-word; 
+  }
+  
+}
 
  
 

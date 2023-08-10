@@ -123,7 +123,7 @@ export default function Row({
 
 						{teamFixturesData &&
 							teamFixturesData.fixtures.map((gameweek, gameweekIndex) => (
-								<td key={gameweekIndex}>
+								<td className="fixture-column" key={gameweekIndex}>
 									{gameweek.length > 0 ? (
 										gameweek.map((fixture, index) => (
 											<div

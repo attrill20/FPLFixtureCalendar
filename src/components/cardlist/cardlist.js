@@ -89,8 +89,6 @@ export default function CardList({ teams, fixturesData }) {
     const fdrA = calculateReversedTotalDifficulty(teamA.id, numberOfGameweeks);
     const fdrB = calculateReversedTotalDifficulty(teamB.id, numberOfGameweeks);
 
-    console.log(`Team A FDR: ${fdrA}, Team B FDR: ${fdrB}`);
-
     // Toggle sorting based on sortOrder
     if (sortOrder === "asc") {
       return fdrA - fdrB;

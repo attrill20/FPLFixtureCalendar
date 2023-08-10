@@ -14,3 +14,15 @@
     justify-content: center;
     gap: 10px;
   }
+
+  /* Add a media query for mobile devices */
+@media (max-width: 1000px) { /* Adjust the max-width as needed */
+
+  .app-header{
+    font-size:medium
+  }
+
+  .sub-heading{
+    font-size:smaller
+  }
+}

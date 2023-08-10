@@ -22,4 +22,18 @@
     .player-pic2 {
         width: 50%;
       }
+
+      .playerSearcher {
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        gap: 5%; /* Add space between items */
+        padding-left: 2%;
+        padding-right: 2%;
+        font-size: 1rem;
+      }
+
+      .results-wrapper {
+        font-size: 0.8rem;
+      }
   }

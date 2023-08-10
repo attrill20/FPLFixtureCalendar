@@ -63,14 +63,15 @@ export default function PlayerSearcher({ data, mainData }) {
           <img src={`https://resources.premierleague.com/premierleague/photos/players/110x140/p${451340}.png`} alt="Mitoma" />
           <img src={`https://resources.premierleague.com/premierleague/photos/players/110x140/p${176297}.png`} alt="Rashford" />
           <img src={`https://resources.premierleague.com/premierleague/photos/players/110x140/p${223340}.png`} alt="Saka" />
+          <img src={`https://resources.premierleague.com/premierleague/photos/players/110x140/p${85971}.png`} alt="Son" />
           <img src={`https://resources.premierleague.com/premierleague/photos/players/110x140/p${77794}.png`} alt="Trippier" />
-          <img src={`https://resources.premierleague.com/premierleague/photos/players/110x140/p${172780}.png`} alt="Maddison" />
+        
         </div>
        )}
        </div>
        <h4>Not sure who to pick? Compare player stats using the side by side comparison tool! </h4>
        <h4>Type in a player's surname below to see a range of FPL stats displayed for them (check spelling / official FPL name if doesn't display): </h4>
-
+<br />
        <div className ="playerSearcher">
     <form className="form" onSubmit={handleSubmit}>
      

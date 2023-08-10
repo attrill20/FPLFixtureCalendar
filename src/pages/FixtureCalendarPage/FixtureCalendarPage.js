@@ -11,10 +11,8 @@ const FixtureCalendarPage= ({ teams, fixturesData }) => {
       </header>
       <div className="sub-heading">
         <h3>
-          Welcome to the Fixture Difficulty Planner for the 2023/24 Fixtures.
-          You can use this site to filter teams by upcoming GWs to help plan
-          transfers for players with easier fixtures and maximise your returns.
-          Best of luck!
+          Use this table to sort teams by upcoming GWs to help plan
+          transfers for players with easier fixtures and maximise your FPL returns. The table uses a unique calculation to create a total FDR (fixture difficulty rating) for each team. Best of luck!
         </h3> 
 
         <div className='player-search-button'>

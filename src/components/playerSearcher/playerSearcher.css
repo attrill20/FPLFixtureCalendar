@@ -12,3 +12,14 @@
     gap: 22%; /* Add space between items */
   }
   
+  /* Add a media query for mobile devices */
+  @media (max-width: 1000px) { /* Adjust the max-width as needed */
+  
+    .player-pic {
+      width: 15%;
+    }
+
+    .player-pic2 {
+        width: 50%;
+      }
+  }

@@ -60,11 +60,11 @@ export default function PlayerSearcher({ data, mainData }) {
           <p>Player Name: {mainData.elements[400].web_name} - Selected By: {mainData.elements[400].selected_by_percent}% - Total Points: {mainData.elements[400].total_points}</p>
           <p>Player Name: {mainData.elements[144].web_name} - Selected By: {mainData.elements[144].selected_by_percent}% - Total Points: {mainData.elements[144].total_points}</p>
           <p>Player Name: {mainData.elements[18].web_name} - Selected By: {mainData.elements[18].selected_by_percent}% - Total Points: {mainData.elements[18].total_points}</p> */}
-          <img src={`https://resources.premierleague.com/premierleague/photos/players/110x140/p${451340}.png`} alt="Mitoma" />
-          <img src={`https://resources.premierleague.com/premierleague/photos/players/110x140/p${176297}.png`} alt="Rashford" />
-          <img src={`https://resources.premierleague.com/premierleague/photos/players/110x140/p${223340}.png`} alt="Saka" />
-          <img src={`https://resources.premierleague.com/premierleague/photos/players/110x140/p${85971}.png`} alt="Son" />
-          <img src={`https://resources.premierleague.com/premierleague/photos/players/110x140/p${77794}.png`} alt="Trippier" />
+          <img className="player-pic" src={`https://resources.premierleague.com/premierleague/photos/players/110x140/p${451340}.png`} alt="Mitoma" />
+          <img className="player-pic"  src={`https://resources.premierleague.com/premierleague/photos/players/110x140/p${176297}.png`} alt="Rashford" />
+          <img className="player-pic" src={`https://resources.premierleague.com/premierleague/photos/players/110x140/p${223340}.png`} alt="Saka" />
+          <img className="player-pic" src={`https://resources.premierleague.com/premierleague/photos/players/110x140/p${85971}.png`} alt="Son" />
+          <img className="player-pic" src={`https://resources.premierleague.com/premierleague/photos/players/110x140/p${77794}.png`} alt="Trippier" />
         
         </div>
        )}
@@ -99,7 +99,7 @@ export default function PlayerSearcher({ data, mainData }) {
           <div className = "results-wrapper">
       {targetedPlayer ? (
         <div className="results">
-          <img src={`https://resources.premierleague.com/premierleague/photos/players/110x140/p${targetedPlayer.code}.png`}
+          <img className="player-pic2" src={`https://resources.premierleague.com/premierleague/photos/players/110x140/p${targetedPlayer.code}.png`}
             alt={targetedPlayer.web_name} />
           <p>Player Name: <strong>{targetedPlayer.first_name} {targetedPlayer.second_name}</strong> </p>
           <p>Team: <strong>{mainData.teams[(targetedPlayer.team -1)].name}</strong></p>
@@ -117,7 +117,7 @@ export default function PlayerSearcher({ data, mainData }) {
 
       {targetedPlayer2 ? (
         <div className="results">
-          <img src={`https://resources.premierleague.com/premierleague/photos/players/110x140/p${targetedPlayer2.code}.png`}
+          <img className="player-pic2" src={`https://resources.premierleague.com/premierleague/photos/players/110x140/p${targetedPlayer2.code}.png`}
             alt={targetedPlayer2.web_name} />
           <p>Player Name: <strong>{targetedPlayer2.first_name} {targetedPlayer2.second_name}</strong> </p>
           <p>Team: <strong>{mainData.teams[(targetedPlayer2.team -1)].name}</strong></p>

@@ -123,6 +123,10 @@
   .score-display {
     display: none;
   }
+
+  .FDR-number {
+    font-size: medium;
+  }
   
 }
 

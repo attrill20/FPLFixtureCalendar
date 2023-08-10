@@ -117,7 +117,7 @@ export default function Row({
 						<td className="FDR-column">
 							<span className="score-display">Score: </span>
 							{teamFixturesData && (
-								<h2>{teamFixturesData.reversedTotalDifficulty}</h2>
+								<h2 className="FDR-number">{teamFixturesData.reversedTotalDifficulty}</h2>
 							)}
 						</td>
 

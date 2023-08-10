@@ -14,7 +14,7 @@ export default function Dropdown({ handleGameweekChange }) {
       <option value="8">8 Gameweeks</option>
       <option value="9">9 Gameweeks</option>
       <option value="10">10 Gameweeks</option>
-      <option value="38">38 Gameweeks</option>
+      {/* <option value="38">38 Gameweeks</option> */}
     </select>
   );
 }

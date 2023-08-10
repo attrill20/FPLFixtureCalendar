@@ -50,6 +50,7 @@ export default function PlayerSearcher({ data, mainData }) {
 
     return(
 <div className='FPL-Stats'>
+<div className ='intro-details'>
 <h2>Player Searcher!</h2>
 
       {data && (
@@ -66,9 +67,13 @@ export default function PlayerSearcher({ data, mainData }) {
           <img src={`https://resources.premierleague.com/premierleague/photos/players/110x140/p${172780}.png`} alt="Maddison" />
         </div>
        )}
+       </div>
  
-    <form onSubmit={handleSubmit}>
-     <h4>Type in a player's surname below to see a range of FPL stats displayed for them (check spelling / official FPL name if doesn't display): </h4>
+       <h4>Type in a player's surname below to see a range of FPL stats displayed for them (check spelling / official FPL name if doesn't display): </h4>
+
+       <div className ="playerSearcher">
+    <form className="form" onSubmit={handleSubmit}>
+     
            <label>
               Type Player Name Here:
               <input type="text" value={targetWebName} onChange={handleInputChange} />
@@ -76,8 +81,23 @@ export default function PlayerSearcher({ data, mainData }) {
           <button type="submit">Find Player</button>
       </form>
 
+     
+    
+    
+    <form className= 'form' onSubmit={handleSubmit2}>
+    
+           <label>
+              Type Player Name Here: 
+              <input type="text" value={targetWebName2} onChange={handleInputChange2} />
+            </label>
+          <button type="submit">Find Player</button>
+      </form>
+
+      </div>
+
+          <div className = "results-wrapper">
       {targetedPlayer ? (
-        <div>
+        <div className="results">
           <img src={`https://resources.premierleague.com/premierleague/photos/players/110x140/p${targetedPlayer.code}.png`}
             alt={targetedPlayer.web_name} />
           <p>Player Name: <strong>{targetedPlayer.first_name} {targetedPlayer.second_name}</strong> </p>
@@ -93,19 +113,9 @@ export default function PlayerSearcher({ data, mainData }) {
       ) : (
         <p>Player not found.</p>
       )}
-    
-
-    <form onSubmit={handleSubmit2}>
-    
-           <label>
-              Type Player Name Here:
-              <input type="text" value={targetWebName2} onChange={handleInputChange2} />
-            </label>
-          <button type="submit">Find Player</button>
-      </form>
 
       {targetedPlayer2 ? (
-        <div>
+        <div className="results">
           <img src={`https://resources.premierleague.com/premierleague/photos/players/110x140/p${targetedPlayer2.code}.png`}
             alt={targetedPlayer2.web_name} />
           <p>Player Name: <strong>{targetedPlayer2.first_name} {targetedPlayer2.second_name}</strong> </p>
@@ -122,6 +132,8 @@ export default function PlayerSearcher({ data, mainData }) {
         <p>Player not found.</p>
       )}
     </div>
+    </div>
+  
 
   
     )

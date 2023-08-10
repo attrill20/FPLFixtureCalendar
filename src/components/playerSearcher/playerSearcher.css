@@ -1,12 +1,14 @@
-.player-searcher-container {
+.playerSearcher {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 70px; /* Add space between items */
   }
-  
-  .player-searcher {
-    flex: 1;
-    margin: 10px;
-    padding: 10px;
-    border: 1px solid #ccc;
+
+  .results-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 300px; /* Add space between items */
   }
   

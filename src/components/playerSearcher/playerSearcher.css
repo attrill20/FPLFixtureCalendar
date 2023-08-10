@@ -2,13 +2,13 @@
     display: flex;
     justify-content: center;
     align-items: flex-start;
-    gap: 70px; /* Add space between items */
+    gap: 10%; /* Add space between items */
   }
 
   .results-wrapper {
     display: flex;
     justify-content: center;
     align-items: flex-start;
-    gap: 300px; /* Add space between items */
+    gap: 22%; /* Add space between items */
   }
   

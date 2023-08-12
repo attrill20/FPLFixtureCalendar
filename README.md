@@ -4,23 +4,35 @@ Side Project - A FPL Fixture Calendar that shows the upcoming fixtures for each 
 
 To run: Clone repo, navigate to FPL-fixtures folder and enter 'npm start' in command line. Will load the site in browser (the serverless function is delpoyed on Vercel in a seperate repo)
 
-Deployed at: https://fpl-fixture-calendar.vercel.app/ (currently under production - not reactive on mobile yet)
+Deployed at: https://fpl-fixture-calendar.vercel.app/
 
 E-mail address: attrill20@gmail.com
 
 ## Current To-Do List
 
 - Add a header Navbar for the site
-- Fix favicon
   
 - Create more indepth FDR ranking (FPL 1-5 not specific enough)
-- Fix issue over blank / double GWs (may need to define each GW first)
+- Fix issue over double GWs (may need to define each GW first)
 - Check that only upcoming fixtures display
+- Add auto-suggest options when searching
+- Add more stats to the Player Searcher
   
 - Add testing
 - Ensure accessibility
 - Link to betting site for odds
 - Clean sheet percentage
+
+## 11/08/23
+
+Launched the site! Managed to fix the FDR calculation, by basically having to move this up from the child card component into the card list, so it could be correctly calculated. It now fully works! Tidied up some of the basic styling, and made it a bit more responsive for mobile screens (the team names no longer display here, just the badges) and fixed the CSS so the Player Searcher shows two players side by side (show below):
+
+<img width="1050" alt="Pic 2" src="https://github.com/attrill20/FPLFixtureCalendar/assets/123314687/f571c92b-22ab-4818-a2c7-38fa42fea6e7">
+
+Got some good feedback from users suggesting I add an autocomplete function for the player searcher which is a good idea, and also adding more useful stats for this too. I also want to now look to add my custom fixture rating system (1-10, instead of 1-5) and improve the overall UX of the site. Need to check that fixtures update once a gameweek is complete, and we roll on to the next one - have a feeling quite a bit of work will have to be done to ensure that's working properly but will look into it next week. For now, here's what the MVP version of the FDR calendar looks like - it's been a great journey to get here!
+
+<img width="1324" alt="Pic 1" src="https://github.com/attrill20/FPLFixtureCalendar/assets/123314687/fca15761-b8ba-48b5-a2b9-98edb051d3bf">
+
 
 ## 09/08/23
 

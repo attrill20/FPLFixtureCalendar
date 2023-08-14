@@ -81,11 +81,6 @@ export default function Row({
     const team = teams[teamIndex];
     const teamName = team ? team.name : "";
 
-    // Log Luton's fixtures
-    if (team && team.id === 12) {
-        console.log("Luton's Fixtures:", teamFixturesData);
-    }
-
 
 
 

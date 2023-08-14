@@ -3,7 +3,7 @@ import CardList from '../../components/cardlist/cardlist';
 import "./FixtureCalendarPage.css"
 import { Link } from 'react-router-dom';
 
-const FixtureCalendarPage= ({ teams, fixturesData }) => {
+const FixtureCalendarPage= ({ teams, fixturesData, mainData }) => {
   return (
     <div>
     <header className="app-header">
@@ -23,7 +23,7 @@ const FixtureCalendarPage= ({ teams, fixturesData }) => {
           </div>
       </div>
 
-    <CardList teams={teams} fixturesData={fixturesData}  />
+    <CardList teams={teams} fixturesData={fixturesData} mainData={mainData} />
     </div>
   );
 };

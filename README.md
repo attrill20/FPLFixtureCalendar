@@ -12,6 +12,7 @@ E-mail address: attrill20@gmail.com
 
 - Add a header Navbar for the site
 - Improve CSS styling (fill box with colour, background white boxes etc)
+- Improve mobile site more (ensure badges fit in boxes, move up team badges with no name, keep BLANK name for blanks etc)
   
 - Create more indepth FDR ranking (FPL 1-5 not specific enough)
 - Fix issue over double GWs (may need to define each GW first)

@@ -85,11 +85,11 @@ export default function PlayerSearcher({ data, mainData }) {
 			<div className="intro-text">
 				<p>
 					Not sure who to pick? Compare player stats using the side by side
-					comparison tool!{" "}
+					comparison tool!
 				</p>
 				<p>
 					Type in a player's surname below to see a range of FPL stats displayed
-					for them (check spelling / official FPL name if doesn't display):{" "}
+					for them (check spelling / official FPL name if doesn't display):
 				</p>
 			</div>
 			<br />

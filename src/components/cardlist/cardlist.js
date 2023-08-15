@@ -18,7 +18,7 @@ export default function CardList({ teams, fixturesData, activeGameweek }) {
       .fill(null)
       .map(() => []);
 
-      for (let i = activeGameweek - 1; i < activeGameweek + numberOfFixtures - 1; i++) {
+      for (let i = activeGameweek - 1; i < activeGameweek + numberOfGameweeks - 1; i++) {
         const gameweek = teamFixtures.filter(
           (fixture) => fixture.event === i + 1
         );
@@ -73,21 +73,16 @@ export default function CardList({ teams, fixturesData, activeGameweek }) {
   };
 
   const handleGameweekChange = (event) => {
-    setNumberOfGameweeks(event.target.value);
+    const newNumberOfGameweeks = parseInt(event.target.value, 10);
+    setNumberOfGameweeks(newNumberOfGameweeks);
   };
-
+  
   const handleTableReorder = () => {
     setSortOrder((prevSortOrder) => (prevSortOrder === "asc" ? "desc" : "asc"));
   };
 
     // Remove the first team (index 0) before sorting and rendering
     const teamsToRender = teams.slice(1);
-
-    // Add this code to log FDR for team with ID 1
-  const teamIdToCheck = 12;
-  const fdrForTeam1 = calculateReversedTotalDifficulty(teamIdToCheck, numberOfGameweeks);
-  console.log(`FDR for team with ID ${teamIdToCheck}: ${fdrForTeam1}`);
-
 
   const sortedTeams = [...teamsToRender];
   sortedTeams.sort((teamA, teamB) => {
@@ -129,3 +124,4 @@ export default function CardList({ teams, fixturesData, activeGameweek }) {
     </div>
   );
 }
+

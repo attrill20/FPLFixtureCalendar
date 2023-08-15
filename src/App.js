@@ -26,16 +26,11 @@ export default function App() {
 			);
 			if (activeEvent) {
 				setActiveGameweek(activeEvent.id);
-				console.log("Active Gameweek (First not finished):", activeEvent.id);
 			}
 		}
 
 		fetchFPL();
 	}, []);
-
-	useEffect(() => {
-		console.log("Active Gameweek:", activeGameweek);
-	}, [activeGameweek]);
 
 	return (
 		<div className="app">

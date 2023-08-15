@@ -2,25 +2,10 @@ import React, { useState } from "react";
 import Row from "../card/card"; // Path to your Row component
 import Dropdown from "../dropdown/dropdown"; // Path to your Dropdown component
 import "./cardlist.css";
-import { useEffect } from "react";
 
-export default function CardList({ teams, fixturesData, mainData }) {
+export default function CardList({ teams, fixturesData, activeGameweek }) {
   const [numberOfGameweeks, setNumberOfGameweeks] = useState(5);
   const [sortOrder, setSortOrder] = useState("desc");
-
-
-  // useEffect(() => {
-  //   // Fetch the active gameweek from mainData and set it once when the component mounts
-  //   const currentGameweek = mainData.events.find(event => event.is_current);
-
-  //   // Set the active gameweek if found
-  //   if (currentGameweek) {
-  //     setActiveGameweek(currentGameweek.id);
-  //   }
-  // }, []);
-
-  // console.log(`Active Gameweek: ${mainData[0]}`);
-
 
   const calculateReversedTotalDifficulty = (teamId, numberOfFixtures) => {
     if (!fixturesData) return 0;
@@ -131,6 +116,7 @@ export default function CardList({ teams, fixturesData, mainData }) {
             numberOfFixtures={numberOfGameweeks}
             calculateDifficulty={calculateDifficulty}
             reversedTotalDifficulty={calculateReversedTotalDifficulty(team.id, numberOfGameweeks)}
+            activeGameweek={activeGameweek}
             key={index}
           />
         ))}

@@ -6,77 +6,78 @@ export default function Row({
     fixturesData,
     teamIndex,
     numberOfFixtures,
+	activeGameweek
 }) {
     const [teamFixturesData, setTeamFixturesData] = useState(null);
 
     useEffect(() => {
-        function getFixturesForTeam(teamId) {
-            if (!fixturesData) return null;
-
-            const teamFixtures = fixturesData.filter(
-                (fixture) => fixture.team_h === teamId || fixture.team_a === teamId
-            );
-
-            const gameweekFixtures = new Array(numberOfFixtures)
-                .fill(null)
-                .map(() => []);
-
-            for (let i = 0; i < numberOfFixtures; i++) {
-                const gameweek = teamFixtures.filter(
-                    (fixture) => fixture.event === i + 1
-                );
-
-                gameweekFixtures[i] = gameweek.map((fixture) => {
-                    const opponentNumber =
-                        fixture.team_h === teamId ? fixture.team_a : fixture.team_h;
-                    const opponent = teams
-                        ? fixture.team_h === teamId
-                            ? teams[fixture.team_a].name
-                            : teams[fixture.team_h].name
-                        : "";
-
-                    const home = fixture.team_h === teamId;
-                    const difficulty = home
-                        ? fixture.team_h_difficulty
-                        : fixture.team_a_difficulty;
-
-                    return {
-                        opponent,
-                        opponentNumber,
-                        home,
-                        difficulty,
-                        eventNumber: fixture.event,
-                    };
-                });
-
-                // If there are no fixtures for the gameweek, add a blank fixture
-                if (gameweekFixtures[i].length === 0) {
-                    gameweekFixtures[i].push({
-                        opponent: "BLANK",
-                        opponentNumber: 0,
-                        difficulty: 6,
-                        eventNumber: i + 1,
-                    });
-                }
-            }
-
-            const totalDifficulty = gameweekFixtures.reduce(
-                (acc, fixtures) =>
-                    acc + fixtures.reduce((acc, fixture) => acc + fixture.difficulty, 0),
-                0
-            );
-            const reversedTotalDifficulty = numberOfFixtures * 6 - totalDifficulty;
-
-            return {
-                fixtures: gameweekFixtures,
-                totalDifficulty,
-                reversedTotalDifficulty,
-            };
-        }
-
-        const newFixturesData = getFixturesForTeam(teamIndex);
-        setTeamFixturesData(newFixturesData);
-    }, [teamIndex, numberOfFixtures, fixturesData, teams]);
+		function getFixturesForTeam(teamId) {
+			if (!fixturesData) return null;
+	
+			const teamFixtures = fixturesData.filter(
+				(fixture) => fixture.team_h === teamId || fixture.team_a === teamId
+			);
+	
+			const gameweekFixtures = new Array(numberOfFixtures)
+				.fill(null)
+				.map(() => []);
+	
+			for (let i = 0; i < numberOfFixtures; i++) {
+				const gameweek = teamFixtures.filter(
+					(fixture) => fixture.event === activeGameweek + i
+				);
+	
+				gameweekFixtures[i] = gameweek.map((fixture) => {
+					const opponentNumber =
+						fixture.team_h === teamId ? fixture.team_a : fixture.team_h;
+					const opponent = teams
+						? fixture.team_h === teamId
+							? teams[fixture.team_a].name
+							: teams[fixture.team_h].name
+						: "";
+	
+					const home = fixture.team_h === teamId;
+					const difficulty = home
+						? fixture.team_h_difficulty
+						: fixture.team_a_difficulty;
+	
+					return {
+						opponent,
+						opponentNumber,
+						home,
+						difficulty,
+						eventNumber: fixture.event,
+					};
+				});
+	
+				if (gameweekFixtures[i].length === 0) {
+					gameweekFixtures[i].push({
+						opponent: "BLANK",
+						opponentNumber: 0,
+						difficulty: 6,
+						eventNumber: activeGameweek + i,
+					});
+				}
+			}
+	
+			const totalDifficulty = gameweekFixtures.reduce(
+				(acc, fixtures) =>
+					acc + fixtures.reduce((acc, fixture) => acc + fixture.difficulty, 0),
+				0
+			);
+			const reversedTotalDifficulty = numberOfFixtures * 6 - totalDifficulty;
+	
+			return {
+				fixtures: gameweekFixtures,
+				totalDifficulty,
+				reversedTotalDifficulty,
+			};
+		}
+	
+		const newFixturesData = getFixturesForTeam(teamIndex);
+		setTeamFixturesData(newFixturesData);
+	}, [teamIndex, numberOfFixtures, fixturesData, teams, activeGameweek]);
+	
 
     const team = teams[teamIndex];
     const teamName = team ? team.name : "";
@@ -93,7 +94,7 @@ export default function Row({
 						<th className="FDR-column">FDR</th>
 						{teamFixturesData &&
 							teamFixturesData.fixtures.map((_, index) => (
-								<th key={index}>{`GW ${index + 1}`}</th>
+								<th key={index}>{`GW ${activeGameweek + index}`}</th>
 							))}
 					</tr>
 				</thead>

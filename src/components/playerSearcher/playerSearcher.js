@@ -145,6 +145,7 @@ export default function PlayerSearcher({ data, mainData }) {
 						<p>
 							Total Points: <strong>{targetedPlayer.total_points}</strong>
 							<br />Form: <strong>{targetedPlayer.form}</strong>
+							<br />xGI per 90: <strong>{targetedPlayer.expected_goal_involvements_per_90}</strong>
 						</p>
 					</div>
 				) : (
@@ -170,6 +171,7 @@ export default function PlayerSearcher({ data, mainData }) {
 						<p>
 							Total Points: <strong>{targetedPlayer2.total_points}</strong>
 							<br />Form: <strong>{targetedPlayer2.form}</strong>
+							<br />xGI per 90: <strong>{targetedPlayer2.expected_goal_involvements_per_90}</strong>
 						</p>
 					</div>
 				) : (

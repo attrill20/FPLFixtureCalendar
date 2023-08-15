@@ -18,12 +18,12 @@ export default function CardList({ teams, fixturesData, activeGameweek }) {
       .fill(null)
       .map(() => []);
 
-    for (let i = 0; i < numberOfFixtures; i++) {
-      const gameweek = teamFixtures.filter(
-        (fixture) => fixture.event === i + 1
-      );
+      for (let i = activeGameweek - 1; i < activeGameweek + numberOfFixtures - 1; i++) {
+        const gameweek = teamFixtures.filter(
+          (fixture) => fixture.event === i + 1
+        );
 
-      gameweekFixtures[i] = gameweek.map((fixture) => {
+        gameweekFixtures[i - (activeGameweek - 1)] = gameweek.map((fixture) => {
         const opponentNumber =
           fixture.team_h === teamId ? fixture.team_a : fixture.team_h;
         const opponent = teams
@@ -47,8 +47,8 @@ export default function CardList({ teams, fixturesData, activeGameweek }) {
       });
 
       // If there are no fixtures for the gameweek, add a blank fixture
-      if (gameweekFixtures[i].length === 0) {
-        gameweekFixtures[i].push({
+      if (gameweekFixtures[i - (activeGameweek - 1)].length === 0) {
+        gameweekFixtures[i - (activeGameweek - 1)].push({
           opponent: "BLANK",
           opponentNumber: 0,
           difficulty: 6,
@@ -82,6 +82,11 @@ export default function CardList({ teams, fixturesData, activeGameweek }) {
 
     // Remove the first team (index 0) before sorting and rendering
     const teamsToRender = teams.slice(1);
+
+    // Add this code to log FDR for team with ID 1
+  const teamIdToCheck = 12;
+  const fdrForTeam1 = calculateReversedTotalDifficulty(teamIdToCheck, numberOfGameweeks);
+  console.log(`FDR for team with ID ${teamIdToCheck}: ${fdrForTeam1}`);
 
 
   const sortedTeams = [...teamsToRender];

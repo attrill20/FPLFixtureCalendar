@@ -11,10 +11,10 @@ E-mail address: attrill20@gmail.com
 ## Current To-Do List
 
 - Add a header Navbar for the site
+- Improve CSS styling (fill box with colour, background white boxes etc)
   
 - Create more indepth FDR ranking (FPL 1-5 not specific enough)
 - Fix issue over double GWs (may need to define each GW first)
-- Check that only upcoming fixtures display
 - Add auto-suggest options when searching
 - Add more stats to the Player Searcher
   
@@ -22,6 +22,12 @@ E-mail address: attrill20@gmail.com
 - Ensure accessibility
 - Link to betting site for odds
 - Clean sheet percentage
+
+## 15/08/23
+
+Good test for the app today as the FPL site rolled over to GW2. My app was initially still displaying the GW1 fixtures as upcoming, so had to set a new state of 'activeGameweek' which searches the API for the first event (gameweek) marked as !finished and sets that as the new activeGameweek. Then had to go and pass this to all the children components and refactor the code to use this to display upcoming fixtures, as well as only calculate the FDR from this point onwards. Couple of hours playing, but working now! Here's an example of it now displaying the upcoming fixtures from GW2 onwards and on my redesigned mobile site that doesn't show the team names - (load up on those Chelsea assets it seems!):
+
+<img width="842" alt="Screenshot 2023-08-15 at 11 45 13" src="https://github.com/attrill20/FPLFixtureCalendar/assets/123314687/87ca34ee-9b8a-47ae-a069-1ac75d4d2a67">
 
 ## 11/08/23
 

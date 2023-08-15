@@ -9,8 +9,40 @@
     display: flex;
     justify-content: center;
     align-items: flex-start;
-    gap: 22%; /* Add space between items */
+    gap: 23%; /* Add space between items */
   }
+
+  
+    .results {
+      background-color: rgb(255, 255, 255);
+      padding-left: 5%;
+      padding-right: 5%;
+      padding-top: 1%;
+      padding-bottom: 1%;
+      border: 2px solid black;
+  }
+
+  .intro-text {
+    background-color: rgb(255, 255, 255);
+    padding: 1px;
+    border: 2px solid black;
+    font-size: 1.2rem;
+  }
+
+  .form-label {
+    font-size: 1.2rem;
+    font-weight: 500;
+  }
+
+  .form-input {
+    font-size: 1.2rem;
+    margin-left: 5px;
+  }
+
+  button {
+    font-size: 1.2rem;
+  }
+  
   
   /* Add a media query for mobile devices */
   @media (max-width: 1000px) { /* Adjust the max-width as needed */
@@ -35,6 +67,7 @@
         padding-left: 2%;
         padding-right: 2%;
         font-size: 1rem;
+       
       }
 
       .form-label {
@@ -47,5 +80,6 @@
 
       .results-wrapper {
         font-size: 0.8rem;
+       
       }
   }

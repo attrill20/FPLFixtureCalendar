@@ -54,11 +54,6 @@ export default function PlayerSearcher({ data, mainData }) {
 
 				{data && (
 					<div>
-						{/* <p> Test: {mainData.teams[0].name} - Short Name: {mainData.teams[0].short_name} - Strength: {mainData.teams[0].strength} </p>
-          <p>Test: {mainData.teams[19].name} - Short Name: {mainData.teams[19].short_name} - Strength: {mainData.teams[19].strength}</p>
-          <p>Player Name: {mainData.elements[400].web_name} - Selected By: {mainData.elements[400].selected_by_percent}% - Total Points: {mainData.elements[400].total_points}</p>
-          <p>Player Name: {mainData.elements[144].web_name} - Selected By: {mainData.elements[144].selected_by_percent}% - Total Points: {mainData.elements[144].total_points}</p>
-          <p>Player Name: {mainData.elements[18].web_name} - Selected By: {mainData.elements[18].selected_by_percent}% - Total Points: {mainData.elements[18].total_points}</p> */}
 						<img
 							className="player-pic"
 							src={`https://resources.premierleague.com/premierleague/photos/players/110x140/p${451340}.png`}
@@ -88,14 +83,14 @@ export default function PlayerSearcher({ data, mainData }) {
 				)}
 			</div>
 			<div className="intro-text">
-				<h4>
+				<p>
 					Not sure who to pick? Compare player stats using the side by side
 					comparison tool!{" "}
-				</h4>
-				<h4>
+				</p>
+				<p>
 					Type in a player's surname below to see a range of FPL stats displayed
 					for them (check spelling / official FPL name if doesn't display):{" "}
-				</h4>
+				</p>
 			</div>
 			<br />
 			<div className="playerSearcher">
@@ -141,17 +136,19 @@ export default function PlayerSearcher({ data, mainData }) {
 						<p>
 							Player Name: <strong>{targetedPlayer.first_name} {targetedPlayer.second_name}</strong>
 							<br />Team: <strong>{mainData.teams[targetedPlayer.team - 1].name}</strong>
+						</p>
+						<p>
+							Selected By: <strong>{targetedPlayer.selected_by_percent}%</strong>
 							<br />Cost: <strong>{(targetedPlayer.now_cost / 10).toFixed(1)}m</strong>
 						</p>
 
 						<p>
-							Selected By: <strong>{targetedPlayer.selected_by_percent}%</strong>
-							<br />Total Points: <strong>{targetedPlayer.total_points}</strong>
+							Total Points: <strong>{targetedPlayer.total_points}</strong>
 							<br />Form: <strong>{targetedPlayer.form}</strong>
 						</p>
 					</div>
 				) : (
-					<p>Player not found.</p>
+					<p className="results">Player not found - try again!</p>
 				)}
 
 				{targetedPlayer2 ? (
@@ -164,17 +161,19 @@ export default function PlayerSearcher({ data, mainData }) {
 						<p>
 							Player Name: <strong>{targetedPlayer2.first_name} {targetedPlayer2.second_name}</strong>
 							<br />Team: <strong>{mainData.teams[targetedPlayer2.team - 1].name}</strong>
-							<br />Cost: <strong>{(targetedPlayer2.now_cost / 10).toFixed(1)}m</strong>
+						</p>
+						<p>
+						Selected By: <strong>{targetedPlayer2.selected_by_percent}%</strong>
+						<br />Cost: <strong>{(targetedPlayer2.now_cost / 10).toFixed(1)}m</strong>
 						</p>
 						
 						<p>
-							Selected By: <strong>{targetedPlayer2.selected_by_percent}%</strong>
-							<br />Total Points: <strong>{targetedPlayer2.total_points}</strong>
+							Total Points: <strong>{targetedPlayer2.total_points}</strong>
 							<br />Form: <strong>{targetedPlayer2.form}</strong>
 						</p>
 					</div>
 				) : (
-					<p>Player not found.</p>
+					<p className="results">Player not found - try again!</p>
 				)}
 			</div>
 		</div>

@@ -139,27 +139,15 @@ export default function PlayerSearcher({ data, mainData }) {
 							alt={targetedPlayer.web_name}
 						/>
 						<p>
-							Player Name:{" "}
-							<strong>
-								{targetedPlayer.first_name} {targetedPlayer.second_name}
-							</strong>{" "}
-						</p>
-						<p>
-							Team:{" "}
-							<strong>{mainData.teams[targetedPlayer.team - 1].name}</strong>
+							Player Name: <strong>{targetedPlayer.first_name} {targetedPlayer.second_name}</strong>
+							<br />Team: <strong>{mainData.teams[targetedPlayer.team - 1].name}</strong>
+							<br />Cost: <strong>{(targetedPlayer.now_cost / 10).toFixed(1)}m</strong>
 						</p>
 
 						<p>
-							Cost:{" "}
-							<strong>{(targetedPlayer.now_cost / 10).toFixed(1)}m</strong>
-						</p>
-
-						<p>
-							Selected By:{" "}
-							<strong>{targetedPlayer.selected_by_percent}%</strong>
-						</p>
-						<p>
-							Total Points: <strong>{targetedPlayer.total_points}</strong>
+							Selected By: <strong>{targetedPlayer.selected_by_percent}%</strong>
+							<br />Total Points: <strong>{targetedPlayer.total_points}</strong>
+							<br />Form: <strong>{targetedPlayer.form}</strong>
 						</p>
 					</div>
 				) : (
@@ -174,27 +162,15 @@ export default function PlayerSearcher({ data, mainData }) {
 							alt={targetedPlayer2.web_name}
 						/>
 						<p>
-							Player Name:{" "}
-							<strong>
-								{targetedPlayer2.first_name} {targetedPlayer2.second_name}
-							</strong>{" "}
+							Player Name: <strong>{targetedPlayer2.first_name} {targetedPlayer2.second_name}</strong>
+							<br />Team: <strong>{mainData.teams[targetedPlayer2.team - 1].name}</strong>
+							<br />Cost: <strong>{(targetedPlayer2.now_cost / 10).toFixed(1)}m</strong>
 						</p>
+						
 						<p>
-							Team:{" "}
-							<strong>{mainData.teams[targetedPlayer2.team - 1].name}</strong>
-						</p>
-
-						<p>
-							Cost:{" "}
-							<strong>{(targetedPlayer2.now_cost / 10).toFixed(1)}m</strong>
-						</p>
-
-						<p>
-							Selected By:{" "}
-							<strong>{targetedPlayer2.selected_by_percent}%</strong>
-						</p>
-						<p>
-							Total Points: <strong>{targetedPlayer2.total_points}</strong>
+							Selected By: <strong>{targetedPlayer2.selected_by_percent}%</strong>
+							<br />Total Points: <strong>{targetedPlayer2.total_points}</strong>
+							<br />Form: <strong>{targetedPlayer2.form}</strong>
 						</p>
 					</div>
 				) : (

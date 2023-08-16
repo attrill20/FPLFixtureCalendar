@@ -25,7 +25,7 @@ import WOLbadge from '../badges/WOLbadge.png'
 
 // array of teams
 export const teams = [
-  { id: 0, name: "Blank", initial: "NULL", badge: null },
+  { id: 0, name: "Blank", initial: "NULL", badge: null, h_diff: 11, a_diff: 11 },
   { id: 1, name: "Arsenal", initial: "ARS", badge: ARSbadge, h_diff: 8, a_diff: 9 },
   { id: 2, name: "Aston Villa", initial: "AVL", badge: AVLbadge, h_diff: 5, a_diff: 6 },
   { id: 3, name: "Bournemouth", initial: "BOU", badge: BOUbadge, h_diff: 3, a_diff: 4 },

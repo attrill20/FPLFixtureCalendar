@@ -34,7 +34,7 @@ export const teams = [
   { id: 6, name: "Burnley", initial: "BUR", badge: BURbadge, h_diff: 2, a_diff: 3 },
   { id: 7, name: "Chelsea", initial: "CHE", badge: CHEbadge, h_diff: 7, a_diff: 8 },
   { id: 8, name: "Crystal Palace", initial: "CRY", badge: CRYbadge, h_diff: 4, a_diff: 5 },
-  { id: 9, name: "Everton", initial: "EVE", badge: EVEbadge, h_diff: 4, a_diff: 5 },
+  { id: 9, name: "Everton", initial: "EVE", badge: EVEbadge, h_diff: 3, a_diff: 4 },
   { id: 10, name: "Fulham", initial: "FUL", badge: FULbadge, h_diff: 4, a_diff: 5 },
   // { name: "Leicester City", initial: "LEI", badge: LEIbadge },
   // { name: "Leeds United", initial: "LEE", badge: LEEbadge },

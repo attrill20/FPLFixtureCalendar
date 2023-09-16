@@ -18,36 +18,52 @@ export default function CardList({ teams, fixturesData, activeGameweek }) {
       .fill(null)
       .map(() => []);
 
-      for (let i = activeGameweek - 1; i < activeGameweek + numberOfGameweeks - 1; i++) {
-        const gameweek = teamFixtures.filter(
-          (fixture) => fixture.event === i + 1
-        );
+    let totalDifficulty = 0; // Initialize totalDifficulty for the team
+    let extraFixturesCount = 0; // Initialize extra fixtures count for the specified team
 
-        gameweekFixtures[i - (activeGameweek - 1)] = gameweek.map((fixture) => {
-        const opponentNumber =
-          fixture.team_h === teamId ? fixture.team_a : fixture.team_h;
-        const opponent = teams
-          ? fixture.team_h === teamId
-            ? teams[fixture.team_a].name
-            : teams[fixture.team_h].name
-          : "";
+    for (let i = activeGameweek - 1; i < activeGameweek + numberOfGameweeks - 1; i++) {
+      const gameweek = teamFixtures.filter(
+        (fixture) => fixture.event === i + 1
+      );
 
+      // Check if the team has more than one fixture in the same gameweek
+      if (gameweek.length > 1) {
+        // Only add extra fixtures for the specified team
+        extraFixturesCount += gameweek.length - 1;
+      }
+
+      const gameweekDifficulty = gameweek.reduce((acc, fixture) => {
         const home = fixture.team_h === teamId;
         const difficulty = home
           ? fixture.team_h_difficulty
           : fixture.team_a_difficulty;
+        return acc + difficulty;
+      }, 0);
 
-        return {
-          opponent,
-          opponentNumber,
-          home,
-          difficulty,
-          eventNumber: fixture.event,
-        };
-      });
+      if (gameweek.length > 0) {
+        gameweekFixtures[i - (activeGameweek - 1)] = gameweek.map((fixture) => {
+          const opponentNumber =
+            fixture.team_h === teamId ? fixture.team_a : fixture.team_h;
+          const opponent = teams
+            ? fixture.team_h === teamId
+              ? teams[fixture.team_a].name
+              : teams[fixture.team_h].name
+            : "";
 
-      // If there are no fixtures for the gameweek, add a blank fixture
-      if (gameweekFixtures[i - (activeGameweek - 1)].length === 0) {
+          const home = fixture.team_h === teamId;
+          const difficulty = home
+            ? fixture.team_h_difficulty
+            : fixture.team_a_difficulty;
+
+          return {
+            opponent,
+            opponentNumber,
+            home,
+            difficulty,
+            eventNumber: fixture.event,
+          };
+        });
+      } else {
         gameweekFixtures[i - (activeGameweek - 1)].push({
           opponent: "BLANK",
           opponentNumber: 0,
@@ -55,14 +71,13 @@ export default function CardList({ teams, fixturesData, activeGameweek }) {
           eventNumber: i + 1,
         });
       }
+
+      totalDifficulty += gameweekDifficulty;
     }
 
-    const totalDifficulty = gameweekFixtures.reduce(
-      (acc, fixtures) =>
-        acc + fixtures.reduce((acc, fixture) => acc + fixture.difficulty, 0),
-      0
-    );
-    const reversedTotalDifficulty = numberOfFixtures * 6 - totalDifficulty;
+    // Calculate reversedTotalDifficulty correctly
+    const reversedTotalDifficulty =
+      (numberOfFixtures + extraFixturesCount) * 6 - totalDifficulty;
 
     return reversedTotalDifficulty;
   };
@@ -81,8 +96,8 @@ export default function CardList({ teams, fixturesData, activeGameweek }) {
     setSortOrder((prevSortOrder) => (prevSortOrder === "asc" ? "desc" : "asc"));
   };
 
-    // Remove the first team (index 0) before sorting and rendering
-    const teamsToRender = teams.slice(1);
+  // Remove the first team (index 0) before sorting and rendering
+  const teamsToRender = teams.slice(1);
 
   const sortedTeams = [...teamsToRender];
   sortedTeams.sort((teamA, teamB) => {

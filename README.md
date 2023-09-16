@@ -14,8 +14,7 @@ E-mail address: attrill20@gmail.com
 - Improve CSS styling (fill box with colour, background white boxes etc)
 - Improve mobile site more (ensure badges fit in boxes, move up team badges with no name, keep BLANK name for blanks etc)
   
-- Create more indepth FDR ranking (FPL 1-5 not specific enough)
-- Fix issue over double GWs (may need to define each GW first)
+- Create more indepth FDR ranking (FPL 1-5 not specific enough
 - Add auto-suggest options when searching
 - Add more stats to the Player Searcher
   
@@ -23,6 +22,15 @@ E-mail address: attrill20@gmail.com
 - Ensure accessibility
 - Link to betting site for odds
 - Clean sheet percentage
+
+## 16/09/23
+
+Had time to get back to this project having started my first role as a Junior PHP Engineer 2 weeks ago! Played around with the app for a bit today, it was already displaying the double gameweeks but they weren't being properly considered for the FDR caluclation. Went in and changed the card.js and cardlist.js to check for GWs with extra fixtures, sum their difficulty and then add an extra 6 to be subtracted from the reversed FDR. It works (load up on Luton and Burnley players everyone!):
+
+<img width="1783" alt="Screenshot 2023-09-16 at 15 00 50" src="https://github.com/attrill20/FPLFixtureCalendar/assets/123314687/354f8fe9-ad63-43c7-ab57-1689f382c3da">
+
+
+Will try to find time at some point to integrate my personalised fixture rating system to consider how poor Luton and Sheffield United really are.
 
 ## 15/08/23
 

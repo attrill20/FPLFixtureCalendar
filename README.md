@@ -23,6 +23,13 @@ E-mail address: attrill20@gmail.com
 - Link to betting site for odds
 - Clean sheet percentage
 
+## 18/11/23
+
+Quick fix today as realised that blank gameweeks were being calculated incorrectly (adding the minimum amount to the FDR). So refactored the code to simply add the maximum amount per blank GW. Enjoyed getting back to this project, so will hopefully soon find time to integrate my new fixture difficulty scoring system. Saw a guy on Twitter had a similar idea, and created this model on a 1-7 scale:
+
+<img width="541" alt="Screenshot 2023-11-18 at 21 40 04" src="https://github.com/attrill20/FPLFixtureCalendar/assets/123314687/ffe9ee29-1d28-45a0-a8b6-cfca0ccfd78a">
+
+
 ## 16/09/23
 
 Had time to get back to this project having started my first role as a Junior PHP Engineer 2 weeks ago! Played around with the app for a bit today, it was already displaying the double gameweeks but they weren't being properly considered for the FDR caluclation. Went in and changed the card.js and cardlist.js to check for GWs with extra fixtures, sum their difficulty and then add an extra 6 to be subtracted from the reversed FDR. It works (load up on Luton and Burnley players everyone!):

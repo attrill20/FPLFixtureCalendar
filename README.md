@@ -25,7 +25,11 @@ E-mail address: attrill20@gmail.com
 
 ## 18/11/23
 
-Quick fix today as realised that blank gameweeks were being calculated incorrectly (adding the minimum amount to the FDR). So refactored the code to simply add the maximum amount per blank GW. Enjoyed getting back to this project, so will hopefully soon find time to integrate my new fixture difficulty scoring system. Saw a guy on Twitter had a similar idea, and created this model on a 1-7 scale:
+Quick fix today as realised that blank gameweeks were being calculated incorrectly (adding the minimum amount to the FDR). So refactored the code to simply add the maximum amount per blank GW. Enjoyed getting back to this project, so will hopefully soon find time to integrate my new fixture difficulty scoring system:
+
+<img width="315" alt="Screenshot 2023-11-18 at 21 41 29" src="https://github.com/attrill20/FPLFixtureCalendar/assets/123314687/f00a0c54-49ae-4d71-a989-8439c2e31ae0">
+
+Saw a guy on Twitter had a similar idea, and created this model on a 1-7 scale:
 
 <img width="541" alt="Screenshot 2023-11-18 at 21 40 04" src="https://github.com/attrill20/FPLFixtureCalendar/assets/123314687/ffe9ee29-1d28-45a0-a8b6-cfca0ccfd78a">
 

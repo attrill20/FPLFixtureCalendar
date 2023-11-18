@@ -70,6 +70,9 @@ export default function CardList({ teams, fixturesData, activeGameweek }) {
           difficulty: 6,
           eventNumber: i + 1,
         });
+          
+        // Add 6 for each blank gameweek
+        totalDifficulty += 6;
       }
 
       totalDifficulty += gameweekDifficulty;

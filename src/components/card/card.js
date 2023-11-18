@@ -71,9 +71,12 @@ export default function Row({
 					gameweekFixtures[i].push({
 						opponent: "BLANK",
 						opponentNumber: 0,
-						difficulty: 6,
+						blank_difficulty: 6,
 						eventNumber: activeGameweek + i,
 					});
+					 
+					// Add 6 for each blank gameweek
+					totalDifficulty += 6;
 				}
 		
 				totalDifficulty += gameweekDifficulty;

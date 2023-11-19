@@ -93,10 +93,6 @@ export default function Row({
 			};
 		}
 		
-
-		
-		
-	
 		const newFixturesData = getFixturesForTeam(teamIndex);
 		setTeamFixturesData(newFixturesData);
 	}, [teamIndex, numberOfFixtures, fixturesData, teams, activeGameweek]);
@@ -104,8 +100,6 @@ export default function Row({
 
     const team = teams[teamIndex];
     const teamName = team ? team.name : "";
-
-
 
 
 	return (
@@ -168,7 +162,13 @@ export default function Row({
 													</span>
 												)}
 												<br />
-												{/* Gameweek: <strong>{fixture.eventNumber}</strong> */}
+  												<strong>
+													{fixture.home ? (
+														<>{teams[fixture.opponentNumber].h_diff}</>
+													) : (
+														<>{teams[fixture.opponentNumber].a_diff}</>
+													)}
+												</strong>
 											</div>
 										))
 									) : (

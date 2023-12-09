@@ -14,7 +14,6 @@ E-mail address: attrill20@gmail.com
 - Improve CSS styling (fill box with colour, background white boxes etc)
 - Improve mobile site more (ensure badges fit in boxes, move up team badges with no name, keep BLANK name for blanks etc)
   
-- Create more indepth FDR ranking (FPL 1-5 not specific enough
 - Add auto-suggest options when searching
 - Add more stats to the Player Searcher
   
@@ -22,6 +21,22 @@ E-mail address: attrill20@gmail.com
 - Ensure accessibility
 - Link to betting site for odds
 - Clean sheet percentage
+
+- Add explanation of the Custom FDR to the site (link to the table perhaps? new page?)
+- Allow the custom FDR rankings to be updated and pulled from a Google Sheet
+  
+# Issues
+
+- Arrows change on both buttons when just one is clicked
+- Would like it to be automatically sorted as team with best fixtures first when either button clicked
+
+## 9/12/23
+
+Spent some good time with the app this afternoon and finally implemented my Custom FDR figures. Added a new button that switches between the two ranking systems and conditionally renders the correct total FDR score based on which is clicked. Added some new colours for the 1-10 scoring system (but still not completely happy with them yet):
+
+<img width="1756" alt="Screenshot 2023-12-09 at 22 05 45" src="https://github.com/attrill20/FPLFixtureCalendar/assets/123314687/8b3f9e66-e39a-40c4-a8fa-c243c32adfaf">
+
+My primary goal of the app is now complete, which makes me very proud! Will revisit my scoring system soon to ensure this feature is as useful as possible (sadly I might have overvalued Man United's difficulty...) and then look for some more user feedback. I'd like to add an explanation for how this ranking system works on the sit, and then potentially look into if the figures can be entered on a Google Sheet from anywhere and imported into my codebase. A good day!
 
 ## 18/11/23
 

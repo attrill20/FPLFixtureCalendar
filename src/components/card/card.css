@@ -5,25 +5,74 @@
   width: 100%;
 }
 
-.fixture-info difficulty-1 {
-  background-color: rgb(96, 251, 96)
+/* Original FPL FDR Colours */
+.original-fpl .fixture-info.difficulty-1 {
+  background-color: rgb(159, 251, 159)
 }
 
-.difficulty-2 {
+.original-fpl .difficulty-2 {
   background-color: rgb(179, 251, 208)
 }
 
-.difficulty-3 {
+.original-fpl .difficulty-3 {
   background-color: rgb(249, 249, 203)
 }
 
-.difficulty-4 {
+.original-fpl .difficulty-4 {
   background-color: rgb(255, 177, 128)
 }
 
-.difficulty-5 {
+.original-fpl .difficulty-5 {
   background-color: rgb(250, 178, 178)
 }
+
+
+/* Custom FDR Colours */
+.fixture-info.custom-difficulty-1 {
+  background-color: rgb(159, 251, 159)
+}
+
+.fixture-info.custom-difficulty-2 {
+  background-color: rgb(152, 241, 130)
+}
+
+.fixture-info.custom-difficulty-3 {
+  background-color: rgb(162, 236, 143)
+}
+
+.fixture-info.custom-difficulty-4 {
+  background-color: rgb(187, 219, 132)
+}
+
+.fixture-info.custom-difficulty-5 {
+  background-color: rgb(223, 237, 153)
+}
+
+.fixture-info.custom-difficulty-6 {
+  background-color: rgb(245, 245, 137)
+}
+
+.fixture-info.custom-difficulty-7 {
+  background-color: rgb(250, 214, 143)
+}
+
+.fixture-info.custom-difficulty-8 {
+  background-color: rgb(245, 189, 137)
+}
+
+.fixture-info.custom-difficulty-9 {
+  background-color: rgb(240, 164, 164)
+}
+
+.fixture-info.custom-difficulty-10 {
+  background-color: rgb(243, 143, 143)
+}
+
+
+
+
+
+
 
 .fixtures-table td {
   width: 20%;
@@ -129,7 +178,3 @@
   }
   
 }
-
- 
-
-

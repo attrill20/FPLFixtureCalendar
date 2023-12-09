@@ -1,12 +1,14 @@
 import React, { useState } from "react";
-import Row from "../card/card"; // Path to your Row component
-import Dropdown from "../dropdown/dropdown"; // Path to your Dropdown component
+import Row from "../card/card"; 
+import Dropdown from "../dropdown/dropdown"; 
 import "./cardlist.css";
 
 export default function CardList({ teams, fixturesData, activeGameweek }) {
   const [numberOfGameweeks, setNumberOfGameweeks] = useState(5);
   const [sortOrder, setSortOrder] = useState("desc");
   const [sortBy, setSortBy] = useState("original"); 
+  const [showOriginalScore, setShowOriginalScore] = useState(true);
+  const [showCustomScore, setShowCustomScore] = useState(false);
 
   const calculateReversedTotalDifficulty = (teamId, numberOfFixtures) => {
     if (!fixturesData) return 0;
@@ -136,11 +138,15 @@ export default function CardList({ teams, fixturesData, activeGameweek }) {
   const handleTableReorder = () => {
     setSortBy("original");
     setSortOrder((prevSortOrder) => (prevSortOrder === "asc" ? "desc" : "asc"));
+    setShowOriginalScore(true);
+    setShowCustomScore(false);
   };
 
   const handleCustomSort = () => {
     setSortBy("custom");
     setSortOrder((prevSortOrder) => (prevSortOrder === "asc" ? "desc" : "asc"));
+    setShowOriginalScore(false);
+    setShowCustomScore(true);
   };
 
   // Remove the first team (index 0) before sorting and rendering
@@ -172,24 +178,32 @@ export default function CardList({ teams, fixturesData, activeGameweek }) {
         <Dropdown handleGameweekChange={handleGameweekChange} />
       </div>
 
-      <button onClick={handleTableReorder}>
-        Reorder Table by Original Difficulty {sortOrder === "asc" ? "↑" : "↓"}
+      <button
+        className={`button ${sortBy === "original" ? "active" : ""}`}
+        onClick={handleTableReorder}
+      >   
+        Order by FPL Difficulty {sortOrder === "asc" ? "↑" : "↓"}
       </button>
 
-      <button onClick={handleCustomSort}>
-        Reorder Table by Custom Difficulty {sortOrder === "asc" ? "↑" : "↓"}
+      <button
+        className={`button ${sortBy === "custom" ? "active" : ""}`}
+        onClick={handleCustomSort}
+      >
+        Order by Custom Difficulty {sortOrder === "asc" ? "↑" : "↓"}
       </button>
 
-      <div className="table">
+      <div className={`table ${showOriginalScore ? "original-fpl" : ""}`}>
         {sortedTeams.map((team, index) => (
           <Row
-            teams={teams}
+             teams={teams}
             fixturesData={fixturesData}
             teamIndex={team.id}
             numberOfFixtures={numberOfGameweeks}
             calculateDifficulty={sortBy === "original" ? calculateReversedTotalDifficulty : calculateCustomDifficulty}
             reversedTotalDifficulty={sortBy === "original" ? calculateReversedTotalDifficulty(team.id, numberOfGameweeks) : calculateCustomDifficulty(team.id, numberOfGameweeks)}
             activeGameweek={activeGameweek}
+            showOriginalScore={sortBy === "original"}
+            showCustomScore={sortBy === "custom"}
             key={index}
           />
         ))}

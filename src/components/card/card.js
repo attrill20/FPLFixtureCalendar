@@ -7,6 +7,8 @@ export default function Row({
 	teamIndex,
 	numberOfFixtures,
 	activeGameweek,
+	showOriginalScore,
+	showCustomScore,
 }) {
 	const [teamFixturesData, setTeamFixturesData] = useState(null);
 	const [totalDifficulty, setTotalDifficulty] = useState(0);
@@ -146,19 +148,19 @@ export default function Row({
 				</td>
 
 				<td className="FDR-column">
-				<span className="score-display">Score: </span>
-				{teamFixturesData && (
+				{/* <span className="score-display">{showOriginalScore ? "FPL FDR:" : "Custom FDR:"}</span> */}
+				{showOriginalScore && teamFixturesData && (
 					<h2 className="FDR-number">
 					{teamFixturesData.reversedTotalDifficulty}
 					</h2>
 				)}
-				<span className="score-display">New: </span>
-				{teamFixturesData && (
+				{showCustomScore && teamFixturesData && (
 					<h2 className="FDR-number">
 					{teamFixturesData.reversedCustomDifficulty}
 					</h2>
 				)}
 				</td>
+
 
 				{teamFixturesData &&
 				teamFixturesData.fixtures.map((gameweek, gameweekIndex) => (
@@ -166,8 +168,16 @@ export default function Row({
 					{gameweek.length > 0 ? (
 						gameweek.map((fixture, index) => (
 						<div
-							className={`fixture-info difficulty-${fixture.difficulty}`}
+							className={`fixture-info ${
+							showOriginalScore
+								? `difficulty-${fixture.difficulty}`
+								: `custom-difficulty-${fixture.home
+									? teams[fixture.opponentNumber]?.h_diff
+									: teams[fixture.opponentNumber]?.a_diff
+								}`
+							}`}
 							key={index}
+
 						>
 							<b className="opponent-name">{fixture.opponent}</b>{" "}
 							{fixture.opponentNumber !== 0
@@ -187,21 +197,19 @@ export default function Row({
 							<span></span>
 							)}
 							<br />
-							<strong>
+							{/* <strong>
 							{fixture.home ? (
 								<>{11 - teams[fixture.opponentNumber].h_diff}</>
 							) : (
 								<>{11 - teams[fixture.opponentNumber].a_diff}</>
 							)}
-							</strong>
+							</strong> */}
 						</div>
 						))
 					) : (
-						<div
-						className={`fixture-info difficulty-${5}`}
-						key={gameweekIndex}
-						>
-						<b>BLANK</b>
+						<div className={`fixture-info ${showOriginalScore ? `difficulty-${5}` : `custom-difficulty-${10}`}`} 
+						key={gameweekIndex}>
+          				<b>BLANK</b>
 						</div>
 					)}
 					</td>

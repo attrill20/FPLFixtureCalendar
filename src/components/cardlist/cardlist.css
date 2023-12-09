@@ -1,5 +1,11 @@
+button.active {
+  background-color: #04fe0c;
+  border: 3px solid rgb(0, 0, 0);
+  font-weight: bold;
+}
+
 .table {
-    border: 3px solid rgb(0, 0, 0); /* border here */
+    border: 3px solid rgb(0, 0, 0); /* table border here */
     margin-left: 2%;
     margin-right: 2%;
     margin-bottom: 1%;
@@ -7,6 +13,9 @@
 
 button {
     margin-bottom: 10px;
+    margin-left: 10px;
+    margin-right: 10px;
+    border: 2px solid rgb(0, 0, 0);
 }
 
 .gameweek-dropdown select {
@@ -20,7 +29,7 @@ button {
   }
 
  /* Add a media query for mobile devices */
- @media (max-width: 1000px) { /* Adjust the max-width as needed */
+ @media (max-width: 1000px) { 
   
     .gameweek-dropdown select {
       width: 70%;
@@ -29,6 +38,5 @@ button {
       border:2px solid #000000;
       margin-bottom: 5px;
     }
-
     
   }

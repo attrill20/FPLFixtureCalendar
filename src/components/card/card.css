@@ -155,14 +155,14 @@ th {
 
   .team-badge {
     height: 35px; 
-    margin-top: 2px;
+    margin-top: 3px;
     margin-bottom: 2px;
   }
 
   .fixtures-table td {
     width: 20%;
     text-align: center;
-    padding-top: px;
+    padding-top: 0px;
     padding-bottom: 5px;
   }
 
@@ -178,6 +178,7 @@ th {
   .FDR-column {
     overflow-wrap: break-word; 
     width: 6%;
+    font-size:
   }
 
   .team-column {
@@ -213,7 +214,7 @@ th {
   }
 
   .FDR-number {
-    font-size: medium;
+    font-size: 0.8em;
   }
 
   .cards {

@@ -29,7 +29,8 @@ button {
     margin-bottom: 10px;
   }
 
- /* Add a media query for mobile devices */
+
+ /* MOBILE */
  @media (max-width: 1000px) { 
   
     .gameweek-dropdown select {
@@ -38,6 +39,7 @@ button {
       border-radius: 4px;
       border:2px solid #000000;
       margin-bottom: 5px;
+      padding: 3px;
     }
 
     button {

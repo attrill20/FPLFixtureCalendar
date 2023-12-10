@@ -22,13 +22,21 @@ E-mail address: attrill20@gmail.com
 - Link to betting site for odds
 - Clean sheet percentage
 
-- Add explanation of the Custom FDR to the site (link to the table perhaps? new page?)
 - Allow the custom FDR rankings to be updated and pulled from a Google Sheet
+- Change the buttons - one toggles Original / Custom, one sorts ASC / DESC
   
 # Issues
 
 - Arrows change on both buttons when just one is clicked
 - Would like it to be automatically sorted as team with best fixtures first when either button clicked
+
+## 10/12/23
+
+Updated the Google Sheet with the current custom difficulty ratings mostly based off the home / away form tables. Did quite a lot of CSS styling updates, particularly the mobile version of the site and added a link and explanation to the Google Sheet. Finally worked out how to remove the white margins that had existed before, think it looks much better like this back in it's original format:
+
+<img width="1773" alt="Screenshot 2023-12-10 at 16 32 38" src="https://github.com/attrill20/FPLFixtureCalendar/assets/123314687/58eb6131-0b2c-4da2-9162-61ebd799bb0c">
+
+Shared the site with some friends for feedback, and they suggested changing the buttons so one toggles between Original / Custom scoring systems and the other buttons sorts the table by ASC / DESC. Makes sense to me, will look to implement this during my next session.
 
 ## 9/12/23
 

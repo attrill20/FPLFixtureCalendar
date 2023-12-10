@@ -11,8 +11,7 @@ const FixtureCalendarPage= ({ teams, fixturesData, activeGameweek }) => {
       </header>
       <div className="sub-heading">
         <h3>
-          Use this table to sort teams by upcoming GWs to help plan
-          transfers for players with easier fixtures and maximise your FPL returns. The table uses a unique calculation to create a total FDR (fixture difficulty rating) for each team. Best of luck!
+         The table can be sorted using the buttons below using either the Official 1-5 FPL Difficulty or our 1-10 <a href="https://docs.google.com/spreadsheets/d/1wYS6wyRkHiP-9zlJAkd_V9vjnxXslpNinz-CLg6BILs/edit#gid=0" target="_blank" rel="noopener noreferrer">Custom Difficulty</a> to create a total FDR (fixture difficulty rating) for each team. Best of luck!
         </h3> 
 
         <div className='player-search-button'>

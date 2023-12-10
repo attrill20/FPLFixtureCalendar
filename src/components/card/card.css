@@ -137,7 +137,12 @@ th {
  
   .FDR-column {
     overflow-wrap: break-word; 
-    width: 8%; /* Adjust the width for tablet */
+    width: 8%; 
+  }
+
+  .team-column {
+    overflow-wrap: break-word; 
+    width: 15%; 
   }
 }
 
@@ -167,7 +172,12 @@ th {
 
   .FDR-column {
     overflow-wrap: break-word; 
-    width: 10%; /* Adjust the width for mobile */
+    width: 7%;
+  }
+
+  .team-column {
+    overflow-wrap: break-word; 
+    width: 15%; 
   }
 
   .fixture-column {

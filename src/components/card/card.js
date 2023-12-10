@@ -131,7 +131,7 @@ export default function Row({
 		<table className="fixtures-table with-border">
 			<thead className="table-header">
 			<tr>
-				<th>Team</th>
+				<th classname="team-column">Team</th>
 				<th className="FDR-column">FDR</th>
 				{teamFixturesData &&
 				teamFixturesData.fixtures.map((_, index) => (

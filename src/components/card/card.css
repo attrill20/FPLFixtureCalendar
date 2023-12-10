@@ -71,7 +71,10 @@
 .fixtures-table td {
   width: 20%;
   text-align: center;
-  padding: 10px;
+}
+
+th {
+  font-size: 1.2em;
 }
 
 .table-header {
@@ -109,6 +112,7 @@
   .team-badge {
     height: 100px; /* Adjust the size as needed */
     margin-top: 8px; /* Add margin to separate the badge from the team name */
+    margin-bottom: 3px;
   }
 
   .fixture-badge {
@@ -137,17 +141,28 @@
   }
 }
 
-
-
 /* Add a media query for mobile devices */
 @media (max-width: 1000px) { /* Adjust the max-width as needed */
 
   .team-badge {
     height: 40px; 
+    margin-top: 1px;
+  }
+
+  .fixtures-table td {
+    width: 20%;
+    text-align: center;
+    padding-top: 1px;
+    padding-bottom: 5px;
+  }
+
+  th {
+    font-size: 0.7em;
   }
 
   .fixture-badge {
     height: 30px; 
+    margin-top: 3px;
   }
 
   .FDR-column {
@@ -155,8 +170,18 @@
     width: 10%; /* Adjust the width for mobile */
   }
 
+  .fixture-column {
+    padding-top: 1px;
+    font-size: 0.5rem;
+  }
+
   .team-name {
     display: none;
+    font-size: xx-small;
+  }
+
+  .fixtures-table td {
+    padding: 0px;
   }
 
   .opponent-name {
@@ -172,7 +197,7 @@
   }
 
   .cards {
-    font-size: 1em;
+    font-size: 0.5em;
     margin-left: 1%;
     margin-right: 1%;
   }

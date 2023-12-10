@@ -15,7 +15,7 @@ const FixtureCalendarPage= ({ teams, fixturesData, activeGameweek }) => {
         </h3> 
 
         <div className='player-search-button'>
-        Click here to access the Player Searcher tool:
+        Click here for the Player Searcher tool:
         <Link to="/search">
             <button >Player Searcher</button>
           </Link>

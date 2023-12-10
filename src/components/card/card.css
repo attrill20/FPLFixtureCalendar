@@ -68,12 +68,6 @@
   background-color: rgb(243, 143, 143)
 }
 
-
-
-
-
-
-
 .fixtures-table td {
   width: 20%;
   text-align: center;
@@ -149,11 +143,11 @@
 @media (max-width: 1000px) { /* Adjust the max-width as needed */
 
   .team-badge {
-    height: 50px; 
+    height: 40px; 
   }
 
   .fixture-badge {
-    height: 40px; 
+    height: 30px; 
   }
 
   .FDR-column {
@@ -175,6 +169,12 @@
 
   .FDR-number {
     font-size: medium;
+  }
+
+  .cards {
+    font-size: 1em;
+    margin-left: 1%;
+    margin-right: 1%;
   }
   
 }

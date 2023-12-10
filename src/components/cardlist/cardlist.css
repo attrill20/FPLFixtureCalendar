@@ -16,6 +16,7 @@ button {
     margin-left: 10px;
     margin-right: 10px;
     border: 2px solid rgb(0, 0, 0);
+    font-size: 1.5rem;
 }
 
 .gameweek-dropdown select {
@@ -38,5 +39,12 @@ button {
       border:2px solid #000000;
       margin-bottom: 5px;
     }
+
+    button {
+      margin-bottom: 5px;
+      margin-left: 5px;
+      margin-right: 5px;
+      font-size: 0.8rem;
+  }
     
   }

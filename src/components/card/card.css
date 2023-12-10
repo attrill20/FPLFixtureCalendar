@@ -81,9 +81,11 @@ th {
   background-color: rgba(188, 187, 187, 0.85);
 }
 
-@media (min-width: 1000px) { /* Adjust the min-width as needed */
+
+/* DESKTOP */
+@media (min-width: 1000px) { 
   .FDR-column {
-    width: 4%; /* Adjust the width for desktop */
+    width: 4%; 
     overflow-wrap: break-word;
   }
 }
@@ -110,14 +112,14 @@ th {
   }
 
   .team-badge {
-    height: 100px; /* Adjust the size as needed */
-    margin-top: 8px; /* Add margin to separate the badge from the team name */
+    height: 80px; 
+    margin-top: 5px; 
     margin-bottom: 3px;
   }
 
   .fixture-badge {
-    height: 80px; /* Adjust the size as needed */
-    margin-top: 10px; /* Add margin to separate the badge from the team name */
+    height: 80px; 
+    margin-top: 10px; 
   }
   
   table {
@@ -132,8 +134,9 @@ th {
     text-align: center;
   }
 
-/* Add a media query for tablet devices */
-@media (max-width: 1500px) { /* Adjust the max-width as needed */
+  
+/* TABLET */
+@media (max-width: 1500px) { 
  
   .FDR-column {
     overflow-wrap: break-word; 
@@ -146,18 +149,20 @@ th {
   }
 }
 
-/* Add a media query for mobile devices */
-@media (max-width: 1000px) { /* Adjust the max-width as needed */
+
+/* MOBILE */
+@media (max-width: 1000px) {
 
   .team-badge {
-    height: 40px; 
-    margin-top: 1px;
+    height: 35px; 
+    margin-top: 2px;
+    margin-bottom: 2px;
   }
 
   .fixtures-table td {
     width: 20%;
     text-align: center;
-    padding-top: 1px;
+    padding-top: px;
     padding-bottom: 5px;
   }
 
@@ -172,7 +177,7 @@ th {
 
   .FDR-column {
     overflow-wrap: break-word; 
-    width: 7%;
+    width: 5%;
   }
 
   .team-column {
@@ -181,13 +186,18 @@ th {
   }
 
   .fixture-column {
-    padding-top: 1px;
+    padding-top: 0px;
     font-size: 0.5rem;
   }
 
   .team-name {
     display: none;
-    font-size: 0rem;
+    font-size: 0;
+    font-weight: 100;
+  }
+
+  .page-break {
+    display: none;
   }
 
   .fixtures-table td {

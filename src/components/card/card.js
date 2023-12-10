@@ -143,7 +143,7 @@ export default function Row({
 			<tr>
 				<td className="team-info">
 				<span className="team-name">{teamName}</span>
-				<br />
+				<br className="page-break"/>
 				<img className="team-badge" src={team.badge} alt={teamName} />
 				</td>
 

@@ -177,7 +177,7 @@ th {
 
   .team-name {
     display: none;
-    font-size: xx-small;
+    font-size: 0rem;
   }
 
   .fixtures-table td {

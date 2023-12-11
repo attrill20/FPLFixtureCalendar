@@ -92,6 +92,7 @@ th {
 
 .fixture-column {
   overflow-wrap: break-word; 
+  padding: 0px;
 }
 
 .cards {
@@ -135,7 +136,9 @@ th {
   
   th,
   td {
-    border: 1px solid rgba(0, 0, 0, 0.436);
+    border-left: 2px solid rgba(0, 0, 0);
+    border-top: 2px solid rgba(0, 0, 0);
+    border-right: 2px solid rgba(0, 0, 0);
     text-align: center;
   }
 
@@ -157,6 +160,15 @@ th {
 
 /* MOBILE */
 @media (max-width: 1000px) {
+
+  th,
+  td {
+    border-left: 1px solid rgba(0, 0, 0);
+    border-top: 1px solid rgba(0, 0, 0);
+    border-right: 1px solid rgba(0, 0, 0);
+    text-align: center;
+  }
+
 
   .team-badge {
     height: 35px; 
@@ -188,7 +200,6 @@ th {
   .FDR-column {
     overflow-wrap: break-word; 
     width: 6%;
-    font-size:
   }
 
   .team-column {

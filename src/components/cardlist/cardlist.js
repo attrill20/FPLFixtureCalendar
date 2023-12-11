@@ -2,13 +2,13 @@ import React, { useState } from "react";
 import Row from "../card/card"; 
 import Dropdown from "../dropdown/dropdown"; 
 import "./cardlist.css";
+import Switch from '@mui/material/Switch';
 
 export default function CardList({ teams, fixturesData, activeGameweek }) {
   const [numberOfGameweeks, setNumberOfGameweeks] = useState(5);
   const [sortOrder, setSortOrder] = useState("desc");
-  const [sortBy, setSortBy] = useState("original"); 
+  const [sortBy, setSortBy] = useState("custom"); 
   const [showOriginalScore, setShowOriginalScore] = useState(true);
-  const [showCustomScore, setShowCustomScore] = useState(false);
 
   const calculateReversedTotalDifficulty = (teamId, numberOfFixtures) => {
     if (!fixturesData) return 0;
@@ -136,17 +136,11 @@ export default function CardList({ teams, fixturesData, activeGameweek }) {
   };
   
   const handleTableReorder = () => {
-    setSortBy("original");
-    setSortOrder((prevSortOrder) => (prevSortOrder === "asc" ? "desc" : "asc"));
-    setShowOriginalScore(true);
-    setShowCustomScore(false);
+    setSortBy((prevSortBy) => (prevSortBy === "original" ? "custom" : "original"));
   };
 
   const handleCustomSort = () => {
-    setSortBy("custom");
     setSortOrder((prevSortOrder) => (prevSortOrder === "asc" ? "desc" : "asc"));
-    setShowOriginalScore(false);
-    setShowCustomScore(true);
   };
 
   // Remove the first team (index 0) before sorting and rendering
@@ -172,24 +166,23 @@ export default function CardList({ teams, fixturesData, activeGameweek }) {
     }
   });
 
+  const label = { inputProps: { 'aria-label': 'Switch demo' } };
+
   return (
     <div>
       <div className="gameweek-dropdown">
         <Dropdown handleGameweekChange={handleGameweekChange} />
       </div>
-
-      <button
-        className={`button ${sortBy === "original" ? "active" : ""}`}
-        onClick={handleTableReorder}
-      >   
-        Order by FPL Difficulty {sortOrder === "asc" ? "↑" : "↓"}
-      </button>
+      
+      <strong>Original FPL</strong>
+        <Switch {...label} defaultChecked={sortBy === 'custom'} onChange={handleTableReorder} />
+      <strong>Custom FDR</strong>
 
       <button
         className={`button ${sortBy === "custom" ? "active" : ""}`}
         onClick={handleCustomSort}
       >
-        Order by Custom Difficulty {sortOrder === "asc" ? "↑" : "↓"}
+        {sortOrder === "asc" ? "Sort ↑" : "Sort ↓"}
       </button>
 
       <div className={`table ${showOriginalScore ? "original-fpl" : ""}`}>

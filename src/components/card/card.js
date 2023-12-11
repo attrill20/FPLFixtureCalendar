@@ -161,7 +161,6 @@ export default function Row({
 				)}
 				</td>
 
-
 				{teamFixturesData &&
 				teamFixturesData.fixtures.map((gameweek, gameweekIndex) => (
 					<td className="fixture-column" key={gameweekIndex}>

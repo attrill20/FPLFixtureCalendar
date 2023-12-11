@@ -1,9 +1,3 @@
-button.active {
-  background-color: #04fe0c;
-  border: 3px solid rgb(0, 0, 0);
-  font-weight: bold;
-}
-
 .table {
     border: 3px solid rgb(0, 0, 0); /* table border here */
     margin-left: 2%;

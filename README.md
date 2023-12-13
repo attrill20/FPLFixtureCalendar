@@ -1,8 +1,14 @@
 # FPL Fixture Difficulty Calendar - James Attrill Side Project
 
-Side Project - A FPL Fixture Calendar that shows the upcoming fixtures for each Premier League team and ranks them based on their difficulty. I aim to use this side project to practice my React, JS and CSS skills. Will eventually merge with the official FPL API or perhaps even create my own one to practice more advanced back-end skills. Any suggestions welcome!
+## Project Overview
 
-To run: Clone repo, navigate to FPL-fixtures folder and enter 'npm start' in command line. Will load the site in browser (the serverless function is delpoyed on Vercel in a seperate repo)
+This project is an FPL Fixture Calendar that shows the upcoming fixtures for each Premier League team and ranks them based on their difficulty. I aim to use this side project to practice my React, JS and CSS skills. It uses official FPL API to display fixtures and encorporates my very own custom 1-10 difficulty ranking system (found here: https://docs.google.com/spreadsheets/d/1wYS6wyRkHiP-9zlJAkd_V9vjnxXslpNinz-CLg6BILs/edit#gid=0) to better plan upcoming transfers compared to the official FPL 1-5 simplified rating system. Any suggestions welcome!
+
+There is a blog below showing my ongoing progress and planned to-do list.
+
+## Deployment and Info
+
+To run: Clone repo, navigate to FPL-fixtures folder and enter 'npm run start' in command line. Will load the site in browser (the serverless function is delpoyed on Vercel in a seperate repo)
 
 Deployed at: https://fpl-fixture-calendar.vercel.app/
 
@@ -19,12 +25,12 @@ E-mail address: attrill20@gmail.com
 - Launch site as a React App
 - Promote further on Twitter FPL with content creators
 
-##### Player Searcher Page
+#### Player Searcher Page
 
 - Add auto-suggest options when searching
 - Add more stats to the Player Searcher
 
-##### Site Changes
+#### Site Changes
 
 - Add a header Navbar for the site
 - Improve mobile site more (ensure badges fit in boxes, move up team badges with no name, keep BLANK name for blanks etc)

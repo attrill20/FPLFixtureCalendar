@@ -21,14 +21,19 @@ E-mail address: attrill20@gmail.com
 - Ensure accessibility
 - Link to betting site for odds
 - Clean sheet percentage
+- Insert a better sorting method (click the column itself to sort ASC / DESC)
 
-- Allow the custom FDR rankings to be updated and pulled from a Google Sheet
-- Change the buttons - one toggles Original / Custom, one sorts ASC / DESC
+- Improve the Google Sheets calculations using more automated data (form, injuries, xG, home / away performance etc)
   
-# Issues
 
-- Arrows change on both buttons when just one is clicked
-- Would like it to be automatically sorted as team with best fixtures first when either button clicked
+## 13/12/23
+
+Made lots of small iterative changes over the past few days including: replaced the button with a toggle switch to change between Custom FDR / Original FPL, moved the sorting to the right button (want to change this to be imbedded within the table columns soon), tidied up a lot of CSS styling to get the ratios better for mobile and the moble site now looks like this:
+
+<img width="519" alt="Screenshot 2023-12-13 at 17 10 04" src="https://github.com/attrill20/FPLFixtureCalendar/assets/123314687/4a001418-facd-47e2-99d9-70dd8456fae0">
+
+Also, managed to get the values from my Google Sheet to be replicated on the app - had to use the Google Sheets API and ensure that the key was stored in the Vercel Environment Variables for safe keeping. Will look to further tweak these figures by implementing extra data such as form, injuries, xG, home / away performance etc. Good progress!
+  
 
 ## 10/12/23
 

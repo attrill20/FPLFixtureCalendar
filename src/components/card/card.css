@@ -147,12 +147,10 @@ th {
 @media (max-width: 1500px) { 
  
   .FDR-column {
-    overflow-wrap: break-word; 
     width: 8%; 
   }
 
   .team-column {
-    overflow-wrap: break-word; 
     width: 15%; 
   }
 }
@@ -197,12 +195,10 @@ th {
   }
 
   .FDR-column {
-    overflow-wrap: break-word; 
     width: 6%;
   }
 
   .team-column {
-    overflow-wrap: break-word; 
     width: 12%; 
   }
 
@@ -250,7 +246,7 @@ th {
 @media (max-width: 420px) { 
 
   th {
-    font-size: 0.4em;
+    font-size: 0.3em;
   }
 
   .team-badge {
@@ -262,6 +258,10 @@ th {
   .fixture-badge {
     height: 25px; 
     margin-top: 3px;
+  }
+
+  .FDR-column {
+    width: 7%;
   }
 
 }

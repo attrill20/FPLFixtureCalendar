@@ -246,7 +246,7 @@ th {
 @media (max-width: 420px) { 
 
   th {
-    font-size: 3em;
+    font-size: 0.2em;
   }
 
   .team-badge {

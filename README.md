@@ -10,23 +10,28 @@ E-mail address: attrill20@gmail.com
 
 ## Current To-Do List
 
-- Add a header Navbar for the site
-- Improve mobile site more (ensure badges fit in boxes, move up team badges with no name, keep BLANK name for blanks etc)
-  
-- Add auto-suggest options when searching
-- Add more stats to the Player Searcher
-  
+#### Long-Term Goals
+
 - Add testing
 - Ensure accessibility
 - Link to betting site for odds
 - Clean sheet percentage
-- Insert a better sorting method (click the column itself to sort ASC / DESC)
 - Launch site as a React App
 - Promote further on Twitter FPL with content creators
 
+##### Player Searcher Page
+
+- Add auto-suggest options when searching
+- Add more stats to the Player Searcher
+
+##### Site Changes
+
+- Add a header Navbar for the site
+- Improve mobile site more (ensure badges fit in boxes, move up team badges with no name, keep BLANK name for blanks etc)
+- Insert a better sorting method (click the column itself to sort ASC / DESC)
 - Improve the Google Sheets calculations using more automated data (form, injuries, xG, home / away performance etc)
 
-# Issues
+#### Issues
 
 - Wolves logo slightly wider than other club badges
 - Display 'Blank' on mobile

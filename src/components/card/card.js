@@ -89,7 +89,7 @@ export default function Row({
 			}, 0);
 			} else {
 			gameweekFixtures[i].push({
-				opponent: "BLANK",
+				// opponent: "BLANK",
 				opponentNumber: 0,
 				blank_difficulty: 6,
 				eventNumber: activeGameweek + i,
@@ -183,7 +183,7 @@ export default function Row({
 							? fixture.home
 								? "(H)"
 								: "(A)"
-							: null}
+							: <strong>BLANK</strong>}
 							<br />
 							{fixture.opponentNumber !== null &&
 							teams[fixture.opponentNumber]?.badge !== null ? (

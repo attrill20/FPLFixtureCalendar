@@ -58,7 +58,7 @@ const fetchDataFromGoogleSheets = async () => {
     const spreadsheetId = process.env.REACT_APP_SPREADSHEET_ID;
     const apiKey = process.env.REACT_APP_GOOGLE_API_KEY;
     const sheetName = process.env.REACT_APP_SHEET_NAME;
-    
+
     const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${sheetName}?key=${apiKey}`;
 
     const response = await axios.get(url);

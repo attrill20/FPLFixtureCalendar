@@ -9,8 +9,8 @@ import CHEbadge from '../badges/CHEbadge.png'
 import CRYbadge from '../badges/CRYbadge.png'
 import EVEbadge from '../badges/EVEbadge.png'
 import FULbadge from '../badges/FULbadge.png'
-import LEIbadge from '../badges/LEIbadge.png'
-import LEEbadge from '../badges/LEEbadge.png'
+// import LEIbadge from '../badges/LEIbadge.png'
+// import LEEbadge from '../badges/LEEbadge.png'
 import LIVbadge from '../badges/LIVbadge.png'
 import LUTbadge from '../badges/LUTbadge.png'
 import MCIbadge from '../badges/MCIbadge.png'
@@ -18,13 +18,14 @@ import MUNbadge from '../badges/MUNbadge.png'
 import NEWbadge from '../badges/NEWbadge.png'
 import NFObadge from '../badges/NFObadge.png'
 import SHUbadge from '../badges/SHUbadge.png'
-import SOUbadge from '../badges/SOUbadge.png'
+// import SOUbadge from '../badges/SOUbadge.png'
 import TOTbadge from '../badges/TOTbadge.png'
 import WHUbadge from '../badges/WHUbadge.png'
 import WOLbadge from '../badges/WOLbadge.png'
 
-// array of teams
-export const teams = [
+import axios from 'axios';
+
+export let teams = [
   { id: 0, name: "Blank", initial: "NULL", badge: null, h_diff: 11, a_diff: 11 },
   { id: 1, name: "Arsenal", initial: "ARS", badge: ARSbadge, h_diff: 8, a_diff: 9 },
   { id: 2, name: "Aston Villa", initial: "AVL", badge: AVLbadge, h_diff: 5, a_diff: 10 },
@@ -52,74 +53,25 @@ export const teams = [
   // { id: 21, name: "Blank", initial: "NULL", badge: "Null badge" },
 ];
 
-// dummy gw arrays
-export const gw1 = [
-  { name: "Bournemouth", initial: "BOU", badge: BOUbadge, location: '(H)' },
-  { name: "Tottenham Hotspur", initial: "TOT", badge: TOTbadge, location: '(a)' },
-  { name: "Nottingham Forest", initial: "NFO", badge: NFObadge, location: '(H)' },
-  { name: "Manchester City", initial: "MCI", badge: MCIbadge, location: '(H)' },
-  { name: "Fulham", initial: "FUL", badge: FULbadge, location: '(a)' },
-  { name: "Wolverhampton Wanderers", initial: "WOL", badge: WOLbadge, location: '(a)' },
-  { name: "Leeds United", initial: "LEE", badge: LEEbadge, location: '(H)' },
-  { name: "West Ham United", initial: "WHU", badge: WHUbadge, location: '(a)' },
-  { name: "Leicester City", initial: "LEI", badge: LEIbadge, location: '(a)' },
-  { name: "Newcastle United", initial: "NEW", badge: NEWbadge, location: '(H)' },
-  { name: "Chelsea", initial: "CHE", badge: CHEbadge, location: '(H)' },
-  { name: "Southampton", initial: "SOU", badge: SOUbadge, location: '(a)' },
-  { name: "Liverpool", initial: "LIV", badge: LIVbadge, location: '(H)' },
-  { name: "Brighton & Hove Albion", initial: "BHA", badge: BHAbadge, location: '(H)' },
-  { name: "Crystal Palace", initial: "CRY", badge: CRYbadge, location: '(a)' },
-  { name: "Aston Villa", initial: "AVL", badge: AVLbadge, location: '(a)' },
-  { name: "Manchester United", initial: "MUN", badge: MUNbadge, location: '(H)' },
-  { name: "Arsenal", initial: "ARS", badge: ARSbadge, location: '(H)' },
-  { name: "Everton", initial: "EVE", badge: EVEbadge, location: '(a)' },
-  { name: "Brentford", initial: "BRE", badge: BREbadge, location: '(a)' }
-];
+const fetchDataFromGoogleSheets = async () => {
+  try {
+    const spreadsheetId = process.env.REACT_APP_SPREADSHEET_ID;
+    const apiKey = process.env.REACT_APP_GOOGLE_API_KEY;
+    const sheetName = process.env.REACT_APP_SHEET_NAME;
+    
+    const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${sheetName}?key=${apiKey}`;
 
-export const gw2 = [
-    { name: 'Tottenham Hotspur', initial: 'TOT', badge: TOTbadge, location: '(H)' },
-    { name: 'Leicester City', initial: 'LEI', badge: LEIbadge, location: '(a)' },
-    { name: 'Brentford', initial: 'BRE', badge: BREbadge, location: '(a)' },
-    { name: 'Aston Villa', initial: 'AVL', badge: AVLbadge, location: '(H)' },
-    { name: 'Southampton', initial: 'SOU', badge: SOUbadge, location: '(a)' },
-    { name: 'Bournemouth', initial: 'BOU', badge: BOUbadge, location: '(H)' },
-    { name: 'Liverpool', initial: 'LIV', badge: LIVbadge, location: '(H)' },
-    { name: 'Brighton & Hove Albion', initial: 'BHA', badge: BHAbadge, location: '(H)' },
-    { name: 'West Ham United', initial: 'WHU', badge: WHUbadge, location: '(a)' },
-    { name: 'Everton', initial: 'EVE', badge: EVEbadge, location: '(a)' },
-    { name: 'Fulham', initial: 'FUL', badge: FULbadge, location: '(a)' },
-    { name: 'Crystal Palace', initial: 'CRY', badge: CRYbadge, location: '(a)' },
-    { name: 'Nottingham Forest', initial: 'NFO', badge: NFObadge, location: '(H)' },
-    { name: 'Chelsea', initial: 'CHE', badge: CHEbadge, location: '(H)' },
-    { name: 'Manchester City', initial: 'MCI', badge: MCIbadge, location: '(H)' },
-    { name: 'Newcastle United', initial: 'NEW', badge: NEWbadge, location: '(H)' },
-    { name: 'Leeds United', initial: 'LEE', badge: LEEbadge, location: '(H)' },
-    { name: 'Wolverhampton Wanderers', initial: 'WOL', badge: WOLbadge, location: '(a)' },
-    { name: 'Manchester United', initial: 'MUN', badge: MUNbadge, location: '(H)' },
-    { name: 'Arsenal', initial: 'ARS', badge: ARSbadge, location: '(H)' }
-];
+    const response = await axios.get(url);
+    const data = response.data.values;
 
-export const gw3 = [
-    { name: 'Manchester United', initial: 'MUN', badge: MUNbadge, location: '(H)' },
-    { name: 'Manchester City', initial: 'MCI', badge: MCIbadge, location: '(H)' },
-    { name: 'Liverpool', initial: 'LIV', badge: LIVbadge, location: '(H)' },
-    { name: 'Chelsea', initial: 'CHE', badge: CHEbadge, location: '(H)' },
-    { name: 'Arsenal', initial: 'ARS', badge: ARSbadge, location: '(H)' },
-    { name: 'Tottenham Hotspur', initial: 'TOT', badge: TOTbadge, location: '(a)' },
-    { name: 'Leicester City', initial: 'LEI', badge: LEIbadge, location: '(a)' },
-    { name: 'West Ham United', initial: 'WHU', badge: WHUbadge, location: '(a)' },
-    { name: 'Everton', initial: 'EVE', badge: EVEbadge, location: '(a)' },
-    { name: 'Leeds United', initial: 'LEE', badge: LEEbadge, location: '(H)' },
-    { name: 'Aston Villa', initial: 'AVL', badge: AVLbadge, location: '(a)' },
-    { name: 'Wolverhampton Wanderers', initial: 'WOL', badge: WOLbadge, location: '(a)' },
-    { name: 'Newcastle United', initial: 'NEW', badge: NEWbadge, location: '(H)' },
-    { name: 'Crystal Palace', initial: 'CRY', badge: CRYbadge, location: '(a)' },
-    { name: 'Southampton', initial: 'SOU', badge: SOUbadge, location: '(a)' },
-    { name: 'Brighton & Hove Albion', initial: 'BHA', badge: BHAbadge, location: '(H)' },
-    { name: 'Fulham', initial: 'FUL', badge: FULbadge, location: '(a)' },
-    { name: 'Brentford', initial: 'BRE', badge: BREbadge, location: '(a)' },
-    { name: 'Bournemouth', initial: 'BOU', badge: BOUbadge, location: '(H)' },
-    { name: 'Nottingham Forest', initial: 'NFO', badge: NFObadge, location: '(H)' }
-];
+    for (let i = 1; i <= 20; i++) {
+      teams[i].h_diff = parseInt(data[i + 3][2]); 
+      teams[i].a_diff = parseInt(data[i + 3][3]); 
+    }
 
-export const gameweeks = [gw1, gw2, gw3]
+  } catch (error) {
+    console.error('Error fetching data from Google Sheets:', error);
+  }
+};
+
+fetchDataFromGoogleSheets();

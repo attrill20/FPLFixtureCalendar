@@ -30,7 +30,7 @@
 @media (max-width: 1000px) { /* Adjust the max-width as needed */
 
   .app-header{
-    font-size: medium;
+    font-size: small;
     padding-left: 2%;
     padding-right: 2%;
   }

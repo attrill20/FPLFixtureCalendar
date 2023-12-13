@@ -7,7 +7,7 @@ const FixtureCalendarPage= ({ teams, fixturesData, activeGameweek }) => {
   return (
     <div>
     <header className="app-header">
-        <h1>Welcome to the FPL Fixture Difficulty Calendar</h1>
+        <h1>FPL Custom Fixture Difficulty</h1>
       </header>
       <div className="sub-heading">
         <h3>

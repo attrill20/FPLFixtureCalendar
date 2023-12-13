@@ -169,7 +169,6 @@ th {
     text-align: center;
   }
 
-
   .team-badge {
     height: 35px; 
     margin-top: 5px;
@@ -244,4 +243,25 @@ th {
     margin-right: 1%;
   }
   
+}
+
+
+/* SMALL MOBILE */
+@media (max-width: 420px) { 
+
+  th {
+    font-size: 0.4em;
+  }
+
+  .team-badge {
+    height: 30px; 
+    margin-top: 5px;
+    margin-bottom: 2px;
+  }
+
+  .fixture-badge {
+    height: 25px; 
+    margin-top: 3px;
+  }
+
 }

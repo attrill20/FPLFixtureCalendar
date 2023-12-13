@@ -46,3 +46,25 @@
   }
 
 }
+
+
+/* SMALL MOBILE */
+@media (max-width: 420px) { 
+
+.player-search-button {
+  font-size: 0.6rem;
+}
+
+.sub-heading{
+  font-size: 0.7rem;
+  padding-left: 5%;
+  padding-right: 5%;
+}
+
+.app-header{
+  font-size: x-small;
+  padding-left: 2%;
+  padding-right: 2%;
+}
+
+}

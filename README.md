@@ -33,14 +33,12 @@ E-mail address: attrill20@gmail.com
 #### Site Changes
 
 - Add a header Navbar for the site
-- Improve mobile site more (ensure badges fit in boxes, move up team badges with no name, keep BLANK name for blanks etc)
 - Insert a better sorting method (click the column itself to sort ASC / DESC)
 - Improve the Google Sheets calculations using more automated data (form, injuries, xG, home / away performance etc)
 
 #### Issues
 
-- Wolves logo slightly wider than other club badges
-- Display 'Blank' on mobile
+- Table repeats header on every row, change to display once and get the table to scroll (could use Material UI table)
 
 ## 13/12/23
 

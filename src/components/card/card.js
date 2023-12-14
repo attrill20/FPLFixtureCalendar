@@ -148,7 +148,6 @@ export default function Row({
 				</td>
 
 				<td className="FDR-column">
-				{/* <span className="score-display">{showOriginalScore ? "FPL FDR:" : "Custom FDR:"}</span> */}
 				{showOriginalScore && teamFixturesData && (
 					<h2 className="FDR-number">
 					{teamFixturesData.reversedTotalDifficulty}
@@ -196,13 +195,6 @@ export default function Row({
 							<span></span>
 							)}
 							<br />
-							{/* <strong>
-							{fixture.home ? (
-								<>{11 - teams[fixture.opponentNumber].h_diff}</>
-							) : (
-								<>{11 - teams[fixture.opponentNumber].a_diff}</>
-							)}
-							</strong> */}
 						</div>
 						))
 					) : (

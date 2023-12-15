@@ -35,10 +35,12 @@ E-mail address: attrill20@gmail.com
 - Add a header Navbar for the site
 - Insert a better sorting method (click the column itself to sort ASC / DESC)
 - Improve the Google Sheets calculations using more automated data (form, injuries, xG, home / away performance etc)
+- Scrape the xG data from an external site
 
 #### Issues
 
 - Table repeats header on every row, change to display once and get the table to scroll (could use Material UI table)
+- Add a cache to prevent no fixtures displaying when the server occasionally goes down
 
 ## 13/12/23
 

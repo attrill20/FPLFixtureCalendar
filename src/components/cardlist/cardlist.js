@@ -101,11 +101,18 @@ export default function CardList({ teams, fixturesData, activeGameweek }) {
     );
 
     let customTotalDifficulty = 0;
+    let extraFixturesCount = 0;
 
     for (let i = activeGameweek - 1; i < activeGameweek + numberOfGameweeks - 1; i++) {
       const gameweek = teamFixtures.filter(
         (fixture) => fixture.event === i + 1
       );
+
+    // Check if the team has more than one fixture in the same gameweek
+    if (gameweek.length > 1) {
+      // Only add extra fixtures for the specified team
+      extraFixturesCount += gameweek.length - 1;
+    }
 
       if (gameweek.length === 0) {
         // Add 11 for each blank gameweek
@@ -125,7 +132,7 @@ export default function CardList({ teams, fixturesData, activeGameweek }) {
     }
 
     const reversedCustomDifficulty =
-      (numberOfFixtures + teamFixtures.length - 1) * 11 - customTotalDifficulty;
+    (numberOfFixtures + extraFixturesCount) * 11 - customTotalDifficulty;
 
     return reversedCustomDifficulty;
   };

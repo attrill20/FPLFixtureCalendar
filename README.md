@@ -42,6 +42,12 @@ E-mail address: attrill20@gmail.com
 - Table repeats header on every row, change to display once and get the table to scroll (could use Material UI table)
 - Add a cache to prevent no fixtures displaying when the server occasionally goes down
 
+## 23/1/24
+
+Just a quick hot fix today as noticed that the Custom FDR wasn't poperly calculating the DGW score, so went in and ensured that the logic matched the Original FPL logic and all looks good now.
+
+Been spending quite a lot of time on trying to scrape some xG data from Understat to use within my Google Sheet as part of the Custom FDR calculation. Got it working locally a couple of weeks back, but been blocked getting it to be hosted by Vercel - unure if it's the third party software being used (Puppeteer / AWS Lambda) or th site itself blocking my requests. Sure I'll crack the problem soon! Talking of cracks, my laptop screen broke the other day also making things trickier until that gets fixed too!
+
 ## 13/12/23
 
 Made lots of small iterative changes over the past few days including: replaced the button with a toggle switch to change between Custom FDR / Original FPL, moved the sorting to the right button (want to change this to be imbedded within the table columns soon), tidied up a lot of CSS styling to get the ratios better for mobile and the moble site now looks like this:

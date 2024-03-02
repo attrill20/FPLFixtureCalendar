@@ -24,6 +24,7 @@ E-mail address: attrill20@gmail.com
 - Clean sheet percentage
 - Launch site as a React App
 - Promote further on Twitter FPL with content creators
+- Add a logo to the site and navbar
 
 #### Player Searcher Page
 

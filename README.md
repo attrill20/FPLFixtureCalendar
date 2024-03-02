@@ -32,15 +32,26 @@ E-mail address: attrill20@gmail.com
 
 #### Site Changes
 
-- Add a header Navbar for the site
 - Insert a better sorting method (click the column itself to sort ASC / DESC)
 - Improve the Google Sheets calculations using more automated data (form, injuries, xG, home / away performance etc)
 - Scrape the xG data from an external site
+- Make a better home page
+- Write more copy about how the custom difficulty is caclulated
+- Blog page / contact us?
 
 #### Issues
 
 - Table repeats header on every row, change to display once and get the table to scroll (could use Material UI table)
 - Add a cache to prevent no fixtures displaying when the server occasionally goes down
+- Navbar on mobile collapsing issue
+
+## 2/3/24
+
+Been a while since I've worked on the project, as got a little disheartened with my failure to scrape the data previously so thought I'd get back into it with a nice, easy win - add a navbar to the site! Started off by trying to import one from Bootstrap, but ran into issues with it overwriting my css styling. So decided to make one from scratch, and it was pretty straightforward. Added links to my Fixture Difficulty Calendar, Player Searcher and new Home Page, even added a little bit of styling with the hover feature. Think it looks pretty good:
+
+![Screenshot 2024-03-02 at 21 40 21](https://github.com/attrill20/FPLFixtureCalendar/assets/123314687/ad67d899-84b2-4692-8b0d-5473dc3c7935)
+
+Need to test it on mobile (collapse into burger menu?) and design a proper homepage and other details across the site. Might also focus on improving the usability of the Player Searcher next too - good to be back on it!
 
 ## 23/1/24
 

@@ -1,0 +1,54 @@
+.app-header {
+    font-size: x-large;
+    padding-top: 2px;
+    padding-left: 10%;
+    padding-right: 10%;
+  }
+
+  h1 {
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+  
+  .sub-heading {
+    font-size: large;
+    padding-left: 20%;
+    padding-right: 20%;
+    margin-top: 5px;
+    margin-bottom: 5px;
+  }
+
+  /* Add a media query for mobile devices */
+@media (max-width: 1000px) { /* Adjust the max-width as needed */
+
+  .app-header{
+    font-size: small;
+    padding-left: 2%;
+    padding-right: 2%;
+  }
+
+  .sub-heading{
+    font-size: 0.8rem;
+    padding-left: 5%;
+    padding-right: 5%;
+  }
+
+}
+
+
+/* SMALL MOBILE */
+@media (max-width: 420px) { 
+
+.sub-heading{
+  font-size: 0.7rem;
+  padding-left: 5%;
+  padding-right: 5%;
+}
+
+.app-header{
+  font-size: x-small;
+  padding-left: 2%;
+  padding-right: 2%;
+}
+
+}

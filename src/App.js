@@ -2,8 +2,10 @@ import React, { useState, useEffect } from "react";
 import "./App.css";
 import PlayerSearcherPage from "./pages/PlayerSearcherPage/PlayerSearcherPage";
 import FixtureCalendarPage from "./pages/FixtureCalendarPage/FixtureCalendarPage";
+import HomePage from "./pages/Home/HomePage";
 import { teams } from "./components/dummyArrays/dummy";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import Navbar from "./components/navbar/navbar";
 
 export default function App() {
 	const [data, setData] = useState(null);
@@ -35,9 +37,16 @@ export default function App() {
 	return (
 		<div className="app">
 			<BrowserRouter>
+			<Navbar />
 				<Routes>
+				<Route
+						path="/home"
+						element={
+							<HomePage/>
+						}
+					/>
 					<Route
-						path="/"
+						path="/calendar"
 						element={
 							<FixtureCalendarPage
 								teams={teams}

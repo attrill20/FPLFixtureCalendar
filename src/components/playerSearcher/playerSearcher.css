@@ -1,85 +1,77 @@
 .playerSearcher {
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    gap: 10%; /* Add space between items */
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 10%; /* Add space between items */
+}
+
+.results-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 23%; /* Add space between items */
+}
+
+.results {
+  background-color: rgb(255, 255, 255);
+  padding-left: 5%;
+  padding-right: 5%;
+  padding-top: 1%;
+  padding-bottom: 1%;
+  border: 2px solid black;
+}
+
+.form-label {
+  font-size: 1.2rem;
+  font-weight: 400;
+}
+
+.form-input {
+  font-size: 1.2rem;
+  margin-left: 5px;
+  margin-bottom: 10px;
+}
+
+.button {
+  font-size: 1.2rem;
+}
+
+
+/* Add a media query for mobile devices */
+@media (max-width: 1000px) { /* Adjust the max-width as needed */
+
+  .player-pic {
+  width: 20%;
   }
 
-  .results-wrapper {
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    gap: 23%; /* Add space between items */
-  }
-
-  
-    .results {
-      background-color: rgb(255, 255, 255);
-      padding-left: 5%;
-      padding-right: 5%;
-      padding-top: 1%;
-      padding-bottom: 1%;
-      border: 2px solid black;
+  .player-pic2 {
+  width: 50%;
   }
 
   .intro-text {
-    background-color: rgb(255, 255, 255);
-    padding: 1px;
-    border: 2px solid black;
-    font-size: 1.2rem;
+  font-size: 0.8rem;
+  }
+
+  .playerSearcher {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 5%; /* Add space between items */
+  padding-left: 2%;
+  padding-right: 2%;
+  font-size: 1rem;
   }
 
   .form-label {
-    font-size: 1.2rem;
-    font-weight: 400;
+  font-size: 0.6rem;
   }
 
   .form-input {
-    font-size: 1.2rem;
-    margin-left: 5px;
+  width: 70%;
+  margin-bottom: 2px;
   }
 
-  button {
-    font-size: 1.2rem;
+  .results-wrapper {
+  font-size: 0.8rem;
   }
-  
-  
-  /* Add a media query for mobile devices */
-  @media (max-width: 1000px) { /* Adjust the max-width as needed */
-  
-    .player-pic {
-      width: 20%;
-    }
-
-    .player-pic2 {
-        width: 50%;
-      }
-
-      .intro-text {
-        font-size: 0.8rem;
-      }
-
-      .playerSearcher {
-        display: flex;
-        justify-content: center;
-        align-items: flex-start;
-        gap: 5%; /* Add space between items */
-        padding-left: 2%;
-        padding-right: 2%;
-        font-size: 1rem;
-       
-      }
-
-      .form-label {
-        font-size: 0.6rem;
-      }
-
-      .form-input {
-        width: 70%;
-      }
-
-      .results-wrapper {
-        font-size: 0.8rem;
-       
-      }
-  }
+}

@@ -194,7 +194,8 @@ export default function CardList({ teams, fixturesData, activeGameweek: initialA
       </div>
       
       <strong className="tool-text">Original FPL</strong>
-        <Switch {...label} defaultChecked={sortBy === 'custom'} onChange={handleTableReorder} />
+        <Switch className="switch" {...label} defaultChecked={sortBy === 'custom'} onChange={handleTableReorder}
+        />
       <strong className="tool-text">Custom FDR</strong>
 
       <button
@@ -206,7 +207,7 @@ export default function CardList({ teams, fixturesData, activeGameweek: initialA
 
       <strong className="tool-text">Active GW: </strong>
       <input
-        className="active-gameweek-button"
+        className="active-gameweek-input"
         type="number"
         min="1"
         max="38"

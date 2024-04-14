@@ -22,7 +22,7 @@ E-mail address: attrill20@gmail.com
 - Ensure accessibility
 - Link to betting site for odds
 - Clean sheet percentage
-- Launch site as a React App
+- Launch site as a mobile app
 - Promote further on Twitter FPL with content creators
 - Add a logo to the site and navbar
 
@@ -38,13 +38,30 @@ E-mail address: attrill20@gmail.com
 - Scrape the xG data from an external site
 - Make a better home page
 - Write more copy about how the custom difficulty is caclulated
-- Blog page / contact us?
+- Blog page / contact us / version update log
+- Add a feature to select 'active gameweek' to allow planning for future transfers
 
 #### Issues
 
 - Table repeats header on every row, change to display once and get the table to scroll (could use Material UI table)
 - Add a cache to prevent no fixtures displaying when the server occasionally goes down
 - Navbar on mobile collapsing issue
+
+## 14/4/24
+
+Noticed a slight issue as we approach the run-in to the end of the season - the dropdown was showing more gameweek options than are actually left in the season. This would then cause loads of blank gameweeks to be added on past GW38, as shown in this image below:
+
+![Screenshot 2024-04-14 at 14 57 57](https://github.com/attrill20/FPLFixtureCalendar/assets/123314687/507f2211-8576-4acf-bde6-b71a639cc818)
+
+Had a think about how to fix this, and decided the best approach was to pass the activeGameweek variable to the dropdown component and then create a new remainingGameweeks variable. Then it was a simple case of adding conditional checks to each of the dropdown options, and not to render the irrelevant ones. Here's how I did it:
+
+![Screenshot 2024-04-14 at 15 38 39](https://github.com/attrill20/FPLFixtureCalendar/assets/123314687/975ce876-9858-4104-adb9-ae478f1b980f)
+
+Now it successfully only displays the remaining gameweek options for the rest of the season:
+
+![Screenshot 2024-04-14 at 15 51 40](https://github.com/attrill20/FPLFixtureCalendar/assets/123314687/a3963208-7992-4fc2-80b7-146141a02cf3)
+
+Next focus is to try and add an option to select the active gameweek, so you can move it forward to plan future transfer from a particular GW. Oh, and the navbar still needs work!
 
 ## 2/3/24
 

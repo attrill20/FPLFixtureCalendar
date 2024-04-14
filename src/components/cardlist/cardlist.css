@@ -43,11 +43,19 @@ button {
     padding: 3px;
   }
 
-  button {
+  .button {
     margin-bottom: 5px;
     margin-left: 5px;
     margin-right: 5px;
-    font-size: 0.8rem;
+    font-size: 0.7rem;
+  }
+
+  .tool-text {
+    font-size: 0.6rem;
+  }
+
+  .active-gameweek-button {
+    font-size: 0.7rem;
   }
     
 }

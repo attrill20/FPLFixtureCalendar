@@ -39,15 +39,15 @@ E-mail address: attrill20@gmail.com
 - Make a better home page
 - Write more copy about how the custom difficulty is caclulated
 - Blog page / contact us / version update log
-- Add a feature to select 'active gameweek' to allow planning for future transfers
 
 #### Issues
 
 - Table repeats header on every row, change to display once and get the table to scroll (could use Material UI table)
 - Add a cache to prevent no fixtures displaying when the server occasionally goes down
-- Navbar on mobile collapsing issue
+- Navbar on mobile collapsing issue / font size
+- Needs less of a margin / padding either side of the toggle switch
 
-## 14/4/24
+## 15/4/24
 
 Continued the work added a new input field to change the current active GW. This can be useful when planning future transfer plans and wanting to assess fixture swings from a specific future GW. Also helps when the FPL take a long time to rollover the active gameweek themselves and you may want to start planning for the next week. Nice little addition to the app, and I think a unique feature from currently available FPL fixture planners:
 

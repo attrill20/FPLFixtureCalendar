@@ -49,6 +49,12 @@ E-mail address: attrill20@gmail.com
 
 ## 14/4/24
 
+Continued the work added a new input field to change the current active GW. This can be useful when planning future transfer plans and wanting to assess fixture swings from a specific future GW. Also helps when the FPL take a long time to rollover the active gameweek themselves and you may want to start planning for the next week. Nice little addition to the app, and I think a unique feature from currently available FPL fixture planners:
+
+![Screenshot 2024-04-14 at 17 58 23](https://github.com/attrill20/FPLFixtureCalendar/assets/123314687/a79f1a7e-3e72-4b7b-a546-5f5f89ed84a3)
+
+## 14/4/24
+
 Noticed a slight issue as we approach the run-in to the end of the season - the dropdown was showing more gameweek options than are actually left in the season. This would then cause loads of blank gameweeks to be added on past GW38, as shown in this image below:
 
 ![Screenshot 2024-04-14 at 14 57 57](https://github.com/attrill20/FPLFixtureCalendar/assets/123314687/507f2211-8576-4acf-bde6-b71a639cc818)

@@ -178,7 +178,7 @@ export default function CardList({ teams, fixturesData, activeGameweek }) {
   return (
     <div>
       <div className="gameweek-dropdown">
-        <Dropdown handleGameweekChange={handleGameweekChange} />
+        <Dropdown handleGameweekChange={handleGameweekChange} activeGameweek={activeGameweek} />
       </div>
       
       <strong>Original FPL</strong>

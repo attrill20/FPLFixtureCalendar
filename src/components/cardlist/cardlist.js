@@ -1,14 +1,20 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Row from "../card/card"; 
 import Dropdown from "../dropdown/dropdown"; 
 import "./cardlist.css";
 import Switch from '@mui/material/Switch';
 
-export default function CardList({ teams, fixturesData, activeGameweek }) {
+export default function CardList({ teams, fixturesData, activeGameweek: initialActiveGameweek}) {
   const [numberOfGameweeks, setNumberOfGameweeks] = useState(5);
   const [sortOrder, setSortOrder] = useState("desc");
   const [sortBy, setSortBy] = useState("custom"); 
   const [showOriginalScore, setShowOriginalScore] = useState(true);
+  const [activeGameweek, setActiveGameweek] = useState(initialActiveGameweek);
+
+  // Update activeGameweek when the prop changes
+  useEffect(() => {
+    setActiveGameweek(initialActiveGameweek);
+  }, [initialActiveGameweek]);
 
   const calculateReversedTotalDifficulty = (teamId, numberOfFixtures) => {
     if (!fixturesData) return 0;
@@ -24,7 +30,7 @@ export default function CardList({ teams, fixturesData, activeGameweek }) {
     let totalDifficulty = 0; // Initialize totalDifficulty for the team
     let extraFixturesCount = 0; // Initialize extra fixtures count for the specified team
 
-    for (let i = activeGameweek - 1; i < activeGameweek + numberOfGameweeks - 1; i++) {
+    for (let i = activeGameweek - 1; i < Math.min(activeGameweek + numberOfGameweeks - 1, 38); i++) {
       const gameweek = teamFixtures.filter(
         (fixture) => fixture.event === i + 1
       );
@@ -103,7 +109,7 @@ export default function CardList({ teams, fixturesData, activeGameweek }) {
     let customTotalDifficulty = 0;
     let extraFixturesCount = 0;
 
-    for (let i = activeGameweek - 1; i < activeGameweek + numberOfGameweeks - 1; i++) {
+    for (let i = activeGameweek - 1; i < Math.min(activeGameweek + numberOfGameweeks - 1, 38); i++) {
       const gameweek = teamFixtures.filter(
         (fixture) => fixture.event === i + 1
       );
@@ -141,6 +147,12 @@ export default function CardList({ teams, fixturesData, activeGameweek }) {
     const newNumberOfGameweeks = parseInt(event.target.value, 10);
     setNumberOfGameweeks(newNumberOfGameweeks);
   };
+
+  const handleCustomGameweekChange = (event) => {
+    const newCustomActiveGameweek = parseInt(event.target.value, 10);
+    setActiveGameweek(newCustomActiveGameweek);  // Update activeGameweek prop
+  };
+  
   
   const handleTableReorder = () => {
     setSortBy((prevSortBy) => (prevSortBy === "original" ? "custom" : "original"));
@@ -192,10 +204,19 @@ export default function CardList({ teams, fixturesData, activeGameweek }) {
         {sortOrder === "asc" ? "Sort ↑" : "Sort ↓"}
       </button>
 
+      <strong>Active GW: </strong>
+      <input
+        type="number"
+        min="1"
+        max="38"
+        value={activeGameweek}
+        onChange={handleCustomGameweekChange}
+      />
+
       <div className={`table ${showOriginalScore ? "original-fpl" : ""}`}>
         {sortedTeams.map((team, index) => (
           <Row
-             teams={teams}
+            teams={teams}
             fixturesData={fixturesData}
             teamIndex={team.id}
             numberOfFixtures={numberOfGameweeks}

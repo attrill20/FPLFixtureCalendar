@@ -18,6 +18,10 @@
     margin-bottom: 5px;
   }
 
+  .oracle-fpl-image {
+    width: 40%;
+  }
+
   /* Add a media query for mobile devices */
 @media (max-width: 1000px) { /* Adjust the max-width as needed */
 

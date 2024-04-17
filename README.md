@@ -47,6 +47,13 @@ E-mail address: attrill20@gmail.com
 - Navbar on mobile collapsing issue / font size
 - Needs less of a margin / padding either side of the toggle switch
 
+## 17/4/24
+
+Quick fix tonight of ensuring that the GW dropdown reduces the amount displayed if there are less available than previously selected (e.g. displays '5 Gameweeks' by default, but if only 4 were available then it would default to showing '1 gameweek'). Tried a few solutions, but the easiest and most elegant was to simply reverse the order they are listed in in the dropdown, so it now falls back to the highest available option - and is more intuitive this way round too :)
+
+![Screenshot 2024-04-17 at 20 33 13](https://github.com/attrill20/FPLFixtureCalendar/assets/123314687/122c5da3-0187-48ba-a189-5b05fb97f6f8)
+
+
 ## 15/4/24
 
 Continued the work added a new input field to change the current active GW. This can be useful when planning future transfer plans and wanting to assess fixture swings from a specific future GW. Also helps when the FPL take a long time to rollover the active gameweek themselves and you may want to start planning for the next week. Nice little addition to the app, and I think a unique feature from currently available FPL fixture planners:

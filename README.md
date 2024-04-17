@@ -53,6 +53,10 @@ Quick fix tonight of ensuring that the GW dropdown reduces the amount displayed 
 
 ![Screenshot 2024-04-17 at 20 33 13](https://github.com/attrill20/FPLFixtureCalendar/assets/123314687/122c5da3-0187-48ba-a189-5b05fb97f6f8)
 
+ALso, had a play around with generating some AI images for some theming of the site as 'OracleFPL', here's my pick of the bunch to use so far:
+
+![Screenshot 2024-04-17 at 21 44 10](https://github.com/attrill20/FPLFixtureCalendar/assets/123314687/bb37ffd9-ee0f-40c3-9c2f-4f4167f12960)
+
 
 ## 15/4/24
 

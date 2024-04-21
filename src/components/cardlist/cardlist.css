@@ -54,6 +54,7 @@ button {
     margin-left: 20px;
     margin-right: 10px;
     font-size: 0.7rem;
+    border: 1px solid black;
   }
 
   .tool-text {

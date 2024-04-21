@@ -97,6 +97,7 @@
 
   .submit-button {
     font-size: 0.4rem;
+    border: 1px solid black;
   }
 
   .results-wrapper {

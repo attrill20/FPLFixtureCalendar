@@ -39,6 +39,7 @@ E-mail address: attrill20@gmail.com
 - Make a better home page
 - Write more copy about how the custom difficulty is caclulated
 - Blog page / contact us / version update log
+- Display the top 5 current point-scoring players across the top of the player searcher page
 
 #### Issues
 
@@ -46,6 +47,11 @@ E-mail address: attrill20@gmail.com
 - Add a cache to prevent no fixtures displaying when the server occasionally goes down
 - Navbar on mobile collapsing issue / font size
 - Needs less of a margin / padding either side of the toggle switch
+- Player Searcher page, keep the blank selector in line with the top box when one changes
+
+## 21/4/24
+
+Spent a bit of time this Sunday making improvements to the CSS styling of the Player Searcher page. Refactored my code to allow all the elements to be displayed as one player-searcher box, so had greater control over the column spacing of it - especially on mobile. Looking better, but not perfect! Will add some more stats to it next time I think.
 
 ## 17/4/24
 

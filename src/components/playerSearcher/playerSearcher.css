@@ -13,6 +13,7 @@
   display: flex; 
   flex-direction: column; 
   align-items: center;
+  max-width: 400px;
 }
 
 .form {
@@ -60,15 +61,16 @@
 
 
 /* Add a media query for mobile devices */
-@media (max-width: 1000px) { /* Adjust the max-width as needed */
+@media (max-width: 1200px) { /* Adjust the max-width as needed */
 
   .fpl-stats {
+    align-items: flex-start; 
     margin-right: 0%;
     margin-left: 0%;
   }
 
   .player-searcher {
-    max-width: 200px;
+    max-width: 150px;
     margin: 5px;
   }
 

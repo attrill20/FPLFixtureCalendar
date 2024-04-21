@@ -1,4 +1,4 @@
-.FPL-Stats {
+.fpl-stats {
   display: flex;
   justify-content: space-around;
   align-items: center; 
@@ -7,7 +7,7 @@
   margin-left: 18%;
 }
 
-.playerSearcher {
+.player-searcher {
   margin: 20px;
   border: 2px solid black;
   display: flex; 
@@ -30,6 +30,7 @@
 .form-input {
   font-size: 1.2rem;
   width: 60%;
+  text-align: center;
 }
 
 .submit-button {
@@ -61,9 +62,14 @@
 /* Add a media query for mobile devices */
 @media (max-width: 1000px) { /* Adjust the max-width as needed */
 
-  .FPL-Stats {
+  .fpl-stats {
     margin-right: 0%;
     margin-left: 0%;
+  }
+
+  .player-searcher {
+    max-width: 200px;
+    margin: 5px;
   }
 
   .player-pic {
@@ -100,5 +106,7 @@
 
   .results {
     font-size: 0.6rem;
+    margin-bottom: 5px;
+    border: 1px solid black;
   }
 }

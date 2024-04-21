@@ -48,8 +48,8 @@ export default function PlayerSearcher({ data, mainData }) {
 	};
 
 	return (
-		<div className="FPL-Stats">
-			<div className="playerSearcher">
+		<div className="fpl-stats">
+			<div className="player-searcher">
 				<form
 					className="form"
 					onSubmit={handleSubmit}>
@@ -94,7 +94,7 @@ export default function PlayerSearcher({ data, mainData }) {
 				</div>
 			</div>
 		
-			<div className="playerSearcher">
+			<div className="player-searcher">
 				<form
 					className="form"
 					onSubmit={handleSubmit2}>

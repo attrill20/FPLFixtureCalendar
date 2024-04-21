@@ -1,77 +1,104 @@
+.FPL-Stats {
+  display: flex;
+  justify-content: space-around;
+  align-items: center; 
+  flex-wrap: wrap; 
+  margin-right: 18%;
+  margin-left: 18%;
+}
+
 .playerSearcher {
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  gap: 10%; /* Add space between items */
-}
-
-.results-wrapper {
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  gap: 23%; /* Add space between items */
-}
-
-.results {
-  background-color: rgb(255, 255, 255);
-  padding-left: 5%;
-  padding-right: 5%;
-  padding-top: 1%;
-  padding-bottom: 1%;
+  margin: 20px;
   border: 2px solid black;
+  display: flex; 
+  flex-direction: column; 
+  align-items: center;
+}
+
+.form {
+  display: flex;
+  flex-direction: column; 
+  justify-content: center; 
+  align-items: center; 
 }
 
 .form-label {
   font-size: 1.2rem;
-  font-weight: 400;
+  margin-top: 5px;
 }
 
 .form-input {
   font-size: 1.2rem;
-  margin-left: 5px;
-  margin-bottom: 10px;
+  width: 60%;
 }
 
-.button {
+.submit-button {
   font-size: 1.2rem;
+  width: 40%;
+  margin-top: 5px;
+}
+
+.results-wrapper {
+  width: 90%;
+  margin-top: 10px; 
+  margin-bottom: 10px; 
+  /* margin-left: 2%; */
+}
+
+.results {
+  background-color: rgb(255, 255, 255);
+  border: 2px solid black;
+  font-size: 1.2rem;
+}
+
+.player-pic2 {
+  margin-top: 5px;
+  width: 60%; 
+  height: auto;
 }
 
 
 /* Add a media query for mobile devices */
 @media (max-width: 1000px) { /* Adjust the max-width as needed */
 
+  .FPL-Stats {
+    margin-right: 0%;
+    margin-left: 0%;
+  }
+
   .player-pic {
-  width: 20%;
+    width: 20%;
   }
 
   .player-pic2 {
-  width: 50%;
+    width: 50%;
   }
 
   .intro-text {
-  font-size: 0.8rem;
-  }
-
-  .playerSearcher {
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  gap: 5%; /* Add space between items */
-  padding-left: 2%;
-  padding-right: 2%;
-  font-size: 1rem;
+    font-size: 0.8rem;
   }
 
   .form-label {
-  font-size: 0.6rem;
+    font-size: 0.6rem;
   }
 
   .form-input {
-  width: 70%;
-  margin-bottom: 2px;
+    font-size: 0.6rem;
+    width: 60%;
+  }
+
+  .submit-button {
+    font-size: 0.4rem;
   }
 
   .results-wrapper {
-  font-size: 0.8rem;
+    width: 90%;
+    margin-top: 5px; 
+    margin-bottom: 0px; 
+    /* margin-left: 2%; */
+  }
+
+  .results {
+    font-size: 0.6rem;
   }
 }

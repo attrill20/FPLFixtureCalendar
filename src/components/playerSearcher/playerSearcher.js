@@ -54,7 +54,7 @@ export default function PlayerSearcher({ data, mainData }) {
 					className="form"
 					onSubmit={handleSubmit}>
 					<label className="form-label">
-						Type Player Name Here:
+						Enter Player Name Here:
 						<input
 							className="form-input"
 							type="text"
@@ -62,26 +62,10 @@ export default function PlayerSearcher({ data, mainData }) {
 							onChange={handleInputChange}
 						/>
 					</label>
-					<button type="submit">Find Player</button>
+					<button className='submit-button' type="submit">Find Player</button>
 				</form>
 
-				<form
-					className="form"
-					onSubmit={handleSubmit2}>
-					<label className="form-label">
-						Type Player Name Here:
-						<input
-							className="form-input"
-							type="text"
-							value={targetWebName2}
-							onChange={handleInputChange2}
-						/>
-					</label>
-					<button type="submit">Find Player</button>
-				</form>
-			</div>
-
-			<div className="results-wrapper">
+				<div className="results-wrapper">
 				{targetedPlayer ? (
 					<div className="results">
 						<img
@@ -107,7 +91,26 @@ export default function PlayerSearcher({ data, mainData }) {
 				) : (
 					<p className="results">Player not found - try again!</p>
 				)}
+				</div>
+			</div>
+		
+			<div className="playerSearcher">
+				<form
+					className="form"
+					onSubmit={handleSubmit2}>
+					<label className="form-label">
+						Enter Player Name Here:
+						<input
+							className="form-input"
+							type="text"
+							value={targetWebName2}
+							onChange={handleInputChange2}
+						/>
+					</label>
+					<button className='submit-button' type="submit">Find Player</button>
+				</form>
 
+			<div className="results-wrapper">
 				{targetedPlayer2 ? (
 					<div className="results">
 						<img
@@ -133,6 +136,7 @@ export default function PlayerSearcher({ data, mainData }) {
 				) : (
 					<p className="results">Player not found - try again!</p>
 				)}
+				</div>
 			</div>
 		</div>
 	);

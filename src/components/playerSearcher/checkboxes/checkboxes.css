@@ -1,0 +1,22 @@
+.checkboxes {
+    border: 2px solid black;
+    margin-left: 24%;
+    margin-right: 24%;
+    background-color: aliceblue;
+}
+
+.form-checkboxes {
+    display: flex; 
+    flex-direction: row; 
+    align-items: center;
+}
+
+/* Add a media query for mobile devices */
+@media (max-width: 1200px) { /* Adjust the max-width as needed */
+
+    .checkboxes {
+        border: 1px solid black;
+        margin-left: 5%;
+        margin-right: 5%;
+    }
+}

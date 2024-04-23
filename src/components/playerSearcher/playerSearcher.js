@@ -12,13 +12,30 @@ export default function PlayerSearcher({ data, mainData }) {
 	const [showGoals, setShowGoals] = useState(false);
 	const [showAssists, setShowAssists] = useState(false);
 
-	const findPlayerByWebName = (webName) => {
-		const lowercaseWebName = webName.toLowerCase();
+	function reverseNormalize(name) {
+		const specialChars = {
+		  'ø': 'o',
+		  'Ø': 'O',
+		  'æ': 'ae',
+		  'Æ': 'AE',
+		  'å': 'a',
+		  'Å': 'A',
+		  // Add more special characters and their ASCII equivalents as needed
+		};
+	  
+		return name.replace(/[øØæÆåÅ]/g, char => specialChars[char] || char);
+	  }
+	  
+	  const findPlayerByWebName = (webName) => {
+		const normalizedWebName = reverseNormalize(webName);
+		const lowercaseWebName = normalizedWebName.toLowerCase();
+		
 		const player = mainData.elements.find(
-			(player) => player.web_name.toLowerCase() === lowercaseWebName
+		  (player) => reverseNormalize(player.web_name).toLowerCase() === lowercaseWebName
 		);
+		
 		return player;
-	};
+	  };
 
 	// First instance - Handle input change for the web name
 	const handleInputChange = (event) => {

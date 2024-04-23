@@ -47,7 +47,6 @@ E-mail address: attrill20@gmail.com
 - Add a cache to prevent no fixtures displaying when the server occasionally goes down
 - Navbar on mobile collapsing issue / font size
 - Needs less of a margin / padding either side of the toggle switch
-- Fix the issue of not being able to search for non-English characters e.g. Højlund
 
 ## 23/4/24
 
@@ -55,7 +54,7 @@ Refactored the PlayerSearcher page to have separate 'FormResults' and 'Checkboxe
 
 ![Screenshot 2024-04-23 at 21 04 21](https://github.com/attrill20/FPLFixtureCalendar/assets/123314687/c6777216-10fd-44fa-a24a-5c367fc90eac)
 
-Now that I've got this, will allow me to add a raft of different stats options here and style this all a bit nicer!
+Now that I've got this, will allow me to add a raft of different stats options here and style this all a bit nicer! Also added some logic to convert special characters to ASCII when searching for a player - will help with Ødegaard and Højlund!
 
 ## 21/4/24
 

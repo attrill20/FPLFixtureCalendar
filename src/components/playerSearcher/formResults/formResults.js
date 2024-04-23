@@ -7,6 +7,8 @@ export default function FormResults({ targetWebName, setTargetWebName, handleSub
 		setTargetWebName(event.target.value);
 	};
 
+
+
     return (
         <div className="fpl-stats">
             <div className="player-searcher">
@@ -37,6 +39,13 @@ export default function FormResults({ targetWebName, setTargetWebName, handleSub
                         <p>
                             Name: <strong>{targetedPlayer.first_name} {targetedPlayer.second_name}</strong>
                             <br />Team: <strong>{mainData.teams[targetedPlayer.team - 1].name}</strong>
+                            <br />Position: <strong>{
+                                    targetedPlayer.element_type === 1 ? 'Goalkeeper' : 
+                                    targetedPlayer.element_type === 2 ? 'Defender' : 
+                                    targetedPlayer.element_type === 3 ? 'Midfielder' : 
+                                    targetedPlayer.element_type === 4 ? 'Forward' : 
+                                    'Unknown'}
+                                </strong>
                         </p>
                         <p>
                             Selected By: <strong>{targetedPlayer.selected_by_percent}%</strong>

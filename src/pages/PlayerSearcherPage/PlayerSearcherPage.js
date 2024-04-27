@@ -36,8 +36,8 @@ const PlayerSearcherPage= ({ data, mainData }) => {
 			</div>
 		)}
 		<div className="sub-heading">
-			<h3> Not sure who to pick? Compare player stats using the side by side comparison tool! </h3>
-			<h3> Type in a player's surname below to see a range of FPL stats displayed for them (check spelling / official FPL name if doesn't display): </h3>
+			<p> Not sure who to pick? Compare player stats using the side by side comparison tool! </p>
+			<p> Type in a player's surname below to see a range of FPL stats displayed for them (check spelling / official FPL name if doesn't display): </p>
 		</div>
 	</div>
       <PlayerSearcher data={data} mainData={mainData} />

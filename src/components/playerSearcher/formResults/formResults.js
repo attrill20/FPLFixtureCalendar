@@ -1,13 +1,11 @@
 import React from "react";
 import "./formResults.css";
 
-export default function FormResults({ targetWebName, setTargetWebName, handleSubmit, targetedPlayer, mainData, showGoals, showAssists, label }) {
+export default function FormResults({ targetWebName, setTargetWebName, handleSubmit, targetedPlayer, mainData, showAttackingStats, showDefendingStats, showGoals, showAssists, showGoalsPer90, showAssistsPer90, showCleanSheets, showGoalsConceded }) {
     
     const handleInputChange = (event) => {
 		setTargetWebName(event.target.value);
 	};
-
-
 
     return (
         <div className="fpl-stats">
@@ -36,36 +34,65 @@ export default function FormResults({ targetWebName, setTargetWebName, handleSub
                             src={`https://resources.premierleague.com/premierleague/photos/players/110x140/p${targetedPlayer.code}.png`}
                             alt={targetedPlayer.web_name}
                         />
+                        
                         <p>
-                            Name: <strong>{targetedPlayer.first_name} {targetedPlayer.second_name}</strong>
-                            <br />Team: <strong>{mainData.teams[targetedPlayer.team - 1].name}</strong>
-                            <br />Position: <strong>{
-                                    targetedPlayer.element_type === 1 ? 'Goalkeeper' : 
-                                    targetedPlayer.element_type === 2 ? 'Defender' : 
-                                    targetedPlayer.element_type === 3 ? 'Midfielder' : 
-                                    targetedPlayer.element_type === 4 ? 'Forward' : 
-                                    'Unknown'}
+                            <p className="stats-headings"><strong>PLAYER STATS</strong></p>
+                            <p className="stats-results">Name: <strong>{targetedPlayer.first_name} {targetedPlayer.second_name}</strong></p>
+                            <p className="stats-results">Team: <strong>{mainData.teams[targetedPlayer.team - 1].name}</strong></p>
+                            <p className="stats-results">Position: <strong>{
+                                        targetedPlayer.element_type === 1 ? 'Goalkeeper' : 
+                                        targetedPlayer.element_type === 2 ? 'Defender' : 
+                                        targetedPlayer.element_type === 3 ? 'Midfielder' : 
+                                        targetedPlayer.element_type === 4 ? 'Forward' : 
+                                        'Unknown Position'}
                                 </strong>
+                            </p>
                         </p>
+                        
+                        
                         <p>
-                            Selected By: <strong>{targetedPlayer.selected_by_percent}%</strong>
-                            <br />Cost: <strong>{(targetedPlayer.now_cost / 10).toFixed(1)}m</strong>
+                            <p className="stats-headings"><strong>SELECTION STATS</strong></p>
+                            <p className="stats-results">Selected By: <strong>{targetedPlayer.selected_by_percent}%</strong></p>
+                            <p className="stats-results">Cost: <strong>{(targetedPlayer.now_cost / 10).toFixed(1)}m</strong></p>
                         </p>
-
+                        
                         <p>
+                            <p className="stats-headings"><strong>POINTS STATS</strong></p>
                             Total Points: <strong>{targetedPlayer.total_points}</strong>
-                            <br />Form: <strong>{targetedPlayer.form}</strong>
-                            <br />xGI per 90: <strong>{targetedPlayer.expected_goal_involvements_per_90}</strong>
+                            <p className="stats-results">Minutes Played:  <strong>{targetedPlayer.minutes.toLocaleString()}</strong></p>
+                            <p className="stats-results">Form: <strong>{targetedPlayer.form}</strong></p>
                         </p>
 
                         <p>
-                        {showGoals && (
-                            <p>Goals: <strong>{targetedPlayer.goals_scored}</strong></p>
+                            {(showGoals || showAssists || showGoalsPer90 || showAssistsPer90) && 
+                                <p className="stats-headings"><strong>ATTACKING STATS</strong></p>
+                            }
+                            {showGoals && (
+                                <p className="stats-results">Goals: <strong>{targetedPlayer.goals_scored}</strong> (xG: <strong>{targetedPlayer.expected_goals}</strong>)</p>
                             )}
-                        {showAssists && (
-                            <p>Assists: <strong>{targetedPlayer.assists}</strong></p>
+                            {showAssists && (
+                                <p className="stats-results">Assists: <strong>{targetedPlayer.assists}</strong> (xA: <strong>{targetedPlayer.expected_assists}</strong>)</p>
+                            )}
+                            {showGoalsPer90 && (
+                                <p className="stats-results">Goals per 90: <strong>{(targetedPlayer.goals_scored / targetedPlayer.minutes * 90).toFixed(2)}</strong> (xG: <strong>{(targetedPlayer.expected_goals / targetedPlayer.minutes * 90).toFixed(2)}</strong>)</p>
+                            )}
+                            {showAssistsPer90 && (
+                                <p className="stats-results">Assists per 90: <strong>{(targetedPlayer.assists / targetedPlayer.minutes * 90).toFixed(2)}</strong> (xA: <strong>{(targetedPlayer.expected_assists / targetedPlayer.minutes * 90).toFixed(2)}</strong>)</p>
+                                )}
+                        </p>
+                        
+                        <p>
+                            {(showCleanSheets || showGoalsConceded) && 
+                                <p className="stats-headings"><strong>DEFENDING STATS</strong></p>
+                            }
+                            {showCleanSheets && (
+                                <p className="stats-results">Clean Sheets: <strong>{targetedPlayer.clean_sheets}</strong> (per start: <strong>{(targetedPlayer.clean_sheets / targetedPlayer.starts * 100).toFixed(1)}</strong>%)</p>
+                            )}
+                            {showGoalsConceded && (
+                                <p className="stats-results">Goals conceded: <strong>{targetedPlayer.goals_conceded}</strong> (xGC: <strong>{targetedPlayer.expected_goals_conceded}</strong>)</p>
                             )}
                         </p>
+                        
                     </div>
                 ) : (
                     <p className="results">Player not found - try again!</p>

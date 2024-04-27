@@ -25,11 +25,13 @@ E-mail address: attrill20@gmail.com
 - Launch site as a mobile app
 - Promote further on Twitter FPL with content creators
 - Add a logo to the site and navbar
+- Add an AI chat to recommend players to pick
+- Add a database of historical data
 
 #### Player Searcher Page
 
 - Add auto-suggest options when searching
-- Add more stats to the Player Searcher
+- Add more stats to the Player Searcher with checkboxes
 
 #### Site Changes
 

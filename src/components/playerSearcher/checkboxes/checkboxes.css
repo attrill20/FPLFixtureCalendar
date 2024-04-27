@@ -5,6 +5,11 @@
     background-color: white;
 }
 
+.stats-box {
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
 /* Add a media query for mobile devices */
 @media (max-width: 1200px) { /* Adjust the max-width as needed */
 
@@ -16,9 +21,15 @@
 
     .form-checkbox {
         transform: scale(0.5);
+        vertical-align: bottom;
     }
 
     .form-label {
         font-size: 0.5rem;
+    }
+
+    .stats-box {
+        padding-top: 1px;
+        padding-bottom: 1px;
     }
 }

@@ -56,7 +56,7 @@ export default function Checkboxes({ showAttackingStats, showDefendingStats, sho
     return (
 		<div className="checkboxes-wrapper">
             <div>
-                <p>
+                <div className="stats-box">
                     <label className="form-label">
                         <strong>Attacking Stats: </strong>
                     </label>
@@ -115,13 +115,13 @@ export default function Checkboxes({ showAttackingStats, showDefendingStats, sho
                     <label className="form-label">
                         <strong>)</strong>
                     </label>
-                </p>
+                </div>
             </div>
 
             
 
             <div>
-                <p>
+                <div className="stats-box">
                     <label className="form-label">
                         <strong>Defending Stats: </strong>
                     </label>
@@ -160,7 +160,7 @@ export default function Checkboxes({ showAttackingStats, showDefendingStats, sho
                     <label className="form-label">
                         <strong>)</strong>
                     </label>
-                </p>
+                </div>
             </div>
             
             

@@ -9,8 +9,10 @@ const HomePage= () => {
     <header className="app-header">
         <h1>Welcome to OracleFPL</h1>
       </header>
-      <div className="sub-heading">
+      <div>
         <img src={oracle_fpl_2} className="oracle-fpl-image" alt="OracleFPL" />
+      </div>
+      <div className="sub-heading">
         <h3>
          This is the homepage of the OracleFPL tools - we hope they hope you find them useful and improve your FPL rank! Use the Navbar above to select the tool you need.
         </h3> 

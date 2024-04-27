@@ -13,9 +13,9 @@ const HomePage= () => {
         <img src={oracle_fpl_2} className="oracle-fpl-image" alt="OracleFPL" />
       </div>
       <div className="sub-heading">
-        <h3>
-         This is the homepage of the OracleFPL tools - we hope they hope you find them useful and improve your FPL rank! Use the Navbar above to select the tool you need.
-        </h3> 
+        <p>
+          This is the homepage of the OracleFPL tools - we hope they hope you find them useful and improve your FPL rank! Use the Navbar above to select the tool you need.
+        </p> 
       </div>
     </div>
   );

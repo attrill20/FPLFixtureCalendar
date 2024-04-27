@@ -21,13 +21,13 @@
 @media (max-width: 1000px) { /* Adjust the max-width as needed */
 
   .sub-heading{
-    font-size: 0.7rem;
+    font-size: 0.6rem;
     padding-left: 5%;
     padding-right: 5%;
   }
 
   p {
-    font-size: 0.7rem;
+    font-size: 0.6rem;
     margin-top: 2px;
     margin-bottom: 2px;
     padding-top: 2px;

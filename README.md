@@ -28,20 +28,23 @@ E-mail address: attrill20@gmail.com
 - Add an AI chat to recommend players to pick
 - Add a database of historical data
 
-#### Player Searcher Page
-
-- Add auto-suggest options when searching
-- Add more stats to the Player Searcher with checkboxes
-
-#### Site Changes
+#### Calendar Page
 
 - Insert a better sorting method (click the column itself to sort ASC / DESC)
 - Improve the Google Sheets calculations using more automated data (form, injuries, xG, home / away performance etc)
 - Scrape the xG data from an external site
+
+#### Player Searcher Page
+
+- Add auto-suggest options when searching
+- Display the top 5 current point-scoring players across the top of the player searcher page
+- Add ranking of players to this page
+
+#### Site Changes
+
 - Make a better home page
 - Write more copy about how the custom difficulty is caclulated
 - Blog page / contact us / version update log
-- Display the top 5 current point-scoring players across the top of the player searcher page
 
 #### Issues
 
@@ -49,6 +52,14 @@ E-mail address: attrill20@gmail.com
 - Add a cache to prevent no fixtures displaying when the server occasionally goes down
 - Navbar on mobile collapsing issue / font size
 - Needs less of a margin / padding either side of the toggle switch
+
+## 27/4/24
+
+Finished off the checkboxes to allow conditonal rendering of the stats, added little titles to each category too and tidied up the CSS styling:
+
+![Screenshot 2024-04-27 at 17 03 11](https://github.com/attrill20/FPLFixtureCalendar/assets/123314687/a716e285-fffb-4986-b63b-2cdfe473deb4)
+
+Will look to add autocomplete and suggestion prompts for players on the search input.
 
 ## 23/4/24
 

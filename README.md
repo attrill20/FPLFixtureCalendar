@@ -52,6 +52,7 @@ E-mail address: attrill20@gmail.com
 - Add a cache to prevent no fixtures displaying when the server occasionally goes down
 - Navbar on mobile collapsing issue / font size
 - Needs less of a margin / padding either side of the toggle switch
+- Sort width of content on Player Searcher page
 
 ## 27/4/24
 

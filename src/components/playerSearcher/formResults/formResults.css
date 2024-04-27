@@ -94,6 +94,8 @@
     .submit-button {
         font-size: 0.4rem;
         border: 1px solid black;
+        padding-bottom: 0;
+        margin-bottom: 5px;
     }
 
     .results-wrapper {
@@ -107,5 +109,9 @@
         font-size: 0.6rem;
         margin-bottom: 5px;
         border: 1px solid black;
+    }
+
+    .stats-headings {
+        font-size: 0.4rem;
     }
 }

@@ -56,14 +56,22 @@ export default function Checkboxes({ showAttackingStats, showDefendingStats, sho
     return (
 		<div className="checkboxes">
             <div>
-                <p><strong>Attacking Stats: </strong>
+                <p>
+                    <label className="form-label">
+                        <strong>Attacking Stats: </strong>
+                    </label>
+
                     <input
                         className="form-checkbox"
                         type="checkbox"
                         checked={showAttackingStats}
                         onChange={handleCheckboxChangeAttackingStats}
                     />
-                    <strong>(</strong>
+
+                     <label className="form-label">
+                        <strong>(</strong>
+                    </label>
+
                     <label className="form-label">
                         Goals:
                         <input
@@ -103,21 +111,32 @@ export default function Checkboxes({ showAttackingStats, showDefendingStats, sho
                             onChange={handleCheckboxChangeAssistsPer90}
                         />
                     </label>
-                    <strong>)</strong>
+
+                    <label className="form-label">
+                        <strong>)</strong>
+                    </label>
                 </p>
             </div>
 
             
 
             <div>
-                <p><strong>Defending Stats: </strong>
+                <p>
+                    <label className="form-label">
+                        <strong>Defending Stats: </strong>
+                    </label>
+
                     <input
                         className="form-checkbox"
                         type="checkbox"
                         checked={showDefendingStats}
                         onChange={handleCheckboxChangeDefendingStats}
                     />
-                    <strong>(</strong>
+
+                    <label className="form-label">
+                        <strong>(</strong>
+                    </label>
+
                     <label className="form-label">
                         Clean Sheets:
                         <input
@@ -137,7 +156,10 @@ export default function Checkboxes({ showAttackingStats, showDefendingStats, sho
                             onChange={handleCheckboxChangeGoalsConceded}
                         />
                     </label>
-                    <strong>)</strong>
+                    
+                    <label className="form-label">
+                        <strong>)</strong>
+                    </label>
                 </p>
             </div>
             

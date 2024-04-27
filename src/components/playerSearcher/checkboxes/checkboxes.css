@@ -21,7 +21,8 @@
 
     .form-checkbox {
         transform: scale(0.5);
-        vertical-align: bottom;
+        margin: 0;
+        vertical-align: -3px;
     }
 
     .form-label {

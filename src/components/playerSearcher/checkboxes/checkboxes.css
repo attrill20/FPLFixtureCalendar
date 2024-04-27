@@ -1,7 +1,7 @@
 .checkboxes-wrapper {
     border: 2px solid black;
-    margin-left: 24%;
-    margin-right: 24%;
+    margin-left: 15%;
+    margin-right: 15%;
     background-color: white;
 }
 
@@ -22,8 +22,8 @@
     .form-checkbox {
         transform: scale(0.5);
         margin: 0;
-        vertical-align: -3px;
-    }
+        vertical-align: -3px;  /*  horrible fix to align checkboxes */
+    } 
 
     .form-label {
         font-size: 0.5rem;

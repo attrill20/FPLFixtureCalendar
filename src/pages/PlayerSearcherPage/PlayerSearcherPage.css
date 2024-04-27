@@ -1,13 +1,19 @@
 .sub-heading {
     font-size: large;
-    padding-left: 20%;
-    padding-right: 20%;
-    margin-top: 5px;
-    margin-bottom: 5px;
+    margin-top: 2px;
+    margin-bottom: 2px;
+    background-color: white;
   }
 
   .intro-details {
     margin-top: 10px;
+  }
+
+  h3 {
+    margin-top: 5px;
+    margin-bottom: 5px;
+    padding-top: 5px;
+    padding-bottom: 5px;
   }
 
   
@@ -15,7 +21,7 @@
 @media (max-width: 1000px) { /* Adjust the max-width as needed */
 
   .sub-heading{
-    font-size: 0.8rem;
+    font-size: 0.7rem;
     padding-left: 5%;
     padding-right: 5%;
   }

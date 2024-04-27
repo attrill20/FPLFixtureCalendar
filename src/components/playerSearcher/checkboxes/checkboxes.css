@@ -17,4 +17,8 @@
     .form-checkbox {
         transform: scale(0.5);
     }
+
+    .form-label {
+        font-size: 0.5rem;
+    }
 }

@@ -108,7 +108,7 @@ export default function FormResults({ targetWebName, setTargetWebName, handleSub
 
                             {showAssistsPer90 && (
                                 <p className="stats-results">
-                                    Assists per 90: <strong>{targetedPlayer.minutes !== 0 ? (targetedPlayer.assists / targetedPlayer.minutes * 90).toFixed(2) : 0}</strong> (xA: <strong>{targetedPlayer.minutes !== 0 ? (targetedPlayer.expected_assists / targetedPlayer.minutes * 90).toFixed(2) : 0}%</strong>)</p>
+                                    Assists per 90: <strong>{targetedPlayer.minutes !== 0 ? (targetedPlayer.assists / targetedPlayer.minutes * 90).toFixed(2) : 0}</strong> (xA: <strong>{targetedPlayer.minutes !== 0 ? (targetedPlayer.expected_assists / targetedPlayer.minutes * 90).toFixed(2) : 0}</strong>)</p>
                                 )}
                         </p>
                         
@@ -119,7 +119,7 @@ export default function FormResults({ targetWebName, setTargetWebName, handleSub
                                 </p>
                             }
                             {showCleanSheets && (
-                                <p className="stats-results">Clean Sheets: <strong>{targetedPlayer.clean_sheets}</strong> (per start: <strong>{targetedPlayer.minutes !== 0 ? (targetedPlayer.clean_sheets / targetedPlayer.starts * 100).toFixed(1) : 0}</strong>%)</p>
+                                <p className="stats-results">Clean Sheets: <strong>{targetedPlayer.clean_sheets}</strong> (per start: <strong>{targetedPlayer.minutes !== 0 ? (targetedPlayer.clean_sheets / targetedPlayer.starts * 100).toFixed(1) : 0}%</strong>)</p>
                             )}
                             {showGoalsConceded && (
                                 <p className="stats-results">Goals conceded: <strong>{targetedPlayer.goals_conceded}</strong> (xGC: <strong>{targetedPlayer.expected_goals_conceded}</strong>)</p>

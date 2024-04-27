@@ -54,7 +54,7 @@ export default function Checkboxes({ showAttackingStats, showDefendingStats, sho
     };
 
     return (
-		<div className="checkboxes">
+		<div className="checkboxes-wrapper">
             <div>
                 <p>
                     <label className="form-label">
@@ -156,7 +156,7 @@ export default function Checkboxes({ showAttackingStats, showDefendingStats, sho
                             onChange={handleCheckboxChangeGoalsConceded}
                         />
                     </label>
-                    
+
                     <label className="form-label">
                         <strong>)</strong>
                     </label>

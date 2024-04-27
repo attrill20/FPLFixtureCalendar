@@ -25,6 +25,14 @@
     padding-left: 5%;
     padding-right: 5%;
   }
+
+  h3 {
+    font-size: 0.7rem;
+    margin-top: 2px;
+    margin-bottom: 2px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+  }
 }
 
 

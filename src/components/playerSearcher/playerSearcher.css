@@ -3,13 +3,17 @@
   flex-direction: row;
   justify-content: center;
   align-items: flex-start;
+  margin-left: 0%;
+  margin-right: 0%;
 }
+
+
 
 /* Add a media query for mobile devices */
 @media (max-width: 1200px) { /* Adjust the max-width as needed */
 
   .fpl-stats {
-    margin-right: 5%;
-    margin-left: 5%;
+    margin-right: 2%;
+    margin-left: 2%;
   }
 }

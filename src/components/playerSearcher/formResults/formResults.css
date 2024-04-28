@@ -1,11 +1,11 @@
 .player-searcher {
-    margin: 20px;
+    margin: 10px;
     border: 2px solid black;
     display: flex; 
     flex-direction: column; 
     align-items: center;
     max-width: 1000px;
-    min-width: 650px;
+    min-width: 660px;
 }
 
 .form {
@@ -118,6 +118,7 @@
     }
 }
 
+
 /* Add a media query for small devices */
 @media (max-width: 1000px) { /* Adjust the max-width as needed */
 
@@ -125,5 +126,25 @@
         margin: 5px;
         max-width: 400px;
         min-width: 350px;
+    }
+}
+
+/* Add a media query for small devices */
+@media (max-width: 800px) { /* Adjust the max-width as needed */
+
+    .player-searcher {
+        margin: 3px;
+        max-width: 300px;
+        min-width: 250px;
+    }
+}
+
+/* Add a media query for small devices */
+@media (max-width: 600px) { /* Adjust the max-width as needed */
+
+    .player-searcher {
+        margin: 2px;
+        max-width: 250px;
+        min-width: 200px;
     }
 }

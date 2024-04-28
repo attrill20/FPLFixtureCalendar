@@ -126,7 +126,6 @@
         margin: 5px;
         max-width: 350px;
         min-width: 300px;
-        background-color: green;
     }
 }
 
@@ -137,7 +136,6 @@
         margin: 5px;
         max-width: 280px;
         min-width: 220px;
-        background-color: brown;
     }
 }
 
@@ -148,6 +146,5 @@
         margin: 5px;
         max-width: 230px;
         min-width: 180px;
-        background-color: blue;
     }
 }

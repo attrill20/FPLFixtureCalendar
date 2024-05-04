@@ -44,7 +44,6 @@ export default function PlayerSearcher({ data, mainData }) {
 		return player;
 	  };
 
-	// First instance - Handle input change for the web name
 	const handleInputChange = (event) => {
 		setTargetWebName(event.target.value);
 	};

@@ -1,18 +1,35 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import "./formResults.css";
+import { findPlayerByWebName } from "../playerSearcher";
 
 export default function FormResults({ targetWebName, setTargetWebName, handleSubmit, targetedPlayer, mainData, showAttackingStats, showDefendingStats, showGoals, showAssists, showGoalsPer90, showAssistsPer90, showCleanSheets, showGoalsConceded }) {
-    
+    const [searchResults, setSearchResults] = useState([]);
+
     const handleInputChange = (event) => {
-		setTargetWebName(event.target.value);
-	};
+        const searchTerm = event.target.value.toLowerCase();
+        setTargetWebName(searchTerm);
+
+        const matchingPlayers = mainData.elements.filter(
+            (player) => player.web_name.toLowerCase().includes(searchTerm)
+        );
+        setSearchResults(matchingPlayers);
+    };
+
+    const handleSelectPlayer = (playerName) => {
+        setTargetWebName(playerName);
+        setSearchResults([]);
+    };
+    
+    useEffect(() => {
+        if (targetWebName !== "") {
+            handleSubmit({ preventDefault: () => {} }, { targetedPlayer, targetWebName });
+        }
+    }, [targetWebName]);
 
     return (
         <div className="fpl-stats">
             <div className="player-searcher">
-                <form
-                    className="form"
-                    onSubmit={handleSubmit}>
+                <form className="form" onSubmit={handleSubmit}>
                     <label className="form-label">
                         Enter Player Name Here:
                         <input
@@ -22,6 +39,19 @@ export default function FormResults({ targetWebName, setTargetWebName, handleSub
                             onChange={handleInputChange}
                             label="Enter Player Name Here:"
                         />
+                        {searchResults.length > 0 && (
+                            <div className="search-dropdown">
+                                {searchResults.map((result) => (
+                                    <div
+                                        key={result.id}
+                                        className="search-item"
+                                        onClick={() => handleSelectPlayer(result.web_name)}
+                                    >
+                                        {result.web_name}
+                                    </div>
+                                ))}
+                            </div>
+                        )}
                     </label>
                     <button className='submit-button' type="submit">Find Player</button>
                 </form>

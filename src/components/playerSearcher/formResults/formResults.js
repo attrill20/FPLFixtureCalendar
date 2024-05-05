@@ -1,9 +1,27 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef  } from "react";
 import "./formResults.css";
 import { findPlayerByWebName } from "../playerSearcher";
 
 export default function FormResults({ targetWebName, setTargetWebName, handleSubmit, targetedPlayer, mainData, showAttackingStats, showDefendingStats, showGoals, showAssists, showGoalsPer90, showAssistsPer90, showCleanSheets, showGoalsConceded }) {
     const [searchResults, setSearchResults] = useState([]);
+    const dropdownRef = useRef(null);
+
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+                console.log("CHECCKKK");
+                setSearchResults([]); // Hide the dropdown
+            }
+        };
+
+        console.log("HERREEEE");
+
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => {
+            console.log("Removing event listener");
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, [dropdownRef]);
 
     const handleInputChange = (event) => {
         const searchTerm = event.target.value.toLowerCase();
@@ -17,7 +35,8 @@ export default function FormResults({ targetWebName, setTargetWebName, handleSub
 
     const handleSelectPlayer = (playerName) => {
         setTargetWebName(playerName);
-        setSearchResults([]);
+        setSearchResults([]); 
+        handleSubmit({ preventDefault: () => {} }, targetedPlayer, playerName); // delete this if not working
     };
     
     useEffect(() => {

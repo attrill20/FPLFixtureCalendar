@@ -34,13 +34,6 @@ export default function FormResults({ targetWebName, setTargetWebName, handleSub
 
         setSearchResults(matchingPlayers);
     };
-
-    const handleSelectPlayer = (playerName) => {
-        setTargetWebName(playerName);
-        setSearchResults([]); 
-        handleSubmit({ preventDefault: () => {} }, targetedPlayer, playerName);
-        clickTargetRef.current.click();
-    };
     
     useEffect(() => {
         if (targetWebName !== "") {
@@ -48,9 +41,12 @@ export default function FormResults({ targetWebName, setTargetWebName, handleSub
         }
     }, [targetWebName]);
 
-    // useEffect(() => {
-    //     console.log("Updated input mode:", inputMode);
-    // }, [inputMode]);
+    const handleSelectPlayer = (playerName) => {
+        setTargetWebName(playerName);
+        setSearchResults([]); 
+        handleSubmit({ preventDefault: () => {} }, targetedPlayer, playerName);
+        clickTargetRef.current.click();
+    };
 
     return (
         <div className="fpl-stats">
@@ -85,12 +81,12 @@ export default function FormResults({ targetWebName, setTargetWebName, handleSub
                         </div>
                         )} */}
                     </label>
-                    <button className='submit-button' type="submit" ref={clickTargetRef}>
+                    <button className='submit-button' type="submit">
                         Find Player
                     </button>
                 </form>
 
-                <div className="results-wrapper">
+                <div className="results-wrapper" ref={clickTargetRef}>
                 {targetedPlayer ? (
                     <div className="results">
                         <img

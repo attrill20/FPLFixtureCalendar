@@ -5,7 +5,7 @@ import { findPlayerByWebName } from "../playerSearcher";
 export default function FormResults({ targetWebName, setTargetWebName, handleSubmit, targetedPlayer, mainData, showAttackingStats, showDefendingStats, showGoals, showAssists, showGoalsPer90, showAssistsPer90, showCleanSheets, showGoalsConceded }) {
     const [searchResults, setSearchResults] = useState([]);
     const dropdownRef = useRef(null);
-    const inputRef = useRef(null);
+    const clickTargetRef = useRef(null);
 
     useEffect(() => {
         const handleClickOutside = (event) => {
@@ -18,7 +18,7 @@ export default function FormResults({ targetWebName, setTargetWebName, handleSub
         return () => {
             document.removeEventListener("mousedown", handleClickOutside);
         };
-    }, [dropdownRef]);
+    }, [dropdownRef, clickTargetRef]);
 
     const handleInputChange = (event) => {
         const searchTerm = event.target.value.toLowerCase();
@@ -39,7 +39,7 @@ export default function FormResults({ targetWebName, setTargetWebName, handleSub
         setTargetWebName(playerName);
         setSearchResults([]); 
         handleSubmit({ preventDefault: () => {} }, targetedPlayer, playerName);
-        inputRef.current?.blur();
+        document.dispatchEvent(new MouseEvent("mousedown"));
     };
     
     useEffect(() => {
@@ -63,7 +63,6 @@ export default function FormResults({ targetWebName, setTargetWebName, handleSub
                             type="text"
                             value={targetWebName}
                             onChange={handleInputChange}
-                            ref={inputRef}
                         />
                         {searchResults.length > 0 && (
                             <div className="search-dropdown" ref={dropdownRef}>
@@ -86,7 +85,9 @@ export default function FormResults({ targetWebName, setTargetWebName, handleSub
                         </div>
                         )} */}
                     </label>
-                    <button className='submit-button' type="submit">Find Player</button>
+                    <button className='submit-button' type="submit" ref={clickTargetRef}>
+                        Find Player
+                    </button>
                 </form>
 
                 <div className="results-wrapper">

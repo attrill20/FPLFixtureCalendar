@@ -39,7 +39,7 @@ export default function FormResults({ targetWebName, setTargetWebName, handleSub
         setTargetWebName(playerName);
         setSearchResults([]); 
         handleSubmit({ preventDefault: () => {} }, targetedPlayer, playerName);
-        document.dispatchEvent(new MouseEvent("mousedown"));
+        clickTargetRef.current.click();
     };
     
     useEffect(() => {

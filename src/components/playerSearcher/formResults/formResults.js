@@ -52,7 +52,7 @@ export default function FormResults({ targetWebName, setTargetWebName, handleSub
         <div className="fpl-stats">
             <div className="player-searcher">
                 <form className="form" onSubmit={handleSubmit}>
-                    <label className="form-label">
+                    <label className="form-label" ref={clickTargetRef}>
                         Enter Player Name Here:
                         <input
                             className="form-input"
@@ -86,7 +86,7 @@ export default function FormResults({ targetWebName, setTargetWebName, handleSub
                     </button>
                 </form>
 
-                <div className="results-wrapper" ref={clickTargetRef}>
+                <div className="results-wrapper">
                 {targetedPlayer ? (
                     <div className="results">
                         <img

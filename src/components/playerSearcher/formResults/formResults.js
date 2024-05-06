@@ -34,11 +34,12 @@ export default function FormResults({ targetWebName, setTargetWebName, handleSub
         setSearchResults([]); 
         handleSubmit({ preventDefault: () => {} }, targetedPlayer, playerName);
 
-        // Focus on the hidden button to remove focus from the input field
-        if (hiddenButtonRef.current) {
-            console.log("BLURRR");
-            hiddenButtonRef.current.focus();
-        }
+        // Reset the input mode after selecting a player
+        setTimeout(() => {
+            if (dropdownRef.current) {
+                dropdownRef.current.setAttribute("inputmode", "none");
+            }
+        }, 1);
     };
     
     useEffect(() => {
@@ -62,6 +63,7 @@ export default function FormResults({ targetWebName, setTargetWebName, handleSub
                             value={targetWebName}
                             onChange={handleInputChange}
                             label="Enter Player Name Here:"
+                            inputMode="none"
                         />
                         {searchResults.length > 0 && (
                             <div className="search-dropdown" ref={dropdownRef}>

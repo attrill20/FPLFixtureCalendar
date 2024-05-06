@@ -5,7 +5,6 @@ import { findPlayerByWebName } from "../playerSearcher";
 export default function FormResults({ targetWebName, setTargetWebName, handleSubmit, targetedPlayer, mainData, showAttackingStats, showDefendingStats, showGoals, showAssists, showGoalsPer90, showAssistsPer90, showCleanSheets, showGoalsConceded }) {
     const [searchResults, setSearchResults] = useState([]);
     const dropdownRef = useRef(null);
-    const [inputMode, setInputMode] = useState("text");
 
     useEffect(() => {
         const handleClickOutside = (event) => {
@@ -35,18 +34,11 @@ export default function FormResults({ targetWebName, setTargetWebName, handleSub
         setSearchResults(matchingPlayers);
     };
 
-    const handleSelectPlayer = (playerName, event) => {
+    const handleSelectPlayer = (playerName) => {
         setTargetWebName(playerName);
         setSearchResults([]); 
         handleSubmit({ preventDefault: () => {} }, targetedPlayer, playerName);
-        setInputMode("none");
-        if (event) {
-            event.stopPropagation();
-        }
-    };
-
-    const handleInputModeChange = () => {
-        setInputMode("text");
+        document.activeElement?.blur();
     };
     
     useEffect(() => {
@@ -55,13 +47,9 @@ export default function FormResults({ targetWebName, setTargetWebName, handleSub
         }
     }, [targetWebName]);
 
-    const handleInputBlur = () => {
-        setInputMode("none");
-    };
-
-    useEffect(() => {
-        console.log("Updated input mode:", inputMode);
-    }, [inputMode]);
+    // useEffect(() => {
+    //     console.log("Updated input mode:", inputMode);
+    // }, [inputMode]);
 
     return (
         <div className="fpl-stats">
@@ -73,11 +61,8 @@ export default function FormResults({ targetWebName, setTargetWebName, handleSub
                             className="form-input"
                             type="text"
                             value={targetWebName}
-                            onFocus={handleInputModeChange}
-                            onBlur={handleInputBlur}
                             onChange={handleInputChange}
                             label="Enter Player Name Here:"
-                            inputmode={inputMode}
                         />
                         {searchResults.length > 0 && (
                             <div className="search-dropdown" ref={dropdownRef}>
@@ -85,9 +70,7 @@ export default function FormResults({ targetWebName, setTargetWebName, handleSub
                                     <div
                                         key={result.id}
                                         className="search-item"
-                                        onClick={(event) => {
-                                            handleSelectPlayer(result.web_name, event);
-                                        }}
+                                        onClick={() => {handleSelectPlayer(result.web_name)}}
                                     >
                                         {result.web_name}
                                     </div>

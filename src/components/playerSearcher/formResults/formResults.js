@@ -34,10 +34,10 @@ export default function FormResults({ targetWebName, setTargetWebName, handleSub
         setSearchResults([]); 
         handleSubmit({ preventDefault: () => {} }, targetedPlayer, playerName);
 
-        // Programmatically blur the input field to remove focus
-        const inputField = document.querySelector('.form-input');
-        if (inputField) {
-            inputField.blur();
+        // Focus on the hidden button to remove focus from the input field
+        if (hiddenButtonRef.current) {
+            console.log("BLURRR");
+            hiddenButtonRef.current.focus();
         }
     };
     
@@ -46,6 +46,9 @@ export default function FormResults({ targetWebName, setTargetWebName, handleSub
             handleSubmit({ preventDefault: () => {} }, { targetedPlayer, targetWebName });
         }
     }, [targetWebName]);
+
+    const hiddenButtonRef = useRef(null);
+
 
     return (
         <div className="fpl-stats">
@@ -75,6 +78,8 @@ export default function FormResults({ targetWebName, setTargetWebName, handleSub
                         )}
                     </label>
                     <button className='submit-button' type="submit">Find Player</button>
+                    <button ref={hiddenButtonRef} style={{ display: 'none' }} />
+
                 </form>
 
                 <div className="results-wrapper">

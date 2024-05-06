@@ -40,7 +40,6 @@ E-mail address: attrill20@gmail.com
 - Display the top 5 current point-scoring players across the top of the player searcher page ( move to homepage?)
     - show different top 5s below the searcher
 - Add ranking of players to this page
-- Order suggested players by most selected %
 - Allow selection of different players with the exact same web_name
 - Fix the issue where the selected player disappears when you start searching again
 
@@ -57,6 +56,14 @@ E-mail address: attrill20@gmail.com
 - Navbar on mobile collapsing issue / font size
 - Needs less of a margin / padding either side of the FDR toggle switch
 - Sort width of content to be more dynamic on Player Searcher page
+
+## 6/5/24
+
+Spent quite a lot of time the last few days to add a feature of displaying the matching players from the API to the input field value. Looks like this on mobile:
+
+![Screenshot 2024-05-06 at 22 12 11](https://github.com/attrill20/FPLFixtureCalendar/assets/123314687/3880647e-5e8e-4513-9872-d0d7199ed7db)
+
+Also ordered this by highest point scorers, reduced the full name if over 20 characters to use the web_name instead, changed the 'player not found' message and fixed an issue with nested <p>s. However, wasn't able to fully finish my experimenting with how to hide the keyboard on mobile after selecting a matching player from the dropdown. ALso, need to come up with a solution to differentiate and select different players who have the exact same web_name on FPL (which is weird anyway!) such as Wilson or Onana. Fun progress!
 
 ## 27/4/24
 

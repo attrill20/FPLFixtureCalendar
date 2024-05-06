@@ -5,7 +5,7 @@ import { findPlayerByWebName } from "../playerSearcher";
 export default function FormResults({ targetWebName, setTargetWebName, handleSubmit, targetedPlayer, mainData, showAttackingStats, showDefendingStats, showGoals, showAssists, showGoalsPer90, showAssistsPer90, showCleanSheets, showGoalsConceded }) {
     const [searchResults, setSearchResults] = useState([]);
     const dropdownRef = useRef(null);
-    const [inputMode, setInputMode] = useState("none");
+    const [inputMode, setInputMode] = useState("text");
 
     useEffect(() => {
         const handleClickOutside = (event) => {
@@ -58,7 +58,7 @@ export default function FormResults({ targetWebName, setTargetWebName, handleSub
                             value={targetWebName}
                             onChange={handleInputChange}
                             label="Enter Player Name Here:"
-                            inputMode="text"
+                            inputMode={inputMode}
                         />
                         {searchResults.length > 0 && (
                             <div className="search-dropdown" ref={dropdownRef}>

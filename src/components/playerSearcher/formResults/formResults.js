@@ -5,6 +5,7 @@ import { findPlayerByWebName } from "../playerSearcher";
 export default function FormResults({ targetWebName, setTargetWebName, handleSubmit, targetedPlayer, mainData, showAttackingStats, showDefendingStats, showGoals, showAssists, showGoalsPer90, showAssistsPer90, showCleanSheets, showGoalsConceded }) {
     const [searchResults, setSearchResults] = useState([]);
     const dropdownRef = useRef(null);
+    const inputRef = useRef(null);
 
     useEffect(() => {
         const handleClickOutside = (event) => {
@@ -38,7 +39,7 @@ export default function FormResults({ targetWebName, setTargetWebName, handleSub
         setTargetWebName(playerName);
         setSearchResults([]); 
         handleSubmit({ preventDefault: () => {} }, targetedPlayer, playerName);
-        document.activeElement?.blur();
+        inputRef.current?.blur();
     };
     
     useEffect(() => {
@@ -62,7 +63,7 @@ export default function FormResults({ targetWebName, setTargetWebName, handleSub
                             type="text"
                             value={targetWebName}
                             onChange={handleInputChange}
-                            label="Enter Player Name Here:"
+                            ref={inputRef}
                         />
                         {searchResults.length > 0 && (
                             <div className="search-dropdown" ref={dropdownRef}>

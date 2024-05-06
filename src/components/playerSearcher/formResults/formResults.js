@@ -5,6 +5,7 @@ import { findPlayerByWebName } from "../playerSearcher";
 export default function FormResults({ targetWebName, setTargetWebName, handleSubmit, targetedPlayer, mainData, showAttackingStats, showDefendingStats, showGoals, showAssists, showGoalsPer90, showAssistsPer90, showCleanSheets, showGoalsConceded }) {
     const [searchResults, setSearchResults] = useState([]);
     const dropdownRef = useRef(null);
+    const [inputMode, setInputMode] = useState("none");
 
     useEffect(() => {
         const handleClickOutside = (event) => {
@@ -33,13 +34,7 @@ export default function FormResults({ targetWebName, setTargetWebName, handleSub
         setTargetWebName(playerName);
         setSearchResults([]); 
         handleSubmit({ preventDefault: () => {} }, targetedPlayer, playerName);
-
-        // Reset the input mode after selecting a player
-        setTimeout(() => {
-            if (dropdownRef.current) {
-                dropdownRef.current.setAttribute("inputmode", "none");
-            }
-        }, 1);
+        setInputMode("none");
     };
     
     useEffect(() => {
@@ -63,7 +58,7 @@ export default function FormResults({ targetWebName, setTargetWebName, handleSub
                             value={targetWebName}
                             onChange={handleInputChange}
                             label="Enter Player Name Here:"
-                            inputMode="none"
+                            inputMode="text"
                         />
                         {searchResults.length > 0 && (
                             <div className="search-dropdown" ref={dropdownRef}>
@@ -80,8 +75,6 @@ export default function FormResults({ targetWebName, setTargetWebName, handleSub
                         )}
                     </label>
                     <button className='submit-button' type="submit">Find Player</button>
-                    <button ref={hiddenButtonRef} style={{ display: 'none' }} />
-
                 </form>
 
                 <div className="results-wrapper">

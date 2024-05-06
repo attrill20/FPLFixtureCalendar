@@ -159,6 +159,11 @@
         max-width: 350px;
         min-width: 300px;
     }
+
+    .search-dropdown {
+        width: 27%;
+        margin-left: 8%;
+    }
 }
 
 /* Add a media query for small devices */

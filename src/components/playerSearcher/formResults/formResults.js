@@ -28,6 +28,7 @@ export default function FormResults({ targetWebName, setTargetWebName, handleSub
             (player) => player.web_name.toLowerCase().includes(searchTerm)
         );
         setSearchResults(matchingPlayers);
+        setInputMode("text");
     };
 
     const handleSelectPlayer = (playerName) => {

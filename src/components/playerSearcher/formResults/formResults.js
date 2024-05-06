@@ -27,6 +27,11 @@ export default function FormResults({ targetWebName, setTargetWebName, handleSub
         const matchingPlayers = mainData.elements.filter(
             (player) => player.web_name.toLowerCase().includes(searchTerm)
         );
+
+        matchingPlayers.sort((a, b) => {
+            return b.total_points - a.total_points;
+        });
+
         setSearchResults(matchingPlayers);
     };
 
@@ -89,6 +94,13 @@ export default function FormResults({ targetWebName, setTargetWebName, handleSub
                                 ))}
                             </div>
                         )}
+                        {targetWebName.trim().length > 0 && searchResults.length === 0 && (
+                        <div className="search-dropdown" ref={dropdownRef}>
+                            <div className="search-item">
+                                No matches found
+                            </div>
+                        </div>
+                    )}
                     </label>
                     <button className='submit-button' type="submit">Find Player</button>
                 </form>
@@ -102,13 +114,14 @@ export default function FormResults({ targetWebName, setTargetWebName, handleSub
                             alt={targetedPlayer.web_name}
                         />
                         
-                        <p>
+                        <div className="stats-paragraph">
                             <p className="stats-headings">
                                 <strong>PLAYER STATS</strong>
                             </p>
                             <p className="stats-results">
-                                Name: <strong>{targetedPlayer.first_name} {targetedPlayer.second_name}</strong>
+                                Name: <strong>{`${targetedPlayer.first_name} ${targetedPlayer.second_name}`.length >= 20 ? targetedPlayer.web_name : `${targetedPlayer.first_name} ${targetedPlayer.second_name}`}</strong>
                             </p>
+
                             <p className="stats-results">
                                 Team: <strong>{mainData.teams[targetedPlayer.team - 1].name}</strong>
                             </p>
@@ -121,10 +134,10 @@ export default function FormResults({ targetWebName, setTargetWebName, handleSub
                                         'Unknown Position'}
                                 </strong>
                             </p>
-                        </p>
+                        </div>
                         
                         
-                        <p>
+                        <div className="stats-paragraph">
                             <p className="stats-headings"><strong>
                                 SELECTION STATS</strong>
                             </p>
@@ -134,9 +147,9 @@ export default function FormResults({ targetWebName, setTargetWebName, handleSub
                             <p className="stats-results">
                                 Cost: <strong>{(targetedPlayer.now_cost / 10).toFixed(1)}m</strong>
                             </p>
-                        </p>
+                        </div>
                         
-                        <p>
+                        <div className="stats-paragraph">
                             <p className="stats-headings"><strong>
                                 POINTS STATS</strong>
                             </p>
@@ -149,9 +162,9 @@ export default function FormResults({ targetWebName, setTargetWebName, handleSub
                             <p className="stats-results">
                                 Form: <strong>{targetedPlayer.form}</strong>
                             </p>
-                        </p>
+                        </div>
 
-                        <p>
+                        <div className="stats-paragraph">
                             {(showGoals || showAssists || showGoalsPer90 || showAssistsPer90) && 
                                 <p className="stats-headings">
                                     <strong>ATTACKING STATS</strong>
@@ -177,9 +190,9 @@ export default function FormResults({ targetWebName, setTargetWebName, handleSub
                                 <p className="stats-results">
                                     Assists per 90: <strong>{targetedPlayer.minutes !== 0 ? (targetedPlayer.assists / targetedPlayer.minutes * 90).toFixed(2) : 0}</strong> (xA: <strong>{targetedPlayer.minutes !== 0 ? (targetedPlayer.expected_assists / targetedPlayer.minutes * 90).toFixed(2) : 0}</strong>)</p>
                                 )}
-                        </p>
+                        </div>
                         
-                        <p>
+                        <div className="stats-paragraph">
                             {(showCleanSheets || showGoalsConceded) && 
                                 <p className="stats-headings">
                                     <strong>DEFENDING STATS</strong>
@@ -191,12 +204,12 @@ export default function FormResults({ targetWebName, setTargetWebName, handleSub
                             {showGoalsConceded && (
                                 <p className="stats-results">Goals conceded: <strong>{targetedPlayer.goals_conceded}</strong> (xGC: <strong>{targetedPlayer.expected_goals_conceded}</strong>)</p>
                             )}
-                        </p>
+                        </div>
                         
                     </div>
                 ) : (
                     <p className="results">
-                        Player not found - try again!
+                        Enter a player's surname in the field above!
                     </p>
                 )}
                 </div>

@@ -33,17 +33,21 @@ E-mail address: attrill20@gmail.com
 - Insert a better sorting method (click the column itself to sort ASC / DESC)
 - Improve the Google Sheets calculations using more automated data (form, injuries, xG, home / away performance etc)
 - Scrape the xG data from an external site
+- Find a more detailed API to add extra stats to the Player Searcher tool (Opta perhaps?)
 
 #### Player Searcher Page
 
-- Add auto-suggest options when searching
-- Display the top 5 current point-scoring players across the top of the player searcher page
+- Display the top 5 current point-scoring players across the top of the player searcher page ( move to homepage?)
+    - show different top 5s below the searcher
 - Add ranking of players to this page
+- Order suggested players by most selected %
+- Allow selection of different players with the exact same web_name
+- Fix the issue where the selected player disappears when you start searching again
 
 #### Site Changes
 
 - Make a better home page
-- Write more copy about how the custom difficulty is caclulated
+- Write more copy about how the custom difficulty is calculated
 - Blog page / contact us / version update log
 
 #### Issues
@@ -51,8 +55,8 @@ E-mail address: attrill20@gmail.com
 - Table repeats header on every row, change to display once and get the table to scroll (could use Material UI table)
 - Add a cache to prevent no fixtures displaying when the server occasionally goes down
 - Navbar on mobile collapsing issue / font size
-- Needs less of a margin / padding either side of the toggle switch
-- Sort width of content on Player Searcher page
+- Needs less of a margin / padding either side of the FDR toggle switch
+- Sort width of content to be more dynamic on Player Searcher page
 
 ## 27/4/24
 

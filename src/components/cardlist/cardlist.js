@@ -193,10 +193,10 @@ export default function CardList({ teams, fixturesData, activeGameweek: initialA
         <Dropdown handleGameweekChange={handleGameweekChange} activeGameweek={activeGameweek} />
       </div>
       
-      <strong className="tool-text">Original FPL</strong>
+      <strong className="tool-text">FPL FDR</strong>
         <Switch className="switch" {...label} defaultChecked={sortBy === 'custom'} onChange={handleTableReorder}
         />
-      <strong className="tool-text">Custom FDR</strong>
+      <strong className="tool-text">Oracle FDR</strong>
 
       <button
         className={`button ${sortBy === "custom" ? "active" : ""}`}

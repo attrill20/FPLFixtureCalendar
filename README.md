@@ -2,13 +2,13 @@
 
 ## Project Overview
 
-This project is an FPL Fixture Calendar that shows the upcoming fixtures for each Premier League team and ranks them based on their difficulty. I aim to use this side project to practice my React, JS and CSS skills. It uses official FPL API to display fixtures and encorporates my very own custom 1-10 difficulty ranking system (found here: https://docs.google.com/spreadsheets/d/1wYS6wyRkHiP-9zlJAkd_V9vjnxXslpNinz-CLg6BILs/edit#gid=0) to better plan upcoming transfers compared to the official FPL 1-5 simplified rating system. Any suggestions welcome!
+This project is an FPL site including Fixture Calendar (shows the upcoming fixtures for each Premier League team and ranks them based on their difficulty) and Player Searcher (compares stats of players) tools. I aim to use this side project to practice my React, JS and CSS skills. It uses the official FPL API to display fixtures and incorporates my very own custom 1-10 difficulty ranking system (found here: https://docs.google.com/spreadsheets/d/1wYS6wyRkHiP-9zlJAkd_V9vjnxXslpNinz-CLg6BILs/edit#gid=0) to better plan upcoming transfers compared to the official FPL 1-5 simplified rating system. Any suggestions welcome!
 
 There is a blog below showing my ongoing progress and planned to-do list.
 
 ## Deployment and Info
 
-To run: Clone repo, navigate to FPL-fixtures folder and enter 'npm run start' in command line. Will load the site in browser (the serverless function is delpoyed on Vercel in a seperate repo)
+To run: Clone repo, navigate to FPL-fixtures folder and enter 'npm run start' in command line. Will load the site in browser (the serverless function is deployed on Vercel in a separate repo)
 
 Deployed at: https://fpl-fixture-calendar.vercel.app/
 
@@ -133,11 +133,11 @@ Need to test it on mobile (collapse into burger menu?) and design a proper homep
 
 Just a quick hot fix today as noticed that the Custom FDR wasn't poperly calculating the DGW score, so went in and ensured that the logic matched the Original FPL logic and all looks good now.
 
-Been spending quite a lot of time on trying to scrape some xG data from Understat to use within my Google Sheet as part of the Custom FDR calculation. Got it working locally a couple of weeks back, but been blocked getting it to be hosted by Vercel - unure if it's the third party software being used (Puppeteer / AWS Lambda) or th site itself blocking my requests. Sure I'll crack the problem soon! Talking of cracks, my laptop screen broke the other day also making things trickier until that gets fixed too!
+Been spending quite a lot of time on trying to scrape some xG data from Understat to use within my Google Sheet as part of the Custom FDR calculation. Got it working locally a couple of weeks back, but been blocked getting it to be hosted by Vercel - unsure if it's the third party software being used (Puppeteer / AWS Lambda) or th site itself blocking my requests. Sure I'll crack the problem soon! Talking of cracks, my laptop screen broke the other day also making things trickier until that gets fixed too!
 
 ## 13/12/23
 
-Made lots of small iterative changes over the past few days including: replaced the button with a toggle switch to change between Custom FDR / Original FPL, moved the sorting to the right button (want to change this to be imbedded within the table columns soon), tidied up a lot of CSS styling to get the ratios better for mobile and the moble site now looks like this:
+Made lots of small iterative changes over the past few days including: replaced the button with a toggle switch to change between Custom FDR / Original FPL, moved the sorting to the right button (want to change this to be imbedded within the table columns soon), tidied up a lot of CSS styling to get the ratios better for mobile and the mobile site now looks like this:
 
 <img width="519" alt="Screenshot 2023-12-13 at 17 10 04" src="https://github.com/attrill20/FPLFixtureCalendar/assets/123314687/4a001418-facd-47e2-99d9-70dd8456fae0">
 
@@ -232,7 +232,7 @@ A great day! Spent a bit of time integrating the previous week's play into the F
 
 <img width="1654" alt="Screenshot 2023-07-29 at 13 36 03" src="https://github.com/attrill20/FPLFixtureCalendar/assets/123314687/babf3c67-55ff-4d6c-9431-e87529cb8302">
 
-Haven't quite been able to add the opponent badge in yet, but the basic data is correct. Also updated the dropwdown to select more games, but formatting starts to go a bit crazy after 5 fixtures shown so will need to allow the table to scroll. Next goals are to show overall fixture difficulty, colour code based on this, reorder based on difficulty of fixtures, fix the opponent badge issue and try to resolve the blank / DGW issue. Oh, and should probably think about splitting the site across multiple pages now using React Router. Lots to do!
+Haven't quite been able to add the opponent badge in yet, but the basic data is correct. Also updated the dropdown to select more games, but formatting starts to go a bit crazy after 5 fixtures shown so will need to allow the table to scroll. Next goals are to show overall fixture difficulty, colour code based on this, reorder based on difficulty of fixtures, fix the opponent badge issue and try to resolve the blank / DGW issue. Oh, and should probably think about splitting the site across multiple pages now using React Router. Lots to do!
 
 
 ## 27/07/23
@@ -267,7 +267,7 @@ Had a good play around with the API today, managed to find lots of player inform
 
 <img width="1049" alt="Screenshot 2023-07-13 at 16 40 18" src="https://github.com/attrill20/FPLFixtureCalendar/assets/123314687/c021a862-3108-4bca-bc06-6d3d1af60298">
 
-However, still finding it difficult to work out how to pull 2 seperate APIs (https://fantasy.premierleague.com/api/bootstrap-static/ for player info and https://fantasy.premierleague.com/api/fixtures/ for fixtures) as await Promise.all and then mapping through them is just creating errors. Will get back to this after the weekend I think!
+However, still finding it difficult to work out how to pull 2 separate APIs (https://fantasy.premierleague.com/api/bootstrap-static/ for player info and https://fantasy.premierleague.com/api/fixtures/ for fixtures) as await Promise.all and then mapping through them is just creating errors. Will get back to this after the weekend I think!
 
 ## 09/07/23
 
@@ -293,9 +293,9 @@ Been a busy couple of weeks with my best friend's wedding and then starting the 
 
 ## 20/05/23
 
-Spent a bit of time today improving the look of the site, and added a badge icon for each of the clubs which now renders below their name in the team list, and does so smaller now under the initials of the team in the GW column. A surprisngly simple job, but got caught for a while when I asked ChatGPT to reorder the dummy arrays for me, but for some reason it omly generated 18 for one of them so kept getting errors that took me far too long to realise were being caused by this! 
+Spent a bit of time today improving the look of the site, and added a badge icon for each of the clubs which now renders below their name in the team list, and does so smaller now under the initials of the team in the GW column. A surprisingly simple job, but got caught for a while when I asked ChatGPT to reorder the dummy arrays for me, but for some reason it only generated 18 for one of them so kept getting errors that took me far too long to realise were being caused by this! 
 
-Tidied up the UI of the site with a slightly brighter background and clear black text for the teams. Added some padding and display issues too. Good recap of some CSS and React essential skills today. All the basic information is dispaying nciely now, so will look to add a filter search bar next, and start thinking about how to add in the calculation of fixture difficulty (which will have to factor in home / away considerations). Here's how the site is currently looking:
+Tidied up the UI of the site with a slightly brighter background and clear black text for the teams. Added some padding and display issues too. Good recap of some CSS and React essential skills today. All the basic information is displaying nicely now, so will look to add a filter search bar next, and start thinking about how to add in the calculation of fixture difficulty (which will have to factor in home / away considerations). Here's how the site is currently looking:
 
 <img width="1768" alt="Screenshot 2023-05-21 at 20 22 01" src="https://github.com/attrill20/FPLFixtureCalendar/assets/123314687/b13a00c9-59ce-4836-af55-ab1753e0910e">
 

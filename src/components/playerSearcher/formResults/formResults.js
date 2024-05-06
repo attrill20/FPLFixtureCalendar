@@ -28,7 +28,6 @@ export default function FormResults({ targetWebName, setTargetWebName, handleSub
             (player) => player.web_name.toLowerCase().includes(searchTerm)
         );
         setSearchResults(matchingPlayers);
-        setInputMode("text");
     };
 
     const handleSelectPlayer = (playerName) => {
@@ -36,6 +35,10 @@ export default function FormResults({ targetWebName, setTargetWebName, handleSub
         setSearchResults([]); 
         handleSubmit({ preventDefault: () => {} }, targetedPlayer, playerName);
         setInputMode("none");
+    };
+
+    const handleInputModeChange = () => {
+        setInputMode("text");
     };
     
     useEffect(() => {
@@ -54,7 +57,7 @@ export default function FormResults({ targetWebName, setTargetWebName, handleSub
                             className="form-input"
                             type="text"
                             value={targetWebName}
-                            onClick={handleInputChange}
+                            onClick={handleInputModeChange}
                             onChange={handleInputChange}
                             label="Enter Player Name Here:"
                             inputMode={inputMode}

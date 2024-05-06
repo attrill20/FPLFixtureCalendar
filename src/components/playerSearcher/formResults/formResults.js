@@ -44,9 +44,6 @@ export default function FormResults({ targetWebName, setTargetWebName, handleSub
         }
     }, [targetWebName]);
 
-    const hiddenButtonRef = useRef(null);
-
-
     return (
         <div className="fpl-stats">
             <div className="player-searcher">
@@ -57,6 +54,7 @@ export default function FormResults({ targetWebName, setTargetWebName, handleSub
                             className="form-input"
                             type="text"
                             value={targetWebName}
+                            onClick={handleInputChange}
                             onChange={handleInputChange}
                             label="Enter Player Name Here:"
                             inputMode={inputMode}

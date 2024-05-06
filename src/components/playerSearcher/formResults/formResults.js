@@ -30,17 +30,18 @@ export default function FormResults({ targetWebName, setTargetWebName, handleSub
         setSearchResults(matchingPlayers);
     };
 
-    const handleSelectPlayer = (playerName) => {
+    const handleSelectPlayer = (playerName, event) => {
         setTargetWebName(playerName);
         setSearchResults([]); 
         handleSubmit({ preventDefault: () => {} }, targetedPlayer, playerName);
         setInputMode("none");
-        console.log("HANDLE_PLAYER", inputMode)
+        if (event) {
+            event.stopPropagation();
+        }
     };
 
     const handleInputModeChange = () => {
         setInputMode("text");
-        console.log("MODE_CHANGE", inputMode)
     };
     
     useEffect(() => {
@@ -48,6 +49,14 @@ export default function FormResults({ targetWebName, setTargetWebName, handleSub
             handleSubmit({ preventDefault: () => {} }, { targetedPlayer, targetWebName });
         }
     }, [targetWebName]);
+
+    const handleInputBlur = () => {
+        setInputMode("none");
+    };
+
+    useEffect(() => {
+        console.log("Updated input mode:", inputMode);
+    }, [inputMode]);
 
     return (
         <div className="fpl-stats">
@@ -59,10 +68,11 @@ export default function FormResults({ targetWebName, setTargetWebName, handleSub
                             className="form-input"
                             type="text"
                             value={targetWebName}
-                            onClick={handleInputModeChange}
+                            onFocus={handleInputModeChange}
+                            onBlur={handleInputBlur}
                             onChange={handleInputChange}
                             label="Enter Player Name Here:"
-                            inputMode={inputMode}
+                            inputmode={inputMode}
                         />
                         {searchResults.length > 0 && (
                             <div className="search-dropdown" ref={dropdownRef}>
@@ -70,7 +80,9 @@ export default function FormResults({ targetWebName, setTargetWebName, handleSub
                                     <div
                                         key={result.id}
                                         className="search-item"
-                                        onClick={() => handleSelectPlayer(result.web_name)}
+                                        onClick={(event) => {
+                                            handleSelectPlayer(result.web_name, event);
+                                        }}
                                     >
                                         {result.web_name}
                                     </div>

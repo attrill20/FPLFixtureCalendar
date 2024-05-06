@@ -42,6 +42,9 @@ E-mail address: attrill20@gmail.com
 - Add ranking of players to this page
 - Allow selection of different players with the exact same web_name
 - Fix the issue where the selected player disappears when you start searching again
+- If player has no photo, add a blank default one
+- Fix the keyboard still displaying on mobile after selecting a player (focus/blue solution?)
+- Change profile layout, smaller player photo on desktop and side by side stats
 
 #### Site Changes
 

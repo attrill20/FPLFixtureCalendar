@@ -35,10 +35,12 @@ export default function FormResults({ targetWebName, setTargetWebName, handleSub
         setSearchResults([]); 
         handleSubmit({ preventDefault: () => {} }, targetedPlayer, playerName);
         setInputMode("none");
+        console.log("HANDLE_PLAYER", inputMode)
     };
 
     const handleInputModeChange = () => {
         setInputMode("text");
+        console.log("MODE_CHANGE", inputMode)
     };
     
     useEffect(() => {
@@ -57,7 +59,7 @@ export default function FormResults({ targetWebName, setTargetWebName, handleSub
                             className="form-input"
                             type="text"
                             value={targetWebName}
-                            // onClick={handleInputModeChange}
+                            onClick={handleInputModeChange}
                             onChange={handleInputChange}
                             label="Enter Player Name Here:"
                             inputMode={inputMode}

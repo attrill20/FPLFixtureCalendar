@@ -59,7 +59,7 @@ export default function FormResults({ targetWebName, setTargetWebName, handleSub
                             label="Enter Player Name Here:"
                         />
                         {searchResults.length > 0 && (
-                            <div className="search-dropdown">
+                            <div className="search-dropdown" ref={dropdownRef}>
                                 {searchResults.map((result) => (
                                     <div
                                         key={result.id}

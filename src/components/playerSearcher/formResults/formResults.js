@@ -32,7 +32,13 @@ export default function FormResults({ targetWebName, setTargetWebName, handleSub
     const handleSelectPlayer = (playerName) => {
         setTargetWebName(playerName);
         setSearchResults([]); 
-        handleSubmit({ preventDefault: () => {} }, targetedPlayer, playerName); // delete this if not working
+        handleSubmit({ preventDefault: () => {} }, targetedPlayer, playerName);
+
+        // Programmatically blur the input field to remove focus
+        const inputField = document.querySelector('.form-input');
+        if (inputField) {
+            inputField.blur();
+        }
     };
     
     useEffect(() => {

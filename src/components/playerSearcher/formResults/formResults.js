@@ -9,16 +9,12 @@ export default function FormResults({ targetWebName, setTargetWebName, handleSub
     useEffect(() => {
         const handleClickOutside = (event) => {
             if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-                console.log("CHECCKKK");
                 setSearchResults([]); // Hide the dropdown
             }
         };
 
-        console.log("HERREEEE");
-
         document.addEventListener("mousedown", handleClickOutside);
         return () => {
-            console.log("Removing event listener");
             document.removeEventListener("mousedown", handleClickOutside);
         };
     }, [dropdownRef]);

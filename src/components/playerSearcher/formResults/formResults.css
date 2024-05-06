@@ -69,17 +69,20 @@
     border: 1px solid #ccc;
     max-height: 300px;
     overflow-y: auto;
-    width: 15%; /* Match the width of the input field */
-    /* left: 60%; */
     display: flex;
-    margin-left: 3.3%;
+    margin-left: 4%;
     flex-direction: column;
-    align-items: center; /* Center horizontally */
+    align-items: center;
+    width: 14%;
 }
 
 .search-item {
     padding: 8px 12px;
     cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
 }
 
 .search-item:hover {
@@ -139,6 +142,11 @@
 
     .stats-headings {
         font-size: 0.4rem;
+    }
+
+    .search-dropdown {
+        width: 30%;
+        margin-left: 11%;
     }
 }
 

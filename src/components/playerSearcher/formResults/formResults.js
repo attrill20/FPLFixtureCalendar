@@ -94,13 +94,13 @@ export default function FormResults({ targetWebName, setTargetWebName, handleSub
                                 ))}
                             </div>
                         )}
-                        {targetWebName.trim().length > 0 && searchResults.length === 0 && (
+                        {/* {targetWebName.trim().length > 0 && searchResults.length === 0 && (
                         <div className="search-dropdown" ref={dropdownRef}>
                             <div className="search-item">
                                 No matches found
                             </div>
                         </div>
-                    )}
+                        )} */}
                     </label>
                     <button className='submit-button' type="submit">Find Player</button>
                 </form>

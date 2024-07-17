@@ -10,28 +10,28 @@ const PlayerSearcherPage= ({ data, mainData }) => {
 			<div>
 				<img
 					className="player-pic"
-					src={`https://resources.premierleague.com/premierleague/photos/players/110x140/p${451340}.png`}
-					alt="Mitoma"
+					src={`https://resources.premierleague.com/premierleague/photos/players/110x140/p${480455}.png`}
+					alt="Branthwaite"
 				/>
 				<img
 					className="player-pic"
-					src={`https://resources.premierleague.com/premierleague/photos/players/110x140/p${176297}.png`}
-					alt="Rashford"
+					src={`https://resources.premierleague.com/premierleague/photos/players/110x140/p${516895}.png`}
+					alt="Mainoo"
 				/>
 				<img
 					className="player-pic"
-					src={`https://resources.premierleague.com/premierleague/photos/players/110x140/p${223340}.png`}
-					alt="Saka"
+					src={`https://resources.premierleague.com/premierleague/photos/players/110x140/p${219847}.png`}
+					alt="Havertz"
 				/>
 				<img
 					className="player-pic"
-					src={`https://resources.premierleague.com/premierleague/photos/players/110x140/p${85971}.png`}
-					alt="Son"
+					src={`https://resources.premierleague.com/premierleague/photos/players/110x140/p${178301}.png`}
+					alt="Watkins"
 				/>
 				<img
 					className="player-pic"
-					src={`https://resources.premierleague.com/premierleague/photos/players/110x140/p${77794}.png`}
-					alt="Trippier"
+					src={`https://resources.premierleague.com/premierleague/photos/players/110x140/p${219168}.png`}
+					alt="Isakr"
 				/>
 			</div>
 		)}

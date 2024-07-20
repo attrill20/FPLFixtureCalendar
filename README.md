@@ -60,7 +60,7 @@ E-mail address: attrill20@gmail.com
 - Needs less of a margin / padding either side of the FDR toggle switch
 - Sort width of content to be more dynamic on Player Searcher page
 
-- ## 20/7/24
+## 20/7/24
 
 Updated the site ready for the 2024/25 season, following the launch of FPL this week. Was surprisingly easy, just a case of updating the 20 teams for the season ahead and adding the badges for newcomers Ipswich Town and welcoming back Southampton and Leicester City. Added some new faces of last season's top performers to the Player Searcher tool and here's how things are looking with a month to go until the season begins:
 

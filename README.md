@@ -60,6 +60,21 @@ E-mail address: attrill20@gmail.com
 - Needs less of a margin / padding either side of the FDR toggle switch
 - Sort width of content to be more dynamic on Player Searcher page
 
+- ## 20/7/24
+
+Updated the site ready for the 2024/25 season, following the launch of FPL this week. Was surprisingly easy, just a case of updating the 20 teams for the season ahead and adding the badges for newcomers Ipswich Town and welcoming back Southampton and Leicester City. Added some new faces of last season's top performers to the Player Searcher tool and here's how things are looking with a month to go until the season begins:
+
+![Screenshot 2024-07-20 at 13 38 05](https://github.com/user-attachments/assets/cd39bbb7-6850-40af-af4e-de6c0b2b954b)
+![Screenshot 2024-07-20 at 13 39 14](https://github.com/user-attachments/assets/a3dae527-aa51-4c93-b26b-9ffda363b505)
+
+Hoping to give this site a bit of a push on socials before the start of the season, although need to check that club badges can be used for commercial use like this. Also plan to add / fix the following:
+
+- Fix the menu bar to be responsive, especially on mobile
+- Add more text to the home page or add a FAQs page to explain how the custom FDR works
+- Reduce the size of the player faces on the Player Searcher page
+
+Got a few weeks before the season starts, but off to Poland next weekend for a trip - so hopefully will be able to make some progress before then!
+
 ## 6/5/24
 
 Spent quite a lot of time the last few days to add a feature of displaying the matching players from the API to the input field value. Looks like this on mobile:

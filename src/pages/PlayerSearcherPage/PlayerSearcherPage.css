@@ -7,6 +7,8 @@
 
   .intro-details {
     margin-top: 10px;
+    margin-left: 15%;
+    margin-right: 15%;
   }
 
   p {
@@ -24,6 +26,8 @@
     font-size: 0.6rem;
     padding-left: 3%;
     padding-right: 3%;
+    margin-left: 15%;
+    margin-right: 15%;
   }
 
   p {

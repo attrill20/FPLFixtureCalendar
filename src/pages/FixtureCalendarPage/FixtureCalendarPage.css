@@ -1,5 +1,10 @@
-  .sub-heading {
+  .fixture-sub-heading {
     font-size: large;
+    margin-top: 3px;
+    margin-bottom: 3px;
+    background-color: white;
+    margin-left: 5%;
+    margin-right: 5%;
   }
 
 

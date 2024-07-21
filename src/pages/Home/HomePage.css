@@ -73,12 +73,12 @@ h1 {
   }
 
   .oracle-fpl-image {
-    width: 50%;
+    width: 20%;
     margin-right: 0;
     margin-bottom: 10px;
   }
 
-  .sub-heading {
+  .home-sub-heading {
     font-size: 0.7rem;
     padding-left: 1%;
     padding-right: 1%;
@@ -94,7 +94,7 @@ h1 {
 }
 
 @media (max-width: 420px) {
-  .sub-heading {
+  .home-sub-heading {
     font-size: 0.7rem;
     padding-left: 1%;
     padding-right: 1%;
@@ -107,6 +107,6 @@ h1 {
   }
 
   .oracle-fpl-image {
-    width: 80%;
+    width: 15%;
   }
 }

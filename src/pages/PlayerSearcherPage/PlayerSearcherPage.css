@@ -22,7 +22,7 @@
   /* Add a media query for mobile devices */
 @media (max-width: 1000px) { /* Adjust the max-width as needed */
 
-  .sub-heading{
+  .search-sub-heading{
     font-size: 0.6rem;
     padding-left: 3%;
     padding-right: 3%;
@@ -43,7 +43,7 @@
 /* SMALL MOBILE */
 @media (max-width: 420px) { 
 
-  .sub-heading{
+  .search-sub-heading{
     font-size: 0.5rem;
     padding-left: 3%;
     padding-right: 3%;

@@ -35,7 +35,7 @@ const PlayerSearcherPage= ({ data, mainData }) => {
 				/>
 			</div>
 		)}
-		<div className="sub-heading">
+		<div className="search-sub-heading">
 			<p> Not sure who to pick? Compare player stats using the side by side player searcher comparison tool below! </p>
 			<p> Type in a player's surname to see a range of FPL stats displayed for them (check spelling / official FPL name if it doesn't display): </p>
 		</div>

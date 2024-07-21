@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import "./HomePage.css";
 import oracle_fpl_2 from '../../components/images/oracle_fpl_2.jpeg';
 
@@ -10,14 +11,14 @@ const HomePage = () => {
       </header>
       <div className="content">
         <img src={oracle_fpl_2} className="oracle-fpl-image" alt="OracleFPL" />
-        <div className="sub-heading">
+        <div className="home-sub-heading">
           <p>
             This is the homepage of the OracleFPL tools - we hope they hope you find them useful and improve your FPL rank! Use the Navbar above to select the tool you need.
           </p>
           <ul>
-            <li><strong>Fixture Difficulty Calendar</strong></li>
-            <li><strong>Player Searcher Tool</strong></li>
-            <li><strong>FAQs</strong></li>
+            <li><Link to="/calendar"><strong>Fixture Difficulty Calendar</strong></Link></li>
+            <li><Link to="/search"><strong>Player Searcher Tool</strong></Link></li>
+            <li><Link to="/faqs"><strong>FAQs</strong></Link> (coming soon)</li>
           </ul>
           <p>
             Good luck for the season ahead!
@@ -25,7 +26,7 @@ const HomePage = () => {
         </div>
       </div>
       <div className="placeholder">
-        <p>Placeholder text for additional information or content goes here.</p>
+        <p>Player of the week:</p>
       </div>
     </div>
   );

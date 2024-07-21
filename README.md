@@ -48,7 +48,6 @@ E-mail address: attrill20@gmail.com
 
 #### Site Changes
 
-- Make a better home page
 - Write more copy about how the custom difficulty is calculated
 - Blog page / contact us / version update log
 
@@ -59,6 +58,14 @@ E-mail address: attrill20@gmail.com
 - Navbar on mobile collapsing issue / font size
 - Needs less of a margin / padding either side of the FDR toggle switch
 - Sort width of content to be more dynamic on Player Searcher page
+
+## 21/7/24
+
+Made some good changes across the site this weekend, mostly focussing on consistency of responsiveness when switching to mobile. Added some more copy to the homepage and added the new slogan "Crystal clear insights for FPL success", which ties in quite nicely with the OracleFPL branding! Here's how it looks on desktop:
+
+![Screenshot 2024-07-21 at 22 07 22](https://github.com/user-attachments/assets/545e8e49-25c8-4b33-aece-5eb5a87e88bd)
+
+Lots more work to do, but starting to look a bit more inviting now! Main focus that needs fixing is the navbar, and then will give the site another push!
 
 ## 20/7/24
 

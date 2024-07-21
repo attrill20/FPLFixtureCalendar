@@ -145,7 +145,7 @@ h3 {
   }
 
   h1 {
-    font-size: 1.2rem;
+    font-size: 1.6rem;
     margin-top: 5px;
     margin-bottom: 2px;
   }
@@ -156,13 +156,13 @@ h3 {
   }
 
   h3 {
-    font-size: 0.6rem;
+    font-size: 0.7rem;
   }
 
   .fdr-wrapper {
     display: inline-table;
-    justify-content: space-between;
-    align-items: top;
+    justify-content: center;
+    align-items: center;
     flex: 1;
     text-align: left;
     padding-left: 2%;
@@ -178,13 +178,14 @@ h3 {
 
   .fdr-image {
     border: 2px solid #000000;
-    margin-top: 100px;
-    margin-bottom: 10px;
-    width:100%;
+    width: 85%;
+    display: block;
     margin: 0 auto;
+    margin-top: 5px;
+    margin-bottom: 5px;
   }
 
-  fdr-heading {
+  .fdr-heading {
     margin-bottom: 5px;
   }
 

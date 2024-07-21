@@ -10,7 +10,7 @@ There is a blog below showing my ongoing progress and planned to-do list.
 
 To run: Clone repo, navigate to FPL-fixtures folder and enter 'npm run start' in command line. Will load the site in browser (the serverless function is deployed on Vercel in a separate repo)
 
-Deployed at: https://fpl-fixture-calendar.vercel.app/
+Deployed at: [https://fpl-fixture-calendar.vercel.app/](https://fpl-fixture-calendar.vercel.app/calendar)
 
 E-mail address: attrill20@gmail.com
 

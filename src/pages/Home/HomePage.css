@@ -131,10 +131,13 @@ h3 {
     padding-right: 1%;
     margin-left: 3%;
     margin-right: 3%;
+    margin-bottom: 5px;
+    margin-top: 5px;
   }
 
   .home-sub-heading ul {
     padding-left: 20px;
+    margin: 5px;
   }
 
   .home-sub-heading li {
@@ -160,7 +163,6 @@ h3 {
     display: inline-table;
     justify-content: space-between;
     align-items: top;
-    margin: 10px;
     flex: 1;
     text-align: left;
     padding-left: 2%;
@@ -170,20 +172,30 @@ h3 {
     background-color: white;
     margin-left: 3%;
     margin-right: 3%;
+    margin-top: 5px;
+    margin-bottom: 5px;
   }
 
   .fdr-image {
     border: 2px solid #000000;
-    margin-top: 10px;
+    margin-top: 100px;
     margin-bottom: 10px;
-    width:90%;
+    width:100%;
     margin: 0 auto;
+  }
+
+  fdr-heading {
+    margin-bottom: 5px;
   }
 
   .fdr-heading li {
     font-size: 0.6rem;
     margin-bottom: 5px;
     margin-left: 5px; 
+  }
+
+  .fdr-heading ul {
+    margin: 5px 0;
   }
 }
 

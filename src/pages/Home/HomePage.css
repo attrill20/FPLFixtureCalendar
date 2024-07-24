@@ -167,8 +167,7 @@ h3 {
   }
 
   .fdr-wrapper {
-    display: inline-table;
-    justify-content: center;
+    flex-direction: column;
     align-items: center;
     flex: 1;
     text-align: left;
@@ -190,6 +189,7 @@ h3 {
     margin: 0 auto;
     margin-top: 5px;
     margin-bottom: 5px;
+    order: 2;
   }
 
   .fdr-image-grid {
@@ -199,10 +199,12 @@ h3 {
     margin: 0 auto;
     margin-top: 5px;
     margin-bottom: 5px;
+    order: 2;
   }
 
   .fdr-heading {
     margin-bottom: 5px;
+    order: 1;
   }
 
   .fdr-heading li {

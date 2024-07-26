@@ -4,7 +4,7 @@ import PlayerSearcherPage from "./pages/PlayerSearcherPage/PlayerSearcherPage";
 import FixtureCalendarPage from "./pages/FixtureCalendarPage/FixtureCalendarPage";
 import HomePage from "./pages/Home/HomePage";
 import { teams } from "./components/dummyArrays/dummy";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 import Navbar from "./components/navbar/navbar";
 
 export default function App() {
@@ -39,12 +39,8 @@ export default function App() {
 			<BrowserRouter>
 			<Navbar />
 				<Routes>
-				<Route
-						path="/home"
-						element={
-							<HomePage/>
-						}
-					/>
+					<Route path="/" element={<HomePage />} />
+          			<Route path="/home" element={<Navigate to="/" />} />
 					<Route
 						path="/calendar"
 						element={

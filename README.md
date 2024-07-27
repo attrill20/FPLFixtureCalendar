@@ -1,4 +1,6 @@
-# FPL Fixture Difficulty Calendar - James Attrill Side Project
+# OracleFPL - James Attrill Side Project
+
+www.oracleFPL.co.uk
 
 ## Project Overview
 
@@ -37,7 +39,7 @@ E-mail address: attrill20@gmail.com
 
 #### Player Searcher Page
 
-- Display the top 5 current point-scoring players across the top of the player searcher page ( move to homepage?)
+- Display the top 5 current point-scoring players across the top of the player comparison page ( move to homepage?)
     - show different top 5s below the searcher
 - Add ranking of players to this page
 - Allow selection of different players with the exact same web_name
@@ -58,6 +60,14 @@ E-mail address: attrill20@gmail.com
 - Navbar on mobile collapsing issue / font size
 - Needs less of a margin / padding either side of the FDR toggle switch
 - Sort width of content to be more dynamic on Player Searcher page
+
+## 26/7/24
+
+My site offically has a new home - www.oracleFPL.co.uk! Bought the domain from 123reg.com for 95p for the year, what a bargain! Decided to rename the Player Searcher tool to 'Player Comparison Tool' instead, as more descriptive of what it actually does - so seems sensible!
+
+Also reordered the content on the home page to diaplay the overall FDR for each team first, as that's a more useful overview when you first land on the page and then readers can scroll down if they want a more detailed breakdown of each team's opening fixtures. This all needs to move to a blog page eventually though, and only most recent posts can be promoted on the homepage, whilst the rest is archived away. Would look a more modern design overhual to this page too, but that can come in time - it's functional for now!
+
+Will start promoting the site on LinkedIn and X over this weekend, whilst also working on making the navbar more slick too. Also going to launch a 'Beat The Robot' weekly competition, but will just tease that for now until I'm back from a holiday in Poland. Next update in a couple of weeks!
 
 ## 21/7/24
 

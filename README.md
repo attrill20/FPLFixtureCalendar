@@ -1,6 +1,6 @@
 # OracleFPL - James Attrill Side Project
 
-www.oracleFPL.co.uk
+<a href="http://www.oracleFPL.co.uk" target="_blank">www.oracleFPL.co.uk</a>
 
 ## Project Overview
 
@@ -12,7 +12,7 @@ There is a blog below showing my ongoing progress and planned to-do list.
 
 To run: Clone repo, navigate to FPL-fixtures folder and enter 'npm run start' in command line. Will load the site in browser (the serverless function is deployed on Vercel in a separate repo)
 
-Deployed at: [https://fpl-fixture-calendar.vercel.app/](https://fpl-fixture-calendar.vercel.app/calendar)
+Deployed at: <a href="https://fpl-fixture-calendar.vercel.app/" target="_blank">https://fpl-fixture-calendar.vercel.app/</a>
 
 E-mail address: attrill20@gmail.com
 
@@ -37,10 +37,10 @@ E-mail address: attrill20@gmail.com
 - Scrape the xG data from an external site
 - Find a more detailed API to add extra stats to the Player Searcher tool (Opta perhaps?)
 
-#### Player Searcher Page
+#### Player Comparison Page
 
 - Display the top 5 current point-scoring players across the top of the player comparison page ( move to homepage?)
-    - show different top 5s below the searcher
+    - show different top 5s below the tool
 - Add ranking of players to this page
 - Allow selection of different players with the exact same web_name
 - Fix the issue where the selected player disappears when you start searching again
@@ -63,7 +63,7 @@ E-mail address: attrill20@gmail.com
 
 ## 26/7/24
 
-My site offically has a new home - www.oracleFPL.co.uk! Bought the domain from 123reg.com for 95p for the year, what a bargain! Decided to rename the Player Searcher tool to 'Player Comparison Tool' instead, as more descriptive of what it actually does - so seems sensible!
+My site offically has a new home - <a href="http://www.oracleFPL.co.uk" target="_blank">www.oracleFPL.co.uk</a>! Bought the domain from 123reg.com for 95p for the year, what a bargain! Decided to rename the Player Searcher tool to 'Player Comparison Tool' instead, as more descriptive of what it actually does - so seems sensible!
 
 Also reordered the content on the home page to diaplay the overall FDR for each team first, as that's a more useful overview when you first land on the page and then readers can scroll down if they want a more detailed breakdown of each team's opening fixtures. This all needs to move to a blog page eventually though, and only most recent posts can be promoted on the homepage, whilst the rest is archived away. Would look a more modern design overhual to this page too, but that can come in time - it's functional for now!
 

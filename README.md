@@ -14,7 +14,7 @@ To run: Clone repo, navigate to FPL-fixtures folder and enter 'npm run start' in
 
 Deployed at: <a href="https://fpl-fixture-calendar.vercel.app/" target="_blank">https://fpl-fixture-calendar.vercel.app/</a>
 
-E-mail address: attrill20@gmail.com
+E-mail address: oraclefplcontact@gmail.com
 
 ## Current To-Do List
 

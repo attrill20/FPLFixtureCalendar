@@ -16,23 +16,36 @@ export default function App() {
 	// Fetch the FPL API data from new server
 	useEffect(() => {
 		async function fetchFPL() {
+		  try {
 			const response = await fetch("https://fpl-server-nine.vercel.app/api");
+			if (!response.ok) {
+			  throw new Error(`HTTP error! Status: ${response.status}`);
+			}
 			const data = await response.json();
 			setData(data);
-			setMainData(data.bootstrapData);
-			setFixturesData(data.fixturesData);
-
-			// Find the active gameweek and update the state
-			const activeEvent = data.bootstrapData.events.find(
+	
+			// Ensure bootstrapData exists before accessing its properties
+			if (data.bootstrapData) {
+			  setMainData(data.bootstrapData);
+			  setFixturesData(data.fixturesData);
+	
+			  // Find the active gameweek and update the state
+			  const activeEvent = data.bootstrapData.events.find(
 				(event) => !event.finished
-			);
-			if (activeEvent) {
+			  );
+			  if (activeEvent) {
 				setActiveGameweek(activeEvent.id);
+			  }
+			} else {
+			  console.error("bootstrapData is undefined in API response.");
 			}
+		  } catch (error) {
+			console.error("Failed to fetch data:", error);
+		  }
 		}
-
+	
 		fetchFPL();
-	}, []);
+	  }, []);
 
 	return (
 		<div className="app">
@@ -52,7 +65,7 @@ export default function App() {
 						}
 					/>
 					<Route
-						path="/search"
+						path="/comparison"
 						element={
 							<PlayerSearcherPage
 								data={data}

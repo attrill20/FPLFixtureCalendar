@@ -8,7 +8,7 @@ function Navbar() {
       <ul>
         <li><NavLink exact to="/home" activeClassName="active">Home</NavLink></li>
         <li><NavLink exact to="/calendar" activeClassName="active">Fixture Difficulty Calendar</NavLink></li>
-        <li><NavLink exact to="/search" activeClassName="active">Player Searcher</NavLink></li>
+        <li><NavLink exact to="/comparison" activeClassName="active">Player Comparison</NavLink></li>
       </ul>
     </nav>
   );

@@ -61,6 +61,10 @@ E-mail address: oraclefplcontact@gmail.com
 - Needs less of a margin / padding either side of the FDR toggle switch
 - Sort width of content to be more dynamic on Player Searcher page
 
+## 9/8/24
+
+Just a quick fix today as went to deploy the site locally with 'npm run start' and it no longer worked! Had to remove a lot of deprecated code that was preventing it from compiling properly after some updates and now works again with 'npm start'. Going to dive into updating the navbar this weekend!
+
 ## 26/7/24
 
 My site offically has a new home - <a href="http://www.oracleFPL.co.uk" target="_blank">www.oracleFPL.co.uk</a>! Bought the domain from 123reg.com for 95p for the year, what a bargain! Decided to rename the Player Searcher tool to 'Player Comparison Tool' instead, as more descriptive of what it actually does - so seems sensible!

@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef  } from "react";
 import "./formResults.css";
-import { findPlayerByWebName } from "../playerSearcher";
 
 export default function FormResults({ targetWebName, setTargetWebName, handleSubmit, targetedPlayer, mainData, showAttackingStats, showDefendingStats, showGoals, showAssists, showGoalsPer90, showAssistsPer90, showCleanSheets, showGoalsConceded }) {
     const [searchResults, setSearchResults] = useState([]);

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import "./checkboxes.css";
 
 export default function Checkboxes({ showAttackingStats, showDefendingStats, showGoals, showAssists, showGoalsPer90, showAssistsPer90, showCleanSheets, showGoalsConceded, setShowAttackingStats, setShowDefendingStats, setShowGoals, setShowAssists, setShowGoalsPer90, setShowAssistsPer90, setShowCleanSheets, setShowGoalsConceded }) {

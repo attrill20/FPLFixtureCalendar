@@ -8,7 +8,7 @@ export default function CardList({ teams, fixturesData, activeGameweek: initialA
   const [numberOfGameweeks, setNumberOfGameweeks] = useState(5);
   const [sortOrder, setSortOrder] = useState("desc");
   const [sortBy, setSortBy] = useState("custom"); 
-  const [showOriginalScore, setShowOriginalScore] = useState(true);
+  const [showOriginalScore] = useState(true);
   const [activeGameweek, setActiveGameweek] = useState(initialActiveGameweek);
 
   // Update activeGameweek when the prop changes
@@ -94,10 +94,10 @@ export default function CardList({ teams, fixturesData, activeGameweek: initialA
     return reversedTotalDifficulty;
   };
 
-  const calculateDifficulty = (reversedTotalDifficulty) => {
-    // Calculate difficulty logic (if needed)
-    return reversedTotalDifficulty;
-  };
+  // const calculateDifficulty = (reversedTotalDifficulty) => {
+  //   // Calculate difficulty logic (if needed)
+  //   return reversedTotalDifficulty;
+  // };
 
   const calculateCustomDifficulty = (teamId, numberOfFixtures) => {
     if (!fixturesData) return 0;

@@ -1,7 +1,6 @@
 import React from 'react';
 import CardList from '../../components/cardlist/cardlist';
 import "./FixtureCalendarPage.css"
-import { Link } from 'react-router-dom';
 
 const FixtureCalendarPage= ({ teams, fixturesData, activeGameweek }) => {
   return (

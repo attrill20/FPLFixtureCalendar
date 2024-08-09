@@ -44,9 +44,9 @@ export default function PlayerSearcher({ data, mainData }) {
 		return player;
 	  };
 
-	const handleInputChange = (event) => {
-		setTargetWebName(event.target.value);
-	};
+	// const handleInputChange = (event) => {
+	// 	setTargetWebName(event.target.value);
+	// };
 
 	const handleSubmit = (event, setTargetedPlayer, targetWebName) => {
 		event.preventDefault();

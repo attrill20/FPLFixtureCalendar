@@ -221,7 +221,6 @@ h3 {
 
 @media (max-width: 420px) {
   .home-sub-heading {
-    font-size: 0.7rem;
     padding-left: 1%;
     padding-right: 1%;
   }

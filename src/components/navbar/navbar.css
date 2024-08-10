@@ -1,39 +1,71 @@
 /* Base Navbar Styling */
 .navbar {
   background-color: #333;
-  padding: 20px;
+  padding: 5px;
+  padding-left: 25px;
   display: flex;
-  justify-content: center; /* Center the menu items on desktop */
   align-items: center;
   position: relative;
+  /* Use flex properties to position elements */
 }
 
-/* Navbar Menu Items (Desktop View) */
-.navbar ul {
+.anton-regular {
+  font-family: "Anton", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+/* Logo and Brand */
+.navbar-left {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0; /* Prevent shrinking */
+  text-decoration: none;
+}
+
+.navbar-logo {
+  height: 40px; /* Adjust the size as needed */
+  margin-right: 10px; /* Space between logo and text */
+}
+
+.navbar-brand {
+  color: white;
+  font-size: 2.4rem; /* Adjust font size as needed */
+}
+
+/* Navbar Menu Container (Desktop View) */
+.navbar-menu-container {
+  flex: 1; /* Take up remaining space */
+  display: flex;
+  justify-content: center; /* Center menu items */
+}
+
+/* Navbar Menu Items */
+.navbar-menu {
   list-style-type: none;
   margin: 0;
   padding: 0;
   display: flex;
+  align-items: center; /* Center items vertically */
 }
 
-/* Menu Items */
-.navbar ul li {
+.navbar-menu li {
   display: inline;
   margin: 0 15px; /* Add some spacing between menu items */
 }
 
 /* Menu Links */
-.navbar ul li a {
+.navbar-menu li a {
   color: white;
   text-decoration: none;
   padding: 10px;
 }
 
-.navbar ul li a:hover {
+.navbar-menu li a:hover {
   background-color: #6a6e66;
 }
 
-.navbar ul li a.active {
+.navbar-menu li a.active {
   color: rgb(57, 187, 5);
 }
 
@@ -44,10 +76,10 @@
 
 /* Mobile Styles */
 @media (max-width: 768px) {
-  /* Flexbox changes for mobile: align items to start */
+  /* Flexbox changes for mobile */
   .navbar {
-    justify-content: space-between; /* Space between the toggler and the logo (if any) */
-    padding: 1px;
+    justify-content: space-between; /* Space between the toggler and the logo */
+    padding: 5px; /* Adjust padding for mobile */
   }
 
   /* Display the burger icon on mobile */
@@ -59,13 +91,21 @@
     color: white;
     font-size: 24px;
     cursor: pointer;
-    margin-left: auto;
-    margin-top: 7px;
+    margin-left: auto; /* Pushes the icon to the right edge */
+  }
+
+  .navbar-brand {
+    font-size: 1.4rem;
   }
 
   /* Hide the menu items initially on mobile */
-  .navbar ul {
-    display: none;
+  .navbar-menu-container {
+    display: none; /* Hide menu items on mobile by default */
+  }
+
+  /* Display menu items when the menu is open */
+  .navbar-menu.open {
+    display: flex;
     flex-direction: column;
     width: 100%;
     position: absolute;
@@ -75,16 +115,31 @@
     z-index: 1;
   }
 
-  /* Display menu items when the menu is open */
-  .navbar ul.open {
-    display: flex;
-  }
-
-  /* Mobile-specific menu item styling */
-  .navbar ul li {
+  /* Make the entire row clickable */
+  .navbar-menu li {
     display: block;
     text-align: center;
     border-top: 1px solid #444;
-    padding: 10px 0;
+    padding: 0; /* Remove padding around items */
+    cursor: pointer; /* Indicate that the row is clickable */
+  }
+
+  /* Ensure links fill the li element */
+  .navbar-menu li a {
+    display: block;
+    width: 100%;
+    color: white;
+    text-decoration: none;
+    padding: 10px;
+    box-sizing: border-box; /* Ensure padding is included in width/height calculations */
+  }
+
+  /* Add hover effect to li elements */
+  .navbar-menu li:hover {
+    background-color: #6a6e66;
+  }
+
+  button {
+    margin-right: 10px;
   }
 }

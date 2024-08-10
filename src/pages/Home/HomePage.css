@@ -69,7 +69,7 @@ h3 {
 }
 
 .home-sub-heading li {
-  margin-bottom: 5px;
+  margin-bottom: 3px;
   margin-left: 20px; 
 }
 
@@ -133,7 +133,7 @@ h3 {
   }
 
   .home-sub-heading {
-    font-size: 0.7rem;
+    font-size: 0.6rem;
     padding-left: 1%;
     padding-right: 1%;
     margin-left: 3%;
@@ -143,8 +143,8 @@ h3 {
   }
 
   .home-sub-heading ul {
-    padding-left: 20px;
-    margin: 5px;
+    padding-left: 1px;
+    margin: 3px;
   }
 
   .home-sub-heading li {

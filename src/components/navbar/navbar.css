@@ -74,13 +74,14 @@
   display: none; /* Hide the burger icon on desktop */
 }
 
+
 /* Mobile Styles */
 @media (max-width: 768px) {
   /* Flexbox changes for mobile */
   .navbar {
     justify-content: space-between; /* Space between the toggler and the logo */
-    padding: 1px; /* Adjust padding for mobile */
-    padding-left: 5px;
+    padding: 2px; /* Adjust padding for mobile */
+    padding-left: 8px;
   }
 
   /* Display the burger icon on mobile */

@@ -1,6 +1,6 @@
 # OracleFPL - James Attrill Side Project
 
-<a href="http://www.oracleFPL.co.uk" target="_blank">www.oracleFPL.co.uk</a>
+Site is live at: <a href="http://www.oracleFPL.co.uk" target="_blank">www.oracleFPL.co.uk</a>
 
 ## Project Overview
 

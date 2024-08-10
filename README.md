@@ -43,6 +43,7 @@ E-mail address: oraclefplcontact@gmail.com
     - show different top 5s below the tool
 - Add ranking of players to this page
 - Allow selection of different players with the exact same web_name
+- Allow autocomplete to account for special characters (e.g. Odegaard doesn't currently get suggested)
 - Fix the issue where the selected player disappears when you start searching again
 - If player has no photo, add a blank default one
 - Fix the keyboard still displaying on mobile after selecting a player (focus/blue solution?)
@@ -50,16 +51,24 @@ E-mail address: oraclefplcontact@gmail.com
 
 #### Site Changes
 
-- Write more copy about how the custom difficulty is calculated
+- Write more copy about how the custom difficulty is calculated (FAQs)
 - Blog page / contact us / version update log
 
 #### Issues
 
 - Table repeats header on every row, change to display once and get the table to scroll (could use Material UI table)
 - Add a cache to prevent no fixtures displaying when the server occasionally goes down
-- Navbar on mobile collapsing issue / font size
 - Needs less of a margin / padding either side of the FDR toggle switch
-- Sort width of content to be more dynamic on Player Searcher page
+- Sort width of content to be more dynamic on Player Comparison page
+
+## 10/8/24
+
+Got the mobile navbar working! Completed a long-term goal today, by successfully getting the navbar to collapse to a 'burger menu' on mobile screens, which then displays a dropdown of the pages to navigate to across the site. Also added the OracleFPL brand name into the far left of the navbar across the site and played about with adding a new Google Font - which I quite like for now: 
+
+![Screenshot 2024-08-10 at 21 12 15](https://github.com/user-attachments/assets/47ab3db1-1ac1-41f9-a703-75036542d494)
+![Screenshot 2024-08-10 at 21 12 34](https://github.com/user-attachments/assets/17d68dfa-10f2-4c7c-9de7-cab21c9cba51)
+
+Next task will be to add a FAQs page to the site, so some of the logic and explanation can be stripped out into here to make the other pages less cluttered. Also, want to redesign the Player Comparison player images to be a bit smaller so more information can be fitted in one screen without having to scroll. Good progress this weekend!
 
 ## 9/8/24
 

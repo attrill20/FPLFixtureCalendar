@@ -12,7 +12,6 @@ function Navbar() {
   return (
     <nav className="navbar">
       <NavLink to="/home" className="navbar-left">
-        {/* <img src="path/to/logo.png" alt="Logo" className="navbar-logo" /> */}
         <span className="navbar-brand anton-regular">OracleFPL</span>
       </NavLink>
       <div className="navbar-menu-container">

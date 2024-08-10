@@ -79,7 +79,8 @@
   /* Flexbox changes for mobile */
   .navbar {
     justify-content: space-between; /* Space between the toggler and the logo */
-    padding: 5px; /* Adjust padding for mobile */
+    padding: 1px; /* Adjust padding for mobile */
+    padding-left: 5px;
   }
 
   /* Display the burger icon on mobile */
@@ -99,7 +100,7 @@
   }
 
   /* Hide the menu items initially on mobile */
-  .navbar-menu-container {
+  .navbar-menu {
     display: none; /* Hide menu items on mobile by default */
   }
 
@@ -140,6 +141,7 @@
   }
 
   button {
-    margin-right: 10px;
+    margin-right: 5px;
+    margin-bottom: 0px;
   }
 }

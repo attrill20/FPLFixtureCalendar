@@ -4,7 +4,7 @@ Site is live at: <a href="http://www.oracleFPL.co.uk" target="_blank">www.oracle
 
 ## Project Overview
 
-This project is an FPL site including Fixture Calendar (shows the upcoming fixtures for each Premier League team and ranks them based on their difficulty) and Player Searcher (compares stats of players) tools. I aim to use this side project to practice my React, JS and CSS skills. It uses the official FPL API to display fixtures and incorporates my very own custom 1-10 difficulty ranking system (found here: https://docs.google.com/spreadsheets/d/1wYS6wyRkHiP-9zlJAkd_V9vjnxXslpNinz-CLg6BILs/edit#gid=0) to better plan upcoming transfers compared to the official FPL 1-5 simplified rating system. Any suggestions welcome!
+This project is an FPL site including Fixture Calendar (shows the upcoming fixtures for each Premier League team and ranks them based on their difficulty) and Player Comparison (compares stats of players) tools. I aim to use this side project to practice my React, JS and CSS skills. It uses the official FPL API to display fixtures and incorporates my very own custom 1-10 difficulty ranking system (found here: https://docs.google.com/spreadsheets/d/1wYS6wyRkHiP-9zlJAkd_V9vjnxXslpNinz-CLg6BILs/edit#gid=0) to better plan upcoming transfers compared to the official FPL 1-5 simplified rating system. Any suggestions welcome!
 
 There is a blog below showing my ongoing progress and planned to-do list.
 

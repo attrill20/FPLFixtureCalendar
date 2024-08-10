@@ -1,29 +1,89 @@
+/* Base Navbar Styling */
 .navbar {
-    background-color: #333;
-    padding: 10px;
+  background-color: #333;
+  padding: 20px;
+  display: flex;
+  justify-content: center; /* Center the menu items on desktop */
+  align-items: center;
+  position: relative;
+}
+
+/* Navbar Menu Items (Desktop View) */
+.navbar ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+}
+
+/* Menu Items */
+.navbar ul li {
+  display: inline;
+  margin: 0 15px; /* Add some spacing between menu items */
+}
+
+/* Menu Links */
+.navbar ul li a {
+  color: white;
+  text-decoration: none;
+  padding: 10px;
+}
+
+.navbar ul li a:hover {
+  background-color: #6a6e66;
+}
+
+.navbar ul li a.active {
+  color: rgb(57, 187, 5);
+}
+
+/* Menu Toggler Button (Mobile View) */
+.navbar-toggler {
+  display: none; /* Hide the burger icon on desktop */
+}
+
+/* Mobile Styles */
+@media (max-width: 768px) {
+  /* Flexbox changes for mobile: align items to start */
+  .navbar {
+    justify-content: space-between; /* Space between the toggler and the logo (if any) */
+    padding: 1px;
   }
-  
-  .navbar ul {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-  }
-  
-  .navbar ul li {
-    display: inline;
-  }
-  
-  .navbar ul li a {
+
+  /* Display the burger icon on mobile */
+  .navbar-toggler {
+    display: flex;
+    align-items: center;
+    background-color: transparent;
+    border: none;
     color: white;
-    text-decoration: none;
-    padding: 10px;
+    font-size: 24px;
+    cursor: pointer;
+    margin-left: auto;
   }
-  
-  .navbar ul li a:hover {
-    background-color: #6a6e66;
+
+  /* Hide the menu items initially on mobile */
+  .navbar ul {
+    display: none;
+    flex-direction: column;
+    width: 100%;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: #333;
+    z-index: 1;
   }
-  
-  .navbar ul li a.active {
-    color: rgb(57, 187, 5);
+
+  /* Display menu items when the menu is open */
+  .navbar ul.open {
+    display: flex;
   }
-  
+
+  /* Mobile-specific menu item styling */
+  .navbar ul li {
+    display: block;
+    text-align: center;
+    border-top: 1px solid #444;
+    padding: 10px 0;
+  }
+}

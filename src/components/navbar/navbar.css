@@ -59,6 +59,7 @@
   color: white;
   text-decoration: none;
   padding: 10px;
+  font-size: 1.4rem;
 }
 
 .navbar-menu li a:hover {
@@ -130,10 +131,9 @@
   .navbar-menu li a {
     display: block;
     width: 100%;
-    color: white;
-    text-decoration: none;
-    padding: 10px;
     box-sizing: border-box; /* Ensure padding is included in width/height calculations */
+    font-size: 1.2rem;
+
   }
 
   /* Add hover effect to li elements */

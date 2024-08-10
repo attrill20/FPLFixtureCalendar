@@ -129,6 +129,7 @@
         border: 1px solid black;
         padding-bottom: 0;
         margin-bottom: 5px;
+        margin-left: 5px;
     }
 
     .results-wrapper {

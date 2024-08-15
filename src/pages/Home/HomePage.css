@@ -73,14 +73,19 @@ h3 {
   margin-left: 20px; 
 }
 
-.fdr-image {
-  border: 3px solid #000000;
-  margin-top: 10px;
-  margin-bottom: 10px;
+.fdr-image-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 100%;
-  max-width: 600px; /* Adjust as needed */
+  max-width: 600px; /* Adjust the maximum width as needed */
+  margin: 10px auto; /* Center the container with some margin */
+}
+
+.fdr-image {
+  width: 100%;
   height: auto; /* Maintain aspect ratio */
-  object-fit: contain; /* Ensure the image scales to fit within its container while maintaining aspect ratio */
+  border: 3px solid #000000; /* Tight border around the image */
 }
 
 .fdr-image-grid {

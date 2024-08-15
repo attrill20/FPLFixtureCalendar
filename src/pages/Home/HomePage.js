@@ -33,7 +33,6 @@ const HomePage = () => {
       </div>
 
       <div>
-        
         <div className="fdr-wrapper">
           <div className="fdr-heading">  
             <h2>July 2024 FDR Update</h2>

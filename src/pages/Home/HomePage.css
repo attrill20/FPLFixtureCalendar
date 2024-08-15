@@ -38,8 +38,8 @@ h3 {
   padding-top: 5px;
   padding-bottom: 5px;
   background-color: white;
-  margin-left: 10%;
-  margin-right: 10%;
+  margin-left: 9%;
+  margin-right: 9%;
 }
 
 .fdr-wrapper {
@@ -54,8 +54,8 @@ h3 {
   padding-top: 5px;
   padding-bottom: 5px;
   background-color: white;
-  margin-left: 10%;
-  margin-right: 10%;
+  margin-left: 9%;
+  margin-right: 9%;
 }
 
 .home-sub-heading ul {
@@ -107,7 +107,7 @@ h3 {
 }
 
 .fdr-heading li {
-  font-size: 1.1rem;
+  font-size: 1.3rem;
   margin-bottom: 5px;
   margin-left: 10px; 
 }
@@ -131,6 +131,10 @@ h3 {
 
   h1 {
     font-size: 3rem;
+  }
+
+  h3 {
+    font-size: 1.5rem;
   }
 
   .oracle-fpl-image {

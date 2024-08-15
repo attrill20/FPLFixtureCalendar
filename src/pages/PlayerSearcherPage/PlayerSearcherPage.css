@@ -13,17 +13,23 @@
     margin-right: 15%;
   }
 
-  p {
-    margin-top: 5px;
-    margin-bottom: 5px;
-    padding-top: 5px;
-    padding-bottom: 5px;
+p {
+  margin-top: 5px;
+  margin-bottom: 5px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+
+@media (max-width: 1600px) {
+  .player-pics {
+    margin-left: 5%;
+    margin-right: 5%;
   }
+}
 
   
-  /* Add a media query for mobile devices */
-@media (max-width: 1000px) { /* Adjust the max-width as needed */
-
+@media (max-width: 1000px) { 
   .search-sub-heading{
     font-size: 0.6rem;
     padding-left: 3%;

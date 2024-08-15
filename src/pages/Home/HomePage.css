@@ -118,6 +118,27 @@ h3 {
 }
 
 
+@media (max-width: 1600px) {
+  .home-sub-heading {
+    margin-left: 5%;
+    margin-right: 5%;
+  }
+
+  .fdr-wrapper {
+    margin-left: 5%;
+    margin-right: 5%;
+  }
+
+  h1 {
+    font-size: 3rem;
+  }
+
+  .oracle-fpl-image {
+    width: 7%;
+  }
+}
+
+
 @media (max-width: 1200px) {
   .app-header {
     font-size: small;

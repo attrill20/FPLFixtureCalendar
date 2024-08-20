@@ -61,6 +61,18 @@ E-mail address: oraclefplcontact@gmail.com
 - Needs less of a margin / padding either side of the FDR toggle switch
 - Sort width of content to be more dynamic on Player Comparison page
 
+## 20/8/24
+
+Quick update after sharing my site with a group of friends, one of them pointed out that this didn't look very clear:
+
+![Screenshot 2024-08-20 at 18 58 24](https://github.com/user-attachments/assets/7cf78ce3-3911-44c0-a812-d7536771eeda)
+
+So decided to re-word the heading and add a 'date posted' section on articles shared to the home page like this:
+
+![Screenshot 2024-08-20 at 18 58 41](https://github.com/user-attachments/assets/259de7cf-60ef-40af-8e9a-3640e2d38507)
+
+Good to gain some constructive criticism and put in plave an easy win to make things easier to understand!
+
 ## 10/8/24
 
 Got the mobile navbar working! Completed a long-term goal today, by successfully getting the navbar to collapse to a 'burger menu' on mobile screens, which then displays a dropdown of the pages to navigate to across the site. Also added the OracleFPL brand name into the far left of the navbar across the site and played about with adding a new Google Font - which I quite like for now: 

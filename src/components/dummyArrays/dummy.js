@@ -12,7 +12,8 @@ import FULbadge from '../badges/FULbadge.png'
 import IPSbadge from '../badges/IPSbadge.png'
 import LEIbadge from '../badges/LEIbadge.png'
 // import LEEbadge from '../badges/LEEbadge.png'
-import LIVbadge from '../badges/LIVbadge.png'
+// import LIVbadge from '../badges/LIVbadge.png'
+import LIVbadge2 from '../badges/LIVbadge2.png'
 // import LUTbadge from '../badges/LUTbadge.png'
 import MCIbadge from '../badges/MCIbadge.png'
 import MUNbadge from '../badges/MUNbadge.png'
@@ -41,7 +42,7 @@ export let teams = [
   { id: 10, name: "Ipswich", initial: "IPS", badge: IPSbadge, h_diff: 3, a_diff: 6 },
   { id: 11, name: "Leicester", initial: "LEI", badge: LEIbadge, h_diff: 3, a_diff: 6 },
   // { name: "Leeds United", initial: "LEE", badge: LEEbadge },
-  { id: 12, name: "Liverpool", initial: "LIV", badge: LIVbadge, h_diff: 7, a_diff: 10 },
+  { id: 12, name: "Liverpool", initial: "LIV", badge: LIVbadge2, h_diff: 7, a_diff: 10 },
   // { id: 13, name: "Luton", initial: "LUT", badge: LUTbadge, h_diff: 2, a_diff: 2 },
   { id: 13, name: "Man City", initial: "MCI", badge: MCIbadge, h_diff: 7, a_diff: 9 },
   { id: 14, name: "Man Utd", initial: "MUN", badge: MUNbadge, h_diff: 6, a_diff: 6 },

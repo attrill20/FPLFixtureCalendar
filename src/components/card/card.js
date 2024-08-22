@@ -123,7 +123,7 @@ export default function Row({
         <thead className="table-header">
           <tr>
             <th className="team-column">Team</th>
-            <th className="FDR-column">FDR</th>
+            <th className="fdr-column">FDR</th>
             {teamFixturesData &&
               teamFixturesData.fixtures.map((_, index) => {
                 const gameweekNumber = activeGameweek + index;
@@ -141,14 +141,14 @@ export default function Row({
               <img className="team-badge" src={team?.badge} alt={teamName} />
             </td>
 
-            <td className="FDR-column">
+            <td className="fdr-column">
               {showOriginalScore && teamFixturesData && (
-                <h2 className="FDR-number">
+                <h2 className="fdr-number">
                   {teamFixturesData.reversedTotalDifficulty}
                 </h2>
               )}
               {showCustomScore && teamFixturesData && (
-                <h2 className="FDR-number">
+                <h2 className="fdr-number">
                   {teamFixturesData.reversedCustomDifficulty}
                 </h2>
               )}

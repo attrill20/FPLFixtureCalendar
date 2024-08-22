@@ -81,10 +81,14 @@ th {
   background-color: rgba(188, 187, 187, 0.85);
 }
 
+.fdr-number {
+  margin-top: 0px;
+}
+
 
 /* DESKTOP */
 @media (min-width: 1000px) { 
-  .FDR-column {
+  .fdr-column {
     width: 4%; 
     overflow-wrap: break-word;
   }
@@ -146,7 +150,7 @@ th {
 /* TABLET */
 @media (max-width: 1500px) { 
  
-  .FDR-column {
+  .fdr-column {
     width: 8%; 
   }
 
@@ -194,7 +198,7 @@ th {
     margin-top: 1px;
   }
 
-  .FDR-column {
+  .fdr-column {
     width: 6%;
   }
 
@@ -225,7 +229,7 @@ th {
     padding-top: 1px;
   }
 
-  .FDR-number {
+  .fdr-number {
     font-size: 0.8em;
   }
 
@@ -256,7 +260,7 @@ th {
     margin-top: 3px;
   }
 
-  .FDR-column {
+  .fdr-column {
     width: 7%;
   }
 

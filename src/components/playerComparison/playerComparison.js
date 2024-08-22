@@ -55,25 +55,27 @@ export default function PlayerComparison({ data, mainData }) {
 	};
 
 	return (
-		<div>
-			<Checkboxes
-				showAttackingStats={showAttackingStats}
-				showDefendingStats={showDefendingStats}
-				showGoals={showGoals}
-				showAssists={showAssists}
-				showGoalsPer90={showGoalsPer90}
-				showAssistsPer90={showAssistsPer90}
-				showCleanSheets={showCleanSheets}
-				showGoalsConceded={showGoalsConceded}
-				setShowAttackingStats={setShowAttackingStats}
-				setShowDefendingStats={setShowDefendingStats}
-				setShowGoals={setShowGoals}
-				setShowAssists={setShowAssists}
-				setShowGoalsPer90={setShowGoalsPer90}
-				setShowAssistsPer90={setShowAssistsPer90}
-				setShowCleanSheets={setShowCleanSheets}
-				setShowGoalsConceded={setShowGoalsConceded}
-			/>
+		<div className="player-comparison-wrapper">
+			<div className="checkbox-container">
+				<Checkboxes
+					showAttackingStats={showAttackingStats}
+					showDefendingStats={showDefendingStats}
+					showGoals={showGoals}
+					showAssists={showAssists}
+					showGoalsPer90={showGoalsPer90}
+					showAssistsPer90={showAssistsPer90}
+					showCleanSheets={showCleanSheets}
+					showGoalsConceded={showGoalsConceded}
+					setShowAttackingStats={setShowAttackingStats}
+					setShowDefendingStats={setShowDefendingStats}
+					setShowGoals={setShowGoals}
+					setShowAssists={setShowAssists}
+					setShowGoalsPer90={setShowGoalsPer90}
+					setShowAssistsPer90={setShowAssistsPer90}
+					setShowCleanSheets={setShowCleanSheets}
+					setShowGoalsConceded={setShowGoalsConceded}
+				/>
+			</div>
 			
 			<div className="fpl-stats">
 				<FormResults

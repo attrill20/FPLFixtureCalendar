@@ -1,17 +1,23 @@
 .player-pics {
-  margin-top: 10px;
-  margin-left: 15%;
-  margin-right: 15%;
+  margin-top: 5px;
+  margin-left: 9%;
+  margin-right: 9%;
+}
+
+.player-pic {
+  width: 9%;
+  height: auto; 
+  margin: 1px;
 }
 
 .search-sub-heading {
-    font-size: large;
-    margin-top: 1px;
-    margin-bottom: 5px;
-    background-color: white;
-    margin-left: 15%;
-    margin-right: 15%;
-  }
+  font-size: large;
+  margin-top: 1px;
+  margin-bottom: 5px;
+  background-color: white;
+  margin-left: 9%;
+  margin-right: 9%;
+}
 
 p {
   margin-top: 5px;
@@ -20,9 +26,24 @@ p {
   padding-bottom: 5px;
 }
 
+.player-comparison-tool {
+  margin-left: 9%;
+  margin-right: 9%;
+}
+
 
 @media (max-width: 1600px) {
   .player-pics {
+    margin-left: 5%;
+    margin-right: 5%;
+  }
+
+  .search-sub-heading {
+    margin-left: 5%;
+    margin-right: 5%;
+  }
+
+  .player-comparison-tool {
     margin-left: 5%;
     margin-right: 5%;
   }
@@ -34,6 +55,11 @@ p {
     font-size: 0.6rem;
     padding-left: 3%;
     padding-right: 3%;
+    margin-left: 3%;
+    margin-right: 3%;
+  }
+
+  .player-comparison-tool {
     margin-left: 3%;
     margin-right: 3%;
   }
@@ -50,7 +76,6 @@ p {
 
 /* SMALL MOBILE */
 @media (max-width: 420px) { 
-
   .search-sub-heading{
     font-size: 0.5rem;
     padding-left: 3%;

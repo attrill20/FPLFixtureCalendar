@@ -55,6 +55,7 @@ E-mail address: oraclefplcontact@gmail.com
 
 - Write more copy about how the custom difficulty is calculated (FAQs)
 - Blog page / contact us / version update log
+- Add page location name in the Navbar on mobile site
 
 #### Issues
 

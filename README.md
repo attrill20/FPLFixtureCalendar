@@ -29,6 +29,8 @@ E-mail address: oraclefplcontact@gmail.com
 - Add a logo to the site and navbar
 - Add an AI chat to recommend players to pick
 - Add a database of historical data
+- Transition all data to be stored in a DB (mongoDB)
+- Add Twiiter / X feed on the homepage
 
 #### Calendar Page
 

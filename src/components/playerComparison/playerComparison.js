@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import FormResults from "./formResults/formResults";
 import Checkboxes from "./checkboxes/checkboxes";
-import "./playerSearcher.css";
+import "./playerComparison.css";
 
-export default function PlayerSearcher({ data, mainData }) {
+export default function PlayerComparison({ data, mainData }) {
 	const [targetedPlayer, setTargetedPlayer] = useState(null);
 	const [targetWebName, setTargetWebName] = useState("");
 	const [targetedPlayer2, setTargetedPlayer2] = useState(null);

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./App.css";
-import PlayerSearcherPage from "./pages/PlayerSearcherPage/PlayerSearcherPage";
+import PlayerComparisonPage from "./pages/PlayerComparisonPage/PlayerComparisonPage";
 import FixtureCalendarPage from "./pages/FixtureCalendarPage/FixtureCalendarPage";
 import HomePage from "./pages/Home/HomePage";
 import { teams } from "./components/dummyArrays/dummy";
@@ -67,7 +67,7 @@ export default function App() {
 					<Route
 						path="/comparison"
 						element={
-							<PlayerSearcherPage
+							<PlayerComparisonPage
 								data={data}
 								mainData={mainData}
 							/>

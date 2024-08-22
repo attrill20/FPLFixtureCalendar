@@ -157,7 +157,7 @@
 
 
 /* Add a media query for small devices */
-@media (max-width: 1000px) { /* Adjust the max-width as needed */
+@media (max-width: 1200px) { /* Adjust the max-width as needed */
     .search-dropdown {
         width: 27%;
         margin-left: 8%;

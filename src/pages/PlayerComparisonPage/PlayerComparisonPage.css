@@ -56,7 +56,7 @@ p {
 }
 
   
-@media (max-width: 1000px) { 
+@media (max-width: 1200px) { 
   .search-sub-heading{
     font-size: 0.6rem;
     padding-left: 3%;

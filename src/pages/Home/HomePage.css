@@ -168,15 +168,8 @@ h3 {
 @media (max-width: 1200px) {
   .app-header {
     font-size: small;
-    padding-left: 2%;
-    padding-right: 2%;
-  }
-
-  .oracle-fpl-image {
-    width: 20%;
-    margin-right: 0;
-    margin-bottom: 3px;
     padding-left: 5%;
+    padding-right: 10%;
   }
 
   .home-sub-heading {
@@ -264,8 +257,29 @@ h3 {
     margin-left: 5px; 
   }
 
+  .date-posted {
+    font-size: 0.6rem;
+  }
+
   .fdr-heading ul {
     margin: 5px 0;
+  }
+
+  .oracle-fpl-image {
+    width: 6%;
+    padding-left: 10%;
+  }
+}
+
+@media (max-width: 800px) {
+  .oracle-fpl-image {
+    width: 8%;
+    padding-left: 8%;
+  }
+
+  .app-header {
+    padding-left: 2%;
+    padding-right: 2%;
   }
 }
 

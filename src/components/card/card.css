@@ -87,7 +87,7 @@ th {
 
 
 /* DESKTOP */
-@media (min-width: 1000px) { 
+@media (min-width: 1200px) { 
   .fdr-column {
     width: 4%; 
     overflow-wrap: break-word;
@@ -161,7 +161,7 @@ th {
 
 
 /* MOBILE */
-@media (max-width: 1000px) {
+@media (max-width: 1200px) {
 
   th,
   td {

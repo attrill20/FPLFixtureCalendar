@@ -35,8 +35,8 @@
 }
 
 .results-wrapper {
-    width: 90%;
-    margin-top: 10px; 
+    width: 95%;
+    margin-top: 7px; 
     margin-bottom: 10px; 
 }
 
@@ -212,13 +212,12 @@
 
     .submit-button {
         width: 60%;
-        margin-bottom: 5px;
         margin-left: 0px;
     }
 
     .results-wrapper {
-        width: 90%;
         margin-top: 5px;
+        margin-bottom: 5px;
     }
 
     .stats-paragraph, .stats-headings, .search-item {
@@ -239,15 +238,7 @@
     }
 
     .submit-button {
-        margin-top: 5px; /* Restore top margin on mobile */
+        margin-top: 5px; 
         width: 100%;
-    }
-}
-
-@media (max-width: 600px) {
-    .search-dropdown {
-        width: 27%;
-        margin-left: 8%;
-        max-height: 200px;
     }
 }

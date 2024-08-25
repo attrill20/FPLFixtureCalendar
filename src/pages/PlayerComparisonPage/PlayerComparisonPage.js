@@ -17,7 +17,7 @@ const PlayerComparisonPage = ({ data, mainData }) => {
             {sortedPlayers.slice(0, 10).map((player, index) => (
               <img
                 key={player.code}
-                className="player-pic"
+                className="player-pic-top-10"
                 src={`https://resources.premierleague.com/premierleague/photos/players/110x140/p${player.code}.png`}
                 alt={`player-${index + 1}`}
               />

@@ -199,7 +199,7 @@ export default function CardList({ teams, fixturesData, activeGameweek: initialA
       <strong className="tool-text">Oracle FDR</strong>
 
       <button
-        className={`button ${sortBy === "custom" ? "active" : ""}`}
+        className={`button-sort ${sortBy === "custom" ? "active" : ""}`}
         onClick={handleCustomSort}
       >
         {sortOrder === "asc" ? "Sort ↑" : "Sort ↓"}

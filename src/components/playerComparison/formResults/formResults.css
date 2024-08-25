@@ -3,9 +3,7 @@
     display: flex; 
     flex-direction: column; 
     align-items: center;
-    margin-top: 10px;
-    margin-left: 10px;
-    margin-right: 10px;
+    margin: 10px;
     width: 50%;
 }
 
@@ -23,8 +21,10 @@
 
 .form-input {
     font-size: 1.2rem;
-    width: 60%;
+    width: 90%;
     text-align: center;
+    justify-content: center;
+    margin-left: 2px;
 }
 
 .submit-button {
@@ -43,27 +43,23 @@
     background-color: rgb(255, 255, 255);
     border: 2px solid black;
     font-size: 1.2rem;
+    padding: 10px;
+    text-align: center;
 }
 
 .player-pic2 {
-    margin-top: 5px;
-    width: 60%; 
+    margin-top: 2px;
+    width: 80%; /* Increased the size of the player picture */
     height: auto;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
 }
 
-.stats-results {
+.stats-results, .stats-headings, .stats-paragraph {
+    text-align: center;
     margin: 0;
     padding: 0;
-}
-
-.stats-paragraph {
-    margin-bottom: 10px;
-}
-
-.stats-headings {
-    margin: 0;
-    padding: 0;
-    font-size: 0.6rem;
 }
 
 .search-dropdown {
@@ -74,90 +70,156 @@
     max-height: 500px;
     overflow-y: auto;
     display: flex;
-    margin-left: 4%;
     flex-direction: column;
     align-items: center;
     width: 14%;
+    margin-left: 4%;
 }
 
 .search-item {
     padding: 8px 12px;
     cursor: pointer;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
     width: 100%;
+    text-align: center;
 }
 
 .search-item:hover {
     background-color: #f0f0f0;
 }
 
-
-/* Add a media query for mobile devices */
-@media (max-width: 1200px) { /* Adjust the max-width as needed */
-    .player-searcher {
-        margin: 5px;
+/* Desktop-specific styles */
+@media (min-width: 1200px) {
+    .results {
+        display: flex;
+        flex-direction: column;
+        padding-left: 20px;
+        padding-right: 20px;
+        padding-top: 5px;
     }
 
-    .player-pic {
-        width: 20%;
+    .top-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
     }
 
     .player-pic2 {
-        width: 50%;
+        width: 30%; /* Larger size for desktop */
+        margin-right: 2px;
+        margin-left: 50px;
     }
 
-    .intro-text {
-        font-size: 0.8rem;
+    .stats-wrapper {
+        display: flex;
+        flex-direction: column;
+        width: 75%;
+        margin-top: 10px;
     }
 
-    .form-label {
+    .stats-row {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+        margin-bottom: 10px;
+    }
+
+    .stats-section, .stats-full-row {
+        width: 100%;
+        text-align: center; /* Center text in all sections */
+        margin-bottom: 10px;
+    }
+
+    .single-stat {
+        margin-top: 10px;
+    }
+
+    .stats-headings {
         font-size: 0.6rem;
     }
 
-    .form-input {
+    .stats-results {
+        font-size: 1.2rem;
+    }
+
+    .form {
+        flex-direction: row;
+        justify-content: center;
+        align-items: flex-start;
+    }
+
+    .input-container {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-start;
+        margin-right: 20px;
+    }
+
+    .button-container {
+        display: flex;
+        justify-content: center; /* Centers the button horizontally */
+        align-items: center; /* Centers the button vertically */
+        height: 100%; /* Make the container take up the full height available */
+    }
+    
+    .submit-button {
+        width: auto;
+        margin-top: 17px;
+    }
+    
+    
+}
+
+/* Mobile-specific styles */
+@media (max-width: 1200px) {
+    .player-searcher {
+        margin: 5px;
+        width: 90%;
+    }
+
+    .player-pic2 {
+        width: 30%;
+    }
+
+    .intro-text, .form-label, .form-input, .submit-button, .results, .stats-headings {
         font-size: 0.6rem;
-        width: 60%;
     }
 
     .submit-button {
-        font-size: 0.4rem;
-        border: 1px solid black;
-        padding-bottom: 0;
+        width: 60%;
         margin-bottom: 5px;
-        margin-left: 5px;
     }
 
     .results-wrapper {
         width: 90%;
-        margin-top: 5px; 
-        margin-bottom: 0px; 
-    }
-
-    .results {
-        font-size: 0.6rem;
-        margin-bottom: 5px;
-        border: 1px solid black;
-    }
-
-    .stats-paragraph {
-        margin-bottom: 5px;
-    }
-
-    .stats-headings {
-        font-size: 0.4rem;
+        margin-top: 5px;
     }
 
     .search-dropdown {
         width: 30%;
         margin-left: 11%;
     }
+
+    .stats-paragraph, .stats-headings, .search-item {
+        font-size: 0.4rem;
+    }
+
+    .form {
+        flex-direction: column; /* Revert to column layout on mobile */
+        align-items: center;
+    }
+
+    .input-container {
+        margin-right: 0px; /* Remove margin on mobile */
+    }
+
+    .submit-button {
+        margin-top: 5px; /* Restore top margin on mobile */
+        width: 100%;
+    }
 }
 
-
-/* Add a media query for small devices */
-@media (max-width: 1200px) { /* Adjust the max-width as needed */
+@media (max-width: 600px) {
     .search-dropdown {
         width: 27%;
         margin-left: 8%;

@@ -131,14 +131,14 @@
     .player-pic2 {
         width: 30%; /* Larger size for desktop */
         margin-right: 2px;
-        margin-left: 50px;
+        padding-left: 100px;
     }
 
     .stats-wrapper {
         display: flex;
         flex-direction: column;
         width: 75%;
-        margin-top: 10px;
+        margin-top: 15px;
     }
 
     .stats-row {

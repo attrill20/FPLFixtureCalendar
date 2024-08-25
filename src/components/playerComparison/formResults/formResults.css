@@ -65,15 +65,16 @@
 
 .search-dropdown {
     position: absolute;
-    top: 100%; /* Position it directly below the input field */
-    left: 0; /* Align it to the left of the input field */
-    z-index: 999; /* Ensure it appears above other content */
+    top: 100%; 
+    left: 0; 
+    z-index: 999; 
     background-color: white;
     border: 1px solid #ccc;
-    max-height: 500px; /* Adjust height as needed */
+    max-height: 500px; 
     overflow-y: auto;
-    width: 95%; /* Full width of the input-container */
-    margin-top: 0px; /* Space between the input and dropdown */
+    width: 94%; 
+    margin-top: 0px; 
+    margin-left: 4px;
 }
 
 .search-item {
@@ -188,6 +189,11 @@
 
 /* Mobile-specific styles */
 @media (max-width: 1200px) {
+    .form {
+        flex-direction: column;
+        align-items: center;
+    }
+
     .player-searcher {
         margin: 5px;
         width: 90%;
@@ -230,17 +236,20 @@
         font-size: 0.4rem;
     }
 
+    .search-item {
+        padding: 6px 0px;
+    }
+
+    .search-dropdown {
+        margin-left: 0px;
+    }
+
     .stats-headings {
         margin-top: 5px;
     }
 
-    .form {
-        flex-direction: column; /* Revert to column layout on mobile */
-        align-items: center;
-    }
-
     .input-container {
-        margin-right: 0px; /* Remove margin on mobile */
+        margin-right: 0px; 
     }
 
     .submit-button {

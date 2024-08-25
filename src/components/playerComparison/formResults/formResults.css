@@ -205,6 +205,12 @@
         margin-left: 0px;
     }
 
+    .results {
+        padding: 2px;
+        padding-top: 1px;
+        padding-bottom: 5px;
+    }
+
     .results-placeholder {
         padding-left: 30px;
         padding-right: 30px;

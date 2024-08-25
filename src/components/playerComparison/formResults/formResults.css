@@ -24,13 +24,14 @@
     width: 90%;
     text-align: center;
     justify-content: center;
-    margin-left: 2px;
+    margin-left: 5px;
 }
 
 .submit-button {
     font-size: 1.2rem;
-    width: 40%;
+    width: 100%;
     margin-top: 5px;
+    margin-left:10px;
 }
 
 .results-wrapper {
@@ -64,20 +65,19 @@
 
 .search-dropdown {
     position: absolute;
-    z-index: 999;
+    top: 100%; /* Position it directly below the input field */
+    left: 0; /* Align it to the left of the input field */
+    z-index: 999; /* Ensure it appears above other content */
     background-color: white;
     border: 1px solid #ccc;
-    max-height: 500px;
+    max-height: 500px; /* Adjust height as needed */
     overflow-y: auto;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 14%;
-    margin-left: 4%;
+    width: 95%; /* Full width of the input-container */
+    margin-top: 0px; /* Space between the input and dropdown */
 }
 
 .search-item {
-    padding: 8px 12px;
+    padding: 4px 0px;
     cursor: pointer;
     width: 100%;
     text-align: center;
@@ -85,6 +85,23 @@
 
 .search-item:hover {
     background-color: #f0f0f0;
+}
+
+.results-placeholder {
+    background-color: rgb(255, 255, 255);
+    border: 2px solid black;
+    font-size: 1.2rem;
+    padding: 10px;
+    text-align: center;
+    padding-top: 70px;
+    padding-bottom: 70px;
+}
+
+.input-container {
+    position: relative; /* Allows the dropdown to position absolutely within this container */
+    display: flex;
+    flex-direction: column;
+    width: 100%;
 }
 
 /* Desktop-specific styles */
@@ -95,6 +112,13 @@
         padding-left: 20px;
         padding-right: 20px;
         padding-top: 5px;
+    }
+
+    .results-placeholder {
+        display: flex;
+        flex-direction: column;
+        padding-left: 20px;
+        padding-right: 20px;
     }
 
     .top-row {
@@ -147,14 +171,6 @@
         align-items: flex-start;
     }
 
-    .input-container {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: flex-start;
-        margin-right: 20px;
-    }
-
     .button-container {
         display: flex;
         justify-content: center; /* Centers the button horizontally */
@@ -163,7 +179,7 @@
     }
     
     .submit-button {
-        width: auto;
+        width: 120px;
         margin-top: 17px;
     }
     
@@ -181,13 +197,23 @@
         width: 30%;
     }
 
-    .intro-text, .form-label, .form-input, .submit-button, .results, .stats-headings {
+    .intro-text, .form-label, .form-input, .submit-button, .results, .results-placeholder, .stats-headings {
         font-size: 0.6rem;
+    }
+
+    .form-input {
+        margin-left: 0px;
+    }
+
+    .results-placeholder {
+        padding-left: 30px;
+        padding-right: 30px;
     }
 
     .submit-button {
         width: 60%;
         margin-bottom: 5px;
+        margin-left: 0px;
     }
 
     .results-wrapper {
@@ -195,13 +221,12 @@
         margin-top: 5px;
     }
 
-    .search-dropdown {
-        width: 30%;
-        margin-left: 11%;
-    }
-
     .stats-paragraph, .stats-headings, .search-item {
         font-size: 0.4rem;
+    }
+
+    .stats-headings {
+        margin-top: 5px;
     }
 
     .form {

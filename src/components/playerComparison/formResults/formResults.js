@@ -51,7 +51,7 @@ export default function FormResults({ targetWebName, setTargetWebName, handleSub
         <div className="player-searcher">
             <form className="form" onSubmit={handleSubmit}>
                 <div className="input-container">
-                    <label className="form-label">
+                    <label className="form-label" ref={clickTargetRef}>
                         Enter Player Name Here:
                     </label>
                     <input
@@ -60,6 +60,19 @@ export default function FormResults({ targetWebName, setTargetWebName, handleSub
                         value={targetWebName}
                         onChange={handleInputChange}
                     />
+                    {searchResults.length > 0 && (
+                        <div className="search-dropdown" ref={dropdownRef}>
+                            {searchResults.map((result) => (
+                                <div
+                                    key={result.id}
+                                    className="search-item"
+                                    onClick={() => handleSelectPlayer(result.web_name)}
+                                >
+                                    {result.web_name}
+                                </div>
+                            ))}
+                        </div>
+                    )}
                 </div>
                 <div className="button-container">
                     <button className='submit-button' type="submit">
@@ -180,9 +193,9 @@ export default function FormResults({ targetWebName, setTargetWebName, handleSub
                     
                 </div>
             ) : (
-                <p className="results">
-                    Enter a player's surname in the field above!
-                </p>
+                    <p className="results-placeholder">
+                        Enter a player's surname in the field above!
+                    </p>
             )}
             </div>
         </div>

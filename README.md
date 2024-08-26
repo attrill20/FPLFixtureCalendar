@@ -41,15 +41,12 @@ E-mail address: oraclefplcontact@gmail.com
 
 #### Player Comparison Page
 
-- Display the top 5 current point-scoring players across the top of the player comparison page ( move to homepage?)
-    - show different top 5s below the tool
-- Add ranking of players to this page
+- Show more top 10s below the tool on this page
 - Allow selection of different players with the exact same web_name
 - Allow autocomplete to account for special characters (e.g. Odegaard doesn't currently get suggested)
 - Fix the issue where the selected player disappears when you start searching again
 - If player has no photo, add a blank default one
 - Fix the keyboard still displaying on mobile after selecting a player (focus/blue solution?)
-- Change profile layout, smaller player photo on desktop and side by side stats
 
 #### Site Changes
 
@@ -62,7 +59,20 @@ E-mail address: oraclefplcontact@gmail.com
 - Table repeats header on every row, change to display once and get the table to scroll (could use Material UI table)
 - Add a cache to prevent no fixtures displaying when the server occasionally goes down
 - Needs less of a margin / padding either side of the FDR toggle switch
-- Sort width of content to be more dynamic on Player Comparison page
+
+## 26/8/24
+
+Completed the redesign of the Player Comparison page, including:
+
+- Reduced the size of the player photo and moved the generic stats in line, with specific attacking / defending stats below
+- Changed the hardcoded player faces at the top of the page, to be a live Top 10 scorers of the GW
+- Added a new Goals Conceded Per 90 defensive stat, and improved styling and responsiveness across the whole page
+
+Pretty pleased with the result, here's what it now looks like on desktop:
+
+![Screenshot 2024-08-26 at 12 11 29](https://github.com/user-attachments/assets/f9204d05-b77c-4d74-865a-724eb7b9c1b3)
+
+Was a bit more fiddly than expected, and still haven't fixed the issue with multiple players with the same name. Will add a new FAQs page next!
 
 ## 20/8/24
 

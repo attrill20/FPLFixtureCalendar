@@ -142,8 +142,6 @@ export default function FormResults({ targetWebName, setTargetWebName, handleSub
                         </div>
                     </div>
                     
-                    
-
                     <div className="single-stat">
                         {(showGoals || showAssists || showGoalsPer90 || showAssistsPer90) && 
                             <p className="stats-headings">
@@ -167,7 +165,8 @@ export default function FormResults({ targetWebName, setTargetWebName, handleSub
                         )}
                         {showAssistsPer90 && (
                             <p className="stats-results">
-                                Assists per 90: <strong>{targetedPlayer.minutes !== 0 ? (targetedPlayer.assists / targetedPlayer.minutes * 90).toFixed(2) : 0}</strong> (xA: <strong>{targetedPlayer.minutes !== 0 ? (targetedPlayer.expected_assists / targetedPlayer.minutes * 90).toFixed(2) : 0}</strong>)</p>
+                                Assists per 90: <strong>{targetedPlayer.minutes !== 0 ? (targetedPlayer.assists / targetedPlayer.minutes * 90).toFixed(2) : 0}</strong> (xA: <strong>{targetedPlayer.minutes !== 0 ? (targetedPlayer.expected_assists / targetedPlayer.minutes * 90).toFixed(2) : 0}</strong>)
+                            </p>
                             )}
                     </div>
                     
@@ -187,13 +186,28 @@ export default function FormResults({ targetWebName, setTargetWebName, handleSub
                             </p>
                         )}
                         {showGoalsConceded && (
-                            <p className="stats-results">Goals Conceded: <strong>{targetedPlayer.goals_conceded}</strong> (xGC: <strong>{targetedPlayer.expected_goals_conceded}</strong>)</p>
+                            <p className="stats-results">
+                                Goals Conceded: <strong>{targetedPlayer.goals_conceded}</strong> (xGC: <strong>{targetedPlayer.expected_goals_conceded}</strong>)
+                            </p>
                         )}
                         {showGoalsConcededPer90 && (
-                            <p className="stats-results">Goals Conceded Per 90: <strong>{targetedPlayer.goals_conceded_per_90}</strong> (xGC: <strong>{targetedPlayer.minutes !== 0 ? (targetedPlayer.expected_goals_conceded / targetedPlayer.minutes * 90).toFixed(2) : 0}</strong>)</p>
+                            <p className="stats-results">
+                                Goals Conceded Per 90: <strong>{targetedPlayer.goals_conceded_per_90}</strong> (xGC: <strong>{targetedPlayer.minutes !== 0 ? (targetedPlayer.expected_goals_conceded / targetedPlayer.minutes * 90).toFixed(2) : 0}</strong>)
+                            </p>
                         )}
                     </div>
-                    
+
+                    <div className="single-stat">
+                        <p className="stats-headings">
+                            <strong>BONUS STATS</strong>
+                        </p>
+                        <p className="stats-results">
+                            Bonus: <strong>{targetedPlayer.bonus}</strong> (per 90: <strong>{targetedPlayer.minutes !== 0 ? (targetedPlayer.bonus / targetedPlayer.minutes * 90).toFixed(2) : 0}</strong>)
+                        </p>
+                        <p className="stats-results">
+                            BPS: <strong>{targetedPlayer.bps}</strong> (per 90: <strong>{targetedPlayer.minutes !== 0 ? (targetedPlayer.bps / targetedPlayer.minutes * 90).toFixed(2) : 0}</strong>)
+                        </p>
+                    </div>
                 </div>
             ) : (
                     <p className="results-placeholder">

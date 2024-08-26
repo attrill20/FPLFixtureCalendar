@@ -24,7 +24,7 @@
     .form-checkbox {
         transform: scale(0.5);
         margin: 0;
-        vertical-align: -3px;  /*  horrible fix to align checkboxes */
+        vertical-align: -5px;  /*  horrible fix to align checkboxes */
     } 
 
     .form-label {

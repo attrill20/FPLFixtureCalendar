@@ -190,7 +190,7 @@ export default function FormResults({ targetWebName, setTargetWebName, handleSub
                             <p className="stats-results">Goals Conceded: <strong>{targetedPlayer.goals_conceded}</strong> (xGC: <strong>{targetedPlayer.expected_goals_conceded}</strong>)</p>
                         )}
                         {showGoalsConcededPer90 && (
-                            <p className="stats-results">Goals Conceded Per 90: <strong>{targetedPlayer.goals_conceded_per_90}</strong></p>
+                            <p className="stats-results">Goals Conceded Per 90: <strong>{targetedPlayer.goals_conceded_per_90}</strong> (xGC: <strong>{targetedPlayer.minutes !== 0 ? (targetedPlayer.expected_goals_conceded / targetedPlayer.minutes * 90).toFixed(2) : 0}</strong>)</p>
                         )}
                     </div>
                     

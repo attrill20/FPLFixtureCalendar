@@ -35,4 +35,8 @@
         padding-top: 1px;
         padding-bottom: 1px;
     }
+
+    .form-label {
+        margin-left: 0px;
+    }
 }

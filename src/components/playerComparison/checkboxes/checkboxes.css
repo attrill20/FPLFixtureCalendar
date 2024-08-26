@@ -10,6 +10,10 @@
     padding-bottom: 5px;
 }
 
+.form-label {
+    margin-left: 5px;
+}
+
 /* Add a media query for mobile devices */
 @media (max-width: 1200px) { /* Adjust the max-width as needed */
 

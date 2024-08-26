@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import "./formResults.css";
 
-export default function FormResults({ targetWebName, setTargetWebName, handleSubmit, targetedPlayer, mainData, showAttackingStats, showDefendingStats, showGoals, showAssists, showGoalsPer90, showAssistsPer90, showCleanSheets, showGoalsConceded }) {
+export default function FormResults({ targetWebName, setTargetWebName, handleSubmit, targetedPlayer, mainData, showAttackingStats, showDefendingStats, showGoals, showAssists, showGoalsPer90, showAssistsPer90, showCleanSheets, showGoalsConceded, showGoalsConcededPer90 }) {
     const [searchResults, setSearchResults] = useState([]);
     const dropdownRef = useRef(null);
     const clickTargetRef = useRef(null);
@@ -172,7 +172,7 @@ export default function FormResults({ targetWebName, setTargetWebName, handleSub
                     </div>
                     
                     <div className="single-stat">
-                        {(showCleanSheets || showGoalsConceded) && 
+                        {(showCleanSheets || showGoalsConceded || showGoalsConcededPer90) && 
                             <p className="stats-headings">
                                 <strong>DEFENDING STATS</strong>
                             </p>
@@ -188,6 +188,9 @@ export default function FormResults({ targetWebName, setTargetWebName, handleSub
                         )}
                         {showGoalsConceded && (
                             <p className="stats-results">Goals Conceded: <strong>{targetedPlayer.goals_conceded}</strong> (xGC: <strong>{targetedPlayer.expected_goals_conceded}</strong>)</p>
+                        )}
+                        {showGoalsConcededPer90 && (
+                            <p className="stats-results">Goals Conceded Per 90: <strong>{targetedPlayer.goals_conceded_per_90}</strong></p>
                         )}
                     </div>
                     

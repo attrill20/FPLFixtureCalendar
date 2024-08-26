@@ -18,6 +18,7 @@ export default function PlayerComparison({ data, mainData }) {
 	const [showDefendingStats, setShowDefendingStats] = useState(false);
 	const [showCleanSheets, setShowCleanSheets] = useState(false);
 	const [showGoalsConceded, setShowGoalsConceded] = useState(false);
+	const [showGoalsConcededPer90, setShowGoalsConcededPer90] = useState(false);
 
 	function reverseNormalize(name) {
 		const specialChars = {
@@ -66,6 +67,7 @@ export default function PlayerComparison({ data, mainData }) {
 					showAssistsPer90={showAssistsPer90}
 					showCleanSheets={showCleanSheets}
 					showGoalsConceded={showGoalsConceded}
+					showGoalsConcededPer90={showGoalsConcededPer90}
 					setShowAttackingStats={setShowAttackingStats}
 					setShowDefendingStats={setShowDefendingStats}
 					setShowGoals={setShowGoals}
@@ -74,6 +76,7 @@ export default function PlayerComparison({ data, mainData }) {
 					setShowAssistsPer90={setShowAssistsPer90}
 					setShowCleanSheets={setShowCleanSheets}
 					setShowGoalsConceded={setShowGoalsConceded}
+					setShowGoalsConcededPer90={setShowGoalsConcededPer90}
 				/>
 			</div>
 			
@@ -92,6 +95,7 @@ export default function PlayerComparison({ data, mainData }) {
 					showAssistsPer90={showAssistsPer90}
 					showCleanSheets={showCleanSheets}
 					showGoalsConceded={showGoalsConceded}
+					showGoalsConcededPer90={showGoalsConcededPer90}
 				/>
 
 				<FormResults
@@ -108,6 +112,7 @@ export default function PlayerComparison({ data, mainData }) {
 					showAssistsPer90={showAssistsPer90}
 					showCleanSheets={showCleanSheets}
 					showGoalsConceded={showGoalsConceded}
+					showGoalsConcededPer90={showGoalsConcededPer90}
 				/>
 			</div>
 		</div>

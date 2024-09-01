@@ -3,6 +3,7 @@ import "./App.css";
 import PlayerComparisonPage from "./pages/PlayerComparisonPage/PlayerComparisonPage";
 import FixtureCalendarPage from "./pages/FixtureCalendarPage/FixtureCalendarPage";
 import HomePage from "./pages/Home/HomePage";
+import FAQPage from "./pages/FAQPage/FAQPage"
 import { teams } from "./components/dummyArrays/dummy";
 import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 import Navbar from "./components/navbar/navbar";
@@ -70,6 +71,13 @@ export default function App() {
 							<PlayerComparisonPage
 								data={data}
 								mainData={mainData}
+							/>
+						}
+					/>
+					<Route
+						path="/faq"
+						element={
+							<FAQPage
 							/>
 						}
 					/>

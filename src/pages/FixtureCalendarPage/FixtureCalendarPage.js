@@ -2,7 +2,7 @@ import React from 'react';
 import CardList from '../../components/cardlist/cardlist';
 import "./FixtureCalendarPage.css"
 
-const FixtureCalendarPage= ({ teams, fixturesData, activeGameweek }) => {
+const FixtureCalendarPage = ({ teams, fixturesData, activeGameweek }) => {
   return (
     <div>
       <div className="fixture-sub-heading">

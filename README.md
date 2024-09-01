@@ -50,7 +50,7 @@ E-mail address: oraclefplcontact@gmail.com
 
 #### Site Changes
 
-- Write more copy about how the custom difficulty is calculated (FAQs)
+- Finish FAQs page
 - Blog page / contact us / version update log
 - Add page location name in the Navbar on mobile site
 
@@ -59,6 +59,14 @@ E-mail address: oraclefplcontact@gmail.com
 - Table repeats header on every row, change to display once and get the table to scroll (could use Material UI table)
 - Add a cache to prevent no fixtures displaying when the server occasionally goes down
 - Needs less of a margin / padding either side of the FDR toggle switch
+
+## 1/9/24
+
+Started adding the FAQs page this weekend, got boxes to appear / disappear on click and wrote the copy for the Fixture Difficulty Calendar here:
+
+![Screenshot 2024-09-01 at 18 05 44](https://github.com/user-attachments/assets/a2e72300-13e0-4245-9bce-d92eb880b74c)
+
+Will finish off sections on the Player Comparison tool and general site questions before routing the page to the navbar.
 
 ## 26/8/24
 

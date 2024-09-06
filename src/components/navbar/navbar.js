@@ -19,6 +19,7 @@ function Navbar() {
           <li><NavLink exact to="/home" activeClassName="active" onClick={toggleMenu}>Home</NavLink></li>
           <li><NavLink exact to="/calendar" activeClassName="active" onClick={toggleMenu}>Fixture Difficulty Calendar</NavLink></li>
           <li><NavLink exact to="/comparison" activeClassName="active" onClick={toggleMenu}>Player Comparison</NavLink></li>
+          <li><NavLink exact to="/faq" activeClassName="active" onClick={toggleMenu}>FAQs</NavLink></li>
         </ul>
       </div>
       <button className="navbar-toggler" onClick={toggleMenu}>

@@ -7,6 +7,10 @@
 .faq-section-container {
     margin-bottom: 30px;
 }
+
+h1 {
+    font-size: 3rem;
+}
   
 .faq-content {
     background-color: #f9f9f9;
@@ -15,6 +19,8 @@
     border-radius: 5px;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
     cursor: pointer;
+    padding-left: 80px;
+    padding-right: 80px;
 }
 
 .faq-question {
@@ -24,13 +30,13 @@
 }
 
 .faq-answer {
-    font-size: 16px;
+    font-size: 18px;
     color: #555;
     margin-top: 5px;
 }
 
 .faq-section-title {
-    font-size: 22px;
+    font-size: 24px;
     margin-bottom: 2px;
     margin-top: 10px;
 }
@@ -39,6 +45,11 @@
     .faq-page-container {
         margin-left: 3%;
         margin-right: 3%;
+    }
+
+    .faq-content {
+        padding-left: 10px;
+        padding-right: 10px;
     }
 
     .faq-question {

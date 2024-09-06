@@ -50,22 +50,25 @@ h1 {
     .faq-content {
         padding-left: 10px;
         padding-right: 10px;
+        padding-top: 3px;
+        padding-bottom: 3px;
+        margin-bottom: 7px;
     }
 
     .faq-question {
-        font-size: 10px;
+        font-size: 12px;
     }
     
     .faq-answer {
-        font-size: 8px;
+        font-size: 10px;
     }
 
     .faq-section-title {
-        font-size: 12px;
+        font-size: 14px;
     }
 
     h1 {
-        font-size: 1rem;
+        font-size: 1.2rem;
     }
 }
   

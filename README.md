@@ -30,7 +30,7 @@ E-mail address: oraclefplcontact@gmail.com
 - Add an AI chat to recommend players to pick
 - Add a database of historical data
 - Transition all data to be stored in a DB (mongoDB)
-- Add Twiiter / X feed on the homepage
+- Add Twiiter / X to a feed on the side of the homepage
 
 #### Calendar Page
 
@@ -50,7 +50,6 @@ E-mail address: oraclefplcontact@gmail.com
 
 #### Site Changes
 
-- Finish FAQs page
 - Blog page / contact us / version update log
 - Add page location name in the Navbar on mobile site
 
@@ -59,6 +58,14 @@ E-mail address: oraclefplcontact@gmail.com
 - Table repeats header on every row, change to display once and get the table to scroll (could use Material UI table)
 - Add a cache to prevent no fixtures displaying when the server occasionally goes down
 - Needs less of a margin / padding either side of the FDR toggle switch
+
+## 6/9/24
+
+Finishd off the FAQs page and added a link to the Navbar, and styled it for both desktop and mobile:
+
+![Screenshot 2024-09-06 at 12 15 54](https://github.com/user-attachments/assets/559c4f20-fb39-4c40-a688-0b0cd8604520)
+
+Will have a play at adding more top 10 player images onto the Player Comparison Tool page and look into adding a Twitter / X sidebar on the homepage to display the updates I've been posting there.
 
 ## 1/9/24
 

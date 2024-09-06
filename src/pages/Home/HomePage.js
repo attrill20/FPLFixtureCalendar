@@ -25,7 +25,7 @@ const HomePage = () => {
         <ul>
           <li><Link to="/calendar"><strong>Fixture Difficulty Calendar</strong></Link> - check here for a custom FDR calendar to identify which teams have favourable upcoming fixtures </li>
           <li><Link to="/search"><strong>Player Comparison Tool</strong></Link> - allows comparison between player's stats to help you pick your next transfer </li>
-          <li><Link to="/faqs"><strong>FAQs</strong></Link> (coming soon) - read how the custom FDR is calculated and other information about the site</li>
+          <li><Link to="/faq"><strong>FAQs</strong></Link> - read how the custom FDR is calculated, how to use the Player Comparison tool and other information about the site</li>
         </ul>
         <p>
           Good luck for the season ahead - enjoy the site and any questions or feedback welcome!

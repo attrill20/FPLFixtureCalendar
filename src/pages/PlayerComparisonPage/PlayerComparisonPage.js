@@ -86,7 +86,7 @@ const PlayerComparisonPage = ({ data, mainData }) => {
                   alt={`player-${index + 1}`}
                 />
                 <p className="player-stat-name">{player.web_name}</p>
-                <p className="player-stat">{player.form}</p>
+                <p className="player-stat">{player.event_points}</p>
               </div>
             ))}
           </div>

@@ -128,7 +128,8 @@
 
   .player-stat {
     font-size: 0.6rem;
-    font-weight: 400;
+    font-weight: 600;
+    padding: 0px;
   }
 
   .player-stat-name {

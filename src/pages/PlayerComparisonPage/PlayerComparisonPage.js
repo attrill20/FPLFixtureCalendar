@@ -9,6 +9,7 @@ const PlayerComparisonPage = ({ data, mainData }) => {
   const sortedPlayersGWPoints = [...elements].sort((a, b) => b.event_points - a.event_points);
   const sortedPlayersForm = [...elements].sort((a, b) => b.form - a.form);
   const sortedPlayersOwnership = [...elements].sort((a, b) => b.selected_by_percent - a.selected_by_percent);
+  const sortedPlayersXGI = [...elements].sort((a, b) => b.expected_goal_involvements - a.expected_goal_involvements);
 
   return (
     <div>
@@ -106,6 +107,25 @@ const PlayerComparisonPage = ({ data, mainData }) => {
                 />
                 <p className="player-stat-name">{player.web_name}</p> 
                 <p className="player-stat">{player.selected_by_percent}%</p> 
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+
+      <div className="player-pics player-pics-lists">
+        <p className="top-10-title">Top 10 xGI (Total Goal Involvements) </p> 
+        {elements.length > 0 && (
+          <div className="pics-wrapper">
+            {sortedPlayersXGI.slice(0, 10).map((player, index) => (
+              <div key={player.code} className="player-pic-container">
+                <img
+                  className="player-pic-top-10"
+                  src={`https://resources.premierleague.com/premierleague/photos/players/110x140/p${player.code}.png`}
+                  alt={`player-${index + 1}`}
+                />
+                <p className="player-stat-name">{player.web_name}</p>
+                <p className="player-stat">{player.expected_goal_involvements} ({player.goals_scored + player.assists})</p>
               </div>
             ))}
           </div>

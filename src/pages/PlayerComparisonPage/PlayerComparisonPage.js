@@ -48,7 +48,7 @@ const PlayerComparisonPage = ({ data, mainData }) => {
                   alt={`player-${index + 1}`}
                 />
                 <p className="player-stat-name">{player.web_name}</p>
-                <p className="player-stat"><strong>{player.total_points}</strong></p>
+                <p className="player-stat">{player.total_points}</p>
               </div>
             ))}
           </div>
@@ -67,7 +67,7 @@ const PlayerComparisonPage = ({ data, mainData }) => {
                   alt={`player-${index + 1}`}
                 />
                 <p className="player-stat-name">{player.web_name}</p>
-                <p className="player-stat"><strong>{player.form}</strong></p>
+                <p className="player-stat">{player.form}</p>
               </div>
             ))}
           </div>
@@ -86,7 +86,7 @@ const PlayerComparisonPage = ({ data, mainData }) => {
                   alt={`player-${index + 1}`}
                 />
                 <p className="player-stat-name">{player.web_name}</p>
-                <p className="player-stat"><strong>{player.form}</strong></p>
+                <p className="player-stat">{player.form}</p>
               </div>
             ))}
           </div>
@@ -105,7 +105,7 @@ const PlayerComparisonPage = ({ data, mainData }) => {
                   alt={`player-${index + 1}`}
                 />
                 <p className="player-stat-name">{player.web_name}</p> 
-                <p className="player-stat"><strong>{player.selected_by_percent}%</strong></p> 
+                <p className="player-stat">{player.selected_by_percent}%</p> 
               </div>
             ))}
           </div>

@@ -57,9 +57,11 @@
 
 .player-stat {
   font-size: 1rem;
+  font-weight: 800;
   color: black;
   text-align: center;
   margin: 0;
+
 }
 
 .player-stat-name {
@@ -126,14 +128,11 @@
 
   .player-stat {
     font-size: 0.6rem;
+    font-weight: 400;
   }
 
   .player-stat-name {
-    font-size: 0.6rem;
-  }
-
-  .player-stat-name {
-    display: none; /* Hide player names on monile */
+    display: none; /* Hide player names on mobile */
   }
 
   .player-pics {

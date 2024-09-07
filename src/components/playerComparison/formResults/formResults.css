@@ -4,6 +4,7 @@
     flex-direction: column; 
     align-items: center;
     margin: 10px;
+    margin-bottom: 20px;
     width: 50%;
 }
 
@@ -198,6 +199,7 @@
 
     .player-searcher {
         margin: 5px;
+        margin-bottom: 10px;
         width: 90%;
     }
 

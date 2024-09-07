@@ -1,40 +1,83 @@
 .player-pics {
   margin-top: 5px;
-  margin-left: 5%;
-  margin-right: 5%;
+  margin-bottom: 10px;
+  margin-left: 9%;
+  margin-right: 9%;
+  background-color: white;
+  padding-top: 4px;
+  padding-bottom: 2px;
 }
 
+.pics-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: flex-start;
+  margin-left: 0%;
+  margin-right: 0%;
+}
+
+.top-10-title {
+  text-align: left; 
+  font-size: 1.4rem; 
+  font-weight: bold;
+  color: #000;
+  margin-bottom: 4px;
+  margin-top: 4px;
+  margin-left: 1%;
+}
+
+
 .player-pic-top-10 {
-  width: 9%;
+  width: 9.7%;
   height: auto; 
   margin-left: 1px;
   margin-right: 1px;
 }
 
-.pics-wrapper {
-  margin-left: 0%;
-  margin-right: 0%;
+.player-pics-lists .pics-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.player-pics-lists .player-pic-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 9.7%;
+  margin: 0 1px;
+}
+
+.player-pics-lists .player-pic-top-10 {
+  width: 100%; 
+  height: auto;
+  margin-bottom: 5px;
+  margin-top: 5px;
+}
+
+.player-stat {
+  font-size: 1rem;
+  color: black;
+  text-align: center;
+  margin: 0;
 }
 
 .search-sub-heading {
-  font-size: large;
-  margin-top: 1px;
-  margin-bottom: 5px;
   background-color: white;
   margin-left: 9%;
   margin-right: 9%;
-}
-
-p {
-  margin-top: 2px;
-  margin-bottom: 2px;
+  font-size: 1.3rem;
+  margin-top: 10px;
+  margin-bottom: 10px;
   padding-top: 5px;
-  padding-bottom: 5px;
 }
 
-.player-comparison-tool {
-  margin-left: 9%;
-  margin-right: 9%;
+.search-sub-heading p {
+  padding-bottom: 10px;
+  margin-top: 0px;
+  margin-bottom: 0px;
 }
 
 
@@ -53,22 +96,28 @@ p {
     margin-left: 5%;
     margin-right: 5%;
   }
+
+  .player-pics-form .player-pic-container {
+    width: 12%;
+  }
 }
 
-  
-@media (max-width: 1200px) { 
-  .search-sub-heading{
+@media (max-width: 1200px) {
+  .search-sub-heading {
     font-size: 0.6rem;
     padding-left: 3%;
     padding-right: 3%;
     margin-left: 3%;
     margin-right: 3%;
-    margin-top: 0px;
   }
 
   .player-comparison-tool {
     margin-left: 3%;
     margin-right: 3%;
+  }
+
+  .player-pics-form .player-pic-container {
+    width: 18%;
   }
 
   p {
@@ -78,14 +127,22 @@ p {
     padding-top: 2px;
     padding-bottom: 2px;
   }
+
+  .player-stat {
+    font-size: 0.6rem;
+  }
 }
 
-
 /* SMALL MOBILE */
-@media (max-width: 420px) { 
-  .search-sub-heading{
+@media (max-width: 420px) {
+  .search-sub-heading {
     font-size: 0.5rem;
     padding-left: 3%;
     padding-right: 3%;
+  }
+
+  .player-pics-form .player-pic-container {
+    width: 45%;
+    margin-bottom: 10px;
   }
 }

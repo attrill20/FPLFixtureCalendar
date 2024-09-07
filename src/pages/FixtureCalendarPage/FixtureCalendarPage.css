@@ -8,10 +8,10 @@
     padding-left: 2%;
     padding-right: 2%;
     padding-top: 5px;
+    padding-bottom: 5px;
   }
 
   .fixture-sub-heading p {
-    padding-bottom: 10px;
     margin-top: 0px;
     margin-bottom: 0px;
   }
@@ -22,8 +22,8 @@
 
   .fixture-sub-heading{
     font-size: 0.8rem;
-    padding-left: 3%;
-    padding-right: 3%;
+    margin-top: 5px;
+    margin-bottom: 5px;
     margin-left: 3%;
     margin-right: 3%;
   }

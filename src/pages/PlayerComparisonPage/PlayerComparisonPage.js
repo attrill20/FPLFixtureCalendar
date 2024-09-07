@@ -47,7 +47,7 @@ const PlayerComparisonPage = ({ data, mainData }) => {
                   src={`https://resources.premierleague.com/premierleague/photos/players/110x140/p${player.code}.png`}
                   alt={`player-${index + 1}`}
                 />
-                <p className="player-stat">{player.web_name}</p>
+                <p className="player-stat-name">{player.web_name}</p>
                 <p className="player-stat"><strong>{player.total_points}</strong></p>
               </div>
             ))}
@@ -66,7 +66,7 @@ const PlayerComparisonPage = ({ data, mainData }) => {
                   src={`https://resources.premierleague.com/premierleague/photos/players/110x140/p${player.code}.png`}
                   alt={`player-${index + 1}`}
                 />
-                <p className="player-stat">{player.web_name}</p>
+                <p className="player-stat-name">{player.web_name}</p>
                 <p className="player-stat"><strong>{player.form}</strong></p>
               </div>
             ))}
@@ -85,7 +85,7 @@ const PlayerComparisonPage = ({ data, mainData }) => {
                   src={`https://resources.premierleague.com/premierleague/photos/players/110x140/p${player.code}.png`}
                   alt={`player-${index + 1}`}
                 />
-                <p className="player-stat">{player.web_name}</p>
+                <p className="player-stat-name">{player.web_name}</p>
                 <p className="player-stat"><strong>{player.form}</strong></p>
               </div>
             ))}
@@ -104,7 +104,7 @@ const PlayerComparisonPage = ({ data, mainData }) => {
                   src={`https://resources.premierleague.com/premierleague/photos/players/110x140/p${player.code}.png`}
                   alt={`player-${index + 1}`}
                 />
-                <p className="player-stat">{player.web_name}</p> 
+                <p className="player-stat-name">{player.web_name}</p> 
                 <p className="player-stat"><strong>{player.selected_by_percent}%</strong></p> 
               </div>
             ))}

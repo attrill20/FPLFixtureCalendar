@@ -59,6 +59,14 @@ E-mail address: oraclefplcontact@gmail.com
 - Add a cache to prevent no fixtures displaying when the server occasionally goes down
 - Needs less of a margin / padding either side of the FDR toggle switch
 
+## 26/9/24
+
+Started working on these top 10 lists a few weeks ago, but now decided to give them their own separate page and new link in the navbar. These show a range of stats pulled from the API and help managers select a player in good form, who has been producing good underlying stats:
+
+![Screenshot 2024-09-26 at 19 53 39](https://github.com/user-attachments/assets/4d313eab-f610-40f0-a202-d0526dade126)
+
+Will maybe take a little break from this app from a while, as I plan to work on a little side project to help track the FPL points of Brighton players in a live format.
+
 ## 6/9/24
 
 Finishd off the FAQs page and added a link to the Navbar, and styled it for both desktop and mobile:

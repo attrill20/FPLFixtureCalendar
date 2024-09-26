@@ -18,44 +18,6 @@
   margin-right: 0%;
 }
 
-.top-10-title {
-  text-align: left; 
-  font-size: 1.4rem; 
-  font-weight: bold;
-  color: #000;
-  margin-bottom: 4px;
-  margin-top: 4px;
-  margin-left: 1%;
-}
-
-.player-pic-top-10 {
-  height: auto; 
-  margin-left: 1px;
-  margin-right: 1px;
-}
-
-.player-pics-lists .pics-wrapper {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: flex-start;
-}
-
-.player-pics-lists .player-pic-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 9.5%;
-  margin: 0 1px;
-}
-
-.player-pics-lists .player-pic-top-10 {
-  width: 100%; 
-  height: auto;
-  margin-bottom: 5px;
-  margin-top: 5px;
-}
-
 .player-stat {
   font-size: 1rem;
   font-weight: 800;
@@ -107,18 +69,6 @@
     margin-right: 3%;
   }
 
-  .player-pics-lists .player-pic-container {
-    width: 9.2%;
-    margin: 0 1px;
-  }
-
-  .top-10-title {
-    font-size: 0.7rem; 
-    margin-bottom: 1px;
-    margin-top: 1px;
-    margin-left: 1%;
-  }
-
   p {
     font-size: 0.6rem;
     margin-top: 1px;
@@ -137,17 +87,4 @@
     display: none; /* Hide player names on mobile */
   }
 
-  .player-pics {
-    margin-left: 3%;
-    margin-right: 3%;
-    margin-top: 2px;
-    margin-bottom: 5px;
-    padding-top: 2px;
-    padding-bottom: 1px;
-  }
-
-  .player-pics-lists .player-pic-top-10 {
-    margin-bottom: 2px;
-    margin-top: 2px;
-  }
 }

@@ -19,6 +19,7 @@ function Navbar() {
           <li><NavLink to="/" activeClassName="active" onClick={toggleMenu}>Home</NavLink></li>
           <li><NavLink to="/calendar" activeClassName="active" onClick={toggleMenu}>Fixture Difficulty Calendar</NavLink></li>
           <li><NavLink to="/comparison" activeClassName="active" onClick={toggleMenu}>Player Comparison</NavLink></li>
+          <li><NavLink to="/top10" activeClassName="active" onClick={toggleMenu}>Top 10s</NavLink></li>
           <li><NavLink to="/faq" activeClassName="active" onClick={toggleMenu}>FAQs</NavLink></li>
         </ul>
       </div>

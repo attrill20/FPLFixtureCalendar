@@ -4,6 +4,7 @@ import PlayerComparisonPage from "./pages/PlayerComparisonPage/PlayerComparisonP
 import FixtureCalendarPage from "./pages/FixtureCalendarPage/FixtureCalendarPage";
 import HomePage from "./pages/Home/HomePage";
 import FAQPage from "./pages/FAQPage/FAQPage"
+import Top10Page from "./pages/Top10Page/Top10Page"
 import { teams } from "./components/dummyArrays/dummy";
 import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 import Navbar from "./components/navbar/navbar";
@@ -69,6 +70,15 @@ export default function App() {
 						path="/comparison"
 						element={
 							<PlayerComparisonPage
+								data={data}
+								mainData={mainData}
+							/>
+						}
+					/>
+					<Route
+						path="/top10"
+						element={
+							<Top10Page
 								data={data}
 								mainData={mainData}
 							/>

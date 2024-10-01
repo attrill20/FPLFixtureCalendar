@@ -30,9 +30,10 @@ const Top10Page = ({ data, mainData }) => {
             {sortedPlayersTotalPoints.slice(0, 10).map((player, index) => (
               <div key={player.code} className="player-pic-container">
                 <img
-                  className="player-pic-top-10"
-                  src={`https://resources.premierleague.com/premierleague/photos/players/110x140/p${player.code}.png`}
-                  alt={`player-${index + 1}`}
+                    className="player-pic-top-10"
+                    src={`https://resources.premierleague.com/premierleague/photos/players/110x140/p${player.code}.png`}
+                    onError={(e) => { e.target.src = "https://fantasy.premierleague.com/dist/img/shirts/standard/shirt_36-110.png"; }}
+                    alt={`player-${index + 1}`}
                 />
                 <p className="player-stat-name">{player.web_name}</p>
                 <p className="player-stat">{player.total_points}</p>
@@ -49,9 +50,10 @@ const Top10Page = ({ data, mainData }) => {
             {sortedPlayersForm.slice(0, 10).map((player, index) => (
               <div key={player.code} className="player-pic-container">
                 <img
-                  className="player-pic-top-10"
-                  src={`https://resources.premierleague.com/premierleague/photos/players/110x140/p${player.code}.png`}
-                  alt={`player-${index + 1}`}
+                    className="player-pic-top-10"
+                    src={`https://resources.premierleague.com/premierleague/photos/players/110x140/p${player.code}.png`}
+                    onError={(e) => { e.target.src = "https://fantasy.premierleague.com/dist/img/shirts/standard/shirt_36-110.png"; }}
+                    alt={`player-${index + 1}`}
                 />
                 <p className="player-stat-name">{player.web_name}</p>
                 <p className="player-stat">{player.form}</p>

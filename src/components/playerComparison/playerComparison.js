@@ -3,7 +3,7 @@ import FormResults from "./formResults/formResults";
 import Checkboxes from "./checkboxes/checkboxes";
 import "./playerComparison.css";
 
-export default function PlayerComparison({ data, mainData }) {
+export default function PlayerComparison({ mainData }) {
 	const [targetedPlayer, setTargetedPlayer] = useState(null);
 	const [targetWebName, setTargetWebName] = useState("");
 	const [targetedPlayer2, setTargetedPlayer2] = useState(null);

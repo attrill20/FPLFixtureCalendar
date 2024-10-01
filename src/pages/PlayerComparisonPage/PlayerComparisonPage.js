@@ -2,7 +2,7 @@ import React from 'react';
 import PlayerComparison from '../../components/playerComparison/playerComparison';
 import "./PlayerComparisonPage.css";
 
-const PlayerComparisonPage = ({ data, mainData }) => {
+const PlayerComparisonPage = ({ mainData }) => {
   const elements = mainData && Array.isArray(mainData.elements) ? mainData.elements : [];
   
   const sortedPlayersTotalPoints = [...elements].sort((a, b) => b.total_points - a.total_points);
@@ -38,7 +38,7 @@ const PlayerComparisonPage = ({ data, mainData }) => {
       </div>
 
       <div className="player-comparison-tool">
-        <PlayerComparison data={data} mainData={mainData} />
+        <PlayerComparison mainData={mainData} />
       </div>
     </div>
   );

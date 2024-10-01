@@ -2,7 +2,7 @@ import React from 'react';
 import PlayerComparison from '../../components/playerComparison/playerComparison';
 import "./Top10Page.css";
 
-const Top10Page = ({ data, mainData }) => {
+const Top10Page = ({ mainData }) => {
   const elements = mainData && Array.isArray(mainData.elements) ? mainData.elements : [];
   
   const sortedPlayersTotalPoints = [...elements].sort((a, b) => b.total_points - a.total_points);

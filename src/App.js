@@ -3,8 +3,8 @@ import "./App.css";
 import PlayerComparisonPage from "./pages/PlayerComparisonPage/PlayerComparisonPage";
 import FixtureCalendarPage from "./pages/FixtureCalendarPage/FixtureCalendarPage";
 import HomePage from "./pages/Home/HomePage";
-import FAQPage from "./pages/FAQPage/FAQPage"
-import Top10Page from "./pages/Top10Page/Top10Page"
+import FAQPage from "./pages/FAQPage/FAQPage";
+import Top10Page from "./pages/Top10Page/Top10Page";
 import { teams } from "./components/dummyArrays/dummy";
 import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 import Navbar from "./components/navbar/navbar";
@@ -18,51 +18,55 @@ export default function App() {
 	// Fetch the FPL API data from new server
 	useEffect(() => {
 		async function fetchFPL() {
-		  try {
-			const response = await fetch("https://fpl-server-nine.vercel.app/api");
-			if (!response.ok) {
-			  throw new Error(`HTTP error! Status: ${response.status}`);
+			try {
+				// Fetch bootstrap data
+				const bootstrapResponse = await fetch("https://fpl-server-nine.vercel.app/api?endpoint=bootstrap-static");
+				if (!bootstrapResponse.ok) {
+					throw new Error(`HTTP error! Status: ${bootstrapResponse.status}`);
+				}
+				const bootstrapData = await bootstrapResponse.json();
+
+				// Fetch fixtures data
+				const fixturesResponse = await fetch("https://fpl-server-nine.vercel.app/api?endpoint=fixtures");
+				if (!fixturesResponse.ok) {
+					throw new Error(`HTTP error! Status: ${fixturesResponse.status}`);
+				}
+				const fixturesData = await fixturesResponse.json();
+
+				// Set the fetched data to state
+				setData({ bootstrapData, fixturesData });
+				setMainData(bootstrapData);
+				setFixturesData(fixturesData);
+
+				// Find the active gameweek and update the state
+				const activeEvent = bootstrapData.events.find(
+					(event) => !event.finished
+				);
+				if (activeEvent) {
+					setActiveGameweek(activeEvent.id);
+				}
+			} catch (error) {
+				console.error("Failed to fetch data:", error);
 			}
-			const data = await response.json();
-			setData(data);
-	
-			// Ensure bootstrapData exists before accessing its properties
-			if (data.bootstrapData) {
-			  setMainData(data.bootstrapData);
-			  setFixturesData(data.fixturesData);
-	
-			  // Find the active gameweek and update the state
-			  const activeEvent = data.bootstrapData.events.find(
-				(event) => !event.finished
-			  );
-			  if (activeEvent) {
-				setActiveGameweek(activeEvent.id);
-			  }
-			} else {
-			  console.error("bootstrapData is undefined in API response.");
-			}
-		  } catch (error) {
-			console.error("Failed to fetch data:", error);
-		  }
 		}
-	
+
 		fetchFPL();
-	  }, []);
+	}, []);
 
 	return (
 		<div className="app">
 			<BrowserRouter>
-			<Navbar />
+				<Navbar />
 				<Routes>
 					<Route path="/" element={<HomePage />} />
-          			<Route path="/home" element={<Navigate to="/" />} />
+					<Route path="/home" element={<Navigate to="/" />} />
 					<Route
 						path="/calendar"
 						element={
 							<FixtureCalendarPage
 								teams={teams}
 								fixturesData={fixturesData}
-                				activeGameweek={activeGameweek}
+								activeGameweek={activeGameweek}
 							/>
 						}
 					/>
@@ -86,10 +90,7 @@ export default function App() {
 					/>
 					<Route
 						path="/faq"
-						element={
-							<FAQPage
-							/>
-						}
+						element={<FAQPage />}
 					/>
 				</Routes>
 			</BrowserRouter>

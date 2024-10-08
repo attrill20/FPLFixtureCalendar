@@ -10,11 +10,14 @@ const Top10Page = ({ mainData }) => {
   const sortedPlayersForm = [...elements].sort((a, b) => b.form - a.form);
   const sortedPlayersOwnership = [...elements].sort((a, b) => b.selected_by_percent - a.selected_by_percent);
   const sortedPlayersXGI = [...elements].sort((a, b) => b.expected_goal_involvements - a.expected_goal_involvements);
-  const top10Goalkeepers = [...elements].filter(player => player.element_type === 1).sort((a, b) => b.total_points - a.total_points) 
-  const top10Defenders = [...elements].filter(player => player.element_type === 2).sort((a, b) => b.total_points - a.total_points) 
-  const top10Midfielders = [...elements].filter(player => player.element_type === 3).sort((a, b) => b.total_points - a.total_points) 
-  const top10Forwards = [...elements].filter(player => player.element_type === 4).sort((a, b) => b.total_points - a.total_points) 
-   
+  const top10Goalkeepers = [...elements].filter(player => player.element_type === 1).sort((a, b) => b.total_points - a.total_points); 
+  const top10Defenders = [...elements].filter(player => player.element_type === 2).sort((a, b) => b.total_points - a.total_points);
+  const top10Midfielders = [...elements].filter(player => player.element_type === 3).sort((a, b) => b.total_points - a.total_points);
+  const top10Forwards = [...elements].filter(player => player.element_type === 4).sort((a, b) => b.total_points - a.total_points);
+  const top10Bonus = [...elements].sort((a, b) => b.bonus - a.bonus);
+  const top10BPS = [...elements].sort((a, b) => b.bps - a.bps);
+  const top10PointsPerMillion = [...elements].sort((a, b) => (b.total_points / b.now_cost) - (a.total_points / a.now_cost));
+
   return (
     <div>
 
@@ -191,6 +194,63 @@ const Top10Page = ({ mainData }) => {
                 />
                 <p className="player-stat-name">{player.web_name}</p>
                 <p className="player-stat">{player.total_points}</p>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+
+      <div className="player-pics player-pics-lists">
+        <p className="top-10-title">Top 10 Bonus</p> 
+        {elements.length > 0 && (
+          <div className="pics-wrapper">
+            {top10Bonus.slice(0, 10).map((player, index) => (
+              <div key={player.code} className="player-pic-container">
+                <img
+                  className="player-pic-top-10"
+                  src={`https://resources.premierleague.com/premierleague/photos/players/110x140/p${player.code}.png`}
+                  alt={`player-${index + 1}`}
+                />
+                <p className="player-stat-name">{player.web_name}</p>
+                <p className="player-stat">{player.bonus}</p>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+
+      <div className="player-pics player-pics-lists">
+        <p className="top-10-title">Top 10 BPS</p> 
+        {elements.length > 0 && (
+          <div className="pics-wrapper">
+            {top10BPS.slice(0, 10).map((player, index) => (
+              <div key={player.code} className="player-pic-container">
+                <img
+                  className="player-pic-top-10"
+                  src={`https://resources.premierleague.com/premierleague/photos/players/110x140/p${player.code}.png`}
+                  alt={`player-${index + 1}`}
+                />
+                <p className="player-stat-name">{player.web_name}</p>
+                <p className="player-stat">{player.bps}</p>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+
+      <div className="player-pics player-pics-lists">
+        <p className="top-10-title">Top 10 Points Per Million</p> 
+        {elements.length > 0 && (
+          <div className="pics-wrapper">
+            {top10PointsPerMillion.slice(0, 10).map((player, index) => (
+              <div key={player.code} className="player-pic-container">
+                <img
+                  className="player-pic-top-10"
+                  src={`https://resources.premierleague.com/premierleague/photos/players/110x140/p${player.code}.png`}
+                  alt={`player-${index + 1}`}
+                />
+                <p className="player-stat-name">{player.web_name}</p>
+                <p className="player-stat">{((player.total_points / player.now_cost) * 10).toFixed(2)}</p>
               </div>
             ))}
           </div>

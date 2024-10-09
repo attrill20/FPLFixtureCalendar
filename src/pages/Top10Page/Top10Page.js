@@ -301,7 +301,7 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
       </div>
 
       <div className="player-pics player-pics-lists">
-        <p className="top-10-title">Top 10 Teams by xG</p>
+        <p className="top-10-title">Top 10 Team xG (Goals Scored)</p>
         {top10TeamsXGAndGoals.length > 0 && (
             <div className="pics-wrapper">
             {top10TeamsXGAndGoals.map((team, index) => (

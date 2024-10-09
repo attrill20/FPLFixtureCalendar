@@ -73,7 +73,26 @@ margin-top: 5px;
 margin-top: 0px;
 margin-bottom: 2px;
 }
+
+.team-pic-top-10 {
+    height: 130px;
+    margin-left: 1px;
+    margin-right: 1px;
+    margin-bottom: 3px;
+    margin-top: 2px;
+}
   
+@media (max-width: 1600px) {
+    .team-pic-top-10 {
+        height: 100px;
+    }
+}
+
+@media (max-width: 1400px) {
+    .team-pic-top-10 {
+        height: 90px;
+    }
+}
   
 @media (max-width: 1200px) {
     .top-10-sub-heading {
@@ -118,5 +137,51 @@ margin-bottom: 2px;
     .player-pics-lists .player-pic-top-10 {
         margin-bottom: 2px;
         margin-top: 2px;
+    }
+
+    .team-pic-top-10 {
+        height: 80px;
+    }
+}
+
+@media (max-width: 1000px) {
+    .team-pic-top-10 {
+        height: 70px;
+    }
+}
+
+@media (max-width: 900px) {
+    .team-pic-top-10 {
+        height: 65px;
+    }
+}
+
+@media (max-width: 800px) {
+    .team-pic-top-10 {
+        height: 60px;
+    }
+}
+
+@media (max-width: 700px) {
+    .team-pic-top-10 {
+        height: 50px;
+    }
+}
+
+@media (max-width: 600px) {
+    .team-pic-top-10 {
+        height: 45px;
+    }
+}
+
+@media (max-width: 500px) {
+    .team-pic-top-10 {
+        height: 35px;
+    }
+}
+
+@media (max-width: 400px) {
+    .team-pic-top-10 {
+        height: 30px;
     }
 }

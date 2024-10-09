@@ -45,7 +45,7 @@ export let teams = [
   { id: 12, name: "Liverpool", initial: "LIV", badge: LIVbadge2, h_diff: 7, a_diff: 10 },
   // { id: 13, name: "Luton", initial: "LUT", badge: LUTbadge, h_diff: 2, a_diff: 2 },
   { id: 13, name: "Man City", initial: "MCI", badge: MCIbadge, h_diff: 7, a_diff: 9 },
-  { id: 14, name: "Man Utd", initial: "MUN", badge: MUNbadge, h_diff: 6, a_diff: 6 },
+  { id: 14, name: "Man United", initial: "MUN", badge: MUNbadge, h_diff: 6, a_diff: 6 },
   { id: 15, name: "Newcastle", initial: "NEW", badge: NEWbadge, h_diff: 3, a_diff: 9 },
   { id: 16, name: "Notts Forest", initial: "NFO", badge: NFObadge, h_diff: 2, a_diff: 4 },
   { id: 17, name: "Southampton", initial: "SOU", badge: SOUbadge, h_diff: 3, a_diff: 6 },

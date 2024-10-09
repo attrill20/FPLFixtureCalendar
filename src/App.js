@@ -82,6 +82,8 @@ export default function App() {
             element={
               <Top10Page
                 mainData={mainData}
+                teams={teams}
+                fixturesData={fixturesData}
               />
             }
           />

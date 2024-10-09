@@ -1,9 +1,9 @@
-import React from 'react';
-import PlayerComparison from '../../components/playerComparison/playerComparison';
+import React, { useEffect, useState } from 'react';
 import "./Top10Page.css";
 
-const Top10Page = ({ mainData }) => {
+const Top10Page = ({ mainData, teams, fixturesData }) => {
   const elements = mainData && Array.isArray(mainData.elements) ? mainData.elements : [];
+  const fixtures = fixturesData && Array.isArray(fixturesData) ? fixturesData : [];
   
   const sortedPlayersTotalPoints = [...elements].sort((a, b) => b.total_points - a.total_points);
   const sortedPlayersGWPoints = [...elements].sort((a, b) => b.event_points - a.event_points);
@@ -18,9 +18,52 @@ const Top10Page = ({ mainData }) => {
   const top10BPS = [...elements].sort((a, b) => b.bps - a.bps);
   const top10PointsPerMillion = [...elements].sort((a, b) => (b.total_points / b.now_cost) - (a.total_points / a.now_cost));
 
+  const calculateTotalXGAndGoalsPerTeam = (elements, fixtures, teams) => {
+    const teamStats = {};
+    
+    teams.forEach(team => {
+        teamStats[team.id] = {
+        teamName: team.name,
+        badge: team.badge,
+        totalXG: 0,
+        totalGoals: 0,
+        };
+    });
+    
+    elements.forEach(player => {
+        const teamId = player.team;
+        
+        if (player.minutes > 0) {
+        const xG = parseFloat(player.expected_goals) || 0;
+        if (teamStats[teamId]) {
+            teamStats[teamId].totalXG += xG;
+        }
+        }
+    });
+    
+    fixtures.forEach(fixture => {
+        const { team_h, team_a, team_h_score, team_a_score } = fixture;
+    
+        if (teamStats[team_h]) {
+        teamStats[team_h].totalGoals += team_h_score || 0;
+        }
+    
+        if (teamStats[team_a]) {
+        teamStats[team_a].totalGoals += team_a_score || 0;
+        }
+    });
+    
+    const sortedTeamStats = Object.values(teamStats)
+        .sort((a, b) => b.totalXG - a.totalXG)
+        .slice(0, 10);
+    
+    return sortedTeamStats;
+  };
+    
+  const top10TeamsXGAndGoals = calculateTotalXGAndGoalsPerTeam(elements, fixtures, teams);
+
   return (
     <div>
-
       <div className="top-10-sub-heading">
         <p>The following graphics show the current Top 10 players for a range of different stats.</p>
         <p>Use these lists to help you notice current trends and in form players to help you decide who to pick for your team!</p>
@@ -254,6 +297,34 @@ const Top10Page = ({ mainData }) => {
               </div>
             ))}
           </div>
+        )}
+      </div>
+
+      <div className="player-pics player-pics-lists">
+        <p className="top-10-title">Top 10 Teams by xG</p>
+        {top10TeamsXGAndGoals.length > 0 && (
+            <div className="pics-wrapper">
+            {top10TeamsXGAndGoals.map((team, index) => (
+                <div key={index} className="player-pic-container">
+                {team.badge ? (
+                    <img
+                    className="team-pic-top-10"
+                    src={team.badge}
+                    alt={`team-${index + 1}`}
+                    />
+                ) : (
+                    <p>Badge not available</p>
+                )}
+                <p className="player-stat-name">{team.teamName}</p>
+                <p className="player-stat">
+                    {typeof team.totalXG === 'number' ? team.totalXG.toFixed(2) : '0.00'}
+                </p>
+                <p className="player-stat">
+                    ({team.totalGoals})
+                </p>
+                </div>
+            ))}
+            </div>
         )}
       </div>
       

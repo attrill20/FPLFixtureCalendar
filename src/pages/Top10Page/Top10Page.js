@@ -90,7 +90,7 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
       </div>
 
       <div className="player-pics player-pics-lists">
-        <p className="top-10-title">Top 10 Form Players</p> 
+        <p className="top-10-title">Top 10 Form (Last 4 Games Average)</p> 
         {elements.length > 0 && (
           <div className="pics-wrapper">
             {sortedPlayersForm.slice(0, 10).map((player, index) => (

@@ -23,20 +23,19 @@ E-mail address: oraclefplcontact@gmail.com
 - Add testing
 - Ensure accessibility
 - Link to betting site for odds
-- Clean sheet percentage
+- Clean sheet percentage odds
 - Launch site as a mobile app
 - Promote further on Twitter FPL with content creators
 - Add a logo to the site and navbar
 - Add an AI chat to recommend players to pick
 - Add a database of historical data
 - Transition all data to be stored in a DB (mongoDB)
-- Add Twiiter / X to a feed on the side of the homepage
+- Add Twitter / X to a feed on the side of the homepage
 
 #### Calendar Page
 
 - Insert a better sorting method (click the column itself to sort ASC / DESC)
 - Improve the Google Sheets calculations using more automated data (form, injuries, xG, home / away performance etc)
-- Scrape the xG data from an external site
 - Find a more detailed API to add extra stats to the Player Searcher tool (Opta perhaps?)
 
 #### Player Comparison Page
@@ -48,6 +47,11 @@ E-mail address: oraclefplcontact@gmail.com
 - If player has no photo, add a blank default one
 - Fix the keyboard still displaying on mobile after selecting a player (focus/blue solution?)
 
+#### Top 10 Page
+
+- Use a new API to get more accurate xG stats - https://footystats.org/api/
+- Add more filters to this page e.g. by club, price range
+
 #### Site Changes
 
 - Blog page / contact us / version update log
@@ -58,6 +62,16 @@ E-mail address: oraclefplcontact@gmail.com
 - Table repeats header on every row, change to display once and get the table to scroll (could use Material UI table)
 - Add a cache to prevent no fixtures displaying when the server occasionally goes down
 - Needs less of a margin / padding either side of the FDR toggle switch
+
+## 10/10/24
+
+I've been slowly adding more Top 10s to this page, including fetching xG and xGC data and combining with a different endpoint to get the total goals scored and conceded to create some club top 10s:
+
+![Screenshot 2024-10-10 at 19 42 14](https://github.com/user-attachments/assets/8e9b553c-d42f-4cd0-8a82-328705192557)
+
+Also added some more player stats regarding bonus points and also a request from a colleague to work out the 10 best value players as price per million - shockingly goalkeepers Onana and Sanchez were the top 2! Spent a bit of time making the Brighton Points App which is working well and was very satisfying to make that get up and running so quickly.
+
+Been recommended a new API from https://footystats.org/api/ which I'll explore looking into when I come back to working on this app again soon.
 
 ## 26/9/24
 

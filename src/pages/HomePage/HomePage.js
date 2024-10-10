@@ -47,13 +47,13 @@ const HomePage = () => {
             </ul>
             <p>If there are any major transfers or clear indications of form in pre-season friendlies, then these figures will be updated - but hopefully these should give a much fuller picture of the early fixture calendar. We'll break that down and post our recommendations in a future post - happy planning!</p>
           </div>
-          <div class="fdr-image-container">
+          <div className="fdr-image-container">
             <img src={july_24_fdr} className="fdr-image" />
           </div>
         </div>
         
         <div className="fdr-wrapper">
-          <div class="fdr-image-container">
+          <div className="fdr-image-container">
             <img src={july_24_fdr_top} className="fdr-image-grid" />
           </div>
           <div className="fdr-heading">  
@@ -73,7 +73,7 @@ const HomePage = () => {
             <p>Interestingly last season's top 2 in <strong>Manchester City</strong> and <strong>Arsenal</strong> also feature quite low in the opening FDR with scores of 34 and 35 respectively. Their star players are always likely to shine, so I wouldn't advise missing out on their players completely - but it might make a decision to go without Haaland for an initial draft a little easier, especially at his hefty new price point of 15.0m. However, they have both got some pretty tasty home games against lower ranked teams - so maybe selecting some attacking threats would be preferable to defenders with difficult away fixtures early doors for both teams.</p>
             <p>Finally, there are middling FDR scores for <strong>Chelsea</strong>, <strong>Spurs</strong> and <strong>Newcastle</strong> who all had periods of good form last season, but struggled for consistency. With this opening set of fixtures it may be wise to just go for 1 standout player from each team, 2 at most - certainly no tripling up at this stage! Players like Palmer (who has had a huge price hike to 10.5m), Son and Isak all regularly find ways to points no matter the fixtures, thanks partly to penalty taking responsibilities, so are worth holding for the long haul. I wouldn't be looking to pick up many defenders from teams in this half of the FDR table, try and target bargains from those coming up in Part 2 from the top teams.</p>
           </div>
-          <div class="fdr-image-container">
+          <div className="fdr-image-container">
             <img src={july_24_fdr_bottom} className="fdr-image-grid" />
           </div>
         </div>

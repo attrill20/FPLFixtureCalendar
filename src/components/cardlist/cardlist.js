@@ -9,7 +9,7 @@ export default function CardList({ teams, fixturesData, activeGameweek: initialA
   const [sortOrder, setSortOrder] = useState("desc");
   const [sortBy, setSortBy] = useState("custom"); 
   const [showOriginalScore] = useState(true);
-  const [activeGameweek, setActiveGameweek] = useState(initialActiveGameweek);
+  const [activeGameweek, setActiveGameweek] = useState(initialActiveGameweek || 1);
 
   // Update activeGameweek when the prop changes
   useEffect(() => {
@@ -87,17 +87,11 @@ export default function CardList({ teams, fixturesData, activeGameweek: initialA
       totalDifficulty += gameweekDifficulty;
     }
 
-    // Calculate reversedTotalDifficulty correctly
     const reversedTotalDifficulty =
       (numberOfFixtures + extraFixturesCount) * 6 - totalDifficulty;
 
     return reversedTotalDifficulty;
   };
-
-  // const calculateDifficulty = (reversedTotalDifficulty) => {
-  //   // Calculate difficulty logic (if needed)
-  //   return reversedTotalDifficulty;
-  // };
 
   const calculateCustomDifficulty = (teamId, numberOfFixtures) => {
     if (!fixturesData) return 0;
@@ -116,14 +110,13 @@ export default function CardList({ teams, fixturesData, activeGameweek: initialA
 
     // Check if the team has more than one fixture in the same gameweek
     if (gameweek.length > 1) {
-      // Only add extra fixtures for the specified team
       extraFixturesCount += gameweek.length - 1;
     }
 
       if (gameweek.length === 0) {
         // Add 11 for each blank gameweek
         customTotalDifficulty += 11;
-        continue; // Skip to the next iteration
+        continue;
       }
 
       customTotalDifficulty += gameweek.reduce((acc, fixture) => {
@@ -150,7 +143,7 @@ export default function CardList({ teams, fixturesData, activeGameweek: initialA
 
   const handleCustomGameweekChange = (event) => {
     const newCustomActiveGameweek = parseInt(event.target.value, 10);
-    setActiveGameweek(newCustomActiveGameweek);  // Update activeGameweek prop
+    setActiveGameweek(newCustomActiveGameweek);
   };
   
   
@@ -162,7 +155,6 @@ export default function CardList({ teams, fixturesData, activeGameweek: initialA
     setSortOrder((prevSortOrder) => (prevSortOrder === "asc" ? "desc" : "asc"));
   };
 
-  // Remove the first team (index 0) before sorting and rendering
   const teamsToRender = teams.slice(1);
 
   const sortedTeams = [...teamsToRender];
@@ -177,7 +169,6 @@ export default function CardList({ teams, fixturesData, activeGameweek: initialA
       valueB = calculateCustomDifficulty(teamB.id, numberOfGameweeks);
     }
 
-    // Toggle sorting based on sortOrder
     if (sortOrder === "asc") {
       return valueA - valueB;
     } else {
@@ -211,9 +202,10 @@ export default function CardList({ teams, fixturesData, activeGameweek: initialA
         type="number"
         min="1"
         max="38"
-        value={activeGameweek}
+        value={activeGameweek || ""}
         onChange={handleCustomGameweekChange}
       />
+
 
       <div className={`table ${showOriginalScore ? "original-fpl" : ""}`}>
         {sortedTeams.map((team, index) => (

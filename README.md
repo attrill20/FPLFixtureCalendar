@@ -22,7 +22,7 @@ E-mail address: oraclefplcontact@gmail.com
 
 - Add testing
 - Ensure accessibility
-- Link to betting site for odds
+- Scrape betting site for odds
 - Clean sheet percentage odds
 - Launch site as a mobile app
 - Promote further on Twitter FPL with content creators
@@ -30,7 +30,11 @@ E-mail address: oraclefplcontact@gmail.com
 - Add an AI chat to recommend players to pick
 - Add a database of historical data
 - Transition all data to be stored in a DB (mongoDB)
-- Add Twitter / X to a feed on the side of the homepage
+
+#### Home Page
+
+- Insert a Twitter / X feed on the right hand size of this page to show live post updates
+- Show some top 10s below the welcome message on this page
 
 #### Calendar Page
 
@@ -40,7 +44,6 @@ E-mail address: oraclefplcontact@gmail.com
 
 #### Player Comparison Page
 
-- Show more top 10s below the tool on this page
 - Allow selection of different players with the exact same web_name
 - Allow autocomplete to account for special characters (e.g. Odegaard doesn't currently get suggested)
 - Fix the issue where the selected player disappears when you start searching again

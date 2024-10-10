@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./App.css";
 import PlayerComparisonPage from "./pages/PlayerComparisonPage/PlayerComparisonPage";
 import FixtureCalendarPage from "./pages/FixtureCalendarPage/FixtureCalendarPage";
-import HomePage from "./pages/Home/HomePage";
+import HomePage from "./pages/HomePage/HomePage";
 import FAQPage from "./pages/FAQPage/FAQPage";
 import Top10Page from "./pages/Top10Page/Top10Page";
 import { teams } from "./components/dummyArrays/dummy";

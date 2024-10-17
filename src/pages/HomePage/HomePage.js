@@ -21,7 +21,7 @@ const HomePage = () => {
         
       <div className="home-sub-heading">
         <p>
-          This is the homepage of the OracleFPL tools - we hope they hope you find them useful and improve your FPL rank! Use the Navbar or links below to select the tool you need:
+          This is the homepage of the OracleFPL tools - we hope you find them useful and improve your FPL rank! Use the Navbar or links below to select the tool you need:
         </p>
         <ul>
           <li><Link to="/calendar"><strong>Fixture Difficulty Calendar</strong></Link> - check here for a custom FDR calendar to identify which teams have favourable upcoming fixtures </li>
@@ -46,7 +46,7 @@ const HomePage = () => {
             <p>So no major changes have taken place, but here are the details from the first FDR changes of the 24/25 season:</p>
             <p><strong>FDR Increases</strong> - Bumps for:</p>
               <ul>
-                <li><strong>Brentford</strong> (Away_diff up by 2 - strong home form, seem improved on last season)</li>
+                <li><strong>Brentford</strong> (Away_diff up by 2 - strong home form, better than last season)</li>
                 <li><strong>Brighton</strong> (Home_diff and Away_diff up by 1 - solid early results, better squad)</li>
                 <li><strong>Chelsea</strong> (Home_diff up by 1 - won all away games so far, gelling much better)</li>
                 <li><strong>Liverpool</strong> (Home_diff up by 1 - 4 out of 4 away wins so far, look tight)</li>

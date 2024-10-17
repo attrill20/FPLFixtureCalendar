@@ -60,7 +60,7 @@ const HomePage = () => {
                 <li><strong>West Ham</strong> (Away_diff down by 1 - only 1 home win from 4, not looking good)</li>
                 <li><strong>Wolves</strong> (Home_diff and Away_diff up by 1 - poor start so far)</li>
               </ul>
-            <p>Will update when more changes take place over the next few GWs, will Man United and Bournemouth are very close to drops if current form continues...</p>
+            <p>Will update when more changes take place over the next few GWs, <strong>Man United</strong> and <strong>Bournemouth</strong> are very close to drops if current form continues...</p>
           </div>
         </div>
 

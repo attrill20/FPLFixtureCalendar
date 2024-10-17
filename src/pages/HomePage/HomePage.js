@@ -46,19 +46,19 @@ const HomePage = () => {
             <p>So no major changes have taken place, but here are the details from the first FDR changes of the 24/25 season:</p>
             <p><strong>FDR Increases</strong> - Bumps for:</p>
               <ul>
-                <li><strong>Brentford</strong> (Away_diff up by 2 - very strong home form, seem improved on last season)</li>
-                <li><strong>Brighton</strong> (Home_diff up by 1 and Away_diff up by 1 - solid early results, squad strengthened)</li>
-                <li><strong>Chelsea</strong>(Home_diff up by 1 - won all away games so far, gelling much better than previously)</li>
+                <li><strong>Brentford</strong> (Away_diff up by 2 - strong home form, seem improved on last season)</li>
+                <li><strong>Brighton</strong> (Home_diff and Away_diff up by 1 - solid early results, better squad)</li>
+                <li><strong>Chelsea</strong> (Home_diff up by 1 - won all away games so far, gelling much better)</li>
                 <li><strong>Liverpool</strong> (Home_diff up by 1 - 4 out of 4 away wins so far, look tight)</li>
-                <li><strong>Notts Forest</strong>(Home_diff up by 2 and Away_diff up by 1 - excellent start so far)</li>
+                <li><strong>Notts Forest</strong> (Home_diff up by 2 and Away_diff up by 1 - excellent start so far)</li>
               </ul>
             <p><strong>FDR Decreases</strong> - Drops for:</p>
               <ul>
                 <li><strong>Crystal Palace</strong> (Away_diff down by 1 - very disappointing so far,  missing Olise)</li>
                 <li><strong>Everton</strong> (Home_diff down by 1 - very weak away form, no wins so far)</li>
-                <li><strong>Southampton</strong>(Home_diff down by 1 - 4 losses on the road, down to 1/10)</li>
-                <li><strong>West Ham</strong> (Away_diff down by 1 - only 1 win home win from 4, not looking good)</li>
-                <li><strong>Wolves</strong>(Home_diff down by 1 and Away_diff up by 1 - poor start so far)</li>
+                <li><strong>Southampton</strong> (Home_diff down by 1 - 4 losses on the road, down to 1/10)</li>
+                <li><strong>West Ham</strong> (Away_diff down by 1 - only 1 home win from 4, not looking good)</li>
+                <li><strong>Wolves</strong> (Home_diff and Away_diff up by 1 - poor start so far)</li>
               </ul>
             <p>Will update when more changes take place over the next few GWs, will Man United and Bournemouth are very close to drops if current form continues...</p>
           </div>

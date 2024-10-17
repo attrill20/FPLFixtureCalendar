@@ -228,22 +228,20 @@ h3 {
     width: 85%;
     display: block;
     margin: 0 auto;
-    margin-top: 5px;
-    margin-bottom: 5px;
-
+    margin-top: 0px;
+    margin-bottom: 0px;
   }
 
   .fdr-image-container {
     order: 2;
+    margin: 0px;
   }
 
   .fdr-image-grid {
     border: 2px solid #000000;
     width: 85%;
     display: block;
-    margin: 0 auto;
-    margin-top: 5px;
-    margin-bottom: 5px;
+    margin: 0px;
   }
 
   .fdr-heading {

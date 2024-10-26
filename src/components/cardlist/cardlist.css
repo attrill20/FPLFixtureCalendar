@@ -58,6 +58,7 @@
   font-size: 1rem;
   border: none;
   cursor: pointer;
+  margin: 0 5px;
 }
 
 .minus-button {

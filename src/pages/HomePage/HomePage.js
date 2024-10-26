@@ -37,7 +37,7 @@ const HomePage = () => {
       <div>
       <div className="fdr-wrapper">
           <div className="fdr-image-container">
-            <img src={oct_24_fdr} className="fdr-image" />
+            <img src={oct_24_fdr} className="fdr-image" alt="October 2024 FDR"/>
           </div>
           <div className="fdr-heading">  
             <h2>GW7 International Break FDR Update</h2>
@@ -78,13 +78,13 @@ const HomePage = () => {
             <p>If there are any major transfers or clear indications of form in pre-season friendlies, then these figures will be updated - but hopefully these should give a much fuller picture of the early fixture calendar. We'll break that down and post our recommendations in a future post - happy planning!</p>
           </div>
           <div className="fdr-image-container">
-            <img src={july_24_fdr} className="fdr-image" />
+            <img src={july_24_fdr} className="fdr-image" alt="July 2024 FDR"/>
           </div>
         </div>
         
         <div className="fdr-wrapper">
           <div className="fdr-image-container">
-            <img src={july_24_fdr_top} className="fdr-image-grid" />
+            <img src={july_24_fdr_top} className="fdr-image-grid" alt="July 2024 FDR"/>
           </div>
           <div className="fdr-heading">  
             <h2>Early Season Fixture Guidance - Top Teams</h2>
@@ -104,7 +104,7 @@ const HomePage = () => {
             <p>Finally, there are middling FDR scores for <strong>Chelsea</strong>, <strong>Spurs</strong> and <strong>Newcastle</strong> who all had periods of good form last season, but struggled for consistency. With this opening set of fixtures it may be wise to just go for 1 standout player from each team, 2 at most - certainly no tripling up at this stage! Players like Palmer (who has had a huge price hike to 10.5m), Son and Isak all regularly find ways to points no matter the fixtures, thanks partly to penalty taking responsibilities, so are worth holding for the long haul. I wouldn't be looking to pick up many defenders from teams in this half of the FDR table, try and target bargains from those coming up in Part 2 from the top teams.</p>
           </div>
           <div className="fdr-image-container">
-            <img src={july_24_fdr_bottom} className="fdr-image-grid" />
+            <img src={july_24_fdr_bottom} className="fdr-image-grid" alt="July 2024 FDR"/>
           </div>
         </div>
       </div>

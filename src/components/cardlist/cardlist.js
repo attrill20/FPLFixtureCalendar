@@ -178,34 +178,46 @@ export default function CardList({ teams, fixturesData, activeGameweek: initialA
 
   const label = { inputProps: { 'aria-label': 'Switch demo' } };
 
+  const handleIncrement = () => {
+    setActiveGameweek((prev) => Math.min(prev + 1, 38));
+  };
+
+  const handleDecrement = () => {
+    setActiveGameweek((prev) => Math.max(prev - 1, 1));
+  };
+
   return (
-    <div>
-      <div className="gameweek-dropdown">
-        <Dropdown handleGameweekChange={handleGameweekChange} activeGameweek={activeGameweek} />
-      </div>
-      
-      <strong className="tool-text">FPL FDR</strong>
-        <Switch className="switch" {...label} defaultChecked={sortBy === 'custom'} onChange={handleTableReorder}
-        />
-      <strong className="tool-text">Oracle FDR</strong>
+      <div>
+        <div className="gameweek-dropdown">
+          <Dropdown handleGameweekChange={handleGameweekChange} activeGameweek={activeGameweek} />
+        </div>
+        
+        <div className="container-cardlist-tools">
+          <strong className="tool-text">FPL FDR</strong>
+            <Switch className="switch" {...label} defaultChecked={sortBy === 'custom'} onChange={handleTableReorder}/>
+          <strong className="tool-text">Oracle FDR</strong>
 
-      <button
-        className={`button-sort ${sortBy === "custom" ? "active" : ""}`}
-        onClick={handleCustomSort}
-      >
-        {sortOrder === "asc" ? "Sort ↑" : "Sort ↓"}
-      </button>
+          <button className={`button-sort ${sortBy === "custom" ? "active" : ""}`}onClick={handleCustomSort}>
+            {sortOrder === "asc" ? "Sort ↑" : "Sort ↓"}
+          </button>
 
-      <strong className="tool-text">Active GW: </strong>
-      <input
-        className="active-gameweek-input"
-        type="number"
-        min="1"
-        max="38"
-        value={activeGameweek || ""}
-        onChange={handleCustomGameweekChange}
-      />
-
+          <div className="input-container-cardlist">
+            <label htmlFor="gameweek" className="tool-text"><strong>Active GW: </strong></label>
+            <div className="input-wrapper">
+                <button className="minus-button" onClick={() => handleDecrement(handleCustomGameweekChange, activeGameweek)}>-</button>
+                <input
+                    id="gameweek"
+                    className="active-gameweek-input"
+                    type="number"
+                    min="1"
+                    max="38"
+                    value={activeGameweek !== null ? activeGameweek : ""}
+                    onChange={handleCustomGameweekChange}
+                />
+                <button className="plus-button" onClick={() => handleIncrement(handleCustomGameweekChange, activeGameweek)}>+</button>
+            </div>
+          </div>
+        </div>
 
       <div className={`table ${showOriginalScore ? "original-fpl" : ""}`}>
         {sortedTeams.map((team, index) => (

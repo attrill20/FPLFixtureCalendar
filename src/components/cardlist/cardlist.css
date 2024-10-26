@@ -8,11 +8,10 @@
 }
 
 .button-sort {
-    margin-bottom: 10px;
     margin-left: 30px;
     margin-right: 30px;
     border: 2px solid rgb(0, 0, 0);
-    font-size: 1.4rem;
+    font-size: 1.2rem;
 }
 
 .gameweek-dropdown select {
@@ -21,8 +20,8 @@
     font-size: 1.5rem;
     text-align: center;
     border-radius: 5px;
-    border:3px solid #000000;
-    margin-bottom: 10px;
+    border: 3px solid #000000;
+    margin-bottom: 5px;
     font-weight: bold;
 }
 
@@ -30,6 +29,54 @@
   font-size: 1.2rem;
   font-weight: bold;
   text-align: center;
+}
+
+.container-cardlist-tools {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 5px;
+}
+
+.input-container-cardlist {
+  display: flex; 
+  justify-content: center; 
+  align-items: center; 
+}
+
+.input-wrapper {
+  display: flex;
+  align-items: center;
+}
+
+.input-wrapper button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 20px;
+  height: 20px;
+  font-size: 1rem;
+  border: none;
+  cursor: pointer;
+}
+
+.minus-button {
+  background-color: rgb(234, 115, 115);
+}
+
+.plus-button {
+  background-color: rgb(106, 187, 106);
+}
+
+#gameweek {
+  -webkit-appearance: none; /* Safari and Chrome */
+  -moz-appearance: textfield; /* Firefox */
+  appearance: none; /* Standard syntax */
+}
+
+#gameweek::-webkit-outer-spin-button,
+#gameweek::-webkit-inner-spin-button {
+    -webkit-appearance: none; /* Removes spinners in Chrome */
 }
 
 
@@ -50,7 +97,6 @@
   }
 
   .button-sort {
-    margin-bottom: 5px;
     margin-left: 20px;
     margin-right: 10px;
     font-size: 0.7rem;
@@ -63,6 +109,19 @@
 
   .active-gameweek-input {
     font-size: 0.7rem;
+  }
+
+  .container-cardlist-tools {
+    margin-bottom: 1px;
+  }
+
+  .input-wrapper button {
+    width: 15px;
+    height: 15px;
+    font-size: 1rem;
+    border: none;
+    cursor: pointer;
+    margin: 0 5px;
   }
     
 }

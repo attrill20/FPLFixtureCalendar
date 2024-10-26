@@ -29,6 +29,7 @@
   font-size: 1.2rem;
   font-weight: bold;
   text-align: center;
+  width: 35px;
 }
 
 .container-cardlist-tools {
@@ -99,7 +100,7 @@
 
   .button-sort {
     margin-left: 20px;
-    margin-right: 10px;
+    margin-right: 15px;
     font-size: 0.7rem;
     border: 1px solid black;
   }
@@ -110,7 +111,7 @@
 
   .active-gameweek-input {
     font-size: 0.7rem;
-    width: 25px;
+    width: 20px;
   }
 
   .container-cardlist-tools {
@@ -123,7 +124,7 @@
     font-size: 1rem;
     border: none;
     cursor: pointer;
-    margin: 0 5px;
+    margin: 0 2px;
   }
     
 }

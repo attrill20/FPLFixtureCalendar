@@ -110,6 +110,7 @@
 
   .active-gameweek-input {
     font-size: 0.7rem;
+    width: 25px;
   }
 
   .container-cardlist-tools {

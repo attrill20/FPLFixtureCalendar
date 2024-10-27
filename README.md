@@ -66,6 +66,18 @@ E-mail address: oraclefplcontact@gmail.com
 - Add a cache to prevent no fixtures displaying when the server occasionally goes down
 - Needs less of a margin / padding either side of the FDR toggle switch
 
+## 27/10/24
+
+Some recent minor tweaks to the site - updated the Active GW input field to hae increment / decrement buttons, which will be especially useful when updating on mobile:
+
+![Screenshot 2024-10-27 at 12 53 27](https://github.com/user-attachments/assets/b4566dc3-9995-4486-bbf6-0229bf512de0)
+
+Also fixed an issue where all Wolves players had different ratio images strangely, so updated them all to be 250x250 instead and therefore also made some ratio changes on the Player Comparison tool:
+
+![Screenshot 2024-10-27 at 13 02 50](https://github.com/user-attachments/assets/3f65adb0-1421-4adc-821c-93132f8f0f07)
+
+Everything working pretty well right now, might next to update the homepage with more live data (players of the week / Twitter feed) or integrate the Footy Stats API to have more accurate xG data
+
 ## 10/10/24
 
 I've been slowly adding more Top 10s to this page, including fetching xG and xGC data and combining with a different endpoint to get the total goals scored and conceded to create some club top 10s:

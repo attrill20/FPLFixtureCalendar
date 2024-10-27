@@ -87,7 +87,7 @@ export default function FormResults({ targetWebName, setTargetWebName, handleSub
                     <div className="top-row">
                         <img
                             className="player-pic2"
-                            src={`https://resources.premierleague.com/premierleague/photos/players/110x140/p${targetedPlayer.code}.png`}
+                            src={`https://resources.premierleague.com/premierleague/photos/players/250x250/p${targetedPlayer.code}.png`}
                             alt={targetedPlayer.web_name}
                         />
 

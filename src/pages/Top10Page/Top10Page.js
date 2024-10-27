@@ -122,7 +122,7 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
               <div key={player.code} className="player-pic-container">
                 <img
                     className="player-pic-top-10"
-                    src={`https://resources.premierleague.com/premierleague/photos/players/110x140/p${player.code}.png`}
+                    src={`https://resources.premierleague.com/premierleague/photos/players/250x250/p${player.code}.png`}
                     onError={(e) => { e.target.src = "https://fantasy.premierleague.com/dist/img/shirts/standard/shirt_36-110.png"; }}
                     alt={`player-${index + 1}`}
                 />
@@ -142,7 +142,7 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
               <div key={player.code} className="player-pic-container">
                 <img
                     className="player-pic-top-10"
-                    src={`https://resources.premierleague.com/premierleague/photos/players/110x140/p${player.code}.png`}
+                    src={`https://resources.premierleague.com/premierleague/photos/players/250x250/p${player.code}.png`}
                     onError={(e) => { e.target.src = "https://fantasy.premierleague.com/dist/img/shirts/standard/shirt_36-110.png"; }}
                     alt={`player-${index + 1}`}
                 />
@@ -162,7 +162,7 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
               <div key={player.code} className="player-pic-container">
                 <img
                   className="player-pic-top-10"
-                  src={`https://resources.premierleague.com/premierleague/photos/players/110x140/p${player.code}.png`}
+                  src={`https://resources.premierleague.com/premierleague/photos/players/250x250/p${player.code}.png`}
                   alt={`player-${index + 1}`}
                 />
                 <p className="player-stat-name">{player.web_name}</p>
@@ -181,7 +181,7 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
               <div key={player.code} className="player-pic-container">
                 <img
                   className="player-pic-top-10"
-                  src={`https://resources.premierleague.com/premierleague/photos/players/110x140/p${player.code}.png`}
+                  src={`https://resources.premierleague.com/premierleague/photos/players/250x250/p${player.code}.png`}
                   alt={`player-${index + 1}`}
                 />
                 <p className="player-stat-name">{player.web_name}</p> 
@@ -200,7 +200,7 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
               <div key={player.code} className="player-pic-container">
                 <img
                   className="player-pic-top-10"
-                  src={`https://resources.premierleague.com/premierleague/photos/players/110x140/p${player.code}.png`}
+                  src={`https://resources.premierleague.com/premierleague/photos/players/250x250/p${player.code}.png`}
                   alt={`player-${index + 1}`}
                 />
                 <p className="player-stat-name">{player.web_name}</p>
@@ -220,7 +220,7 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
               <div key={player.code} className="player-pic-container">
                 <img
                   className="player-pic-top-10"
-                  src={`https://resources.premierleague.com/premierleague/photos/players/110x140/p${player.code}.png`}
+                  src={`https://resources.premierleague.com/premierleague/photos/players/250x250/p${player.code}.png`}
                   alt={`player-${index + 1}`}
                 />
                 <p className="player-stat-name">{player.web_name}</p>
@@ -239,7 +239,7 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
               <div key={player.code} className="player-pic-container">
                 <img
                   className="player-pic-top-10"
-                  src={`https://resources.premierleague.com/premierleague/photos/players/110x140/p${player.code}.png`}
+                  src={`https://resources.premierleague.com/premierleague/photos/players/250x250/p${player.code}.png`}
                   alt={`player-${index + 1}`}
                 />
                 <p className="player-stat-name">{player.web_name}</p>
@@ -258,7 +258,7 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
               <div key={player.code} className="player-pic-container">
                 <img
                   className="player-pic-top-10"
-                  src={`https://resources.premierleague.com/premierleague/photos/players/110x140/p${player.code}.png`}
+                  src={`https://resources.premierleague.com/premierleague/photos/players/250x250/p${player.code}.png`}
                   alt={`player-${index + 1}`}
                 />
                 <p className="player-stat-name">{player.web_name}</p>
@@ -277,7 +277,7 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
               <div key={player.code} className="player-pic-container">
                 <img
                   className="player-pic-top-10"
-                  src={`https://resources.premierleague.com/premierleague/photos/players/110x140/p${player.code}.png`}
+                  src={`https://resources.premierleague.com/premierleague/photos/players/250x250/p${player.code}.png`}
                   alt={`player-${index + 1}`}
                 />
                 <p className="player-stat-name">{player.web_name}</p>
@@ -296,7 +296,7 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
               <div key={player.code} className="player-pic-container">
                 <img
                   className="player-pic-top-10"
-                  src={`https://resources.premierleague.com/premierleague/photos/players/110x140/p${player.code}.png`}
+                  src={`https://resources.premierleague.com/premierleague/photos/players/250x250/p${player.code}.png`}
                   alt={`player-${index + 1}`}
                 />
                 <p className="player-stat-name">{player.web_name}</p>
@@ -315,7 +315,7 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
               <div key={player.code} className="player-pic-container">
                 <img
                   className="player-pic-top-10"
-                  src={`https://resources.premierleague.com/premierleague/photos/players/110x140/p${player.code}.png`}
+                  src={`https://resources.premierleague.com/premierleague/photos/players/250x250/p${player.code}.png`}
                   alt={`player-${index + 1}`}
                 />
                 <p className="player-stat-name">{player.web_name}</p>
@@ -334,7 +334,7 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
               <div key={player.code} className="player-pic-container">
                 <img
                   className="player-pic-top-10"
-                  src={`https://resources.premierleague.com/premierleague/photos/players/110x140/p${player.code}.png`}
+                  src={`https://resources.premierleague.com/premierleague/photos/players/250x250/p${player.code}.png`}
                   alt={`player-${index + 1}`}
                 />
                 <p className="player-stat-name">{player.web_name}</p>

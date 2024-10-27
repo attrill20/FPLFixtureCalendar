@@ -51,7 +51,6 @@
 
 .player-pic2 {
     margin-top: 2px;
-    width: 80%; /* Increased the size of the player picture */
     height: auto;
     display: block;
     margin-left: auto;
@@ -108,6 +107,7 @@
     width: 100%;
 }
 
+
 /* Desktop-specific styles */
 @media (min-width: 1200px) {
     .results {
@@ -132,7 +132,7 @@
     }
 
     .player-pic2 {
-        width: 30%; /* Larger size for desktop */
+        width: 36%; /* Larger size for desktop */
         margin-right: 2px;
         padding-left: 100px;
     }
@@ -186,8 +186,27 @@
         width: 120px;
         margin-top: 17px;
     }
-    
-    
+}
+
+@media (min-width: 1600px) and (max-width: 1799px) {
+    .player-pic2 {
+        width: 42%;
+        padding-left: 80px;
+    }
+}
+
+@media (min-width: 1400px) and (max-width: 1599px) {
+    .player-pic2 {
+        width: 48%;
+        padding-left: 30px;
+    }
+}
+
+@media (min-width: 1201px) and (max-width: 1399px) {
+    .player-pic2 {
+        width: 55%;
+        padding-left: 0px;
+    }
 }
 
 /* Mobile-specific styles */
@@ -259,5 +278,12 @@
     .submit-button {
         margin-top: 5px; 
         width: 100%;
+    }
+}
+
+@media (min-width: 801px) and (max-width: 1200px) {
+    .player-pic2 {
+        width: 30%;
+        padding-left: 0px;
     }
 }

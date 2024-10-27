@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import "./Top10Page.css";
 
 const Top10Page = ({ mainData, teams, fixturesData }) => {

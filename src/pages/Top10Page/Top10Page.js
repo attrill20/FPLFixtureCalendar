@@ -107,6 +107,20 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
   
   const top10TeamsXGCAndConcededGoals = calculateTotalXGCAndConcededGoalsPerTeam(elements, fixtures, teams);
 
+  const sortedPlayersXGUnderPerformance = [...elements]
+    .map(player => ({
+      ...player,
+      xGUnderPerformance: (player.expected_goals || 0) - (player.goals_scored || 0)
+    }))
+    .sort((a, b) => b.xGUnderPerformance - a.xGUnderPerformance);
+
+  const sortedPlayersXGOverPerformance = [...elements]
+    .map(player => ({
+      ...player,
+      xGOverPerformance: player.goals_scored - player.expected_goals
+    }))
+    .sort((a, b) => b.xGOverPerformance - a.xGOverPerformance)
+
   return (
     <div>
       <div className="top-10-sub-heading">
@@ -206,6 +220,46 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
                 <p className="player-stat-name">{player.web_name}</p>
                 <p className="player-stat">{player.expected_goal_involvements}</p>
                 <p className="player-stat">({player.goals_scored + player.assists})</p> 
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+
+      <div className="player-pics player-pics-lists">
+        <p className="top-10-title">Top 10 Under Performance xG (Goals) (Below xG) </p> 
+        {elements.length > 0 && (
+          <div className="pics-wrapper">
+            {sortedPlayersXGUnderPerformance.slice(0, 10).map((player, index) => (
+              <div key={player.code} className="player-pic-container">
+                <img
+                  className="player-pic-top-10"
+                  src={`https://resources.premierleague.com/premierleague/photos/players/250x250/p${player.code}.png`}
+                  alt={`player-${index + 1}`}
+                />
+                <p className="player-stat-name">{player.web_name}</p>
+                <p className="player-stat">{player.expected_goals} ({player.goals_scored})</p>
+                <p className="player-stat">({(player.goals_scored - player.expected_goals).toFixed(2)})</p> 
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+
+      <div className="player-pics player-pics-lists">
+        <p className="top-10-title">Top 10 Over Performance xG (Goals) (Over xG) </p> 
+        {elements.length > 0 && (
+          <div className="pics-wrapper">
+            {sortedPlayersXGOverPerformance.slice(0, 10).map((player, index) => (
+              <div key={player.code} className="player-pic-container">
+                <img
+                  className="player-pic-top-10"
+                  src={`https://resources.premierleague.com/premierleague/photos/players/250x250/p${player.code}.png`}
+                  alt={`player-${index + 1}`}
+                />
+                <p className="player-stat-name">{player.web_name}</p>
+                <p className="player-stat">{player.expected_goals} ({player.goals_scored})</p>
+                <p className="player-stat">(+{(player.goals_scored - player.expected_goals).toFixed(2)})</p> 
               </div>
             ))}
           </div>

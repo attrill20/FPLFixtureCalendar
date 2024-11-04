@@ -43,9 +43,11 @@
 }
 
 .player-pic-top-10 {
-    height: auto; 
-    margin-left: 1px;
-    margin-right: 1px;
+    width: 100%; 
+    height: 100%;
+    margin-bottom: 5px;
+    margin-top: 5px;
+    object-fit: contain;
 }
 
 .player-pics-lists .pics-wrapper {
@@ -68,6 +70,9 @@
     height: auto;
     margin-bottom: 5px;
     margin-top: 5px;
+    aspect-ratio: 1; /* Forces a square aspect ratio */
+    margin: 0 1px;
+    overflow: hidden;
 }
 
 .top-10-sub-heading p {
@@ -82,7 +87,8 @@
     margin-bottom: 3px;
     margin-top: 2px;
 }
-  
+
+
 @media (max-width: 1600px) {
     .team-pic-top-10 {
         height: 100px;

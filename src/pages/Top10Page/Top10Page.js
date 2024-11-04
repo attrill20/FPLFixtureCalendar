@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import "./Top10Page.css";
 
 const Top10Page = ({ mainData, teams, fixturesData }) => {
   const elements = mainData && Array.isArray(mainData.elements) ? mainData.elements : [];
   const fixtures = fixturesData && Array.isArray(fixturesData) ? fixturesData : [];
+  const [selectedTeamId, setSelectedTeamId] = useState(null);
   
   const sortedPlayersTotalPoints = [...elements].sort((a, b) => b.total_points - a.total_points);
   const sortedPlayersGWPoints = [...elements].sort((a, b) => b.event_points - a.event_points);
@@ -121,6 +122,15 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
     }))
     .sort((a, b) => b.xGOverPerformance - a.xGOverPerformance)
 
+    const filterByTeam = (players) => {
+      return selectedTeamId ? players.filter(player => player.team === selectedTeamId) : players;
+    };
+
+    const handleTeamChange = (event) => {
+      const teamId = parseInt(event.target.value);
+      setSelectedTeamId(teamId || null);
+    };
+
   return (
     <div>
       <div className="top-10-sub-heading">
@@ -128,17 +138,29 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
         <p>Use these lists to help you notice current trends and in form players to help you decide who to pick for your team!</p>
       </div>
 
+      <div className="dropdown-container">
+        <label htmlFor="team-select">Select Team: </label>
+        <select id="team-select" onChange={handleTeamChange}>
+          <option value="">All Teams</option>
+          {teams.slice(1).map(team => (
+            <option key={team.id} value={team.id}>{team.name}</option>
+          ))}
+        </select>
+      </div>
+
       <div className="player-pics player-pics-lists">
         <p className="top-10-title">Top 10 Overall Points</p> 
         {elements.length > 0 && (
           <div className="pics-wrapper">
-            {sortedPlayersTotalPoints.slice(0, 10).map((player, index) => (
+            {filterByTeam(sortedPlayersTotalPoints).slice(0, 10).map((player, index) => (
               <div key={player.code} className="player-pic-container">
                 <img
                     className="player-pic-top-10"
                     src={`https://resources.premierleague.com/premierleague/photos/players/250x250/p${player.code}.png`}
-                    onError={(e) => { e.target.src = "https://fantasy.premierleague.com/dist/img/shirts/standard/shirt_36-110.png"; }}
                     alt={`player-${index + 1}`}
+                    onError={(e) => {
+                      e.target.src = `https://fantasy.premierleague.com/dist/img/shirts/standard/shirt_${player.team_code}-110.png`;
+                    }}
                 />
                 <p className="player-stat-name">{player.web_name}</p>
                 <p className="player-stat">{player.total_points}</p>
@@ -152,13 +174,15 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
         <p className="top-10-title">Top 10 Form (Last 4 Games Average)</p> 
         {elements.length > 0 && (
           <div className="pics-wrapper">
-            {sortedPlayersForm.slice(0, 10).map((player, index) => (
+            {filterByTeam(sortedPlayersForm).slice(0, 10).map((player, index) => (
               <div key={player.code} className="player-pic-container">
                 <img
                     className="player-pic-top-10"
                     src={`https://resources.premierleague.com/premierleague/photos/players/250x250/p${player.code}.png`}
-                    onError={(e) => { e.target.src = "https://fantasy.premierleague.com/dist/img/shirts/standard/shirt_36-110.png"; }}
                     alt={`player-${index + 1}`}
+                    onError={(e) => {
+                      e.target.src = `https://fantasy.premierleague.com/dist/img/shirts/standard/shirt_${player.team_code}-110.png`;
+                    }}
                 />
                 <p className="player-stat-name">{player.web_name}</p>
                 <p className="player-stat">{player.form}</p>
@@ -172,12 +196,15 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
         <p className="top-10-title">Top 10 GW Points</p> 
         {elements.length > 0 && (
           <div className="pics-wrapper">
-            {sortedPlayersGWPoints.slice(0, 10).map((player, index) => (
+            {filterByTeam(sortedPlayersGWPoints).slice(0, 10).map((player, index) => (
               <div key={player.code} className="player-pic-container">
                 <img
                   className="player-pic-top-10"
                   src={`https://resources.premierleague.com/premierleague/photos/players/250x250/p${player.code}.png`}
                   alt={`player-${index + 1}`}
+                  onError={(e) => {
+                      e.target.src = `https://fantasy.premierleague.com/dist/img/shirts/standard/shirt_${player.team_code}-110.png`;
+                  }}
                 />
                 <p className="player-stat-name">{player.web_name}</p>
                 <p className="player-stat">{player.event_points}</p>
@@ -191,12 +218,15 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
         <p className="top-10-title">Top 10 Owned Players</p> 
         {elements.length > 0 && (
           <div className="pics-wrapper">
-            {sortedPlayersOwnership.slice(0, 10).map((player, index) => (
+            {filterByTeam(sortedPlayersOwnership).slice(0, 10).map((player, index) => (
               <div key={player.code} className="player-pic-container">
                 <img
                   className="player-pic-top-10"
                   src={`https://resources.premierleague.com/premierleague/photos/players/250x250/p${player.code}.png`}
                   alt={`player-${index + 1}`}
+                  onError={(e) => {
+                      e.target.src = `https://fantasy.premierleague.com/dist/img/shirts/standard/shirt_${player.team_code}-110.png`;
+                  }}
                 />
                 <p className="player-stat-name">{player.web_name}</p> 
                 <p className="player-stat">{player.selected_by_percent}%</p> 
@@ -210,12 +240,15 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
         <p className="top-10-title">Top 10 xGI (Total Goal Involvements) </p> 
         {elements.length > 0 && (
           <div className="pics-wrapper">
-            {sortedPlayersXGI.slice(0, 10).map((player, index) => (
+            {filterByTeam(sortedPlayersXGI).slice(0, 10).map((player, index) => (
               <div key={player.code} className="player-pic-container">
                 <img
                   className="player-pic-top-10"
                   src={`https://resources.premierleague.com/premierleague/photos/players/250x250/p${player.code}.png`}
                   alt={`player-${index + 1}`}
+                  onError={(e) => {
+                      e.target.src = `https://fantasy.premierleague.com/dist/img/shirts/standard/shirt_${player.team_code}-110.png`;
+                  }}
                 />
                 <p className="player-stat-name">{player.web_name}</p>
                 <p className="player-stat">{player.expected_goal_involvements}</p>
@@ -227,19 +260,22 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
       </div>
 
       <div className="player-pics player-pics-lists">
-        <p className="top-10-title">Top 10 Under Performance xG (Below xG) </p> 
+        <p className="top-10-title">Top 10 xG Under Performance (Goals) </p> 
         {elements.length > 0 && (
           <div className="pics-wrapper">
-            {sortedPlayersXGUnderPerformance.slice(0, 10).map((player, index) => (
+            {filterByTeam(sortedPlayersXGUnderPerformance).slice(0, 10).map((player, index) => (
               <div key={player.code} className="player-pic-container">
                 <img
                   className="player-pic-top-10"
                   src={`https://resources.premierleague.com/premierleague/photos/players/250x250/p${player.code}.png`}
                   alt={`player-${index + 1}`}
+                  onError={(e) => {
+                      e.target.src = `https://fantasy.premierleague.com/dist/img/shirts/standard/shirt_${player.team_code}-110.png`;
+                  }}
                 />
                 <p className="player-stat-name">{player.web_name}</p>
-                <p className="player-stat">{player.expected_goals}</p>
-                <p className="player-stat">({(player.goals_scored - player.expected_goals).toFixed(2)})</p> 
+                <p className="player-stat">{(player.goals_scored - player.expected_goals).toFixed(2)}</p>
+                <p className="player-stat">({player.goals_scored})</p> 
               </div>
             ))}
           </div>
@@ -247,19 +283,22 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
       </div>
 
       <div className="player-pics player-pics-lists">
-        <p className="top-10-title">Top 10 Over Performance xG (Over xG) </p> 
+        <p className="top-10-title">Top 10 xG Over Performance (Goals) </p> 
         {elements.length > 0 && (
           <div className="pics-wrapper">
-            {sortedPlayersXGOverPerformance.slice(0, 10).map((player, index) => (
+            {filterByTeam(sortedPlayersXGOverPerformance).slice(0, 10).map((player, index) => (
               <div key={player.code} className="player-pic-container">
                 <img
                   className="player-pic-top-10"
                   src={`https://resources.premierleague.com/premierleague/photos/players/250x250/p${player.code}.png`}
                   alt={`player-${index + 1}`}
+                  onError={(e) => {
+                      e.target.src = `https://fantasy.premierleague.com/dist/img/shirts/standard/shirt_${player.team_code}-110.png`;
+                  }}
                 />
                 <p className="player-stat-name">{player.web_name}</p>
-                <p className="player-stat">{player.expected_goals}</p>
-                <p className="player-stat">(+{(player.goals_scored - player.expected_goals).toFixed(2)})</p> 
+                <p className="player-stat">+{(player.goals_scored - player.expected_goals).toFixed(2)}</p>
+                <p className="player-stat">({player.goals_scored})</p> 
               </div>
             ))}
           </div>
@@ -270,12 +309,15 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
         <p className="top-10-title">Top 10 Goalkeepers</p> 
         {elements.length > 0 && (
           <div className="pics-wrapper">
-            {top10Goalkeepers.slice(0, 10).map((player, index) => (
+            {filterByTeam(top10Goalkeepers).slice(0, 10).map((player, index) => (
               <div key={player.code} className="player-pic-container">
                 <img
                   className="player-pic-top-10"
                   src={`https://resources.premierleague.com/premierleague/photos/players/250x250/p${player.code}.png`}
                   alt={`player-${index + 1}`}
+                  onError={(e) => {
+                    e.target.src = `https://fantasy.premierleague.com/dist/img/shirts/standard/shirt_${player.team_code}_1-110.png`;
+                  }}
                 />
                 <p className="player-stat-name">{player.web_name}</p>
                 <p className="player-stat">{player.total_points}</p>
@@ -289,12 +331,15 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
         <p className="top-10-title">Top 10 Defenders</p> 
         {elements.length > 0 && (
           <div className="pics-wrapper">
-            {top10Defenders.slice(0, 10).map((player, index) => (
+            {filterByTeam(top10Defenders).slice(0, 10).map((player, index) => (
               <div key={player.code} className="player-pic-container">
                 <img
                   className="player-pic-top-10"
                   src={`https://resources.premierleague.com/premierleague/photos/players/250x250/p${player.code}.png`}
                   alt={`player-${index + 1}`}
+                  onError={(e) => {
+                    e.target.src = `https://fantasy.premierleague.com/dist/img/shirts/standard/shirt_${player.team_code}-110.png`;
+                  }}
                 />
                 <p className="player-stat-name">{player.web_name}</p>
                 <p className="player-stat">{player.total_points}</p>
@@ -308,12 +353,15 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
         <p className="top-10-title">Top 10 Midfielders</p> 
         {elements.length > 0 && (
           <div className="pics-wrapper">
-            {top10Midfielders.slice(0, 10).map((player, index) => (
+            {filterByTeam(top10Midfielders).slice(0, 10).map((player, index) => (
               <div key={player.code} className="player-pic-container">
                 <img
                   className="player-pic-top-10"
                   src={`https://resources.premierleague.com/premierleague/photos/players/250x250/p${player.code}.png`}
                   alt={`player-${index + 1}`}
+                  onError={(e) => {
+                      e.target.src = `https://fantasy.premierleague.com/dist/img/shirts/standard/shirt_${player.team_code}-110.png`;
+                  }}
                 />
                 <p className="player-stat-name">{player.web_name}</p>
                 <p className="player-stat">{player.total_points}</p>
@@ -327,12 +375,15 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
         <p className="top-10-title">Top 10 Forwards</p> 
         {elements.length > 0 && (
           <div className="pics-wrapper">
-            {top10Forwards.slice(0, 10).map((player, index) => (
+            {filterByTeam(top10Forwards).slice(0, 10).map((player, index) => (
               <div key={player.code} className="player-pic-container">
                 <img
                   className="player-pic-top-10"
                   src={`https://resources.premierleague.com/premierleague/photos/players/250x250/p${player.code}.png`}
                   alt={`player-${index + 1}`}
+                  onError={(e) => {
+                      e.target.src = `https://fantasy.premierleague.com/dist/img/shirts/standard/shirt_${player.team_code}-110.png`;
+                  }}
                 />
                 <p className="player-stat-name">{player.web_name}</p>
                 <p className="player-stat">{player.total_points}</p>
@@ -346,12 +397,15 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
         <p className="top-10-title">Top 10 Bonus</p> 
         {elements.length > 0 && (
           <div className="pics-wrapper">
-            {top10Bonus.slice(0, 10).map((player, index) => (
+            {filterByTeam(top10Bonus).slice(0, 10).map((player, index) => (
               <div key={player.code} className="player-pic-container">
                 <img
                   className="player-pic-top-10"
                   src={`https://resources.premierleague.com/premierleague/photos/players/250x250/p${player.code}.png`}
                   alt={`player-${index + 1}`}
+                  onError={(e) => {
+                      e.target.src = `https://fantasy.premierleague.com/dist/img/shirts/standard/shirt_${player.team_code}-110.png`;
+                  }}
                 />
                 <p className="player-stat-name">{player.web_name}</p>
                 <p className="player-stat">{player.bonus}</p>
@@ -365,12 +419,15 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
         <p className="top-10-title">Top 10 BPS</p> 
         {elements.length > 0 && (
           <div className="pics-wrapper">
-            {top10BPS.slice(0, 10).map((player, index) => (
+            {filterByTeam(top10BPS).slice(0, 10).map((player, index) => (
               <div key={player.code} className="player-pic-container">
                 <img
                   className="player-pic-top-10"
                   src={`https://resources.premierleague.com/premierleague/photos/players/250x250/p${player.code}.png`}
                   alt={`player-${index + 1}`}
+                  onError={(e) => {
+                      e.target.src = `https://fantasy.premierleague.com/dist/img/shirts/standard/shirt_${player.team_code}-110.png`;
+                  }}
                 />
                 <p className="player-stat-name">{player.web_name}</p>
                 <p className="player-stat">{player.bps}</p>
@@ -384,12 +441,15 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
         <p className="top-10-title">Top 10 Points Per Million</p> 
         {elements.length > 0 && (
           <div className="pics-wrapper">
-            {top10PointsPerMillion.slice(0, 10).map((player, index) => (
+            {filterByTeam(top10PointsPerMillion).slice(0, 10).map((player, index) => (
               <div key={player.code} className="player-pic-container">
                 <img
                   className="player-pic-top-10"
                   src={`https://resources.premierleague.com/premierleague/photos/players/250x250/p${player.code}.png`}
                   alt={`player-${index + 1}`}
+                  onError={(e) => {
+                      e.target.src = `https://fantasy.premierleague.com/dist/img/shirts/standard/shirt_${player.team_code}-110.png`;
+                  }}
                 />
                 <p className="player-stat-name">{player.web_name}</p>
                 <p className="player-stat">{player.total_points && player.now_cost ? ((player.total_points / player.now_cost) * 10).toFixed(2) : 'N/A'}</p>

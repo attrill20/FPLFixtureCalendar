@@ -227,7 +227,7 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
       </div>
 
       <div className="player-pics player-pics-lists">
-        <p className="top-10-title">Top 10 Under Performance xG (Goals) (Below xG) </p> 
+        <p className="top-10-title">Top 10 Under Performance xG (Below xG) </p> 
         {elements.length > 0 && (
           <div className="pics-wrapper">
             {sortedPlayersXGUnderPerformance.slice(0, 10).map((player, index) => (
@@ -238,7 +238,7 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
                   alt={`player-${index + 1}`}
                 />
                 <p className="player-stat-name">{player.web_name}</p>
-                <p className="player-stat">{player.expected_goals} ({player.goals_scored})</p>
+                <p className="player-stat">{player.expected_goals}</p>
                 <p className="player-stat">({(player.goals_scored - player.expected_goals).toFixed(2)})</p> 
               </div>
             ))}
@@ -247,7 +247,7 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
       </div>
 
       <div className="player-pics player-pics-lists">
-        <p className="top-10-title">Top 10 Over Performance xG (Goals) (Over xG) </p> 
+        <p className="top-10-title">Top 10 Over Performance xG (Over xG) </p> 
         {elements.length > 0 && (
           <div className="pics-wrapper">
             {sortedPlayersXGOverPerformance.slice(0, 10).map((player, index) => (
@@ -258,7 +258,7 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
                   alt={`player-${index + 1}`}
                 />
                 <p className="player-stat-name">{player.web_name}</p>
-                <p className="player-stat">{player.expected_goals} ({player.goals_scored})</p>
+                <p className="player-stat">{player.expected_goals}</p>
                 <p className="player-stat">(+{(player.goals_scored - player.expected_goals).toFixed(2)})</p> 
               </div>
             ))}

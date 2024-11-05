@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import "./Top10Page.css";
 
 const Top10Page = ({ mainData, teams, fixturesData }) => {
   const elements = mainData && Array.isArray(mainData.elements) ? mainData.elements : [];
   const fixtures = fixturesData && Array.isArray(fixturesData) ? fixturesData : [];
-  const [selectedTeamId, setSelectedTeamId] = useState(null);
+  const [selectedTeamIds, setSelectedTeamIds] = useState([]);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   
   const sortedPlayersTotalPoints = [...elements].sort((a, b) => b.total_points - a.total_points);
   const sortedPlayersGWPoints = [...elements].sort((a, b) => b.event_points - a.event_points);
@@ -122,31 +123,88 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
     }))
     .sort((a, b) => b.xGOverPerformance - a.xGOverPerformance)
 
-    const filterByTeam = (players) => {
-      return selectedTeamId ? players.filter(player => player.team === selectedTeamId) : players;
-    };
+    
+  const dropdownListRef = useRef(null);
 
-    const handleTeamChange = (event) => {
-      const teamId = parseInt(event.target.value);
-      setSelectedTeamId(teamId || null);
+  const handleTeamSelect = (teamId) => {
+    setSelectedTeamIds((prevSelected) => {
+      if (prevSelected.length === 0 || prevSelected.length === teams.length) {
+        return [teamId];
+      }
+      return prevSelected.includes(teamId)
+        ? prevSelected.filter((id) => id !== teamId)
+        : [...prevSelected, teamId];
+    });
+  };
+
+  const handleToggleDropdown = (event) => {
+    event.stopPropagation();
+    setIsDropdownOpen(prev => !prev);
+  };
+  
+  const handleClickOutside = (event) => {
+    if (dropdownListRef.current && !dropdownListRef.current.contains(event.target) &&
+        !event.target.closest('.dropdown')) {
+      setIsDropdownOpen(false);
+    }
+  };
+  
+  useEffect(() => {
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
     };
+  }, []);
+  
+  const handleSelectAllTeams = () => {
+    setSelectedTeamIds([]);
+  };
+
+  const displaySelectedTeams = () => {
+    if (selectedTeamIds.length === 0 || selectedTeamIds.length === teams.length) {
+      return 'All Teams Selected';
+    } else {
+      return `${selectedTeamIds.length} Team${selectedTeamIds.length > 1 ? 's' : ''} Selected`;
+    }
+  };
+
+  const filterByTeam = (players) => {
+    // Show all teams if no team is specifically selected
+    return selectedTeamIds.length > 0 && selectedTeamIds.length < teams.length
+      ? players.filter((player) => selectedTeamIds.includes(player.team))
+      : players;
+  };
 
   return (
     <div>
       <div className="top-10-sub-heading">
-        <p>The following graphics show the current Top 10 players for a range of different stats.</p>
-        <p>Use these lists to help you notice current trends and in form players to help you decide who to pick for your team!</p>
+        <p>Use these Top 10 lists to help you notice current trends and in form players to help you decide who to pick for your team.</p>
+        <p>'All Teams' is set as default, use the dropdown to filter for individual or a combination of teams!</p>
       </div>
 
       <div className="dropdown-container">
-        <label htmlFor="team-select">Select Team: </label>
-        <select id="team-select" onChange={handleTeamChange}>
-          <option value="">All Teams</option>
-          {teams.slice(1).map(team => (
-            <option key={team.id} value={team.id}>{team.name}</option>
-          ))}
-        </select>
+        <label htmlFor="team-select"></label>
+        <div className={`dropdown ${isDropdownOpen ? 'open' : ''}`} onClick={handleToggleDropdown}>
+          <span>{displaySelectedTeams()}</span>
+          <span className="dropdown-arrow">▼</span>
+        </div>
+        {isDropdownOpen && (
+          <div className="dropdown-list" ref={dropdownListRef}>
+            <div className="dropdown-item" onClick={handleSelectAllTeams}>
+              <input type="checkbox" checked={selectedTeamIds.length === 0} readOnly />
+              All Teams
+            </div>
+            {teams.slice(1).map(team => (
+              <div key={team.id} className="dropdown-item" onClick={() => handleTeamSelect(team.id)}>
+                <input type="checkbox" checked={selectedTeamIds.includes(team.id)} readOnly />
+                {team.name}
+              </div>
+            ))}
+          </div>
+        )}
       </div>
+
+
 
       <div className="player-pics player-pics-lists">
         <p className="top-10-title">Top 10 Overall Points</p> 

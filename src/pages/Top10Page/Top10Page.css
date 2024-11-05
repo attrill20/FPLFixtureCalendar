@@ -88,6 +88,58 @@
     margin-top: 2px;
 }
 
+.dropdown-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+  
+  .dropdown {
+    cursor: pointer;
+    border: 1px solid #ccc;
+    padding: 8px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center; 
+    background: white;
+    width: 15%;
+    position: relative;
+  }
+  .dropdown .dropdown-arrow {
+    position: absolute;
+    right: 10px;
+    font-size: 16px;
+  }
+  
+  .dropdown-list {
+    position: absolute;
+    top: 100%;
+    background: white;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    z-index: 1000;
+    width: 15%;
+    max-height: 300px;
+    overflow-y: auto;
+  }
+  
+  .dropdown-item {
+    padding: 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+  }
+  
+  .dropdown-item:hover {
+    background-color: #f0f0f0;
+  }
+
+  .dropdown.open .dropdown-arrow {
+    transform: rotate(180deg);
+  }
+  
 
 @media (max-width: 1600px) {
     .team-pic-top-10 {

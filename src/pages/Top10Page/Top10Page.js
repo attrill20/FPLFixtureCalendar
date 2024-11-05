@@ -185,7 +185,7 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
       <div className="dropdown-container">
         <label htmlFor="team-select"></label>
         <div className={`dropdown ${isDropdownOpen ? 'open' : ''}`} onClick={handleToggleDropdown}>
-          <span>{displaySelectedTeams()}</span>
+          <span><strong>{displaySelectedTeams()}</strong></span>
           <span className="dropdown-arrow">▼</span>
         </div>
         {isDropdownOpen && (

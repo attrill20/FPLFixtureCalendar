@@ -209,7 +209,7 @@
     .dropdown {
         width: 30%;
         font-size: 0.6rem;
-        padding: 2px;
+        padding: 3px;
       }
       .dropdown .dropdown-arrow {
         position: absolute;
@@ -223,7 +223,7 @@
       }
 
       .dropdown-item {
-        padding: 2px;
+        padding: 3px;
       }
 }
 

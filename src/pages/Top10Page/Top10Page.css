@@ -205,6 +205,21 @@
     .pics-wrapper {
         margin-bottom: 0px;
     }
+
+    .dropdown {
+        width: 40%;
+        font-size: 0.6rem;
+      }
+      .dropdown .dropdown-arrow {
+        position: absolute;
+        right: 3px;
+        font-size: 0.6rem;
+      }
+      
+      .dropdown-list {
+        width: 40%;
+        font-size: 0.6rem;
+      }
 }
 
 @media (max-width: 1000px) {

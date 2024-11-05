@@ -97,7 +97,7 @@
   
   .dropdown {
     cursor: pointer;
-    border: 1px solid #ccc;
+    border: 1px solid #000000;
     padding: 8px;
     border-radius: 4px;
     display: flex;
@@ -207,8 +207,9 @@
     }
 
     .dropdown {
-        width: 40%;
+        width: 30%;
         font-size: 0.6rem;
+        padding: 2px;
       }
       .dropdown .dropdown-arrow {
         position: absolute;
@@ -217,8 +218,12 @@
       }
       
       .dropdown-list {
-        width: 40%;
+        width: 30%;
         font-size: 0.6rem;
+      }
+
+      .dropdown-item {
+        padding: 2px;
       }
 }
 

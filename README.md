@@ -53,7 +53,7 @@ E-mail address: oraclefplcontact@gmail.com
 #### Top 10 Page
 
 - Use a new API to get more accurate xG stats - https://footystats.org/api/
-- Add more filters to this page e.g. by club, price range
+- Add more filters to this page e.g. by price range and position
 
 #### Site Changes
 
@@ -65,6 +65,14 @@ E-mail address: oraclefplcontact@gmail.com
 - Table repeats header on every row, change to display once and get the table to scroll (could use Material UI table)
 - Add a cache to prevent no fixtures displaying when the server occasionally goes down
 - Needs less of a margin / padding either side of the FDR toggle switch
+
+## 8/11/24
+
+Added some cool new functionality to the Top 10 Page:
+
+![Screenshot 2024-11-08 at 19 35 31](https://github.com/user-attachments/assets/554752f3-27e8-42f1-8a29-74824af43890)
+
+Can now filter by club! Added the ability to select multiple clubs too by initiating an array to hold the state of selected teams, and then update the count in the name of the dropdown. Really useful now for seeing the best selections from a range of teams that you may be consdiering because of their good fixtures. Going to add a cost filter and position filter too, to refine this page even further!
 
 ## 27/10/24
 

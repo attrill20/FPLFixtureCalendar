@@ -261,7 +261,11 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
                     src={`https://resources.premierleague.com/premierleague/photos/players/250x250/p${player.code}.png`}
                     alt={`player-${index + 1}`}
                     onError={(e) => {
-                      e.target.src = `https://fantasy.premierleague.com/dist/img/shirts/standard/shirt_${player.team_code}-110.png`;
+                      if (player.element_type === 1) {
+                        e.target.src = `https://fantasy.premierleague.com/dist/img/shirts/standard/shirt_${player.team_code}_1-110.png`;
+                      } else {
+                        e.target.src = `https://fantasy.premierleague.com/dist/img/shirts/standard/shirt_${player.team_code}-110.png`;
+                      }
                     }}
                 />
                 <p className="player-stat-name">{player.web_name}</p>
@@ -283,8 +287,12 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
                   src={`https://resources.premierleague.com/premierleague/photos/players/250x250/p${player.code}.png`}
                   alt={`player-${index + 1}`}
                   onError={(e) => {
-                      e.target.src = `https://fantasy.premierleague.com/dist/img/shirts/standard/shirt_${player.team_code}-110.png`;
-                  }}
+                      if (player.element_type === 1) {
+                        e.target.src = `https://fantasy.premierleague.com/dist/img/shirts/standard/shirt_${player.team_code}_1-110.png`;
+                      } else {
+                        e.target.src = `https://fantasy.premierleague.com/dist/img/shirts/standard/shirt_${player.team_code}-110.png`;
+                      }
+                    }}
                 />
                 <p className="player-stat-name">{player.web_name}</p>
                 <p className="player-stat">{player.event_points}</p>
@@ -305,8 +313,12 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
                   src={`https://resources.premierleague.com/premierleague/photos/players/250x250/p${player.code}.png`}
                   alt={`player-${index + 1}`}
                   onError={(e) => {
-                      e.target.src = `https://fantasy.premierleague.com/dist/img/shirts/standard/shirt_${player.team_code}-110.png`;
-                  }}
+                      if (player.element_type === 1) {
+                        e.target.src = `https://fantasy.premierleague.com/dist/img/shirts/standard/shirt_${player.team_code}_1-110.png`;
+                      } else {
+                        e.target.src = `https://fantasy.premierleague.com/dist/img/shirts/standard/shirt_${player.team_code}-110.png`;
+                      }
+                    }}
                 />
                 <p className="player-stat-name">{player.web_name}</p> 
                 <p className="player-stat">{player.selected_by_percent}%</p> 
@@ -327,8 +339,12 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
                   src={`https://resources.premierleague.com/premierleague/photos/players/250x250/p${player.code}.png`}
                   alt={`player-${index + 1}`}
                   onError={(e) => {
-                      e.target.src = `https://fantasy.premierleague.com/dist/img/shirts/standard/shirt_${player.team_code}-110.png`;
-                  }}
+                      if (player.element_type === 1) {
+                        e.target.src = `https://fantasy.premierleague.com/dist/img/shirts/standard/shirt_${player.team_code}_1-110.png`;
+                      } else {
+                        e.target.src = `https://fantasy.premierleague.com/dist/img/shirts/standard/shirt_${player.team_code}-110.png`;
+                      }
+                    }}
                 />
                 <p className="player-stat-name">{player.web_name}</p>
                 <p className="player-stat">{player.expected_goal_involvements}</p>
@@ -350,8 +366,12 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
                   src={`https://resources.premierleague.com/premierleague/photos/players/250x250/p${player.code}.png`}
                   alt={`player-${index + 1}`}
                   onError={(e) => {
-                      e.target.src = `https://fantasy.premierleague.com/dist/img/shirts/standard/shirt_${player.team_code}-110.png`;
-                  }}
+                      if (player.element_type === 1) {
+                        e.target.src = `https://fantasy.premierleague.com/dist/img/shirts/standard/shirt_${player.team_code}_1-110.png`;
+                      } else {
+                        e.target.src = `https://fantasy.premierleague.com/dist/img/shirts/standard/shirt_${player.team_code}-110.png`;
+                      }
+                    }}
                 />
                 <p className="player-stat-name">{player.web_name}</p>
                 <p className="player-stat">{(player.goals_scored - player.expected_goals).toFixed(2)}</p>
@@ -373,8 +393,12 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
                   src={`https://resources.premierleague.com/premierleague/photos/players/250x250/p${player.code}.png`}
                   alt={`player-${index + 1}`}
                   onError={(e) => {
-                      e.target.src = `https://fantasy.premierleague.com/dist/img/shirts/standard/shirt_${player.team_code}-110.png`;
-                  }}
+                      if (player.element_type === 1) {
+                        e.target.src = `https://fantasy.premierleague.com/dist/img/shirts/standard/shirt_${player.team_code}_1-110.png`;
+                      } else {
+                        e.target.src = `https://fantasy.premierleague.com/dist/img/shirts/standard/shirt_${player.team_code}-110.png`;
+                      }
+                    }}
                 />
                 <p className="player-stat-name">{player.web_name}</p>
                 <p className="player-stat">+{(player.goals_scored - player.expected_goals).toFixed(2)}</p>
@@ -396,8 +420,12 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
                   src={`https://resources.premierleague.com/premierleague/photos/players/250x250/p${player.code}.png`}
                   alt={`player-${index + 1}`}
                   onError={(e) => {
-                    e.target.src = `https://fantasy.premierleague.com/dist/img/shirts/standard/shirt_${player.team_code}_1-110.png`;
-                  }}
+                      if (player.element_type === 1) {
+                        e.target.src = `https://fantasy.premierleague.com/dist/img/shirts/standard/shirt_${player.team_code}_1-110.png`;
+                      } else {
+                        e.target.src = `https://fantasy.premierleague.com/dist/img/shirts/standard/shirt_${player.team_code}-110.png`;
+                      }
+                    }}
                 />
                 <p className="player-stat-name">{player.web_name}</p>
                 <p className="player-stat">{player.total_points}</p>
@@ -418,8 +446,12 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
                   src={`https://resources.premierleague.com/premierleague/photos/players/250x250/p${player.code}.png`}
                   alt={`player-${index + 1}`}
                   onError={(e) => {
-                    e.target.src = `https://fantasy.premierleague.com/dist/img/shirts/standard/shirt_${player.team_code}-110.png`;
-                  }}
+                      if (player.element_type === 1) {
+                        e.target.src = `https://fantasy.premierleague.com/dist/img/shirts/standard/shirt_${player.team_code}_1-110.png`;
+                      } else {
+                        e.target.src = `https://fantasy.premierleague.com/dist/img/shirts/standard/shirt_${player.team_code}-110.png`;
+                      }
+                    }}
                 />
                 <p className="player-stat-name">{player.web_name}</p>
                 <p className="player-stat">{player.total_points}</p>
@@ -440,8 +472,12 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
                   src={`https://resources.premierleague.com/premierleague/photos/players/250x250/p${player.code}.png`}
                   alt={`player-${index + 1}`}
                   onError={(e) => {
-                      e.target.src = `https://fantasy.premierleague.com/dist/img/shirts/standard/shirt_${player.team_code}-110.png`;
-                  }}
+                      if (player.element_type === 1) {
+                        e.target.src = `https://fantasy.premierleague.com/dist/img/shirts/standard/shirt_${player.team_code}_1-110.png`;
+                      } else {
+                        e.target.src = `https://fantasy.premierleague.com/dist/img/shirts/standard/shirt_${player.team_code}-110.png`;
+                      }
+                    }}
                 />
                 <p className="player-stat-name">{player.web_name}</p>
                 <p className="player-stat">{player.total_points}</p>
@@ -462,8 +498,12 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
                   src={`https://resources.premierleague.com/premierleague/photos/players/250x250/p${player.code}.png`}
                   alt={`player-${index + 1}`}
                   onError={(e) => {
-                      e.target.src = `https://fantasy.premierleague.com/dist/img/shirts/standard/shirt_${player.team_code}-110.png`;
-                  }}
+                      if (player.element_type === 1) {
+                        e.target.src = `https://fantasy.premierleague.com/dist/img/shirts/standard/shirt_${player.team_code}_1-110.png`;
+                      } else {
+                        e.target.src = `https://fantasy.premierleague.com/dist/img/shirts/standard/shirt_${player.team_code}-110.png`;
+                      }
+                    }}
                 />
                 <p className="player-stat-name">{player.web_name}</p>
                 <p className="player-stat">{player.total_points}</p>
@@ -484,8 +524,12 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
                   src={`https://resources.premierleague.com/premierleague/photos/players/250x250/p${player.code}.png`}
                   alt={`player-${index + 1}`}
                   onError={(e) => {
-                      e.target.src = `https://fantasy.premierleague.com/dist/img/shirts/standard/shirt_${player.team_code}-110.png`;
-                  }}
+                      if (player.element_type === 1) {
+                        e.target.src = `https://fantasy.premierleague.com/dist/img/shirts/standard/shirt_${player.team_code}_1-110.png`;
+                      } else {
+                        e.target.src = `https://fantasy.premierleague.com/dist/img/shirts/standard/shirt_${player.team_code}-110.png`;
+                      }
+                    }}
                 />
                 <p className="player-stat-name">{player.web_name}</p>
                 <p className="player-stat">{player.bonus}</p>
@@ -506,8 +550,12 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
                   src={`https://resources.premierleague.com/premierleague/photos/players/250x250/p${player.code}.png`}
                   alt={`player-${index + 1}`}
                   onError={(e) => {
-                      e.target.src = `https://fantasy.premierleague.com/dist/img/shirts/standard/shirt_${player.team_code}-110.png`;
-                  }}
+                      if (player.element_type === 1) {
+                        e.target.src = `https://fantasy.premierleague.com/dist/img/shirts/standard/shirt_${player.team_code}_1-110.png`;
+                      } else {
+                        e.target.src = `https://fantasy.premierleague.com/dist/img/shirts/standard/shirt_${player.team_code}-110.png`;
+                      }
+                    }}
                 />
                 <p className="player-stat-name">{player.web_name}</p>
                 <p className="player-stat">{player.bps}</p>
@@ -528,8 +576,12 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
                   src={`https://resources.premierleague.com/premierleague/photos/players/250x250/p${player.code}.png`}
                   alt={`player-${index + 1}`}
                   onError={(e) => {
-                      e.target.src = `https://fantasy.premierleague.com/dist/img/shirts/standard/shirt_${player.team_code}-110.png`;
-                  }}
+                      if (player.element_type === 1) {
+                        e.target.src = `https://fantasy.premierleague.com/dist/img/shirts/standard/shirt_${player.team_code}_1-110.png`;
+                      } else {
+                        e.target.src = `https://fantasy.premierleague.com/dist/img/shirts/standard/shirt_${player.team_code}-110.png`;
+                      }
+                    }}
                 />
                 <p className="player-stat-name">{player.web_name}</p>
                 <p className="player-stat">{player.total_points && player.now_cost ? ((player.total_points / player.now_cost) * 10).toFixed(2) : 'N/A'}</p>

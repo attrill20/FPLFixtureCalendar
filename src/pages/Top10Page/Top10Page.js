@@ -207,7 +207,7 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
     <div>
       <div className="top-10-sub-heading">
         <p>Use these Top 10 lists to help you notice current trends and in form players to help you decide who to pick for your team.</p>
-        <p>'All Teams' is set as default, use the dropdown to filter for individual or a combination of teams!</p>
+        <p>'All Teams' and 'All Positions' are set as default, use the dropdowns to filter for individual or a combination of teams and positions!</p>
       </div>
 
       <div className="dropdown-container">

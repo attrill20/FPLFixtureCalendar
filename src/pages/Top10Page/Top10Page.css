@@ -92,54 +92,59 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    gap: 20px;
     position: relative;
-  }
-  
-  .dropdown {
+}
+
+.dropdown {
     cursor: pointer;
     border: 1px solid #000000;
-    padding: 8px;
+    padding: 8px 16px;
     border-radius: 4px;
     display: flex;
     align-items: center;
-    justify-content: center; 
     background: white;
-    width: 15%;
     position: relative;
-  }
-  .dropdown .dropdown-arrow {
+    width: 15%;
+    justify-content: center;
+}
+
+.dropdown .dropdown-arrow {
+    font-size: 16px;
     position: absolute;
     right: 10px;
-    font-size: 16px;
-  }
-  
-  .dropdown-list {
+}
+
+.dropdown-list {
     position: absolute;
-    top: 100%;
+    top: 100%; /* Positions dropdown list directly below each dropdown */
+    left: 0;
     background: white;
     border: 1px solid #ccc;
     border-radius: 4px;
     z-index: 1000;
-    width: 15%;
+    width: 100%; /* Ensures dropdown list width matches parent dropdown */
     max-height: 300px;
     overflow-y: auto;
-  }
-  
-  .dropdown-item {
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Optional: shadow for clarity */
+}
+
+.dropdown-item {
     padding: 8px;
     cursor: pointer;
     display: flex;
     align-items: center;
-  }
-  
-  .dropdown-item:hover {
-    background-color: #f0f0f0;
-  }
+}
 
-  .dropdown.open .dropdown-arrow {
+.dropdown-item:hover {
+    background-color: #f0f0f0;
+}
+
+.dropdown.open .dropdown-arrow {
     transform: rotate(180deg);
-  }
-  
+}
+
+
 
 @media (max-width: 1600px) {
     .team-pic-top-10 {

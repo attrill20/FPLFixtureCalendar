@@ -5,7 +5,12 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
   const elements = mainData && Array.isArray(mainData.elements) ? mainData.elements : [];
   const fixtures = fixturesData && Array.isArray(fixturesData) ? fixturesData : [];
   const [selectedTeamIds, setSelectedTeamIds] = useState([]);
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [selectedPositions, setSelectedPositions] = useState([]);
+  const [isTeamDropdownOpen, setIsTeamDropdownOpen] = useState(false);
+  const [isPositionDropdownOpen, setIsPositionDropdownOpen] = useState(false);
+
+  const teamDropdownRef = useRef(null);
+  const positionDropdownRef = useRef(null);
   
   const sortedPlayersTotalPoints = [...elements].sort((a, b) => b.total_points - a.total_points);
   const sortedPlayersGWPoints = [...elements].sort((a, b) => b.event_points - a.event_points);
@@ -19,6 +24,13 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
   const top10Bonus = [...elements].sort((a, b) => b.bonus - a.bonus);
   const top10BPS = [...elements].sort((a, b) => b.bps - a.bps);
   const top10PointsPerMillion = [...elements].sort((a, b) => (b.total_points / b.now_cost) - (a.total_points / a.now_cost));
+
+  const positions = [
+    { id: 1, name: "Goalkeepers" },
+    { id: 2, name: "Defenders" },
+    { id: 3, name: "Midfielders" },
+    { id: 4, name: "Forwards" },
+  ];
 
   const calculateTotalXGAndGoalsPerTeam = (elements, fixtures, teams) => {
     const teamStats = {};
@@ -122,58 +134,74 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
       xGOverPerformance: player.goals_scored - player.expected_goals
     }))
     .sort((a, b) => b.xGOverPerformance - a.xGOverPerformance)
-
     
-  const dropdownListRef = useRef(null);
-
-  const handleTeamSelect = (teamId) => {
-    setSelectedTeamIds((prevSelected) => {
-      if (prevSelected.length === 0 || prevSelected.length === teams.length) {
-        return [teamId];
-      }
-      return prevSelected.includes(teamId)
-        ? prevSelected.filter((id) => id !== teamId)
-        : [...prevSelected, teamId];
-    });
-  };
-
-  const handleToggleDropdown = (event) => {
-    event.stopPropagation();
-    setIsDropdownOpen(prev => !prev);
-  };
+    useEffect(() => {
+      const handleClickOutside = (event) => {
+        if (
+          teamDropdownRef.current && !teamDropdownRef.current.contains(event.target) &&
+          positionDropdownRef.current && !positionDropdownRef.current.contains(event.target)
+        ) {
+          setIsTeamDropdownOpen(false);
+          setIsPositionDropdownOpen(false);
+        }
+      };
   
-  const handleClickOutside = (event) => {
-    if (dropdownListRef.current && !dropdownListRef.current.contains(event.target) &&
-        !event.target.closest('.dropdown')) {
-      setIsDropdownOpen(false);
-    }
-  };
+      document.addEventListener('mousedown', handleClickOutside);
+      return () => {
+        document.removeEventListener('mousedown', handleClickOutside);
+      };
+    }, []);
   
-  useEffect(() => {
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
+    const handleTeamSelect = (teamId) => {
+      setSelectedTeamIds((prevSelected) => (
+        prevSelected.includes(teamId)
+          ? prevSelected.filter((id) => id !== teamId)
+          : [...prevSelected, teamId]
+      ));
     };
-  }, []);
   
-  const handleSelectAllTeams = () => {
-    setSelectedTeamIds([]);
-  };
+    const handlePositionSelect = (positionId) => {
+      setSelectedPositions((prevSelected) => (
+        prevSelected.includes(positionId)
+          ? prevSelected.filter((id) => id !== positionId)
+          : [...prevSelected, positionId]
+      ));
+    };
 
-  const displaySelectedTeams = () => {
-    if (selectedTeamIds.length === 0 || selectedTeamIds.length === teams.length) {
-      return 'All Teams Selected';
-    } else {
-      return `${selectedTeamIds.length} Team${selectedTeamIds.length > 1 ? 's' : ''} Selected`;
-    }
-  };
-
-  const filterByTeam = (players) => {
-    // Show all teams if no team is specifically selected
-    return selectedTeamIds.length > 0 && selectedTeamIds.length < teams.length
-      ? players.filter((player) => selectedTeamIds.includes(player.team))
-      : players;
-  };
+    const handleToggleDropdown = (event, dropdownType) => {
+      event.stopPropagation();
+      if (dropdownType === 'team') {
+        setIsTeamDropdownOpen((prev) => !prev);
+        setIsPositionDropdownOpen(false);
+      } else if (dropdownType === 'position') {
+        setIsPositionDropdownOpen((prev) => !prev);
+        setIsTeamDropdownOpen(false);
+      }
+    };
+  
+    const displaySelectedTeams = () => (
+      selectedTeamIds.length === 0 || selectedTeamIds.length === teams.length
+        ? 'All Teams Selected'
+        : `${selectedTeamIds.length} Team${selectedTeamIds.length > 1 ? 's' : ''} Selected`
+    );
+  
+    const displaySelectedPositions = () => (
+      selectedPositions.length === 0 || selectedPositions.length === positions.length
+        ? 'All Positions Selected'
+        : `${selectedPositions.length} Position${selectedPositions.length > 1 ? 's' : ''} Selected`
+    );
+  
+    const filterPlayers = (players) => {
+      let filteredPlayers = players;
+  
+      if (selectedTeamIds.length > 0 && selectedTeamIds.length < teams.length) {
+        filteredPlayers = filteredPlayers.filter(player => selectedTeamIds.includes(player.team));
+      }
+      if (selectedPositions.length > 0) {
+        filteredPlayers = filteredPlayers.filter(player => selectedPositions.includes(player.element_type));
+      }
+      return filteredPlayers;
+    };
 
   return (
     <div>
@@ -183,56 +211,50 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
       </div>
 
       <div className="dropdown-container">
-        <label htmlFor="team-select"></label>
-        <div className={`dropdown ${isDropdownOpen ? 'open' : ''}`} onClick={handleToggleDropdown}>
+        <div className="dropdown" ref={teamDropdownRef} onClick={(event) => handleToggleDropdown(event, 'team')}>
           <span><strong>{displaySelectedTeams()}</strong></span>
           <span className="dropdown-arrow">▼</span>
-        </div>
-        {isDropdownOpen && (
-          <div className="dropdown-list" ref={dropdownListRef}>
-            <div className="dropdown-item" onClick={handleSelectAllTeams}>
-              <input type="checkbox" checked={selectedTeamIds.length === 0} readOnly />
-              All Teams
+          {isTeamDropdownOpen && (
+            <div className="dropdown-list">
+              <div className="dropdown-item" onClick={() => setSelectedTeamIds([])}>
+                <input type="checkbox" checked={selectedTeamIds.length === 0} readOnly />
+                All Teams
+              </div>
+              {teams.slice(1).map(team => (
+                <div key={team.id} className="dropdown-item" onClick={(e) => { e.stopPropagation(); handleTeamSelect(team.id); }}>
+                  <input type="checkbox" checked={selectedTeamIds.includes(team.id)} readOnly />
+                  {team.name}
+                </div>
+              ))}
             </div>
-            {teams.slice(1).map(team => (
-              <div key={team.id} className="dropdown-item" onClick={() => handleTeamSelect(team.id)}>
-                <input type="checkbox" checked={selectedTeamIds.includes(team.id)} readOnly />
-                {team.name}
+          )}
+        </div>
+
+        <div className="dropdown" ref={positionDropdownRef} onClick={(event) => handleToggleDropdown(event, 'position')}>
+          <span><strong>{displaySelectedPositions()}</strong></span>
+          <span className="dropdown-arrow">▼</span>
+          {isPositionDropdownOpen && (
+            <div className="dropdown-list">
+              <div className="dropdown-item" onClick={() => setSelectedPositions([])}>
+                <input type="checkbox" checked={selectedPositions.length === 0} readOnly />
+                All Positions
               </div>
-            ))}
-          </div>
-        )}
-      </div>
-
-
-
-      <div className="player-pics player-pics-lists">
-        <p className="top-10-title">Top 10 Overall Points</p> 
-        {elements.length > 0 && (
-          <div className="pics-wrapper">
-            {filterByTeam(sortedPlayersTotalPoints).slice(0, 10).map((player, index) => (
-              <div key={player.code} className="player-pic-container">
-                <img
-                    className="player-pic-top-10"
-                    src={`https://resources.premierleague.com/premierleague/photos/players/250x250/p${player.code}.png`}
-                    alt={`player-${index + 1}`}
-                    onError={(e) => {
-                      e.target.src = `https://fantasy.premierleague.com/dist/img/shirts/standard/shirt_${player.team_code}-110.png`;
-                    }}
-                />
-                <p className="player-stat-name">{player.web_name}</p>
-                <p className="player-stat">{player.total_points}</p>
-              </div>
-            ))}
-          </div>
-        )}
+              {positions.map(position => (
+                <div key={position.id} className="dropdown-item" onClick={(e) => { e.stopPropagation(); handlePositionSelect(position.id); }}>
+                  <input type="checkbox" checked={selectedPositions.includes(position.id)} readOnly />
+                  {position.name}
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
       </div>
 
       <div className="player-pics player-pics-lists">
         <p className="top-10-title">Top 10 Form (Last 4 Games Average)</p> 
         {elements.length > 0 && (
           <div className="pics-wrapper">
-            {filterByTeam(sortedPlayersForm).slice(0, 10).map((player, index) => (
+            {filterPlayers(sortedPlayersForm).slice(0, 10).map((player, index) => (
               <div key={player.code} className="player-pic-container">
                 <img
                     className="player-pic-top-10"
@@ -254,7 +276,7 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
         <p className="top-10-title">Top 10 GW Points</p> 
         {elements.length > 0 && (
           <div className="pics-wrapper">
-            {filterByTeam(sortedPlayersGWPoints).slice(0, 10).map((player, index) => (
+            {filterPlayers(sortedPlayersGWPoints).slice(0, 10).map((player, index) => (
               <div key={player.code} className="player-pic-container">
                 <img
                   className="player-pic-top-10"
@@ -276,7 +298,7 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
         <p className="top-10-title">Top 10 Owned Players</p> 
         {elements.length > 0 && (
           <div className="pics-wrapper">
-            {filterByTeam(sortedPlayersOwnership).slice(0, 10).map((player, index) => (
+            {filterPlayers(sortedPlayersOwnership).slice(0, 10).map((player, index) => (
               <div key={player.code} className="player-pic-container">
                 <img
                   className="player-pic-top-10"
@@ -298,7 +320,7 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
         <p className="top-10-title">Top 10 xGI (Total Goal Involvements) </p> 
         {elements.length > 0 && (
           <div className="pics-wrapper">
-            {filterByTeam(sortedPlayersXGI).slice(0, 10).map((player, index) => (
+            {filterPlayers(sortedPlayersXGI).slice(0, 10).map((player, index) => (
               <div key={player.code} className="player-pic-container">
                 <img
                   className="player-pic-top-10"
@@ -321,7 +343,7 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
         <p className="top-10-title">Top 10 xG Under Performance (Goals) </p> 
         {elements.length > 0 && (
           <div className="pics-wrapper">
-            {filterByTeam(sortedPlayersXGUnderPerformance).slice(0, 10).map((player, index) => (
+            {filterPlayers(sortedPlayersXGUnderPerformance).slice(0, 10).map((player, index) => (
               <div key={player.code} className="player-pic-container">
                 <img
                   className="player-pic-top-10"
@@ -344,7 +366,7 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
         <p className="top-10-title">Top 10 xG Over Performance (Goals) </p> 
         {elements.length > 0 && (
           <div className="pics-wrapper">
-            {filterByTeam(sortedPlayersXGOverPerformance).slice(0, 10).map((player, index) => (
+            {filterPlayers(sortedPlayersXGOverPerformance).slice(0, 10).map((player, index) => (
               <div key={player.code} className="player-pic-container">
                 <img
                   className="player-pic-top-10"
@@ -367,7 +389,7 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
         <p className="top-10-title">Top 10 Goalkeepers</p> 
         {elements.length > 0 && (
           <div className="pics-wrapper">
-            {filterByTeam(top10Goalkeepers).slice(0, 10).map((player, index) => (
+            {filterPlayers(top10Goalkeepers).slice(0, 10).map((player, index) => (
               <div key={player.code} className="player-pic-container">
                 <img
                   className="player-pic-top-10"
@@ -389,7 +411,7 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
         <p className="top-10-title">Top 10 Defenders</p> 
         {elements.length > 0 && (
           <div className="pics-wrapper">
-            {filterByTeam(top10Defenders).slice(0, 10).map((player, index) => (
+            {filterPlayers(top10Defenders).slice(0, 10).map((player, index) => (
               <div key={player.code} className="player-pic-container">
                 <img
                   className="player-pic-top-10"
@@ -411,7 +433,7 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
         <p className="top-10-title">Top 10 Midfielders</p> 
         {elements.length > 0 && (
           <div className="pics-wrapper">
-            {filterByTeam(top10Midfielders).slice(0, 10).map((player, index) => (
+            {filterPlayers(top10Midfielders).slice(0, 10).map((player, index) => (
               <div key={player.code} className="player-pic-container">
                 <img
                   className="player-pic-top-10"
@@ -433,7 +455,7 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
         <p className="top-10-title">Top 10 Forwards</p> 
         {elements.length > 0 && (
           <div className="pics-wrapper">
-            {filterByTeam(top10Forwards).slice(0, 10).map((player, index) => (
+            {filterPlayers(top10Forwards).slice(0, 10).map((player, index) => (
               <div key={player.code} className="player-pic-container">
                 <img
                   className="player-pic-top-10"
@@ -455,7 +477,7 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
         <p className="top-10-title">Top 10 Bonus</p> 
         {elements.length > 0 && (
           <div className="pics-wrapper">
-            {filterByTeam(top10Bonus).slice(0, 10).map((player, index) => (
+            {filterPlayers(top10Bonus).slice(0, 10).map((player, index) => (
               <div key={player.code} className="player-pic-container">
                 <img
                   className="player-pic-top-10"
@@ -477,7 +499,7 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
         <p className="top-10-title">Top 10 BPS</p> 
         {elements.length > 0 && (
           <div className="pics-wrapper">
-            {filterByTeam(top10BPS).slice(0, 10).map((player, index) => (
+            {filterPlayers(top10BPS).slice(0, 10).map((player, index) => (
               <div key={player.code} className="player-pic-container">
                 <img
                   className="player-pic-top-10"
@@ -499,7 +521,7 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
         <p className="top-10-title">Top 10 Points Per Million</p> 
         {elements.length > 0 && (
           <div className="pics-wrapper">
-            {filterByTeam(top10PointsPerMillion).slice(0, 10).map((player, index) => (
+            {filterPlayers(top10PointsPerMillion).slice(0, 10).map((player, index) => (
               <div key={player.code} className="player-pic-container">
                 <img
                   className="player-pic-top-10"

@@ -269,7 +269,7 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
                     }}
                 />
                 <p className="player-stat-name">{player.web_name}</p>
-                <p className="player-stat">{player.form}</p>
+                <p className="player-stat">{player.total_points}</p>
               </div>
             ))}
           </div>

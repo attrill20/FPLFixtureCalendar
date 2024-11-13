@@ -66,6 +66,14 @@ E-mail address: oraclefplcontact@gmail.com
 - Add a cache to prevent no fixtures displaying when the server occasionally goes down
 - Needs less of a margin / padding either side of the FDR toggle switch
 
+## 13/11/24
+
+Added a position filter to the Top 10 page:
+
+![Screenshot 2024-11-13 at 21 56 38](https://github.com/user-attachments/assets/708f53fa-80e9-4932-a293-5d3d062ab9bb)
+
+Had to learn about event.stopPropagation() to ensure that the clicks don't bubble up and prevent the dropdowns from closing when being clicked outside. The styling was also a problem here, as struggled to get both the dropdown lists to be displayed below their dropdown box - this was eventually fixed by using position: absolute. Will add a price slider next!
+
 ## 8/11/24
 
 Added some cool new functionality to the Top 10 Page:

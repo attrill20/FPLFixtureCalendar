@@ -123,7 +123,7 @@
     border: 1px solid #ccc;
     border-radius: 4px;
     z-index: 1000;
-    width: 100%; /* Ensures dropdown list width matches parent dropdown */
+    width: 100%;
     max-height: 300px;
     overflow-y: auto;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Optional: shadow for clarity */
@@ -216,6 +216,7 @@
         font-size: 0.6rem;
         padding: 3px;
       }
+
       .dropdown .dropdown-arrow {
         position: absolute;
         right: 3px;
@@ -223,7 +224,6 @@
       }
       
       .dropdown-list {
-        width: 30%;
         font-size: 0.6rem;
       }
 

@@ -435,7 +435,7 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
         )}
       </div>
 
-      <div className="player-pics player-pics-lists">
+      {/* <div className="player-pics player-pics-lists">
         <p className="top-10-title">Top 10 Goalkeepers</p> 
         {elements.length > 0 && (
           <div className="pics-wrapper">
@@ -537,7 +537,7 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
             ))}
           </div>
         )}
-      </div>
+      </div> */}
 
       <div className="player-pics player-pics-lists">
         <p className="top-10-title">Top 10 Bonus</p> 

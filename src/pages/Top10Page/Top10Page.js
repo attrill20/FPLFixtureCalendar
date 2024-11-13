@@ -251,6 +251,32 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
       </div>
 
       <div className="player-pics player-pics-lists">
+        <p className="top-10-title">Top 10 Total Points</p> 
+        {elements.length > 0 && (
+          <div className="pics-wrapper">
+            {filterPlayers(sortedPlayersTotalPoints).slice(0, 10).map((player, index) => (
+              <div key={player.code} className="player-pic-container">
+                <img
+                    className="player-pic-top-10"
+                    src={`https://resources.premierleague.com/premierleague/photos/players/250x250/p${player.code}.png`}
+                    alt={`player-${index + 1}`}
+                    onError={(e) => {
+                      if (player.element_type === 1) {
+                        e.target.src = `https://fantasy.premierleague.com/dist/img/shirts/standard/shirt_${player.team_code}_1-110.png`;
+                      } else {
+                        e.target.src = `https://fantasy.premierleague.com/dist/img/shirts/standard/shirt_${player.team_code}-110.png`;
+                      }
+                    }}
+                />
+                <p className="player-stat-name">{player.web_name}</p>
+                <p className="player-stat">{player.form}</p>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+
+      <div className="player-pics player-pics-lists">
         <p className="top-10-title">Top 10 Form (Last 4 Games Average)</p> 
         {elements.length > 0 && (
           <div className="pics-wrapper">

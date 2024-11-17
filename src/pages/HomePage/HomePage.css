@@ -12,6 +12,15 @@
   padding-right: 20%;
 }
 
+p {
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+.fdr-increase-title {
+  margin-top: 10px;
+}
+
 h1 {
   font-size: 4rem;
   margin-top: 10px;
@@ -20,6 +29,7 @@ h1 {
 
 h2 {
   margin-bottom: 1px;
+  margin-top: 5px;
 }
 
 h3 {
@@ -28,6 +38,7 @@ h3 {
 
 .date-posted {
   margin-top: 0px;
+  margin-bottom: 10px;
   padding-top: 0px;
   font-style: italic;
 }
@@ -100,8 +111,8 @@ h3 {
 
 .fdr-image-grid {
   border: 3px solid #000000;
-  margin-top: 10px;
-  margin-bottom: 10px;
+  margin-top: 2px;
+  margin-bottom: 2px;
   width: 100%;
   max-width: 600px; /* Adjust as needed */
   height: auto; /* Maintain aspect ratio */

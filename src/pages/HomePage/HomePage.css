@@ -266,8 +266,13 @@ h3 {
     margin-left: 5px; 
   }
 
+  .fdr-increase-title {
+    margin-top: 5px;
+  }
+
   .date-posted {
     font-size: 0.6rem;
+    margin-bottom: 5px;
   }
 
   .fdr-heading ul {

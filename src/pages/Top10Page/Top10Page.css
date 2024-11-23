@@ -144,6 +144,14 @@
     transform: rotate(180deg);
 }
 
+.player-stat .positive {
+    color: green;
+  }
+  
+  .player-stat .negative {
+    color: red;
+  }
+
 
 
 @media (max-width: 1600px) {

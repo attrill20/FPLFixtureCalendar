@@ -331,7 +331,7 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
       </div>
 
       <div className="player-pics player-pics-lists">
-        <p className="top-10-title">Top 10 Owned Players</p> 
+        <p className="top-10-title">Top 10 Owned Players (Net GW Transfers)</p> 
         {elements.length > 0 && (
           <div className="pics-wrapper">
             {filterPlayers(sortedPlayersOwnership).slice(0, 10).map((player, index) => (
@@ -349,7 +349,28 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
                     }}
                 />
                 <p className="player-stat-name">{player.web_name}</p> 
-                <p className="player-stat">{player.selected_by_percent}%</p> 
+                <p className="player-stat">{player.selected_by_percent}%</p>
+                <p className="player-stat">
+                  {(() => {
+                    const netTransfers = player.transfers_in_event - player.transfers_out_event;
+                    const formattedValue =
+                      Math.abs(netTransfers) >= 1000
+                        ? `${netTransfers > 0 ? '+' : ''}${(netTransfers / 1000).toFixed(1)}k`
+                        : `${netTransfers > 0 ? '+' : ''}${netTransfers}`;
+
+                    return (
+                      <>
+                        (<span className={netTransfers > 0 ? 'positive' : 'negative'}>
+                          {formattedValue}
+                        </span>)
+                      </>
+                    );
+                  })()}
+                </p>
+
+
+
+
               </div>
             ))}
           </div>
@@ -438,7 +459,7 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
       </div>
 
       <div className="player-pics player-pics-lists">
-        <p className="top-10-title">Top 10 Bonus</p> 
+        <p className="top-10-title">Top 10 Bonus (Per 90 minutes)</p> 
         {elements.length > 0 && (
           <div className="pics-wrapper">
             {filterPlayers(top10Bonus).slice(0, 10).map((player, index) => (
@@ -457,6 +478,7 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
                 />
                 <p className="player-stat-name">{player.web_name}</p>
                 <p className="player-stat">{player.bonus}</p>
+                <p className="player-stat">({((player.bonus / player.minutes)*90).toFixed(2)})</p>
               </div>
             ))}
           </div>
@@ -464,7 +486,7 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
       </div>
 
       <div className="player-pics player-pics-lists">
-        <p className="top-10-title">Top 10 BPS</p> 
+        <p className="top-10-title">Top 10 BPS (Per 90 Minutes)</p> 
         {elements.length > 0 && (
           <div className="pics-wrapper">
             {filterPlayers(top10BPS).slice(0, 10).map((player, index) => (
@@ -483,6 +505,7 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
                 />
                 <p className="player-stat-name">{player.web_name}</p>
                 <p className="player-stat">{player.bps}</p>
+                <p className="player-stat">({((player.bps / player.minutes)*90).toFixed(2)})</p>
               </div>
             ))}
           </div>

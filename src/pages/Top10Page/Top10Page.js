@@ -350,7 +350,7 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
                 />
                 <p className="player-stat-name">{player.web_name}</p> 
                 <p className="player-stat">{player.selected_by_percent}%</p>
-                <p className="player-stat">
+                <p className="player-stat-transfers">
                   {(() => {
                     const netTransfers = player.transfers_in_event - player.transfers_out_event;
                     const formattedValue =

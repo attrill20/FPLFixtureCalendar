@@ -68,10 +68,8 @@
 .player-pics-lists .player-pic-top-10 {
     width: 100%; 
     height: auto;
-    margin-bottom: 5px;
-    margin-top: 5px;
     aspect-ratio: 1; /* Forces a square aspect ratio */
-    margin: 0 1px;
+    margin: 1px 1px 2px 1px;
     overflow: hidden;
 }
 
@@ -82,10 +80,7 @@
 
 .team-pic-top-10 {
     height: 130px;
-    margin-left: 1px;
-    margin-right: 1px;
-    margin-bottom: 3px;
-    margin-top: 2px;
+    margin: 2px 1px 3px 1px;
 }
 
 .dropdown-container {
@@ -144,11 +139,15 @@
     transform: rotate(180deg);
 }
 
-.player-stat .positive {
+.player-stat-transfers {
+    font-weight: 600;
+}
+
+.player-stat-transfers .positive {
     color: green;
 }
 
-.player-stat .negative {
+.player-stat-transfers .negative {
     color: red;
 }
 
@@ -274,11 +273,8 @@
         height: 35px;
     }
 
-    .player-stat .positive {
-        font-size: 0.4rem;
-    }
-    
-    .player-stat .negative {
+    .player-stat-transfers {
+        font-weight: 600;
         font-size: 0.4rem;
     }
 }

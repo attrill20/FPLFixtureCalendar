@@ -146,12 +146,11 @@
 
 .player-stat .positive {
     color: green;
-  }
-  
-  .player-stat .negative {
-    color: red;
-  }
+}
 
+.player-stat .negative {
+    color: red;
+}
 
 
 @media (max-width: 1600px) {
@@ -273,6 +272,14 @@
 @media (max-width: 500px) {
     .team-pic-top-10 {
         height: 35px;
+    }
+
+    .player-stat .positive {
+        font-size: 0.4rem;
+    }
+    
+    .player-stat .negative {
+        font-size: 0.4rem;
     }
 }
 

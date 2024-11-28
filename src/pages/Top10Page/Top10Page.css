@@ -141,6 +141,7 @@
 
 .player-stat-transfers {
     font-weight: 600;
+    margin: 0px;
 }
 
 .player-stat-transfers .positive {
@@ -274,13 +275,16 @@
     }
 
     .player-stat-transfers {
-        font-weight: 600;
-        font-size: 0.4rem;
+        font-size: 0.5rem;
     }
 }
 
-@media (max-width: 400px) {
+@media (max-width: 450px) {
     .team-pic-top-10 {
         height: 30px;
+    }
+
+    .player-stat-transfers {
+        font-size: 0.4rem;
     }
 }

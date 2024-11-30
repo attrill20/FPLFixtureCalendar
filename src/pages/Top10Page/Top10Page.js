@@ -34,15 +34,16 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
 
   const calculateTotalXGAndGoalsPerTeam = (elements, fixtures, teams) => {
     const teamStats = {};
-    
+
     teams.forEach(team => {
-        teamStats[team.id] = {
-        teamName: team.name,
-        badge: team.badge,
-        totalXG: 0,
-        totalGoals: 0,
-        };
-    });
+      if (team.id !== 0) { 
+      teamStats[team.id] = {
+          teamName: team.name,
+          badge: team.badge,
+          totalXGC: 0,
+          totalGoalsConceded: 0,
+      };
+  }});
     
     elements.forEach(player => {
         const teamId = player.team;
@@ -398,6 +399,60 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
                 <p className="player-stat-name">{player.web_name}</p>
                 <p className="player-stat">{player.expected_goal_involvements}</p>
                 <p className="player-stat">({player.goals_scored + player.assists})</p> 
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+
+      <div className="player-pics player-pics-lists">
+        <p className="top-10-title">Top 10 Goals (xG) </p> 
+        {elements.length > 0 && (
+          <div className="pics-wrapper">
+            {filterPlayers(sortedPlayersXGI).slice(0, 10).map((player, index) => (
+              <div key={player.code} className="player-pic-container">
+                <img
+                  className="player-pic-top-10"
+                  src={`https://resources.premierleague.com/premierleague/photos/players/250x250/p${player.code}.png`}
+                  alt={`player-${index + 1}`}
+                  onError={(e) => {
+                      if (player.element_type === 1) {
+                        e.target.src = `https://fantasy.premierleague.com/dist/img/shirts/standard/shirt_${player.team_code}_1-110.png`;
+                      } else {
+                        e.target.src = `https://fantasy.premierleague.com/dist/img/shirts/standard/shirt_${player.team_code}-110.png`;
+                      }
+                    }}
+                />
+                <p className="player-stat-name">{player.web_name}</p>
+                <p className="player-stat">{player.goals_scored}</p>
+                <p className="player-stat">({player.expected_goals})</p> 
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+
+      <div className="player-pics player-pics-lists">
+        <p className="top-10-title">Top 10 Assists (xA) </p> 
+        {elements.length > 0 && (
+          <div className="pics-wrapper">
+            {filterPlayers(sortedPlayersXGI).slice(0, 10).map((player, index) => (
+              <div key={player.code} className="player-pic-container">
+                <img
+                  className="player-pic-top-10"
+                  src={`https://resources.premierleague.com/premierleague/photos/players/250x250/p${player.code}.png`}
+                  alt={`player-${index + 1}`}
+                  onError={(e) => {
+                      if (player.element_type === 1) {
+                        e.target.src = `https://fantasy.premierleague.com/dist/img/shirts/standard/shirt_${player.team_code}_1-110.png`;
+                      } else {
+                        e.target.src = `https://fantasy.premierleague.com/dist/img/shirts/standard/shirt_${player.team_code}-110.png`;
+                      }
+                    }}
+                />
+                <p className="player-stat-name">{player.web_name}</p>
+                <p className="player-stat">{player.assists}</p>
+                <p className="player-stat">({player.expected_assists})</p> 
               </div>
             ))}
           </div>

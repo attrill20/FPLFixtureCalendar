@@ -17,10 +17,8 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
   const sortedPlayersForm = [...elements].sort((a, b) => b.form - a.form);
   const sortedPlayersOwnership = [...elements].sort((a, b) => b.selected_by_percent - a.selected_by_percent);
   const sortedPlayersXGI = [...elements].sort((a, b) => b.expected_goal_involvements - a.expected_goal_involvements);
-  // const top10Goalkeepers = [...elements].filter(player => player.element_type === 1).sort((a, b) => b.total_points - a.total_points); 
-  // const top10Defenders = [...elements].filter(player => player.element_type === 2).sort((a, b) => b.total_points - a.total_points);
-  // const top10Midfielders = [...elements].filter(player => player.element_type === 3).sort((a, b) => b.total_points - a.total_points);
-  // const top10Forwards = [...elements].filter(player => player.element_type === 4).sort((a, b) => b.total_points - a.total_points);
+  const sortedPlayersGoals = [...elements].sort((a, b) => b.goals_scored - a.goals_scored);
+  const sortedPlayersAssists = [...elements].sort((a, b) => b.assists - a.assists);
   const top10Bonus = [...elements].sort((a, b) => b.bonus - a.bonus);
   const top10BPS = [...elements].sort((a, b) => b.bps - a.bps);
   const top10PointsPerMillion = [...elements].sort((a, b) => (b.total_points / b.now_cost) - (a.total_points / a.now_cost));
@@ -40,8 +38,8 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
       teamStats[team.id] = {
           teamName: team.name,
           badge: team.badge,
-          totalXGC: 0,
-          totalGoalsConceded: 0,
+          totalXG: 0,
+          totalGoals: 0,
       };
   }});
     
@@ -205,6 +203,7 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
       }
       return filteredPlayers;
     };
+    console.log('Top 10 Teams Data:', top10TeamsXGAndGoals);
 
   return (
     <div>
@@ -368,10 +367,6 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
                     );
                   })()}
                 </p>
-
-
-
-
               </div>
             ))}
           </div>
@@ -409,7 +404,7 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
         <p className="top-10-title">Top 10 Goals (xG) </p> 
         {elements.length > 0 && (
           <div className="pics-wrapper">
-            {filterPlayers(sortedPlayersXGI).slice(0, 10).map((player, index) => (
+            {filterPlayers(sortedPlayersGoals).slice(0, 10).map((player, index) => (
               <div key={player.code} className="player-pic-container">
                 <img
                   className="player-pic-top-10"
@@ -436,7 +431,7 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
         <p className="top-10-title">Top 10 Assists (xA) </p> 
         {elements.length > 0 && (
           <div className="pics-wrapper">
-            {filterPlayers(sortedPlayersXGI).slice(0, 10).map((player, index) => (
+            {filterPlayers(sortedPlayersAssists).slice(0, 10).map((player, index) => (
               <div key={player.code} className="player-pic-container">
                 <img
                   className="player-pic-top-10"

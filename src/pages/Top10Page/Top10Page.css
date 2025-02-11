@@ -222,21 +222,27 @@
         width: 30%;
         font-size: 0.6rem;
         padding: 3px;
-      }
+    }
 
-      .dropdown .dropdown-arrow {
+    .dropdown-container {
+        gap: 10px;
+        margin-left: 3%;
+        margin-right: 3%;
+    }
+
+    .dropdown .dropdown-arrow {
         position: absolute;
         right: 3px;
         font-size: 0.6rem;
-      }
-      
-      .dropdown-list {
+    }
+    
+    .dropdown-list {
         font-size: 0.6rem;
-      }
+    }
 
-      .dropdown-item {
+    .dropdown-item {
         padding: 3px;
-      }
+    }
 }
 
 @media (max-width: 1000px) {

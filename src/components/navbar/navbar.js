@@ -22,7 +22,7 @@ function Navbar() {
               className={({ isActive }) => isActive ? 'active' : ''} 
               onClick={toggleMenu}
             >
-              Home
+            Home
             </NavLink>
           </li>
           <li>
@@ -31,7 +31,7 @@ function Navbar() {
               className={({ isActive }) => isActive ? 'active' : ''} 
               onClick={toggleMenu}
             >
-              Fixture Difficulty Calendar
+            Fixture Difficulty Calendar
             </NavLink>
           </li>
           <li>
@@ -40,7 +40,7 @@ function Navbar() {
               className={({ isActive }) => isActive ? 'active' : ''} 
               onClick={toggleMenu}
             >
-              Player Comparison
+            Player Comparison
             </NavLink>
           </li>
           <li>
@@ -49,7 +49,7 @@ function Navbar() {
               className={({ isActive }) => isActive ? 'active' : ''} 
               onClick={toggleMenu}
             >
-              Top 10s
+            Top 10s
             </NavLink>
           </li>
           <li>

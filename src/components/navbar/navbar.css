@@ -46,7 +46,7 @@
 
 .navbar-menu li {
   display: inline;
-  margin: 0 15px;
+  margin: 0 20px;
 }
 
 .navbar-menu li a {
@@ -69,7 +69,20 @@
 }
 
 
-@media (max-width: 768px) {
+@media (max-width: 1100px) {
+  .navbar-menu li {
+    display: inline;
+    margin: 0 5px;
+    text-align: center;
+  }
+
+  .navbar-menu li a {
+    padding: 5px;
+    font-size: 1.2rem;
+  }
+}
+
+@media (max-width: 850px) {
   .navbar {
     justify-content: space-between;
     padding: 2px;

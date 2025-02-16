@@ -12,8 +12,8 @@ const TeamsPage = ({ xgData, fixturesData, teams }) => {
         teamStats[team.id] = {
           teamName: team.name,
           badge: team.badge,
-          totalXG: parseFloat(xgData[index].xG) || 0,
-          totalXGC: parseFloat(xgData[index].xGC) || 0,
+          totalXG: parseFloat(xgData[index].xg) || 0,
+          totalXGC: parseFloat(xgData[index].xgc) || 0,
           totalGoals: 0,
           totalConceded: 0,
         };

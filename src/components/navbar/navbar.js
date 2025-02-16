@@ -54,6 +54,15 @@ function Navbar() {
           </li>
           <li>
             <NavLink 
+              to="/teams" 
+              className={({ isActive }) => isActive ? 'active' : ''} 
+              onClick={toggleMenu}
+            >
+            Teams
+            </NavLink>
+          </li>
+          <li>
+            <NavLink 
               to="/faq" 
               className={({ isActive }) => isActive ? 'active' : ''} 
               onClick={toggleMenu}

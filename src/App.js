@@ -3,8 +3,9 @@ import "./App.css";
 import PlayerComparisonPage from "./pages/PlayerComparisonPage/PlayerComparisonPage";
 import FixtureCalendarPage from "./pages/FixtureCalendarPage/FixtureCalendarPage";
 import HomePage from "./pages/HomePage/HomePage";
-import FAQPage from "./pages/FAQPage/FAQPage";
 import Top10Page from "./pages/Top10Page/Top10Page";
+import TeamsPage from "./pages/TeamsPage/TeamsPage";
+import FAQPage from "./pages/FAQPage/FAQPage";
 import { teams } from "./components/dummyArrays/dummy";
 import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 import Navbar from "./components/navbar/navbar";
@@ -13,6 +14,26 @@ export default function App() {
   const [mainData, setMainData] = useState(null);
   const [fixturesData, setFixturesData] = useState(null);
   const [activeGameweek, setActiveGameweek] = useState(null);
+  const [xgData, setXgData] = useState([]);
+
+  // Fetch the xG fbref data from new server
+  useEffect(() => {
+    async function fetchXGData() {
+      try {
+        const response = await fetch("https://fpl-server-nine.vercel.app/api/fbrefdata");
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        const data = await response.json();
+
+        setXgData(data);
+      } catch (error) {
+        console.error("Failed to fetch xG data:", error);
+      }
+    }
+
+    fetchXGData();
+  }, []);
 
   // Fetch the FPL API data from new server
   useEffect(() => {
@@ -24,7 +45,7 @@ export default function App() {
         if (!bootstrapResponse.ok) {
           throw new Error(`HTTP error! Status: ${bootstrapResponse.status}`);
         }
-        const fetchedData = await bootstrapResponse.json(); // Renamed variable
+        const fetchedData = await bootstrapResponse.json();
         setMainData(fetchedData); // Set the fetched data to mainData
 
         // Fetch fixtures data
@@ -83,11 +104,26 @@ export default function App() {
               <Top10Page
                 mainData={mainData}
                 teams={teams}
-                fixturesData={fixturesData}
               />
             }
           />
-          <Route path="/faq" element={<FAQPage />} />
+          <Route 
+            path="/teams" 
+            element={
+              <TeamsPage 
+                teams={teams}
+                fixturesData={fixturesData}
+                xgData={xgData}
+              />
+            }      
+          />
+          <Route 
+            path="/faq" 
+            element={
+              <FAQPage 
+              />
+            } 
+          />
         </Routes>
       </BrowserRouter>
     </div>

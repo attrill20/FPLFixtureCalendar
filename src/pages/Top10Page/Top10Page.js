@@ -3,7 +3,6 @@ import "./Top10Page.css";
 
 const Top10Page = ({ mainData, teams, fixturesData }) => {
   const elements = mainData && Array.isArray(mainData.elements) ? mainData.elements : [];
-  const fixtures = fixturesData && Array.isArray(fixturesData) ? fixturesData : [];
   const [selectedTeamIds, setSelectedTeamIds] = useState([]);
   const [selectedPositions, setSelectedPositions] = useState([1,2,3,4]);
   const [selectedPrice, setSelectedPrice] = useState(null);
@@ -41,96 +40,6 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
   for (let price = minPrice; price <= maxPrice; price += price < 10.0 ? 0.5 : 1.0) {
     priceOptions.push(price);
   }
-  
-  const calculateTotalXGAndGoalsPerTeam = (elements, fixtures, teams) => {
-    const teamStats = {};
-
-    teams.forEach(team => {
-      if (team.id !== 0) { 
-      teamStats[team.id] = {
-          teamName: team.name,
-          badge: team.badge,
-          totalXG: 0,
-          totalGoals: 0,
-      };
-  }});
-    
-    elements.forEach(player => {
-        const teamId = player.team;
-        
-        if (player.minutes > 0) {
-        const xG = parseFloat(player.expected_goals) || 0;
-        if (teamStats[teamId]) {
-            teamStats[teamId].totalXG += xG;
-        }
-        }
-    });
-    
-    fixtures.forEach(fixture => {
-        const { team_h, team_a, team_h_score, team_a_score } = fixture;
-    
-        if (teamStats[team_h]) {
-        teamStats[team_h].totalGoals += team_h_score || 0;
-        }
-    
-        if (teamStats[team_a]) {
-        teamStats[team_a].totalGoals += team_a_score || 0;
-        }
-    });
-    
-    const sortedTeamStats = Object.values(teamStats)
-        .sort((a, b) => b.totalXG - a.totalXG)
-        .slice(0, 10);
-    
-    return sortedTeamStats;
-  };
-    
-  const top10TeamsXGAndGoals = calculateTotalXGAndGoalsPerTeam(elements, fixtures, teams);
-
-  const calculateTotalXGCAndConcededGoalsPerTeam = (elements, fixtures, teams) => {
-    const teamStats = {};
-  
-    teams.forEach(team => {
-        if (team.id !== 0) { 
-        teamStats[team.id] = {
-            teamName: team.name,
-            badge: team.badge,
-            totalXGC: 0,
-            totalGoalsConceded: 0,
-        };
-    }});
-  
-    elements.forEach(player => {
-      if (player.element_type === 1 && player.minutes > 0) {
-        const teamId = player.team;
-        const xGC = parseFloat(player.expected_goals_conceded) || 0;
-  
-        if (teamStats[teamId]) {
-          teamStats[teamId].totalXGC += xGC;
-        }
-      }
-    });
-  
-    fixtures.forEach(fixture => {
-      const { team_h, team_a, team_h_score, team_a_score } = fixture;
-  
-      if (teamStats[team_h]) {
-        teamStats[team_h].totalGoalsConceded += team_a_score || 0;
-      }
-  
-      if (teamStats[team_a]) {
-        teamStats[team_a].totalGoalsConceded += team_h_score || 0;
-      }
-    });
-  
-    const sortedTeamStats = Object.values(teamStats)
-      .sort((a, b) => a.totalXGC - b.totalXGC)
-      .slice(0, 10);
-  
-    return sortedTeamStats;
-  };
-  
-  const top10TeamsXGCAndConcededGoals = calculateTotalXGCAndConcededGoalsPerTeam(elements, fixtures, teams);
 
   const sortedPlayersXGUnderPerformance = [...elements]
     .map(player => ({
@@ -695,63 +604,6 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
           </div>
         )}
       </div>
-
-      <div className="player-pics player-pics-lists">
-        <p className="top-10-title">Top 10 Team xG (Goals Scored)</p>
-        {top10TeamsXGAndGoals.length > 0 && (
-            <div className="pics-wrapper">
-            {top10TeamsXGAndGoals.map((team, index) => (
-                <div key={index} className="player-pic-container">
-                {team.badge ? (
-                    <img
-                    className="team-pic-top-10"
-                    src={team.badge}
-                    alt={`team-${index + 1}`}
-                    />
-                ) : (
-                    <p>Badge not available</p>
-                )}
-                <p className="player-stat-name">{team.teamName}</p>
-                <p className="player-stat">
-                    {typeof team.totalXG === 'number' ? team.totalXG.toFixed(2) : '0.00'}
-                </p>
-                <p className="player-stat">
-                    ({team.totalGoals})
-                </p>
-                </div>
-            ))}
-            </div>
-        )}
-      </div>
-
-      <div className="player-pics player-pics-lists">
-        <p className="top-10-title">Top 10 Team xGC (Goals Conceded)</p>
-        {top10TeamsXGCAndConcededGoals.length > 0 && (
-            <div className="pics-wrapper">
-            {top10TeamsXGCAndConcededGoals.map((team, index) => (
-                <div key={index} className="player-pic-container">
-                {team.badge ? (
-                    <img
-                    className="team-pic-top-10"
-                    src={team.badge}
-                    alt={`team-${index + 1}`}
-                    />
-                ) : (
-                    <p>Badge not available</p>
-                )}
-                <p className="player-stat-name">{team.teamName}</p>
-                <p className="player-stat">
-                    {typeof team.totalXGC === 'number' ? team.totalXGC.toFixed(2) : '0.00'}
-                </p>
-                <p className="player-stat">
-                    ({team.totalGoalsConceded})
-                </p>
-                </div>
-            ))}
-            </div>
-        )}
-      </div>
-      
     </div>
   );
 };

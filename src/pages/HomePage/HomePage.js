@@ -27,7 +27,8 @@ const HomePage = () => {
         <ul>
           <li><Link to="/calendar"><strong>Fixture Difficulty Calendar</strong></Link> - check here for a custom FDR calendar to identify which teams have favourable upcoming fixtures </li>
           <li><Link to="/search"><strong>Player Comparison Tool</strong></Link> - allows comparison between player's stats to help you pick your next transfer </li>
-          <li><Link to="/top10"><strong>Top 10 Stats</strong></Link> - a range of top 10 stats for players and teams to dig deeper into the data and underlying trends </li>
+          <li><Link to="/top10"><strong>Top 10 Stats</strong></Link> - a range of top 10 stats for players to dig deeper into the data and underlying trends </li>
+          <li><Link to="/teams"><strong>Team Stats</strong></Link> - stats for all 20 of the Premier League teams from the current season</li>
           <li><Link to="/faq"><strong>FAQs</strong></Link> - read how the custom FDR is calculated, how to use the Player Comparison tool and other information about the site</li>
         </ul>
         <p>

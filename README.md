@@ -66,6 +66,12 @@ E-mail address: oraclefplcontact@gmail.com
 - Add a cache to prevent no fixtures displaying when the server occasionally goes down
 - Needs less of a margin / padding either side of the FDR toggle switch
 
+## 17/2/25
+
+Logged back in after a little while away, and realised that managers have now been added and were messing up the site with no images and dominating the Top 10s page! Added a new option to the position dropdown for them, turned them off by default and orrectly mapped their images. Here we go:
+
+![Screenshot 2025-03-12 at 20 42 12](https://github.com/user-attachments/assets/312d8993-ee56-43a6-b13d-5d5b56fa3a33)
+
 ## 13/11/24
 
 Added a position filter to the Top 10 page:

@@ -72,6 +72,11 @@ Logged back in after a little while away, and realised that managers have now be
 
 ![Screenshot 2025-03-12 at 20 42 12](https://github.com/user-attachments/assets/312d8993-ee56-43a6-b13d-5d5b56fa3a33)
 
+Ahh, looks like I forgot to post an update that I have also successfully added a price filter to this page recently too! Shows options in 0.5m increments up to £10 and then £1m increments up to the max priced player. Did a fair bit of stylistic fixing too, especially for mobile. Here's a nice image of how this works in tandem with the other filters:
+
+![Screenshot 2025-03-12 at 20 47 38](https://github.com/user-attachments/assets/91c714ad-de58-40bc-a547-0d0cbf7f8bd5)
+
+
 ## 13/11/24
 
 Added a position filter to the Top 10 page:

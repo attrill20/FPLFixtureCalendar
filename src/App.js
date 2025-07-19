@@ -64,6 +64,9 @@ export default function App() {
         );
         if (activeEvent) {
           setActiveGameweek(activeEvent.id);
+        } else {
+          // Default to gameweek 1 if no active gameweek found
+          setActiveGameweek(1);
         }
       } catch (error) {
         console.error("Failed to fetch data:", error);

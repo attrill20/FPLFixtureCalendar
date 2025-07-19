@@ -9,6 +9,7 @@ export default function Row({
   activeGameweek,
   showOriginalScore,
   showCustomScore,
+  isTableRow = false,
 }) {
   const [teamFixturesData, setTeamFixturesData] = useState(null);
   const [totalDifficulty, setTotalDifficulty] = useState(0);
@@ -116,6 +117,83 @@ export default function Row({
 
   const team = teams[teamIndex];
   const teamName = team ? team.name : "";
+
+  if (isTableRow) {
+    return (
+      <tr>
+        <td className="team-info">
+          <span className="team-name">{teamName}</span>
+          <br className="page-break"/>
+          <img className="team-badge" src={team?.badge} alt={teamName} />
+        </td>
+
+        <td className="fdr-column">
+          {showOriginalScore && teamFixturesData && (
+            <h2 className="fdr-number">
+              {teamFixturesData.reversedTotalDifficulty}
+            </h2>
+          )}
+          {showCustomScore && teamFixturesData && (
+            <h2 className="fdr-number">
+              {teamFixturesData.reversedCustomDifficulty}
+            </h2>
+          )}
+        </td>
+
+        {teamFixturesData &&
+          teamFixturesData.fixtures.map((gameweek, gameweekIndex) => {
+            const gameweekNumber = activeGameweek + gameweekIndex;
+            if (gameweekNumber > 38) return null;
+
+            return (
+              <td className="fixture-column" key={gameweekIndex}>
+                {gameweek.length > 0 ? (
+                  gameweek.map((fixture, index) => (
+                    <div
+                      className={`fixture-info ${
+                        showOriginalScore
+                          ? `difficulty-${fixture.difficulty}`
+                          : `custom-difficulty-${fixture.home
+                              ? teams[fixture.opponentNumber]?.h_diff
+                              : teams[fixture.opponentNumber]?.a_diff
+                            }`
+                      }`}
+                      key={index}
+                    >
+                      <b className="opponent-name">{fixture.opponent}</b>{" "}
+                      {fixture.opponentNumber !== 0 ? (
+                        fixture.home ? "(H)" : "(A)"
+                      ) : (
+                        <strong>BLANK</strong>
+                      )}
+                      <br />
+                      {fixture.opponentNumber !== null &&
+                        teams[fixture.opponentNumber]?.badge && (
+                          <img
+                            className="fixture-badge"
+                            src={teams[fixture.opponentNumber]?.badge}
+                            alt={fixture.opponent}
+                          />
+                        )}
+                      <br />
+                    </div>
+                  ))
+                ) : (
+                  <div
+                    className={`fixture-info ${
+                      showOriginalScore ? `difficulty-${5}` : `custom-difficulty-${10}`
+                    }`}
+                    key={gameweekIndex}
+                  >
+                    <b>BLANK</b>
+                  </div>
+                )}
+              </td>
+            );
+          })}
+      </tr>
+    );
+  }
 
   return (
     <div>

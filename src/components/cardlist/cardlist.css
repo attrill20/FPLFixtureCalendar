@@ -1,42 +1,85 @@
 .table {
-    border: 3px solid rgb(0, 0, 0); /* table border here */
-    margin-left: 2%;
-    margin-right: 2%;
-    margin-bottom: 1%;
+    border: 1px solid var(--color-border);
+    margin: 0 2%;
     border-collapse: collapse;
-    border-spacing: 0px;
+    border-spacing: 0;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: 0 4px 12px var(--color-shadow);
+    background-color: var(--color-bg-secondary);
 }
 
 .button-sort {
-    margin-left: 30px;
-    margin-right: 30px;
-    border: 2px solid rgb(0, 0, 0);
-    font-size: 1.2rem;
+    margin: 0 var(--spacing-md);
+    border: 1px solid #000000;
+    font-size: var(--font-size-base);
+    background-color: var(--color-bg-secondary);
+    color: var(--color-text-primary);
+    padding: var(--spacing-sm) var(--spacing-md);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-weight: 500;
+}
+
+.button-sort:hover {
+    background-color: var(--color-accent-green);
+    color: white;
+    border-color: var(--color-accent-green);
+}
+
+.gameweek-dropdown {
+    border: 1px solid #000000;
+    border-radius: var(--radius-sm);
+    background-color: var(--color-bg-secondary);
+    margin-left: var(--spacing-md);
 }
 
 .gameweek-dropdown select {
-    padding: 10px;
-    width: 40%;
-    font-size: 1.5rem;
+    padding: var(--spacing-sm) var(--spacing-md);
+    width: 200px;
+    font-size: var(--font-size-base);
     text-align: center;
-    border-radius: 5px;
-    border: 3px solid #000000;
-    margin-bottom: 5px;
-    font-weight: bold;
+    border-radius: var(--radius-sm);
+    border: none;
+    margin-bottom: 0;
+    margin-left: 0;
+    font-weight: 600;
+    background-color: transparent;
+    color: var(--color-text-primary);
+    transition: all 0.2s ease;
+}
+
+.gameweek-dropdown select:focus {
+    border-color: var(--color-accent-green);
+    box-shadow: 0 0 0 2px rgba(57, 187, 5, 0.2);
+    outline: none;
 }
 
 .active-gameweek-input {
-  font-size: 1.2rem;
-  font-weight: bold;
+  font-size: var(--font-size-base);
+  font-weight: 600;
   text-align: center;
   width: 35px;
+  padding: var(--spacing-xs);
+  border: 1px solid #000000;
+  border-radius: var(--radius-sm);
+  background-color: var(--color-bg-secondary);
+  color: var(--color-text-primary);
+}
+
+.active-gameweek-input:focus {
+  border-color: var(--color-accent-green);
+  box-shadow: 0 0 0 2px rgba(57, 187, 5, 0.2);
+  outline: none;
 }
 
 .container-cardlist-tools {
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 5px;
+  margin-bottom: var(--spacing-sm);
+  gap: var(--spacing-sm);
 }
 
 .input-container-cardlist {
@@ -63,11 +106,27 @@
 }
 
 .minus-button {
-  background-color: rgb(234, 115, 115);
+  background-color: #EF4444;
+  color: white;
+  border: 1px solid #000000;
+  border-radius: var(--radius-sm);
+  transition: background-color 0.2s ease;
+}
+
+.minus-button:hover {
+  background-color: #DC2626;
 }
 
 .plus-button {
-  background-color: rgb(106, 187, 106);
+  background-color: var(--color-accent-green);
+  color: white;
+  border: 1px solid #000000;
+  border-radius: var(--radius-sm);
+  transition: background-color 0.2s ease;
+}
+
+.plus-button:hover {
+  background-color: var(--color-accent-green-dark);
 }
 
 #gameweek {
@@ -84,47 +143,53 @@
 
  /* MOBILE */
  @media (max-width: 1200px) { 
-
   .table {
-    border: 2px solid rgb(0, 0, 0); /* table border here */
+    border: 1px solid var(--color-border);
+    margin: 0 1%;
   }
   
+  .gameweek-dropdown {
+    margin-left: var(--spacing-sm);
+  }
+
   .gameweek-dropdown select {
-    width: 70%;
-    font-size: 1rem;
-    border-radius: 4px;
-    border:2px solid #000000;
-    margin-bottom: 0px;
-    padding: 3px;
+    width: 60px;
+    font-size: var(--font-size-xs);
+    border-radius: var(--radius-sm);
+    border: none;
+    margin-bottom: 0;
+    margin-left: 0;
+    padding: var(--spacing-xs) 2px;
   }
 
   .button-sort {
-    margin-left: 20px;
-    margin-right: 15px;
-    font-size: 0.7rem;
-    border: 1px solid black;
+    margin: 0 var(--spacing-sm);
+    font-size: var(--font-size-xs);
+    padding: var(--spacing-xs) var(--spacing-sm);
   }
 
   .tool-text {
-    font-size: 0.6rem;
+    font-size: var(--font-size-xs);
   }
 
   .active-gameweek-input {
-    font-size: 0.7rem;
+    font-size: var(--font-size-xs);
     width: 20px;
+    padding: var(--spacing-xs);
   }
 
   .container-cardlist-tools {
-    margin-bottom: 1px;
+    margin-bottom: var(--spacing-xs);
+    flex-wrap: wrap;
+    gap: var(--spacing-xs);
   }
 
   .input-wrapper button {
     width: 15px;
     height: 15px;
-    font-size: 1rem;
+    font-size: var(--font-size-xs);
     border: none;
     cursor: pointer;
-    margin: 0 2px;
+    margin: 0 var(--spacing-xs);
   }
-    
 }

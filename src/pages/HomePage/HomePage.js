@@ -11,38 +11,44 @@ import nov_24_fdr from '../../components/images/nov_24_fdr.png';
 const HomePage = () => {
   return (
     <div>
-      
-      <div className="content">
-        <img src={oracle_fpl_2} className="oracle-fpl-image" alt="OracleFPL" />
-        <header className="app-header">
-          <h1>Welcome to OracleFPL</h1>
-          <h3><i>Crystal clear insights for FPL success!</i></h3>
-        </header>
-      </div>
+      {/* Hero Section */}
+      <section className="hero-section">
+        <div className="hero-content">
+          <h1 className="hero-title">Welcome to OracleFPL</h1>
+          <p className="hero-subtitle">Crystal clear insights for FPL success!</p>
+        </div>
+      </section>
         
-      <div className="home-sub-heading">
-        <p>
-          This is the homepage of the OracleFPL tools - we hope you find them useful and improve your FPL rank! Use the Navbar or links below to select the tool you need:
-        </p>
-        <ul>
-          <li><Link to="/calendar"><strong>Fixture Difficulty Calendar</strong></Link> - check here for a custom FDR calendar to identify which teams have favourable upcoming fixtures </li>
-          <li><Link to="/search"><strong>Player Comparison Tool</strong></Link> - allows comparison between player's stats to help you pick your next transfer </li>
-          <li><Link to="/top10"><strong>Top 10 Stats</strong></Link> - a range of top 10 stats for players to dig deeper into the data and underlying trends </li>
-          <li><Link to="/teams"><strong>Team Stats</strong></Link> - stats for all 20 of the Premier League teams from the current season</li>
-          <li><Link to="/faq"><strong>FAQs</strong></Link> - read how the custom FDR is calculated, how to use the Player Comparison tool and other information about the site</li>
-        </ul>
-        <p>
-          Good luck for the season ahead - enjoy the site and any questions or feedback welcome!
-        </p>
-      </div>
+      {/* Tools Overview Section */}
+      <section className="section-white">
+        <div className="home-sub-heading">
+          <div className="section-header">
+            <h2 className="section-title">Explore your new FPL Toolkit!</h2>
+          </div>
+          <p>
+            Transform your FPL strategy with our custom tools and cutting-edge stats that will give you the competitive edge you need. Choose your weapon:
+          </p>
+          <ul>
+            <li><Link to="/calendar"><strong>Fixture Difficulty Calendar</strong></Link> - Our revolutionary custom FDR system reveals which teams have the most favorable upcoming fixtures 📅</li>
+            <li><Link to="/comparison"><strong>Player Comparison Tool</strong></Link> - Advanced statistical analysis to help you pick your next transfer with confidence 📊</li>
+            <li><Link to="/top10"><strong>Top 10 Stats</strong></Link> - Deep-dive into elite performance metrics and uncover hidden gems 🏆 </li>
+            <li><Link to="/teams"><strong>Team Stats</strong></Link> - Comprehensive analytics for all 20 Premier League teams with real-time data 🏟️</li>
+            <li><Link to="/faq"><strong>FAQs</strong></Link> - Master our tools and understand the science behind our FDR calculations ❓</li>
+          </ul>
+          <p>
+            <strong>Ready to start dominating your mini-league? Dive in today and watch your rank soar!</strong>
+          </p>
+        </div>
+      </section>
 
-      <div>
+      {/* Latest FDR Update Section - Light Green */}
+      <section className="section-light">
         <div className="fdr-wrapper">
           <div className="fdr-heading">  
-            <h2>GW11 International Break FDR Update</h2>
+            <h2>🚨 GW11 International Break FDR Update</h2>
             <p className="date-posted">Posted: <strong>November 2024</strong></p>
             <p>The final international break of 2024 is here, so time for some major FDR revisions now that we've seen the first 11 GWs of the season and have some solid data to go on! The biggest risers are <strong>Nottingham Forest</strong>, whilst <strong>Arsenal</strong> the biggest fallers after their shaky start...</p>
-            <p className="fdr-increase-title"><strong>FDR Increases</strong> - Bumps for:</p>
+            <p className="fdr-increase-title"><strong>📈 FDR Increases:</strong></p>
               <ul>
                 <li><strong>Bournemouth</strong> (Away_diff up by 1 - big home wins in recent GWs)</li>
                 <li><strong>Brentford</strong> (Away_diff up by 1 - free scoring, entertaining home games!)</li>
@@ -51,7 +57,7 @@ const HomePage = () => {
                 <li><strong>Liverpool</strong> (Home_diff up by 1 - still unbeaten in away games so far)</li>
                 <li><strong>Notts Forest</strong> (Home_diff up by 1 and Away_diff up by 1 - surprise package!)</li>
               </ul>
-            <p><strong>FDR Decreases</strong> - Drops for:</p>
+            <p><strong>📉 FDR Decreases:</strong></p>
               <ul>
                 <li><strong>Arsenal</strong> (Home_diff and Away_diff down by 1 - struggling a bit recently)</li>
                 <li><strong>Crystal Palace</strong> (Away_diff down by 1 - only 1 home win so far, poor)</li>
@@ -68,17 +74,20 @@ const HomePage = () => {
             <img src={nov_24_fdr} className="fdr-image" alt="November 2024 FDR"/>
           </div>
         </div>
+      </section>
         
+      {/* October Update Section - White */}
+      <section className="section-white">
         <div className="fdr-wrapper">
           <div className="fdr-image-container">
             <img src={oct_24_fdr} className="fdr-image" alt="October 2024 FDR"/>
           </div>
           <div className="fdr-heading">  
-            <h2>GW7 International Break FDR Update</h2>
+            <h2>🚨 GW7 International Break FDR Update</h2>
             <p className="date-posted">Posted: <strong>October 2024</strong></p>
             <p>Time for the first Oracle FDR updates of the season! Nothing has had to change since the initial ratings set back in July, as largely teams have performed as expected with the usual suspects already looking likely to contend for the title and the promoted teams only managing 1 win between them so far as they battle relegation. However, 7 games have now taken place so enough data to start noticing early patterns that are taking shape.</p>
             <p>So no major changes have taken place, but here are the details from the first FDR changes of the 24/25 season:</p>
-            <p className="fdr-increase-title"><strong>FDR Increases</strong> - Bumps for:</p>
+            <p className="fdr-increase-title"><strong>📈 FDR Increases:</strong></p>
               <ul>
                 <li><strong>Brentford</strong> (Away_diff up by 2 - strong home form, better than last season)</li>
                 <li><strong>Brighton</strong> (Home_diff and Away_diff up by 1 - solid early results, better squad)</li>
@@ -86,7 +95,7 @@ const HomePage = () => {
                 <li><strong>Liverpool</strong> (Home_diff up by 1 - 4 out of 4 away wins so far, look tight)</li>
                 <li><strong>Notts Forest</strong> (Home_diff up by 2 and Away_diff up by 1 - excellent start so far)</li>
               </ul>
-            <p><strong>FDR Decreases</strong> - Drops for:</p>
+            <p><strong>📉 FDR Decreases:</strong></p>
               <ul>
                 <li><strong>Crystal Palace</strong> (Away_diff down by 1 - very disappointing so far,  missing Olise)</li>
                 <li><strong>Everton</strong> (Home_diff down by 1 - very weak away form, no wins so far)</li>
@@ -97,10 +106,13 @@ const HomePage = () => {
             <p>Will update when more changes take place over the next few GWs, <strong>Man United</strong> and <strong>Bournemouth</strong> are very close to drops if current form continues...</p>
           </div>
         </div>
+      </section>
 
+      {/* Season FDR Update - Light Green */}
+      <section className="section-light">
         <div className="fdr-wrapper">
           <div className="fdr-heading">  
-            <h2>2024/25 Season FDR Update</h2>
+            <h2>🚨 2024/25 Season FDR Update</h2>
             <p className="date-posted">Posted: <strong>July 2024</strong></p>
             <p>Hello everyone, welcome back to a new season with OracleFPL! Southgate might not have brought it home, but hopefully with our tools you'll be bringing home your mini-league titles come May next year!</p>
             <p>The site has been updated with the new 24/25 fixtures and the inital FDR values. Here are some initial thoughts:</p>
@@ -117,13 +129,16 @@ const HomePage = () => {
             <img src={july_24_fdr} className="fdr-image" alt="July 2024 FDR"/>
           </div>
         </div>
+      </section>
         
+      {/* Top Teams Guidance - White */}
+      <section className="section-white">
         <div className="fdr-wrapper">
           <div className="fdr-image-container">
             <img src={july_24_fdr_top} className="fdr-image-grid" alt="July 2024 FDR"/>
           </div>
           <div className="fdr-heading">  
-            <h2>Early Season Fixture Guidance - Top Teams</h2>
+            <h2>🎯 Early Season Fixture Guidance - Top Teams</h2>
             <p className="date-posted">Posted: <strong>July 2024</strong></p>
             <p>Top of the pile for the opening set of fixtures are <strong>Liverpool</strong> and <strong>Fulham</strong>, with some very inviting home games and the hardest away day is at an Old Trafford that was leaking goals last season. Based on this, Salah looks like a much better premium pick than Haaland in an opening draft - as long as he stays amid current transfer rumours. Alexander-Arnold is probably the stand out defender in the game, and should hopefully justify his 7.0m price tag, although rotation could limit other attacking options such as Nunez, Jota or Diaz. Muniz is a very solid budget pick as a 6.0m forward, although I'd limit it to one pick from Fulham as Leno and Andreas are not that tempting at their price points.</p>
             <p>As a promoted team, I'd avoid <strong>Southampton</strong> players on an early draft despite their favourable early schedule - possible exception if you fancy taking a punt on one of their 4.0m defenders as a bench option.</p>
@@ -132,10 +147,13 @@ const HomePage = () => {
             <p>Finally, <strong>Brighton</strong> and <strong>Chelsea</strong> are slap bang in the middle of the FDR table, so don't overload on their players!</p>
           </div>
         </div>
+      </section>
 
+      {/* Bottom Teams Guidance - Light Green */}
+      <section className="section-light">
         <div className="fdr-wrapper">
           <div className="fdr-heading">  
-            <h2>Early Season Fixture Guidance - Bottom Teams</h2>
+            <h2>🎯 Early Season Fixture Guidance - Bottom Teams</h2>
             <p className="date-posted">Posted: <strong>July 2024</strong></p>
             <p>Bottom of the fixture ticker for the opening games are <strong>Brentford</strong> - so recommended avoiding their top assets like Mbuemo and Toney, especially with questions marks over his future too.</p>
             <p>Same for <strong>Wolves</strong>, who have a very tricky start so maybe best to wait until a bit later in the season to see if last season's bargain picks of Hwang, Cunha, Ait-Nouri etc will come good again.</p>
@@ -148,7 +166,7 @@ const HomePage = () => {
             <img src={july_24_fdr_bottom} className="fdr-image-grid" alt="July 2024 FDR"/>
           </div>
         </div>
-      </div>
+      </section>
 
     </div>
   );

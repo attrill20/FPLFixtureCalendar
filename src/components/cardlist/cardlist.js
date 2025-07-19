@@ -188,10 +188,6 @@ export default function CardList({ teams, fixturesData, activeGameweek: initialA
 
   return (
       <div>
-        <div className="gameweek-dropdown">
-          <Dropdown handleGameweekChange={handleGameweekChange} activeGameweek={activeGameweek} />
-        </div>
-        
         <div className="container-cardlist-tools">
           <strong className="tool-text">FPL FDR</strong>
             <Switch className="switch" {...label} defaultChecked={sortBy === 'custom'} onChange={handleTableReorder}/>
@@ -217,23 +213,44 @@ export default function CardList({ teams, fixturesData, activeGameweek: initialA
                 <button className="plus-button" onClick={() => handleIncrement(handleCustomGameweekChange, activeGameweek)}>+</button>
             </div>
           </div>
+
+          <div className="gameweek-dropdown">
+            <Dropdown handleGameweekChange={handleGameweekChange} activeGameweek={activeGameweek} />
+          </div>
         </div>
 
       <div className={`table ${showOriginalScore ? "original-fpl" : ""}`}>
-        {sortedTeams.map((team, index) => (
-          <Row
-            teams={teams}
-            fixturesData={fixturesData}
-            teamIndex={team.id}
-            numberOfFixtures={numberOfGameweeks}
-            calculateDifficulty={sortBy === "original" ? calculateReversedTotalDifficulty : calculateCustomDifficulty}
-            reversedTotalDifficulty={sortBy === "original" ? calculateReversedTotalDifficulty(team.id, numberOfGameweeks) : calculateCustomDifficulty(team.id, numberOfGameweeks)}
-            activeGameweek={activeGameweek}
-            showOriginalScore={sortBy === "original"}
-            showCustomScore={sortBy === "custom"}
-            key={index}
-          />
-        ))}
+        <table className="fixtures-table with-border">
+          <thead className="table-header">
+            <tr>
+              <th className="team-column">Team</th>
+              <th className="fdr-column">FDR</th>
+              {Array.from({length: numberOfGameweeks}, (_, index) => {
+                const gameweekNumber = activeGameweek + index;
+                return gameweekNumber <= 38 ? (
+                  <th key={index}>{`GW ${gameweekNumber}`}</th>
+                ) : null;
+              })}
+            </tr>
+          </thead>
+          <tbody>
+            {sortedTeams.map((team, index) => (
+              <Row
+                teams={teams}
+                fixturesData={fixturesData}
+                teamIndex={team.id}
+                numberOfFixtures={numberOfGameweeks}
+                calculateDifficulty={sortBy === "original" ? calculateReversedTotalDifficulty : calculateCustomDifficulty}
+                reversedTotalDifficulty={sortBy === "original" ? calculateReversedTotalDifficulty(team.id, numberOfGameweeks) : calculateCustomDifficulty(team.id, numberOfGameweeks)}
+                activeGameweek={activeGameweek}
+                showOriginalScore={sortBy === "original"}
+                showCustomScore={sortBy === "custom"}
+                key={index}
+                isTableRow={true}
+              />
+            ))}
+          </tbody>
+        </table>
       </div>
     </div>
   );

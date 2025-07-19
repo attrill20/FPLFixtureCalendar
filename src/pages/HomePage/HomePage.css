@@ -12,6 +12,22 @@
   padding-right: 20%;
 }
 
+/* Hero Section */
+.hero-section {
+  background: var(--color-section-green-light);
+  color: var(--color-text-primary);
+  padding: var(--spacing-md) 0;
+  text-align: center;
+  position: relative;
+  margin: 0;
+}
+
+.hero-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 var(--spacing-lg);
+}
+
 p {
   margin-top: 5px;
   margin-bottom: 5px;
@@ -21,19 +37,44 @@ p {
   margin-top: 10px;
 }
 
+.hero-title {
+  font-family: Tahoma, Geneva, sans-serif;
+  font-size: var(--font-size-4xl);
+  font-weight: 700;
+  margin: 0;
+  color: var(--color-text-primary);
+  line-height: 1.2;
+}
+
+.hero-subtitle {
+  font-size: var(--font-size-lg);
+  margin: 0;
+  color: var(--color-text-secondary);
+  font-weight: 400;
+  font-style: italic;
+}
+
 h1 {
-  font-size: 4rem;
-  margin-top: 10px;
-  margin-bottom: 5px;
+  font-size: var(--font-size-3xl);
+  margin: var(--spacing-xl) 0 var(--spacing-md) 0;
+  color: var(--color-text-primary);
+  font-weight: 700;
+  text-align: center;
 }
 
 h2 {
-  margin-bottom: 1px;
-  margin-top: 5px;
+  margin-bottom: var(--spacing-xs);
+  margin-top: 0;
+  color: var(--color-text-primary);
+  font-weight: 600;
+  font-size: var(--font-size-2xl);
 }
 
 h3 {
-  margin-top: 0px;
+  margin-top: 0;
+  color: var(--color-text-secondary);
+  font-weight: 500;
+  font-size: var(--font-size-lg);
 }
 
 .date-posted {
@@ -47,36 +88,94 @@ h3 {
   width: 8%;
   padding-top: 10px;
   padding-left: 20%;
+  filter: drop-shadow(0 4px 8px rgba(0,0,0,0.2));
+  transition: transform 0.3s ease;
+}
+
+.oracle-fpl-image:hover {
+  transform: scale(1.05);
+}
+
+/* Section Headers */
+.section-header {
+  text-align: center;
+  margin-bottom: var(--spacing-lg);
+}
+
+.section-title {
+  font-size: var(--font-size-3xl);
+  font-weight: 700;
+  margin: 0;
+  color: var(--color-text-primary);
+}
+
+.section-subtitle {
+  font-size: var(--font-size-lg);
+  color: var(--color-text-secondary);
+  margin: 0;
+  font-weight: 400;
 }
 
 .home-sub-heading {
-  font-size: 1.3rem;
-  margin: 10px;
-  flex: 1;
+  font-size: var(--font-size-lg);
+  margin: 0 auto;
+  max-width: 1400px;
   text-align: left;
-  padding-left: 2%;
-  padding-right: 2%;
-  padding-top: 5px;
-  padding-bottom: 5px;
-  background-color: white;
-  margin-left: 9%;
-  margin-right: 9%;
+  padding: 16px var(--spacing-xxl);
+  background: var(--color-bg-primary);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-border);
+  box-shadow: 0 8px 32px var(--color-shadow);
+  position: relative;
+  overflow: hidden;
+}
+
+
+/* Alternating Sections */
+.section-light {
+  background: var(--color-section-green-light);
+  color: var(--color-text-primary);
+  padding: var(--spacing-lg) 0;
+}
+
+.section-white {
+  background: var(--color-section-white);
+  color: var(--color-text-primary);
+  padding: var(--spacing-lg) 0;
+}
+
+.section-dark {
+  background: var(--color-section-dark);
+  color: white;
+  padding: var(--spacing-xxl) 0;
 }
 
 .fdr-wrapper {
   display: flex;
   justify-content: space-between;
-  align-items: top;
-  margin: 10px;
+  align-items: center;
+  max-width: 1400px;
+  margin: 0 auto;
   flex: 1;
   text-align: left;
-  padding-left: 1%;
-  padding-right: 1%;
-  padding-top: 5px;
-  padding-bottom: 5px;
-  background-color: white;
-  margin-left: 9%;
-  margin-right: 9%;
+  padding: 16px var(--spacing-xl);
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-border);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.1);
+  gap: var(--spacing-xxl);
+  backdrop-filter: blur(10px);
+  position: relative;
+}
+
+.fdr-wrapper::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--color-accent-green), transparent);
 }
 
 .home-sub-heading ul {
@@ -99,37 +198,57 @@ h3 {
   justify-content: center;
   align-items: center;
   width: 100%;
-  max-width: 600px; /* Adjust the maximum width as needed */
-  margin: 10px auto; /* Center the container with some margin */
+  max-width: 600px;
+  margin: 0;
+  flex-shrink: 0;
 }
 
 .fdr-image {
   width: 100%;
-  height: auto; /* Maintain aspect ratio */
-  border: 3px solid #000000; /* Tight border around the image */
+  height: auto;
+  border: 1px solid #000000;
+  border-radius: var(--radius-md);
+  box-shadow: 0 2px 8px var(--color-shadow);
+  transition: all 0.3s ease;
+}
+
+.fdr-image:hover {
+  transform: scale(1.02);
+  box-shadow: 0 4px 12px var(--color-shadow-hover);
 }
 
 .fdr-image-grid {
-  border: 3px solid #000000;
-  margin-top: 2px;
-  margin-bottom: 2px;
+  border: 1px solid #000000;
+  margin-top: var(--spacing-xs);
+  margin-bottom: var(--spacing-xs);
   width: 100%;
-  max-width: 600px; /* Adjust as needed */
-  height: auto; /* Maintain aspect ratio */
-  object-fit: contain; /* Ensure the image scales to fit within its container while maintaining aspect ratio */
+  max-width: 600px;
+  height: auto;
+  object-fit: contain;
+  border-radius: var(--radius-md);
+  box-shadow: 0 2px 8px var(--color-shadow);
+  transition: all 0.3s ease;
+}
+
+.fdr-image-grid:hover {
+  transform: scale(1.02);
+  box-shadow: 0 4px 12px var(--color-shadow-hover);
 }
 
 .fdr-heading {
-  font-size: 1.3rem;
-  flex: 1; 
-  text-align: left; 
-  background-color: white;
-  margin-left: 2%;
-  margin-right: 2%;
+  font-size: var(--font-size-lg);
+  flex: 1;
+  text-align: left;
+  background-color: transparent;
+  margin: 0;
   height: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
 }
 
 .fdr-heading ul {
+  font-size: var(--font-size-base);
   list-style-type: disc;
   list-style-position: inside; 
   padding-left: 2px; 
@@ -140,9 +259,12 @@ h3 {
 }
 
 .fdr-heading li {
-  font-size: 1.3rem;
-  margin-bottom: 5px;
-  margin-left: 10px; 
+  font-size: var(--font-size-base);
+  margin-bottom: var(--spacing-xs);
+}
+
+.fdr-heading p {
+  font-size: var(--font-size-base);
 }
 
 .fdr-heading li::marker {
@@ -184,13 +306,23 @@ h3 {
   }
 
   .home-sub-heading {
-    font-size: 0.6rem;
-    padding-left: 1%;
-    padding-right: 1%;
-    margin-left: 3%;
-    margin-right: 3%;
-    margin-bottom: 5px;
-    margin-top: 5px;
+    font-size: var(--font-size-base);
+    padding-left: 2%;
+    padding-right: 2%;
+    padding-top: 0px;
+    padding-bottom: 5px;
+    margin-left: 1%;
+    margin-right: 1%;
+    margin-bottom: 2px;
+    margin-top: 2px;
+  }
+
+  .home-sub-heading p {
+    font-size: var(--font-size-base);
+  }
+
+  .section-header {
+    margin-bottom: 3px;
   }
 
   .home-sub-heading ul {
@@ -209,9 +341,9 @@ h3 {
   }
 
   h2 {
-    margin-top: 3px;
-    margin-bottom: 3px;
-    font-size: 1.1rem;
+    margin-top: 5px;
+    margin-bottom: 0px;
+    font-size: 1.5rem;
   }
 
   h3 {
@@ -225,13 +357,14 @@ h3 {
     text-align: left;
     padding-left: 2%;
     padding-right: 2%;
-    padding-top: 5px;
+    padding-top: 0px;
     padding-bottom: 5px;
     background-color: white;
-    margin-left: 3%;
-    margin-right: 3%;
-    margin-top: 5px;
-    margin-bottom: 5px;
+    margin-left: 1%;
+    margin-right: 1%;
+    margin-top: 2px;
+    margin-bottom: 2px;
+    gap: 0px;
   }
 
   .fdr-image {
@@ -246,6 +379,8 @@ h3 {
   .fdr-image-container {
     order: 2;
     margin: 0px;
+    margin-top: 8px;
+    margin-bottom: 10px;
   }
 
   .fdr-image-grid {
@@ -256,12 +391,13 @@ h3 {
   }
 
   .fdr-heading {
-    margin-bottom: 5px;
+    margin-bottom: 0px;
+    margin-top: 0px;
     order: 1;
   }
 
   .fdr-heading li {
-    font-size: 0.6rem;
+    font-size: inherit;
     margin-bottom: 5px;
     margin-left: 5px; 
   }
@@ -272,7 +408,8 @@ h3 {
 
   .date-posted {
     font-size: 0.6rem;
-    margin-bottom: 5px;
+    margin-top: 3px;
+    margin-bottom: 0px;
   }
 
   .fdr-heading ul {
@@ -282,6 +419,11 @@ h3 {
   .oracle-fpl-image {
     width: 6%;
     padding-left: 10%;
+  }
+
+  .section-light,
+  .section-white {
+    padding: 5px 0;
   }
 }
 

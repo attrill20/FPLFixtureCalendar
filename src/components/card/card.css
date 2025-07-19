@@ -74,11 +74,15 @@
 }
 
 th {
-  font-size: 1.2em;
+  font-size: var(--font-size-lg);
+  font-weight: 600;
+  color: var(--color-text-primary);
+  padding: var(--spacing-md);
 }
 
 .table-header {
-  background-color: rgba(188, 187, 187, 0.85);
+  background-color: var(--color-bg-tertiary);
+  border-bottom: 2px solid #000000;
 }
 
 .fdr-number {
@@ -101,19 +105,18 @@ th {
 
 .cards {
     display: flex;
-    justify-content: left;
-    color: black;
-    font-size: 1.5em;
-    margin-left: 3%;
-    margin-right: 3%;
-    overflow-wrap: break-word; 
+    justify-content: center;
+    color: var(--color-text-primary);
+    font-size: var(--font-size-xl);
+    margin: 0 3%;
+    overflow-wrap: break-word;
   }
 
   .team-name {
-    color: black;
-    font-size: 1.2em;
-    font-weight: bold;
-    overflow-wrap: break-word; 
+    color: var(--color-text-primary);
+    font-size: var(--font-size-base);
+    font-weight: 600;
+    overflow-wrap: break-word;
   }
 
   .team-badge {
@@ -133,17 +136,38 @@ th {
   }
   
   table {
-    border-collapse: collapse;
+    border-collapse: separate;
+    border-spacing: 0;
     margin: 0 auto;
-    background-color: white;
+    background-color: var(--color-bg-secondary);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: 0 4px 12px var(--color-shadow);
+    border: 4px solid #000000;
+  }
+
+  @media (max-width: 1200px) {
+    table {
+      border: 2px solid #000000;
+    }
   }
   
   th,
   td {
-    border-left: 2px solid rgba(0, 0, 0);
-    border-top: 2px solid rgba(0, 0, 0);
-    border-right: 2px solid rgba(0, 0, 0);
+    border: 1px solid #000000;
     text-align: center;
+    padding: 0;
+    margin: 0;
+  }
+
+  th:not(:last-child),
+  td:not(:last-child) {
+    border-right: 1px solid #000000;
+  }
+
+  tr:not(:last-child) th,
+  tr:not(:last-child) td {
+    border-bottom: 1px solid #000000;
   }
 
   

@@ -128,11 +128,11 @@
     .top-row {
         display: flex;
         justify-content: space-between;
-        align-items: flex-start;
+        align-items: center;
     }
 
     .player-pic2 {
-        width: 36%; /* Larger size for desktop */
+        width: 60%; /* Larger size for desktop */
         margin-right: 2px;
         padding-left: 100px;
     }
@@ -190,22 +190,30 @@
 
 @media (min-width: 1600px) and (max-width: 1799px) {
     .player-pic2 {
-        width: 42%;
+        width: 60%;
         padding-left: 80px;
     }
 }
 
 @media (min-width: 1400px) and (max-width: 1599px) {
     .player-pic2 {
-        width: 48%;
+        width: 55%;
         padding-left: 30px;
+    }
+
+    .stats-results {
+        font-size: 1rem;
     }
 }
 
 @media (min-width: 1201px) and (max-width: 1399px) {
     .player-pic2 {
-        width: 55%;
+        width: 52%;
         padding-left: 0px;
+    }
+
+    .stats-results {
+        font-size: 0.8rem;
     }
 }
 

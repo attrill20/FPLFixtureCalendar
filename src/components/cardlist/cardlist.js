@@ -7,7 +7,8 @@ import Switch from '@mui/material/Switch';
 export default function CardList({ teams, fixturesData, activeGameweek: initialActiveGameweek}) {
   const [numberOfGameweeks, setNumberOfGameweeks] = useState(5);
   const [sortOrder, setSortOrder] = useState("desc");
-  const [sortBy, setSortBy] = useState("custom"); 
+  const [sortBy, setSortBy] = useState("custom");
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 800); 
   const [showOriginalScore] = useState(true);
   const [activeGameweek, setActiveGameweek] = useState(initialActiveGameweek || 1);
 
@@ -15,6 +16,15 @@ export default function CardList({ teams, fixturesData, activeGameweek: initialA
   useEffect(() => {
     setActiveGameweek(initialActiveGameweek);
   }, [initialActiveGameweek]);
+
+  // Listen for window resize to update mobile state
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 800);
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   const calculateReversedTotalDifficulty = (teamId, numberOfFixtures) => {
     if (!fixturesData) return 0;
@@ -198,7 +208,7 @@ export default function CardList({ teams, fixturesData, activeGameweek: initialA
           </button>
 
           <div className="input-container-cardlist">
-            <label htmlFor="gameweek" className="tool-text"><strong>Active GW: </strong></label>
+            <label htmlFor="gameweek" className="tool-text"><strong>{isMobile ? "GW: " : "Active GW: "}</strong></label>
             <div className="input-wrapper">
                 <button className="minus-button" onClick={() => handleDecrement(handleCustomGameweekChange, activeGameweek)}>-</button>
                 <input

@@ -159,7 +159,7 @@
     border: none;
     margin-bottom: 0;
     margin-left: 0;
-    padding: var(--spacing-xs) 2px;
+    padding: 0
   }
 
   .button-sort {

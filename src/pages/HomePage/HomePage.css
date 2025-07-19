@@ -448,10 +448,6 @@ h3 {
     font-size: 1rem;
   }
 
-  p {
-    font-size: 2rem;
-  }
-
   .fdr-heading p {
     font-size: var(--font-size-xs);
   }

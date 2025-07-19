@@ -197,8 +197,8 @@ th {
 
   .team-badge {
     height: 34px; 
-    margin-top: 4px;
-    margin-bottom: 1px;
+    margin-top: 6px;
+    margin-bottom: 0px;
   }
 
   .fixtures-table td {

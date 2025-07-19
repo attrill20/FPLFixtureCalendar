@@ -121,8 +121,8 @@ th {
 
   .team-badge {
     height: 80px; 
-    margin-top: 5px; 
-    margin-bottom: 3px;
+    margin-top: 0px; 
+    margin-bottom: 0px;
   }
 
   .fixture-info {
@@ -132,7 +132,7 @@ th {
 
   .fixture-badge {
     height: 80px; 
-    margin-top: 10px; 
+    margin-top: 0px; 
   }
   
   table {
@@ -197,15 +197,15 @@ th {
 
   .team-badge {
     height: 34px; 
-    margin-top: 9px;
     margin-bottom: 0px;
   }
 
-  .fixtures-table td {
+  .fixtures-table td.team-info {
     width: 20%;
     text-align: center;
-    padding-top: 0px;
-    padding-bottom: 5px;
+    padding-top: 8px !important;
+    padding-bottom: 0px !important;
+    box-sizing: border-box;
   }
 
   th {
@@ -213,13 +213,13 @@ th {
   }
 
   .fixture-info {
-    padding-top: 2px;
-    padding-bottom: 1px;
+    padding-top: 7px;
+    padding-bottom: 4px;
   }
 
   .fixture-badge {
     height: 30px; 
-    margin-top: 1px;
+    margin-top: 2px;
   }
 
   .fdr-column {
@@ -279,7 +279,7 @@ th {
 
   .fixture-badge {
     height: 25px; 
-    margin-top: 3px;
+    margin-top: 1px;
   }
 
   .fdr-column {

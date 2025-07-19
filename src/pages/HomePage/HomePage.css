@@ -117,7 +117,7 @@ h3 {
 }
 
 .home-sub-heading {
-  font-size: var(--font-size-lg);
+  font-size: var(--font-size-base);
   margin: 0 auto;
   max-width: 1400px;
   text-align: left;
@@ -236,7 +236,7 @@ h3 {
 }
 
 .fdr-heading {
-  font-size: var(--font-size-lg);
+  font-size: var(--font-size-base);
   flex: 1;
   text-align: left;
   background-color: transparent;
@@ -248,7 +248,7 @@ h3 {
 }
 
 .fdr-heading ul {
-  font-size: var(--font-size-base);
+  font-size: var(--font-size-sm);
   list-style-type: disc;
   list-style-position: inside; 
   padding-left: 2px; 
@@ -259,12 +259,12 @@ h3 {
 }
 
 .fdr-heading li {
-  font-size: var(--font-size-base);
+  font-size: var(--font-size-sm);
   margin-bottom: var(--spacing-xs);
 }
 
 .fdr-heading p {
-  font-size: var(--font-size-base);
+  font-size: var(--font-size-sm);
 }
 
 .fdr-heading li::marker {
@@ -408,7 +408,6 @@ h3 {
 
   .date-posted {
     font-size: 0.6rem;
-    margin-top: 3px;
     margin-bottom: 0px;
   }
 
@@ -436,6 +435,38 @@ h3 {
   .app-header {
     padding-left: 2%;
     padding-right: 2%;
+  }
+
+  .hero-title {
+    font-size: 2rem;
+  }
+
+  .section-title {
+    font-size: 1.6rem;
+  }
+
+  h2 {
+    font-size: 1rem;
+  }
+
+  p {
+    font-size: 2rem;
+  }
+
+  .fdr-heading p {
+    font-size: var(--font-size-xs);
+  }
+
+  .fdr-heading li {
+    font-size: var(--font-size-xs);
+  }
+
+  .home-sub-heading {
+    font-size: var(--font-size-xs);
+  }
+
+  .home-sub-heading p {
+    font-size: var(--font-size-xs);
   }
 }
 

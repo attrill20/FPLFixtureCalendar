@@ -248,7 +248,7 @@ h3 {
 }
 
 .fdr-heading ul {
-  font-size: var(--font-size-sm);
+  font-size: var(--font-size-base);
   list-style-type: disc;
   list-style-position: inside; 
   padding-left: 2px; 
@@ -259,12 +259,12 @@ h3 {
 }
 
 .fdr-heading li {
-  font-size: var(--font-size-sm);
+  font-size: var(--font-size-base);
   margin-bottom: var(--spacing-xs);
 }
 
 .fdr-heading p {
-  font-size: var(--font-size-sm);
+  font-size: var(--font-size-base);
 }
 
 .fdr-heading li::marker {

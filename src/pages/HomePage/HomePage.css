@@ -12,7 +12,6 @@
   padding-right: 20%;
 }
 
-/* Hero Section */
 .hero-section {
   background: var(--color-section-green-light);
   color: var(--color-text-primary);
@@ -442,7 +441,7 @@ h3 {
   }
 
   .section-title {
-    font-size: 1.6rem;
+    font-size: 1.2rem;
   }
 
   h2 {
@@ -467,6 +466,10 @@ h3 {
 
   .home-sub-heading p {
     font-size: var(--font-size-xs);
+  }
+
+  .hero-section {
+    padding: var(--spacing-sm) 0;
   }
 }
 

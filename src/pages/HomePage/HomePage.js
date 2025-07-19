@@ -26,17 +26,17 @@ const HomePage = () => {
             <h2 className="section-title">Explore your new FPL Toolkit!</h2>
           </div>
           <p>
-            Transform your FPL strategy with our custom tools and cutting-edge stats that will give you the competitive edge you need. Choose your weapon:
+            <strong>Transform your FPL strategy with our custom tools and deep statistical analysis that will give you the competitive edge you need. Choose from these tools:</strong>
           </p>
           <ul>
             <li><Link to="/calendar"><strong>Fixture Difficulty Calendar</strong></Link> - Our revolutionary custom FDR system reveals which teams have the most favorable upcoming fixtures 📅</li>
-            <li><Link to="/comparison"><strong>Player Comparison Tool</strong></Link> - Advanced statistical analysis to help you pick your next transfer with confidence 📊</li>
-            <li><Link to="/top10"><strong>Top 10 Stats</strong></Link> - Deep-dive into elite performance metrics and uncover hidden gems 🏆 </li>
-            <li><Link to="/teams"><strong>Team Stats</strong></Link> - Comprehensive analytics for all 20 Premier League teams with real-time data 🏟️</li>
-            <li><Link to="/faq"><strong>FAQs</strong></Link> - Master our tools and understand the science behind our FDR calculations ❓</li>
+            <li><Link to="/comparison"><strong>Player Comparison Tool</strong></Link> - Advanced side-by-side statistical analysis to help you pick your next transfer with confidence 📊</li>
+            <li><Link to="/top10"><strong>Top 10 Stats</strong></Link> - Explore a range of Top 10 lists for different point scoring metrics and filter by position, price or club 🏆 </li>
+            <li><Link to="/teams"><strong>Team Stats</strong></Link> - Comprehensive analytics for all 20 Premier League teams to help identify underlying team trends to target the best club 🏟️</li>
+            <li><Link to="/faq"><strong>FAQs</strong></Link> - Learn how to get the very best out of our tools and understand the calculations behind our FDR ratings ❓</li>
           </ul>
           <p>
-            <strong>Ready to start dominating your mini-league? Dive in today and watch your rank soar!</strong>
+            <strong>Ready to start dominating your mini-league? Follow the Oracle's advice and watch your rank soar!</strong>
           </p>
         </div>
       </section>

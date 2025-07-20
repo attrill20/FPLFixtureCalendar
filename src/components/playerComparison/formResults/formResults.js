@@ -6,6 +6,38 @@ export default function FormResults({ targetWebName, setTargetWebName, handleSub
     const dropdownRef = useRef(null);
     const clickTargetRef = useRef(null);
 
+    function reverseNormalize(name) {
+        const specialChars = {
+          'ø': 'o', 'Ø': 'O',
+          'æ': 'ae', 'Æ': 'AE',
+          'å': 'a', 'Å': 'A',
+          'ä': 'a', 'Ä': 'A',
+          'ö': 'o', 'Ö': 'O',
+          'ü': 'u', 'Ü': 'U',
+          'ñ': 'n', 'Ñ': 'N',
+          'ç': 'c', 'Ç': 'C',
+          'é': 'e', 'É': 'E',
+          'è': 'e', 'È': 'E',
+          'ê': 'e', 'Ê': 'E',
+          'ë': 'e', 'Ë': 'E',
+          'á': 'a', 'Á': 'A',
+          'à': 'a', 'À': 'A',
+          'â': 'a', 'Â': 'A',
+          'í': 'i', 'Í': 'I',
+          'ì': 'i', 'Ì': 'I',
+          'î': 'i', 'Î': 'I',
+          'ï': 'i', 'Ï': 'I',
+          'ó': 'o', 'Ó': 'O',
+          'ò': 'o', 'Ò': 'O',
+          'ô': 'o', 'Ô': 'O',
+          'ú': 'u', 'Ú': 'U',
+          'ù': 'u', 'Ù': 'U',
+          'û': 'u', 'Û': 'U'
+        };
+      
+        return name.replace(/[øØæÆåÅäÄöÖüÜñÑçÇéÉèÈêÊëËáÁàÀâÂíÍìÌîÎïÏóÓòÒôÔúÚùÙûÛ]/g, char => specialChars[char] || char);
+    }
+
     useEffect(() => {
         const handleClickOutside = (event) => {
             if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -23,8 +55,12 @@ export default function FormResults({ targetWebName, setTargetWebName, handleSub
         const searchTerm = event.target.value.toLowerCase();
         setTargetWebName(searchTerm);
 
+        const normalizedSearchTerm = reverseNormalize(searchTerm);
         const matchingPlayers = mainData.elements.filter(
-            (player) => player.web_name.toLowerCase().includes(searchTerm)
+            (player) => {
+                const normalizedPlayerName = reverseNormalize(player.web_name.toLowerCase());
+                return normalizedPlayerName.includes(normalizedSearchTerm);
+            }
         );
 
         matchingPlayers.sort((a, b) => {

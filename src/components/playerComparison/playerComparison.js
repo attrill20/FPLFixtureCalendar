@@ -22,16 +22,34 @@ export default function PlayerComparison({ mainData }) {
 
 	function reverseNormalize(name) {
 		const specialChars = {
-		  'ø': 'o',
-		  'Ø': 'O',
-		  'æ': 'ae',
-		  'Æ': 'AE',
-		  'å': 'a',
-		  'Å': 'A',
-		  // Add more special characters and their ASCII equivalents as needed
+		  'ø': 'o', 'Ø': 'O',
+		  'æ': 'ae', 'Æ': 'AE',
+		  'å': 'a', 'Å': 'A',
+		  'ä': 'a', 'Ä': 'A',
+		  'ö': 'o', 'Ö': 'O',
+		  'ü': 'u', 'Ü': 'U',
+		  'ñ': 'n', 'Ñ': 'N',
+		  'ç': 'c', 'Ç': 'C',
+		  'é': 'e', 'É': 'E',
+		  'è': 'e', 'È': 'E',
+		  'ê': 'e', 'Ê': 'E',
+		  'ë': 'e', 'Ë': 'E',
+		  'á': 'a', 'Á': 'A',
+		  'à': 'a', 'À': 'A',
+		  'â': 'a', 'Â': 'A',
+		  'í': 'i', 'Í': 'I',
+		  'ì': 'i', 'Ì': 'I',
+		  'î': 'i', 'Î': 'I',
+		  'ï': 'i', 'Ï': 'I',
+		  'ó': 'o', 'Ó': 'O',
+		  'ò': 'o', 'Ò': 'O',
+		  'ô': 'o', 'Ô': 'O',
+		  'ú': 'u', 'Ú': 'U',
+		  'ù': 'u', 'Ù': 'U',
+		  'û': 'u', 'Û': 'U'
 		};
 	  
-		return name.replace(/[øØæÆåÅ]/g, char => specialChars[char] || char);
+		return name.replace(/[øØæÆåÅäÄöÖüÜñÑçÇéÉèÈêÊëËáÁàÀâÂíÍìÌîÎïÏóÓòÒôÔúÚùÙûÛ]/g, char => specialChars[char] || char);
 	  }
 	  
 	  const findPlayerByWebName = (webName) => {

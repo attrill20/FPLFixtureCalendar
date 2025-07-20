@@ -44,8 +44,6 @@ E-mail address: oraclefplcontact@gmail.com
 
 #### Player Comparison Page
 
-- Allow autocomplete to account for special characters (e.g. Odegaard doesn't currently get suggested)
-- Fix the issue where the selected player disappears when you start searching again
 - If player has no photo, add a blank default one
 - Fix the keyboard still displaying on mobile after selecting a player (focus/blue solution?)
 

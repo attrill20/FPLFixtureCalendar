@@ -63,7 +63,7 @@
   .search-sub-heading {
     font-size: var(--font-size-sm);
     margin: var(--spacing-xs) 3% var(--spacing-xs) 3%;
-    padding: var(--spacing-sm);
+    padding: var(--spacing-xs);
   }
 
   .player-comparison-tool {

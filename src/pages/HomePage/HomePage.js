@@ -1,7 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import "./HomePage.css";
-import oracle_fpl_2 from '../../components/images/oracle_fpl_2.jpeg';
 import july_24_fdr from '../../components/images/july_24_fdr.png';
 import july_24_fdr_top from '../../components/images/july_24_fdr_top.png';
 import july_24_fdr_bottom from '../../components/images/july_24_fdr_bottom.png';

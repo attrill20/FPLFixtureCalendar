@@ -45,13 +45,13 @@ export default function PlayerComparison({ mainData }) {
 		return player;
 	  };
 
-	// const handleInputChange = (event) => {
-	// 	setTargetWebName(event.target.value);
-	// };
+	  const findPlayerById = (playerId) => {
+		return mainData.elements.find(player => player.id === playerId);
+	  };
 
-	const handleSubmit = (event, setTargetedPlayer, targetWebName) => {
+	const handleSubmit = (event, setTargetedPlayer, identifier) => {
 		event.preventDefault();
-		const player = findPlayerByWebName(targetWebName);
+		const player = typeof identifier === 'number' ? findPlayerById(identifier) : findPlayerByWebName(identifier);
 		setTargetedPlayer(player);
 	};
 
@@ -85,6 +85,7 @@ export default function PlayerComparison({ mainData }) {
 					targetWebName={targetWebName}
 					setTargetWebName={setTargetWebName}
 					handleSubmit={(event) => handleSubmit(event, setTargetedPlayer, targetWebName)}
+					setTargetedPlayer={setTargetedPlayer}
 					targetedPlayer={targetedPlayer}
 					mainData={mainData}
 					showAttackingStats={showAttackingStats}
@@ -102,6 +103,7 @@ export default function PlayerComparison({ mainData }) {
 					targetWebName={targetWebName2}
 					setTargetWebName={setTargetWebName2}
 					handleSubmit={(event) => handleSubmit(event, setTargetedPlayer2, targetWebName2)}
+					setTargetedPlayer={setTargetedPlayer2}
 					targetedPlayer={targetedPlayer2}
 					mainData={mainData}
 					showAttackingStats={showAttackingStats}

@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import "./formResults.css";
 
-export default function FormResults({ targetWebName, setTargetWebName, handleSubmit, targetedPlayer, mainData, showAttackingStats, showDefendingStats, showGoals, showAssists, showGoalsPer90, showAssistsPer90, showCleanSheets, showGoalsConceded, showGoalsConcededPer90 }) {
+export default function FormResults({ targetWebName, setTargetWebName, handleSubmit, setTargetedPlayer, targetedPlayer, mainData, showAttackingStats, showDefendingStats, showGoals, showAssists, showGoalsPer90, showAssistsPer90, showCleanSheets, showGoalsConceded, showGoalsConcededPer90 }) {
     const [searchResults, setSearchResults] = useState([]);
     const dropdownRef = useRef(null);
     const clickTargetRef = useRef(null);
@@ -34,16 +34,10 @@ export default function FormResults({ targetWebName, setTargetWebName, handleSub
         setSearchResults(matchingPlayers);
     };
 
-    useEffect(() => {
-        if (targetWebName !== "") {
-            handleSubmit({ preventDefault: () => {} }, { targetedPlayer, targetWebName });
-        }
-    }, [targetWebName]);
-
-    const handleSelectPlayer = (playerName) => {
-        setTargetWebName(playerName);
-        setSearchResults([]); 
-        handleSubmit({ preventDefault: () => {} }, targetedPlayer, playerName);
+    const handleSelectPlayer = (player) => {
+        setTargetWebName(player.web_name);
+        setSearchResults([]);
+        setTargetedPlayer(player);
         clickTargetRef.current.click();
     };
 
@@ -62,15 +56,21 @@ export default function FormResults({ targetWebName, setTargetWebName, handleSub
                     />
                     {searchResults.length > 0 && (
                         <div className="search-dropdown" ref={dropdownRef}>
-                            {searchResults.map((result) => (
-                                <div
-                                    key={result.id}
-                                    className="search-item"
-                                    onClick={() => handleSelectPlayer(result.web_name)}
-                                >
-                                    {result.web_name}
-                                </div>
-                            ))}
+                            {searchResults.map((result) => {
+                                // Check if there are other players with the same web_name
+                                const duplicateSurnames = searchResults.filter(player => player.web_name === result.web_name).length > 1;
+                                const displayName = duplicateSurnames ? `${result.first_name} ${result.web_name}` : result.web_name;
+                                
+                                return (
+                                    <div
+                                        key={result.id}
+                                        className="search-item"
+                                        onClick={() => handleSelectPlayer(result)}
+                                    >
+                                        {displayName}
+                                    </div>
+                                );
+                            })}
                         </div>
                     )}
                 </div>

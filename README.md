@@ -44,7 +44,6 @@ E-mail address: oraclefplcontact@gmail.com
 
 #### Player Comparison Page
 
-- Allow selection of different players with the exact same web_name
 - Allow autocomplete to account for special characters (e.g. Odegaard doesn't currently get suggested)
 - Fix the issue where the selected player disappears when you start searching again
 - If player has no photo, add a blank default one

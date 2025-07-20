@@ -53,7 +53,6 @@ E-mail address: oraclefplcontact@gmail.com
 #### Top 10 Page
 
 - Use a new API to get more accurate xG stats - https://footystats.org/api/
-- Add more filters to this page e.g. by price range and position
 
 #### Site Changes
 
@@ -62,9 +61,19 @@ E-mail address: oraclefplcontact@gmail.com
 
 #### Issues
 
-- Table repeats header on every row, change to display once and get the table to scroll (could use Material UI table)
 - Add a cache to prevent no fixtures displaying when the server occasionally goes down
 - Needs less of a margin / padding either side of the FDR toggle switch
+
+## 20/7/25
+
+Been a while! Made a few more small changes to the site during the PL run-in, but nothing large enough to warrant a blog post, but made some big styling changes to the site this weekend with the help of experimenting with Claude Code so thought I'd share them here:
+
+<img width="1906" height="910" alt="Screenshot 2025-07-20 at 19 27 00" src="https://github.com/user-attachments/assets/fd753912-4599-467a-bb0e-f3de348359c1" />
+<img width="1898" height="890" alt="Screenshot 2025-07-20 at 19 27 15" src="https://github.com/user-attachments/assets/73ae1f97-6923-4d00-8cd1-9740e57eea3b" />
+
+Looking a lot nicer! Added some alternating colour blocks for the home page, along with some font improvements and additional emojis and had a streamlining of the calendar tools to fit onto one line. Also, finally was able to remove the repeated column titles on the calendar by adding in some conditional statements to check if it is actually a populated row or not. All looks much better on desktop especially, but also spent some time ensuring that it looks slick on mobile too.
+
+Updated the new FDR ratings for the promoted teams, but waiting for the FPL game to be launched and the API to be updated before rolling out the changes. Will probably stash the Assistant Manager code, as that seems to be gone for the season and looking forward to seeing if I can access the new defensive contributions data!
 
 ## 17/2/25
 

@@ -35,31 +35,44 @@ E-mail address: oraclefplcontact@gmail.com
 
 - Insert a Twitter / X feed on the right hand size of this page to show live post updates
 - Show some top 10s below the welcome message on this page
+- Add a change log of new features and tweaks made to the site
+- Nicer way of having articles pages and then teaser summaries added to the homepage which can be expanded or visited when clicked on
 
 #### Calendar Page
 
 - Insert a better sorting method (click the column itself to sort ASC / DESC)
 - Improve the Google Sheets calculations using more automated data (form, injuries, xG, home / away performance etc)
 - Find a more detailed API to add extra stats to the Player Searcher tool (Opta perhaps?)
+- Allow users to be able to set their own custom FDR ratings
 
 #### Player Comparison Page
 
-- If player has no photo, add a blank default one
+- If player has no photo, add a blank default one (e.g. the shirt from the Top 10 page)
 - Fix the keyboard still displaying on mobile after selecting a player (focus/blue solution?)
 
 #### Top 10 Page
 
 - Use a new API to get more accurate xG stats - https://footystats.org/api/
+- Add a season filter to add in historical data here
 
 #### Site Changes
 
 - Blog page / contact us / version update log
 - Add page location name in the Navbar on mobile site
+- Add a login feature so custom FDR can be set per user
 
 #### Issues
 
 - Add a cache to prevent no fixtures displaying when the server occasionally goes down
 - Needs less of a margin / padding either side of the FDR toggle switch
+
+## 29/7/25
+
+Made some tweaks this evening to add the new 'Defensive Contributions' stat to the Top 10 Page and Player Comparison tool, as shown below with 2 of last season's top performers for this category (currently both showing 0 for last season as a new stat):
+
+<img width="1664" height="926" alt="Screenshot 2025-07-29 at 22 18 11" src="https://github.com/user-attachments/assets/eca37d0a-b761-45c4-ac0b-86189338018b" />
+
+Also commented out all mention of manager stats, as it looks like the Assistant Manager chip will not be returning for this season after proving way too overpowered and swingy! Added some new ideas to the To-Do List including adding a login feature so users can set their own custom FDR data and to also investigate whether data from previous seasons can be accessed so a season dropdown can be added to the stats pages for historical comparisons.
 
 ## 20/7/25
 

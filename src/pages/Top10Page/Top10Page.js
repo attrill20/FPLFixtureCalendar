@@ -4,7 +4,7 @@ import "./Top10Page.css";
 const Top10Page = ({ mainData, teams, fixturesData }) => {
   const elements = mainData && Array.isArray(mainData.elements) ? mainData.elements : [];
   const [selectedTeamIds, setSelectedTeamIds] = useState([]);
-  const [selectedPositions, setSelectedPositions] = useState([1,2,3,4]);
+  const [selectedPositions, setSelectedPositions] = useState([]);
   const [selectedPrice, setSelectedPrice] = useState(null);
   const [isTeamDropdownOpen, setIsTeamDropdownOpen] = useState(false);
   const [isPositionDropdownOpen, setIsPositionDropdownOpen] = useState(false);
@@ -32,7 +32,7 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
     { id: 2, name: "Defenders" },
     { id: 3, name: "Midfielders" },
     { id: 4, name: "Forwards" },
-    { id: 5, name: "Managers" },
+    // { id: 5, name: "Managers" },
   ];
 
   const minPrice = 4.0;
@@ -93,7 +93,7 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
         setSelectedPositions(prevSelected =>
           prevSelected.includes(positionId)
             ? prevSelected.filter(id => id !== positionId)
-            : [...prevSelected.filter(id => id !== "all"), positionId]
+            : [...prevSelected, positionId]
         );
       }
     };
@@ -140,7 +140,7 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
       if (selectedTeamIds.length > 0 && selectedTeamIds.length < teams.length) {
         filteredPlayers = filteredPlayers.filter(player => selectedTeamIds.includes(player.team));
       }
-      if (selectedPositions.length > 0) {
+      if (selectedPositions.length > 0 && selectedPositions.length < positions.length) {
         filteredPlayers = filteredPlayers.filter(player => selectedPositions.includes(player.element_type));
       }
       if (selectedPrice !== null) {
@@ -153,7 +153,7 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
     <div>
       <div className="top-10-sub-heading">
         <p>Use these Top 10 lists to help you notice current trends and in form players to help you decide who to pick for your team.</p>
-        <p>'All Teams' and 'All Positions' (excluding managers) and the highest 'Max Price' are all set as default, use the dropdowns to filter for a specific combination of teams, positions and price!</p>
+        <p>'All Teams' and 'All Positions' and the highest 'Max Price' are all set as default, use the dropdowns to filter for a specific combination of teams, positions and price!</p>
       </div>
 
       <div className="dropdown-container">

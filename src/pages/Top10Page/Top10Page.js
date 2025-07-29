@@ -21,6 +21,8 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
   const sortedPlayersXGI = [...elements].sort((a, b) => b.expected_goal_involvements - a.expected_goal_involvements);
   const sortedPlayersGoals = [...elements].sort((a, b) => b.goals_scored - a.goals_scored);
   const sortedPlayersAssists = [...elements].sort((a, b) => b.assists - a.assists);
+  const top10CleanSheets = [...elements].sort((a, b) => (b.clean_sheets || 0) - (a.clean_sheets || 0));
+  const top10DefensiveContributions = [...elements].sort((a, b) => (b.defensive_contributions || 0) - (a.defensive_contributions || 0));
   const top10Bonus = [...elements].sort((a, b) => b.bonus - a.bonus);
   const top10BPS = [...elements].sort((a, b) => b.bps - a.bps);
   const top10PointsPerMillion = [...elements].sort((a, b) => (b.total_points / b.now_cost) - (a.total_points / a.now_cost));
@@ -514,7 +516,69 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
       </div>
 
       <div className="player-pics player-pics-lists">
-        <p className="top-10-title">Top 10 Bonus (Per 90 minutes)</p> 
+        <p className="top-10-title">Top 10 Clean Sheets (Per Start)</p> 
+        {elements.length > 0 && (
+          <div className="pics-wrapper">
+            {filterPlayers(top10CleanSheets).slice(0, 10).map((player, index) => (
+              <div key={player.code} className="player-pic-container">
+                <img
+                  className="player-pic-top-10"
+                  src={
+                    player.element_type === 5
+                      ? `https://resources.premierleague.com/premierleague/photos/players/250x250/${player.opta_code}.png`
+                      : `https://resources.premierleague.com/premierleague/photos/players/250x250/p${player.code}.png`
+                  }
+                  alt={`player-${index + 1}`}
+                  onError={(e) => {
+                      if (player.element_type === 1) {
+                        e.target.src = `https://fantasy.premierleague.com/dist/img/shirts/standard/shirt_${player.team_code}_1-110.png`;
+                      } else {
+                        e.target.src = `https://fantasy.premierleague.com/dist/img/shirts/standard/shirt_${player.team_code}-110.png`;
+                      }
+                    }}
+                />
+                <p className="player-stat-name">{player.web_name}</p>
+                <p className="player-stat">{player.clean_sheets || 0}</p>
+                <p className="player-stat">({player.starts > 0 ? (((player.clean_sheets || 0) / player.starts) * 100).toFixed(1) : "0.0"}%)</p>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+
+      <div className="player-pics player-pics-lists">
+        <p className="top-10-title">Top 10 Defensive Contributions (Per Start)</p> 
+        {elements.length > 0 && (
+          <div className="pics-wrapper">
+            {filterPlayers(top10DefensiveContributions).slice(0, 10).map((player, index) => (
+              <div key={player.code} className="player-pic-container">
+                <img
+                  className="player-pic-top-10"
+                  src={
+                    player.element_type === 5
+                      ? `https://resources.premierleague.com/premierleague/photos/players/250x250/${player.opta_code}.png`
+                      : `https://resources.premierleague.com/premierleague/photos/players/250x250/p${player.code}.png`
+                  }
+                  alt={`player-${index + 1}`}
+                  onError={(e) => {
+                      if (player.element_type === 1) {
+                        e.target.src = `https://fantasy.premierleague.com/dist/img/shirts/standard/shirt_${player.team_code}_1-110.png`;
+                      } else {
+                        e.target.src = `https://fantasy.premierleague.com/dist/img/shirts/standard/shirt_${player.team_code}-110.png`;
+                      }
+                    }}
+                />
+                <p className="player-stat-name">{player.web_name}</p>
+                <p className="player-stat">{player.defensive_contributions || 0}</p>
+                <p className="player-stat">({player.starts > 0 ? (((player.defensive_contributions || 0) / player.starts) * 100).toFixed(1) : "0.0"}%)</p>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+
+      <div className="player-pics player-pics-lists">
+        <p className="top-10-title">Top 10 Bonus (Per 90 Minutes)</p> 
         {elements.length > 0 && (
           <div className="pics-wrapper">
             {filterPlayers(top10Bonus).slice(0, 10).map((player, index) => (

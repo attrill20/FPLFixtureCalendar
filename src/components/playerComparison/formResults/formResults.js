@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import "./formResults.css";
 
-export default function FormResults({ targetWebName, setTargetWebName, handleSubmit, setTargetedPlayer, targetedPlayer, mainData, showAttackingStats, showDefendingStats, showGoals, showAssists, showGoalsPer90, showAssistsPer90, showCleanSheets, showGoalsConceded, showGoalsConcededPer90 }) {
+export default function FormResults({ targetWebName, setTargetWebName, handleSubmit, setTargetedPlayer, targetedPlayer, mainData, showAttackingStats, showDefendingStats, showGoals, showAssists, showGoalsPer90, showAssistsPer90, showCleanSheets, showGoalsConceded, showGoalsConcededPer90, showDefensiveContributions }) {
     const [searchResults, setSearchResults] = useState([]);
     const dropdownRef = useRef(null);
     const clickTargetRef = useRef(null);
@@ -207,7 +207,7 @@ export default function FormResults({ targetWebName, setTargetWebName, handleSub
                     </div>
                     
                     <div className="single-stat">
-                        {(showCleanSheets || showGoalsConceded || showGoalsConcededPer90) && 
+                        {(showCleanSheets || showGoalsConceded || showGoalsConcededPer90 || showDefensiveContributions) && 
                             <p className="stats-headings">
                                 <strong>DEFENDING STATS</strong>
                             </p>
@@ -229,6 +229,15 @@ export default function FormResults({ targetWebName, setTargetWebName, handleSub
                         {showGoalsConcededPer90 && (
                             <p className="stats-results">
                                 Goals Conceded Per 90: <strong>{targetedPlayer.goals_conceded_per_90}</strong> (xGC: <strong>{targetedPlayer.minutes !== 0 ? (targetedPlayer.expected_goals_conceded / targetedPlayer.minutes * 90).toFixed(2) : 0}</strong>)
+                            </p>
+                        )}
+                        {showDefensiveContributions && (
+                            <p className="stats-results">
+                                Defensive Contributions: <strong>{targetedPlayer.defensive_contributions || 0}</strong>{targetedPlayer.starts > 0 ? (
+                                    <span> (per start: <strong>{(((targetedPlayer.defensive_contributions || 0) / targetedPlayer.starts) * 100).toFixed(1)}%</strong>)</span>
+                                ) : (
+                                    <span> (per start: <strong>N/A</strong>)</span>
+                                )}
                             </p>
                         )}
                     </div>

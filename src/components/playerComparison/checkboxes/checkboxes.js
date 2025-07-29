@@ -1,7 +1,7 @@
 import React from "react";
 import "./checkboxes.css";
 
-export default function Checkboxes({ showAttackingStats, showDefendingStats, showGoals, showAssists, showGoalsPer90, showAssistsPer90, showCleanSheets, showGoalsConceded, showGoalsConcededPer90, setShowAttackingStats, setShowDefendingStats, setShowGoals, setShowAssists, setShowGoalsPer90, setShowAssistsPer90, setShowCleanSheets, setShowGoalsConceded, setShowGoalsConcededPer90 }) {
+export default function Checkboxes({ showAttackingStats, showDefendingStats, showGoals, showAssists, showGoalsPer90, showAssistsPer90, showCleanSheets, showGoalsConceded, showGoalsConcededPer90, showDefensiveContributions, setShowAttackingStats, setShowDefendingStats, setShowGoals, setShowAssists, setShowGoalsPer90, setShowAssistsPer90, setShowCleanSheets, setShowGoalsConceded, setShowGoalsConcededPer90, setShowDefensiveContributions }) {
 
     const handleCheckboxChangeAttackingStats = () => {
         setShowAttackingStats(!showAttackingStats);
@@ -24,10 +24,12 @@ export default function Checkboxes({ showAttackingStats, showDefendingStats, sho
             setShowCleanSheets(true);
             setShowGoalsConceded(true);
             setShowGoalsConcededPer90(true);
+            setShowDefensiveContributions(true);
         } else {
             setShowCleanSheets(false);
             setShowGoalsConceded(false);
             setShowGoalsConcededPer90(false);
+            setShowDefensiveContributions(false);
         }
     };
     
@@ -57,6 +59,10 @@ export default function Checkboxes({ showAttackingStats, showDefendingStats, sho
 
     const handleCheckboxChangeGoalsConcededPer90 = () => {
         setShowGoalsConcededPer90(!showGoalsConcededPer90);
+    };
+
+    const handleCheckboxChangeDefensiveContributions = () => {
+        setShowDefensiveContributions(!showDefensiveContributions);
     };
 
     return (
@@ -170,6 +176,16 @@ export default function Checkboxes({ showAttackingStats, showDefendingStats, sho
                             type="checkbox"
                             checked={showGoalsConcededPer90}
                             onChange={handleCheckboxChangeGoalsConcededPer90}
+                        />
+                    </label>
+
+                    <label className="form-label">
+                        Defensive Contributions:
+                        <input
+                            className="form-checkbox"
+                            type="checkbox"
+                            checked={showDefensiveContributions}
+                            onChange={handleCheckboxChangeDefensiveContributions}
                         />
                     </label>
 

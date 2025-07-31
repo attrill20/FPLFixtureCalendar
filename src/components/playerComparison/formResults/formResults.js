@@ -1,8 +1,25 @@
 import React, { useState, useEffect, useRef } from "react";
 import "./formResults.css";
 
+// Function to fetch historical data for a player
+const fetchPlayerHistory = async (playerId) => {
+    try {
+        const response = await fetch(`https://fpl-server-nine.vercel.app/api?endpoint=element-summary&playerId=${playerId}`);
+        if (!response.ok) {
+            throw new Error('Failed to fetch player history');
+        }
+        const data = await response.json();
+        return data.history_past || [];
+    } catch (error) {
+        console.error('Error fetching player history:', error);
+        return [];
+    }
+};
+
 export default function FormResults({ targetWebName, setTargetWebName, handleSubmit, setTargetedPlayer, targetedPlayer, mainData, showAttackingStats, showDefendingStats, showGoals, showAssists, showGoalsPer90, showAssistsPer90, showCleanSheets, showGoalsConceded, showGoalsConcededPer90, showDefensiveContributions }) {
     const [searchResults, setSearchResults] = useState([]);
+    const [playerHistory, setPlayerHistory] = useState(null);
+    const [loadingHistory, setLoadingHistory] = useState(false);
     const dropdownRef = useRef(null);
     const clickTargetRef = useRef(null);
 
@@ -69,6 +86,28 @@ export default function FormResults({ targetWebName, setTargetWebName, handleSub
 
         setSearchResults(matchingPlayers);
     };
+
+    // Fetch historical data when player changes
+    useEffect(() => {
+        const fetchHistoricalData = async () => {
+            if (targetedPlayer && targetedPlayer.id) {
+                setLoadingHistory(true);
+                try {
+                    const history = await fetchPlayerHistory(targetedPlayer.id);
+                    setPlayerHistory(history);
+                } catch (error) {
+                    console.error('Failed to fetch player history:', error);
+                    setPlayerHistory(null);
+                } finally {
+                    setLoadingHistory(false);
+                }
+            } else {
+                setPlayerHistory(null);
+            }
+        };
+
+        fetchHistoricalData();
+    }, [targetedPlayer]);
 
     const handleSelectPlayer = (player) => {
         setTargetWebName(player.web_name);
@@ -253,6 +292,22 @@ export default function FormResults({ targetWebName, setTargetWebName, handleSub
                             BPS: <strong>{targetedPlayer.bps}</strong> (per 90: <strong>{targetedPlayer.minutes !== 0 ? (targetedPlayer.bps / targetedPlayer.minutes * 90).toFixed(2) : 0}</strong>)
                         </p>
                     </div>
+
+                    {playerHistory && playerHistory.length > 0 && (
+                        <div className="single-stat">
+                            <p className="stats-headings">
+                                <strong>HISTORICAL STATS</strong>
+                            </p>
+                            {playerHistory.slice().reverse().map((season, index) => (
+                                <p key={season.season_name} className="stats-results">
+                                    {season.season_name}: <strong>{season.total_points} points </strong> 
+                                    <span style={{color: '#666', fontSize: '0.9em'}}>
+                                        ({season.minutes.toLocaleString()} mins, {season.goals_scored} goals / {season.assists} assists)
+                                    </span>
+                                </p>
+                            ))}
+                        </div>
+                    )}
                 </div>
             ) : (
                     <p className="results-placeholder">

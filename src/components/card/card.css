@@ -125,6 +125,29 @@ th {
     margin-bottom: 0px;
   }
 
+  /* Responsive column widths for screens under 1500px */
+  @media (max-width: 1499px) {
+    .team-info {
+      width: 80px !important;
+      min-width: 80px !important;
+    }
+    
+    .fdr-column {
+      width: 50px !important;
+      min-width: 50px !important;
+    }
+  }
+  
+  /* Opponent team name styling */
+  .opponent-name {
+    font-size: inherit;
+    font-weight: 600;
+  }
+  
+  .opponent-name-compact {
+    font-size: 0.7em;
+  }
+
   .fixture-info {
     padding-top: 3px;
     padding-bottom: 3px;

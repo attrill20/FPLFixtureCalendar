@@ -166,6 +166,17 @@ export default function CardList({ teams, fixturesData, activeGameweek: initialA
   };
 
   const teamsToRender = teams.slice(1);
+  
+  // Responsive design logic
+  const [screenWidth, setScreenWidth] = useState(window.innerWidth);
+  const isNarrowScreen = screenWidth < 1500;
+  const shouldCompactOpponents = isNarrowScreen && numberOfGameweeks >= 8;
+  
+  useEffect(() => {
+    const handleResize = () => setScreenWidth(window.innerWidth);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   const sortedTeams = [...teamsToRender];
   sortedTeams.sort((teamA, teamB) => {
@@ -257,6 +268,8 @@ export default function CardList({ teams, fixturesData, activeGameweek: initialA
                 showCustomScore={sortBy === "custom"}
                 key={index}
                 isTableRow={true}
+                isNarrowScreen={isNarrowScreen}
+                shouldCompactOpponents={shouldCompactOpponents}
               />
             ))}
           </tbody>

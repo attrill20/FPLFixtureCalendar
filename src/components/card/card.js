@@ -9,6 +9,8 @@ export default function Row({
   activeGameweek,
   showOriginalScore,
   showCustomScore,
+  isNarrowScreen,
+  shouldCompactOpponents,
   isTableRow = false,
 }) {
   const [teamFixturesData, setTeamFixturesData] = useState(null);
@@ -160,9 +162,11 @@ export default function Row({
                       }`}
                       key={index}
                     >
-                      <b className="opponent-name">{fixture.opponent}</b>{" "}
+                      <b className={`opponent-name ${shouldCompactOpponents ? 'opponent-name-compact' : ''}`}>{fixture.opponent}</b>{" "}
                       {fixture.opponentNumber !== 0 ? (
-                        fixture.home ? "(H)" : "(A)"
+                        <span className={`${shouldCompactOpponents ? 'opponent-name-compact' : ''}`}>
+                          {fixture.home ? "(H)" : "(A)"}
+                        </span>
                       ) : (
                         <strong>BLANK</strong>
                       )}
@@ -252,9 +256,11 @@ export default function Row({
                           }`}
                           key={index}
                         >
-                          <b className="opponent-name">{fixture.opponent}</b>{" "}
+                          <b className={`opponent-name ${shouldCompactOpponents ? 'opponent-name-compact' : ''}`}>{fixture.opponent}</b>{" "}
                           {fixture.opponentNumber !== 0 ? (
-                            fixture.home ? "(H)" : "(A)"
+                            <span className={`${shouldCompactOpponents ? 'opponent-name-compact' : ''}`}>
+                              {fixture.home ? "(H)" : "(A)"}
+                            </span>
                           ) : (
                             <strong>BLANK</strong>
                           )}

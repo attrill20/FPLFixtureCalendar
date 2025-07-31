@@ -169,7 +169,7 @@ export default function CardList({ teams, fixturesData, activeGameweek: initialA
   
   // Responsive design logic
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
-  const isNarrowScreen = screenWidth < 1500;
+  const isNarrowScreen = screenWidth < 1550;
   const shouldCompactOpponents = isNarrowScreen && numberOfGameweeks >= 8;
   
   useEffect(() => {

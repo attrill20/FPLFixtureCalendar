@@ -137,6 +137,22 @@ th {
       min-width: 50px !important;
     }
   }
+
+    /* Extra narrow FDR column for mobile screens under 500px */
+    @media (max-width: 1300px) {
+      .fdr-column {
+        width: 40px !important;
+        min-width: 40px !important;
+      }
+    }
+  
+  /* Extra narrow FDR column for mobile screens under 500px */
+  @media (max-width: 499px) {
+    .fdr-column {
+      width: 25px !important;
+      min-width: 25px !important;
+    }
+  }
   
   /* Opponent team name styling */
   .opponent-name {
@@ -219,15 +235,22 @@ th {
   }
 
   .team-badge {
-    height: 34px; 
-    margin-bottom: 0px;
+    height: 42px;
+    width: auto;
+    object-fit: contain;
+    margin: 0;
+    padding: 0;
+    vertical-align: middle;
+  }
+  
+  .team-info {
+    vertical-align: middle;
+    padding: 5px 2px;
   }
 
   .fixtures-table td.team-info {
     width: 20%;
     text-align: center;
-    padding-top: 8px !important;
-    padding-bottom: 0px !important;
     box-sizing: border-box;
   }
 
@@ -236,8 +259,8 @@ th {
   }
 
   .fixture-info {
-    padding-top: 7px;
-    padding-bottom: 4px;
+    padding-top: 2px;
+    padding-bottom: 2px;
   }
 
   .fixture-badge {
@@ -297,7 +320,17 @@ th {
   }
 
   .team-badge {
-    height: 30px; 
+    height: 35px;
+    width: auto;
+    object-fit: contain;
+    margin: 0;
+    padding: 0;
+    vertical-align: middle;
+  }
+  
+  .team-info {
+    vertical-align: middle;
+    padding: 3px 1px;
   }
 
   .fixture-badge {

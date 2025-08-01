@@ -267,12 +267,16 @@ export default function FormResults({ targetWebName, setTargetWebName, handleSub
                         )}
                         {showGoalsConcededPer90 && (
                             <p className="stats-results">
-                                Goals Conceded Per 90: <strong>{targetedPlayer.goals_conceded_per_90}</strong> (xGC: <strong>{targetedPlayer.minutes !== 0 ? (targetedPlayer.expected_goals_conceded / targetedPlayer.minutes * 90).toFixed(2) : 0}</strong>)
+                                <span className="desktop-text">Goals Conceded Per 90: </span>
+                                <span className="mobile-text">Conceded Per 90: </span>
+                                <strong>{targetedPlayer.goals_conceded_per_90}</strong> (xGC: <strong>{targetedPlayer.minutes !== 0 ? (targetedPlayer.expected_goals_conceded / targetedPlayer.minutes * 90).toFixed(2) : 0}</strong>)
                             </p>
                         )}
                         {showDefensiveContributions && (
                             <p className="stats-results">
-                                Defensive Contributions: <strong>{targetedPlayer.defensive_contributions || 0}</strong>{targetedPlayer.starts > 0 ? (
+                                <span className="desktop-text">Defensive Contributions: </span>
+                                <span className="mobile-text">DefCons: </span>
+                                <strong>{targetedPlayer.defensive_contributions || 0}</strong>{targetedPlayer.starts > 0 ? (
                                     <span> (per start: <strong>{(((targetedPlayer.defensive_contributions || 0) / targetedPlayer.starts) * 100).toFixed(1)}%</strong>)</span>
                                 ) : (
                                     <span> (per start: <strong>N/A</strong>)</span>
@@ -298,14 +302,19 @@ export default function FormResults({ targetWebName, setTargetWebName, handleSub
                             <p className="stats-headings">
                                 <strong>HISTORICAL STATS</strong>
                             </p>
-                            {playerHistory.slice().reverse().map((season, index) => (
-                                <p key={season.season_name} className="stats-results">
-                                    {season.season_name}: <strong>{season.total_points} points </strong> 
-                                    <span style={{color: '#666', fontSize: '0.9em'}}>
-                                        ({season.minutes.toLocaleString()} mins, {season.goals_scored} goals / {season.assists} assists)
-                                    </span>
-                                </p>
-                            ))}
+                            {playerHistory.slice().reverse().map((season, index) => {
+                                const shortSeasonName = season.season_name.replace('20', '');
+                                return (
+                                    <p key={season.season_name} className="stats-results">
+                                        <span className="desktop-text">{season.season_name}: <strong>{season.total_points} points </strong></span>
+                                        <span className="mobile-text">{shortSeasonName}: <strong>{season.total_points} </strong></span>
+                                        <span>
+                                            <span className="desktop-text">({season.minutes.toLocaleString()} mins, {season.goals_scored} goals / {season.assists} assists)</span>
+                                            <span className="mobile-text">({season.minutes.toLocaleString()}m, {season.goals_scored}g / {season.assists}a)</span>
+                                        </span>
+                                    </p>
+                                );
+                            })}
                         </div>
                     )}
                 </div>

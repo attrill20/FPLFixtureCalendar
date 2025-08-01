@@ -295,3 +295,24 @@
         padding-left: 0px;
     }
 }
+
+/* Mobile responsive text shortcuts */
+@media (max-width: 600px) {
+  .desktop-text {
+    display: none;
+  }
+  
+  .mobile-text {
+    display: inline;
+  }
+}
+
+@media (min-width: 601px) {
+  .desktop-text {
+    display: inline;
+  }
+  
+  .mobile-text {
+    display: none;
+  }
+}

@@ -170,7 +170,8 @@ export default function Checkboxes({ showAttackingStats, showDefendingStats, sho
                     </label>
 
                     <label className="form-label">
-                        Goals Conceded Per 90:
+                        <span className="desktop-text">Goals Conceded Per 90:</span>
+                        <span className="mobile-text">Conceded Per 90:</span>
                         <input
                             className="form-checkbox"
                             type="checkbox"
@@ -180,7 +181,8 @@ export default function Checkboxes({ showAttackingStats, showDefendingStats, sho
                     </label>
 
                     <label className="form-label">
-                        Defensive Contributions:
+                        <span className="desktop-text">Defensive Contributions:</span>
+                        <span className="mobile-text">DefCons:</span>
                         <input
                             className="form-checkbox"
                             type="checkbox"

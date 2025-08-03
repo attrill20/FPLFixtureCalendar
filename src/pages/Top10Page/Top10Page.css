@@ -145,6 +145,23 @@
     color: red;
 }
 
+.loading-message {
+    background: #FFFF00;
+    border: 2px solid #000000;
+    padding: 10px 20px;
+    margin: 15px auto;
+    text-align: center;
+    width: fit-content;
+    max-width: 400px;
+}
+
+.loading-message p {
+    font-weight: bold;
+    font-size: 1rem;
+    color: #000000;
+    margin: 0;
+}
+
 /* SMALL MOBILE */
 @media (max-width: 420px) { 
   .top-10-sub-heading{
@@ -223,6 +240,15 @@
 
     .dropdown-item {
         padding: 3px;
+    }
+
+    .loading-message {
+        max-width: 320px;
+        padding: 8px 15px;
+    }
+
+    .loading-message p {
+        font-size: 0.8rem;
     }
 }
 

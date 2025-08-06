@@ -459,11 +459,7 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
               <div key={player.code} className="player-pic-container">
                 <img
                     className="player-pic-top-10"
-                    src={
-                      player.element_type === 5
-                        ? `https://resources.premierleague.com/premierleague/photos/players/250x250/${player.opta_code}.png`
-                        : `https://resources.premierleague.com/premierleague/photos/players/250x250/p${player.code}.png`
-                    }
+                    src={`https://resources.premierleague.com/premierleague25/photos/players/110x140/${player.code}.png`}
                     alt={`player-${index + 1}`}
                     onError={(e) => {
                       if (player.element_type === 1) {
@@ -492,11 +488,7 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
                 <div key={player.code} className="player-pic-container">
                   <img
                       className="player-pic-top-10"
-                      src={
-                        player.element_type === 5
-                          ? `https://resources.premierleague.com/premierleague/photos/players/250x250/${player.opta_code}.png`
-                          : `https://resources.premierleague.com/premierleague/photos/players/250x250/p${player.code}.png`
-                      }
+                      src={`https://resources.premierleague.com/premierleague25/photos/players/110x140/${player.code}.png`}
                       alt={`player-${index + 1}`}
                       onError={(e) => {
                         if (player.element_type === 1) {
@@ -524,11 +516,7 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
                 <div key={player.code} className="player-pic-container">
                   <img
                     className="player-pic-top-10"
-                    src={
-                      player.element_type === 5
-                        ? `https://resources.premierleague.com/premierleague/photos/players/250x250/${player.opta_code}.png`
-                        : `https://resources.premierleague.com/premierleague/photos/players/250x250/p${player.code}.png`
-                    }
+                    src={`https://resources.premierleague.com/premierleague25/photos/players/110x140/${player.code}.png`}
                     alt={`player-${index + 1}`}
                     onError={(e) => {
                         if (player.element_type === 1) {
@@ -556,11 +544,7 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
                 <div key={player.code} className="player-pic-container">
                   <img
                     className="player-pic-top-10"
-                    src={
-                      player.element_type === 5
-                        ? `https://resources.premierleague.com/premierleague/photos/players/250x250/${player.opta_code}.png`
-                        : `https://resources.premierleague.com/premierleague/photos/players/250x250/p${player.code}.png`
-                    }
+                    src={`https://resources.premierleague.com/premierleague25/photos/players/110x140/${player.code}.png`}
                     alt={`player-${index + 1}`}
                     onError={(e) => {
                         if (player.element_type === 1) {
@@ -605,11 +589,7 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
                 <div key={player.code} className="player-pic-container">
                   <img
                     className="player-pic-top-10"
-                    src={
-                      player.element_type === 5
-                        ? `https://resources.premierleague.com/premierleague/photos/players/250x250/${player.opta_code}.png`
-                        : `https://resources.premierleague.com/premierleague/photos/players/250x250/p${player.code}.png`
-                    }
+                    src={`https://resources.premierleague.com/premierleague25/photos/players/110x140/${player.code}.png`}
                     alt={`player-${index + 1}`}
                     onError={(e) => {
                         if (player.element_type === 1) {
@@ -637,11 +617,7 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
               <div key={player.code} className="player-pic-container">
                 <img
                   className="player-pic-top-10"
-                  src={
-                    player.element_type === 5
-                      ? `https://resources.premierleague.com/premierleague/photos/players/250x250/${player.opta_code}.png`
-                      : `https://resources.premierleague.com/premierleague/photos/players/250x250/p${player.code}.png`
-                  }
+                  src={`https://resources.premierleague.com/premierleague25/photos/players/110x140/${player.code}.png`}
                   alt={`player-${index + 1}`}
                   onError={(e) => {
                       if (player.element_type === 1) {
@@ -672,11 +648,7 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
               <div key={player.code} className="player-pic-container">
                 <img
                   className="player-pic-top-10"
-                  src={
-                    player.element_type === 5
-                      ? `https://resources.premierleague.com/premierleague/photos/players/250x250/${player.opta_code}.png`
-                      : `https://resources.premierleague.com/premierleague/photos/players/250x250/p${player.code}.png`
-                  }
+                  src={`https://resources.premierleague.com/premierleague25/photos/players/110x140/${player.code}.png`}
                   alt={`player-${index + 1}`}
                   onError={(e) => {
                       if (player.element_type === 1) {
@@ -708,11 +680,7 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
               <div key={player.code} className="player-pic-container">
                 <img
                   className="player-pic-top-10"
-                  src={
-                    player.element_type === 5
-                      ? `https://resources.premierleague.com/premierleague/photos/players/250x250/${player.opta_code}.png`
-                      : `https://resources.premierleague.com/premierleague/photos/players/250x250/p${player.code}.png`
-                  }
+                  src={`https://resources.premierleague.com/premierleague25/photos/players/110x140/${player.code}.png`}
                   alt={`player-${index + 1}`}
                   onError={(e) => {
                       if (player.element_type === 1) {
@@ -741,11 +709,7 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
               <div key={player.code} className="player-pic-container">
                 <img
                   className="player-pic-top-10"
-                  src={
-                    player.element_type === 5
-                      ? `https://resources.premierleague.com/premierleague/photos/players/250x250/${player.opta_code}.png`
-                      : `https://resources.premierleague.com/premierleague/photos/players/250x250/p${player.code}.png`
-                  }
+                  src={`https://resources.premierleague.com/premierleague25/photos/players/110x140/${player.code}.png`}
                   alt={`player-${index + 1}`}
                   onError={(e) => {
                       if (player.element_type === 1) {
@@ -773,11 +737,7 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
               <div key={player.code} className="player-pic-container">
                 <img
                   className="player-pic-top-10"
-                  src={
-                    player.element_type === 5
-                      ? `https://resources.premierleague.com/premierleague/photos/players/250x250/${player.opta_code}.png`
-                      : `https://resources.premierleague.com/premierleague/photos/players/250x250/p${player.code}.png`
-                  }
+                  src={`https://resources.premierleague.com/premierleague25/photos/players/110x140/${player.code}.png`}
                   alt={`player-${index + 1}`}
                   onError={(e) => {
                       if (player.element_type === 1) {
@@ -812,11 +772,7 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
               <div key={player.code} className="player-pic-container">
                 <img
                   className="player-pic-top-10"
-                  src={
-                    player.element_type === 5
-                      ? `https://resources.premierleague.com/premierleague/photos/players/250x250/${player.opta_code}.png`
-                      : `https://resources.premierleague.com/premierleague/photos/players/250x250/p${player.code}.png`
-                  }
+                  src={`https://resources.premierleague.com/premierleague25/photos/players/110x140/${player.code}.png`}
                   alt={`player-${index + 1}`}
                   onError={(e) => {
                       if (player.element_type === 1) {
@@ -844,11 +800,7 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
               <div key={player.code} className="player-pic-container">
                 <img
                   className="player-pic-top-10"
-                  src={
-                    player.element_type === 5
-                      ? `https://resources.premierleague.com/premierleague/photos/players/250x250/${player.opta_code}.png`
-                      : `https://resources.premierleague.com/premierleague/photos/players/250x250/p${player.code}.png`
-                  }
+                  src={`https://resources.premierleague.com/premierleague25/photos/players/110x140/${player.code}.png`}
                   alt={`player-${index + 1}`}
                   onError={(e) => {
                       if (player.element_type === 1) {
@@ -882,11 +834,7 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
               <div key={player.code} className="player-pic-container">
                 <img
                   className="player-pic-top-10"
-                  src={
-                    player.element_type === 5
-                      ? `https://resources.premierleague.com/premierleague/photos/players/250x250/${player.opta_code}.png`
-                      : `https://resources.premierleague.com/premierleague/photos/players/250x250/p${player.code}.png`
-                  }
+                  src={`https://resources.premierleague.com/premierleague25/photos/players/110x140/${player.code}.png`}
                   alt={`player-${index + 1}`}
                   onError={(e) => {
                       if (player.element_type === 1) {
@@ -921,11 +869,7 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
               <div key={player.code} className="player-pic-container">
                 <img
                   className="player-pic-top-10"
-                  src={
-                    player.element_type === 5
-                      ? `https://resources.premierleague.com/premierleague/photos/players/250x250/${player.opta_code}.png`
-                      : `https://resources.premierleague.com/premierleague/photos/players/250x250/p${player.code}.png`
-                  }
+                  src={`https://resources.premierleague.com/premierleague25/photos/players/110x140/${player.code}.png`}
                   alt={`player-${index + 1}`}
                   onError={(e) => {
                       if (player.element_type === 1) {

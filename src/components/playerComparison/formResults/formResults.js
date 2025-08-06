@@ -162,8 +162,15 @@ export default function FormResults({ targetWebName, setTargetWebName, handleSub
                     <div className="top-row">
                         <img
                             className="player-pic2"
-                            src={`https://resources.premierleague.com/premierleague/photos/players/250x250/p${targetedPlayer.code}.png`}
+                            src={`https://resources.premierleague.com/premierleague25/photos/players/110x140/${targetedPlayer.code}.png`}
                             alt={targetedPlayer.web_name}
+                            onError={(e) => {
+                                if (targetedPlayer.element_type === 1) {
+                                    e.target.src = `https://fantasy.premierleague.com/dist/img/shirts/standard/shirt_${targetedPlayer.team_code}_1-110.png`;
+                                } else {
+                                    e.target.src = `https://fantasy.premierleague.com/dist/img/shirts/standard/shirt_${targetedPlayer.team_code}-110.png`;
+                                }
+                            }}
                         />
 
                         <div className="stats-wrapper">

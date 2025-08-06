@@ -166,9 +166,9 @@ export default function FormResults({ targetWebName, setTargetWebName, handleSub
                             alt={targetedPlayer.web_name}
                             onError={(e) => {
                                 if (targetedPlayer.element_type === 1) {
-                                    e.target.src = `https://fantasy.premierleague.com/dist/img/shirts/standard/shirt_${targetedPlayer.team_code}_1-110.png`;
+                                    e.target.src = `https://fantasy.premierleague.com/dist/img/shirts/standard/shirt_${targetedPlayer.team_code}_1-220.png`;
                                 } else {
-                                    e.target.src = `https://fantasy.premierleague.com/dist/img/shirts/standard/shirt_${targetedPlayer.team_code}-110.png`;
+                                    e.target.src = `https://fantasy.premierleague.com/dist/img/shirts/standard/shirt_${targetedPlayer.team_code}-220.png`;
                                 }
                             }}
                         />

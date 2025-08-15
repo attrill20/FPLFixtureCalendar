@@ -24,3 +24,4 @@ yarn-error.log*
 
 #added
 .env
+gemini.md

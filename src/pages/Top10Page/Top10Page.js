@@ -53,7 +53,7 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
   const sortedPlayersGoals = [...elements].sort((a, b) => b.goals_scored - a.goals_scored);
   const sortedPlayersAssists = [...elements].sort((a, b) => b.assists - a.assists);
   const top10CleanSheets = [...elements].sort((a, b) => (b.clean_sheets || 0) - (a.clean_sheets || 0));
-  const top10DefensiveContributions = [...elements].sort((a, b) => (b.defensive_contributions || 0) - (a.defensive_contributions || 0));
+  const top10DefensiveContributions = [...elements].sort((a, b) => (b.defensive_contribution || 0) - (a.defensive_contribution || 0));
   const top10Bonus = [...elements].sort((a, b) => b.bonus - a.bonus);
   const top10BPS = [...elements].sort((a, b) => b.bps - a.bps);
   const top10PointsPerMillion = [...elements].sort((a, b) => (b.total_points / b.now_cost) - (a.total_points / a.now_cost));
@@ -171,8 +171,6 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
           await new Promise(resolve => setTimeout(resolve, 100));
         }
       }
-      
-      console.log(`Found ${historicalPlayers.length} players with data for ${season}`);
       
       if (season === "all-time") {
         setAllTimeData(historicalPlayers);
@@ -765,7 +763,7 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
 
       {selectedSeason === "current" && (
         <div className="player-pics player-pics-lists">
-          <p className="top-10-title">Top 10 Defensive Contributions (Per Start)</p> 
+          <p className="top-10-title">Top 10 Defensive Contributions (Per 90)</p> 
           {elements.length > 0 && (
           <div className="pics-wrapper">
             {filterPlayers(top10DefensiveContributions).slice(0, 10).map((player, index) => (
@@ -783,8 +781,8 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
                     }}
                 />
                 <p className="player-stat-name">{player.web_name}</p>
-                <p className="player-stat">{player.defensive_contributions || 0}</p>
-                <p className="player-stat">({player.starts > 0 ? (((player.defensive_contributions || 0) / player.starts) * 100).toFixed(1) : "0.0"}%)</p>
+                <p className="player-stat">{player.defensive_contribution || 0}</p>
+                <p className="player-stat">({player.defensive_contribution_per_90.toFixed(2)})</p>
               </div>
             ))}
           </div>

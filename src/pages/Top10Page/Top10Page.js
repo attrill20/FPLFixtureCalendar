@@ -45,17 +45,11 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
     { id: "2006/07", name: "2006/07" }
   ];
   
-  const sortedPlayersTotalPoints = [...elements].sort((a, b) => b.total_points - a.total_points);
   const sortedPlayersGWPoints = [...elements].sort((a, b) => b.event_points - a.event_points);
   const sortedPlayersForm = [...elements].sort((a, b) => b.form - a.form);
   const sortedPlayersOwnership = [...elements].sort((a, b) => b.selected_by_percent - a.selected_by_percent);
   const sortedPlayersXGI = [...elements].sort((a, b) => b.expected_goal_involvements - a.expected_goal_involvements);
-  const sortedPlayersGoals = [...elements].sort((a, b) => b.goals_scored - a.goals_scored);
-  const sortedPlayersAssists = [...elements].sort((a, b) => b.assists - a.assists);
-  const top10CleanSheets = [...elements].sort((a, b) => (b.clean_sheets || 0) - (a.clean_sheets || 0));
   const top10DefensiveContributions = [...elements].sort((a, b) => (b.defensive_contribution || 0) - (a.defensive_contribution || 0));
-  const top10Bonus = [...elements].sort((a, b) => b.bonus - a.bonus);
-  const top10BPS = [...elements].sort((a, b) => b.bps - a.bps);
   const top10PointsPerMillion = [...elements].sort((a, b) => (b.total_points / b.now_cost) - (a.total_points / a.now_cost));
 
   const positions = [
@@ -750,9 +744,17 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
                   {selectedSeason === "current" ? (player.clean_sheets || 0) : (player.historical?.clean_sheets || 0)}
                 </p>
                 <p className="player-stat">
-                  ({selectedSeason === "current" 
-                    ? (player.starts > 0 ? (((player.clean_sheets || 0) / player.starts) * 100).toFixed(1) : "0.0")
-                    : (player.historical?.starts > 0 ? (((player.historical?.clean_sheets || 0) / player.historical?.starts) * 100).toFixed(1) : "0.0")
+                  ({selectedSeason === "current"
+                    ? (player.starts > 0
+                        ? ((((player.clean_sheets || 0) / player.starts) * 100) % 1 === 0
+                          ? (((player.clean_sheets || 0) / player.starts) * 100).toFixed(0)
+                          : (((player.clean_sheets || 0) / player.starts) * 100).toFixed(1))
+                        : "0")
+                    : (player.historical?.starts > 0
+                        ? ((((player.historical?.clean_sheets || 0) / player.historical?.starts) * 100) % 1 === 0
+                          ? (((player.historical?.clean_sheets || 0) / player.historical?.starts) * 100).toFixed(0)
+                          : (((player.historical?.clean_sheets || 0) / player.historical?.starts) * 100).toFixed(1))
+                        : "0")
                   }%)
                 </p>
               </div>
@@ -763,7 +765,7 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
 
       {selectedSeason === "current" && (
         <div className="player-pics player-pics-lists">
-          <p className="top-10-title">Top 10 Defensive Contributions (Per 90)</p> 
+          <p className="top-10-title">Top 10 Defensive Contributions (Per 90 Minutes)</p> 
           {elements.length > 0 && (
           <div className="pics-wrapper">
             {filterPlayers(top10DefensiveContributions).slice(0, 10).map((player, index) => (

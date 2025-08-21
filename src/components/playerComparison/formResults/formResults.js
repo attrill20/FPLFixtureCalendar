@@ -20,6 +20,8 @@ export default function FormResults({ targetWebName, setTargetWebName, handleSub
     const [searchResults, setSearchResults] = useState([]);
     const [playerHistory, setPlayerHistory] = useState(null);
     const [loadingHistory, setLoadingHistory] = useState(false);
+    const [fixtureData, setFixtureData] = useState(null);
+    const [defensiveContributions, setDefensiveContributions] = useState(0);
     const dropdownRef = useRef(null);
     const clickTargetRef = useRef(null);
 
@@ -56,6 +58,23 @@ export default function FormResults({ targetWebName, setTargetWebName, handleSub
     }
 
     useEffect(() => {
+        const fetchFixtureData = async () => {
+            try {
+                const response = await fetch('https://fpl-server-nine.vercel.app/api?endpoint=fixtures');
+                if (!response.ok) {
+                    throw new Error('Failed to fetch fixture data');
+                }
+                const data = await response.json();
+                setFixtureData(data);
+            } catch (error) {
+                console.error('Error fetching fixture data:', error);
+            }
+        };
+
+        fetchFixtureData();
+    }, []);
+
+    useEffect(() => {
         const handleClickOutside = (event) => {
             if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
                 setSearchResults([]); // Hide the dropdown
@@ -86,6 +105,38 @@ export default function FormResults({ targetWebName, setTargetWebName, handleSub
 
         setSearchResults(matchingPlayers);
     };
+
+    useEffect(() => {
+        if (targetedPlayer && fixtureData) {
+            let count = 0;
+            const playerId = targetedPlayer.id;
+            const playerPosition = targetedPlayer.element_type;
+
+            fixtureData.forEach(fixture => {
+                if (fixture.stats) {
+                    const defensiveStat = fixture.stats.find(stat => stat.identifier === 'defensive_contribution');
+                    if (defensiveStat) {
+                        const homePlayers = defensiveStat.h;
+                        const awayPlayers = defensiveStat.a;
+
+                        const allPlayers = [...homePlayers, ...awayPlayers];
+
+                        allPlayers.forEach(player => {
+                            if (player.element === playerId) {
+                                if (playerPosition === 2 && player.value >= 10) { // Defender
+                                    count++;
+                                } else if ((playerPosition === 3 || playerPosition === 4) && player.value >= 12) { // Midfielder or Forward
+                                    count++;
+                                }
+                            }
+                        });
+                    }
+                }
+            });
+
+            setDefensiveContributions(count);
+        }
+    }, [targetedPlayer, fixtureData]);
 
     // Fetch historical data when player changes
     useEffect(() => {
@@ -283,8 +334,8 @@ export default function FormResults({ targetWebName, setTargetWebName, handleSub
                             <p className="stats-results">
                                 <span className="desktop-text">Defensive Contributions: </span>
                                 <span className="mobile-text">DefCons: </span>
-                                <strong>{targetedPlayer.defensive_contributions || 0}</strong>{targetedPlayer.starts > 0 ? (
-                                    <span> (per start: <strong>{(((targetedPlayer.defensive_contributions || 0) / targetedPlayer.starts) * 100).toFixed(1)}%</strong>)</span>
+                                <strong>{defensiveContributions}</strong>{targetedPlayer.starts > 0 ? (
+                                    <span> (per start: <strong>{((defensiveContributions / targetedPlayer.starts) * 100).toFixed(1)}%</strong>)</span>
                                 ) : (
                                     <span> (per start: <strong>N/A</strong>)</span>
                                 )}

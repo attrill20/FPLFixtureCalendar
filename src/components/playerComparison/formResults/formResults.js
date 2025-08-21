@@ -312,7 +312,7 @@ export default function FormResults({ targetWebName, setTargetWebName, handleSub
                         {showCleanSheets && (
                             <p className="stats-results">
                                 Clean Sheets: <strong>{targetedPlayer.clean_sheets}</strong>{targetedPlayer.starts > 0 ? (
-                                    <span> (per start: <strong>{(targetedPlayer.clean_sheets / targetedPlayer.starts * 100).toFixed(1)}%</strong>)</span>
+                                    <span> (per start: <strong>{((targetedPlayer.clean_sheets / targetedPlayer.starts) * 100) % 1 === 0 ? ((targetedPlayer.clean_sheets / targetedPlayer.starts) * 100) : ((targetedPlayer.clean_sheets / targetedPlayer.starts) * 100).toFixed(1)}%</strong>)</span>
                                 ) : (
                                     <span> (per start: <strong>N/A</strong>)</span>
                                 )}
@@ -335,10 +335,17 @@ export default function FormResults({ targetWebName, setTargetWebName, handleSub
                                 <span className="desktop-text">Defensive Contributions: </span>
                                 <span className="mobile-text">DefCons: </span>
                                 <strong>{defensiveContributions}</strong>{targetedPlayer.starts > 0 ? (
-                                    <span> (per start: <strong>{((defensiveContributions / targetedPlayer.starts) * 100).toFixed(1)}%</strong>)</span>
+                                    <span> (per start: <strong>{((defensiveContributions / targetedPlayer.starts) * 100) % 1 === 0 ? ((defensiveContributions / targetedPlayer.starts) * 100) : ((defensiveContributions / targetedPlayer.starts) * 100).toFixed(1)}%</strong>)</span>
                                 ) : (
                                     <span> (per start: <strong>N/A</strong>)</span>
                                 )}
+                            </p>
+                        )}
+                        {showDefensiveContributions && (
+                            <p className="stats-results">
+                                <span className="desktop-text">DefCon Actions: </span>
+                                <span className="mobile-text">DefCon Actions: </span>
+                                <strong>{targetedPlayer.defensive_contribution || 0}</strong> (per 90: <strong>{(targetedPlayer.defensive_contribution_per_90).toFixed(2)}</strong>)
                             </p>
                         )}
                     </div>

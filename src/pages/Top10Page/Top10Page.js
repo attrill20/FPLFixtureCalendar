@@ -99,6 +99,20 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
     ...player,
     overallBonusRank: index + 1,
   }));
+
+  // Calculate overall rank based on BPS
+  const sortedElementsForOverallBPSRank = [...elements].sort((a, b) => b.bps - a.bps);
+  const elementsWithOverallBPSRank = sortedElementsForOverallBPSRank.map((player, index) => ({
+    ...player,
+    overallBPSRank: index + 1,
+  }));
+
+  // Calculate overall rank based on points per million
+  const sortedElementsForOverallPointsPerMillionRank = [...elements].sort((a, b) => (b.total_points / b.now_cost) - (a.total_points / a.now_cost));
+  const elementsWithOverallPointsPerMillionRank = sortedElementsForOverallPointsPerMillionRank.map((player, index) => ({
+    ...player,
+    overallPointsPerMillionRank: index + 1,
+  }));
   const [selectedTeamIds, setSelectedTeamIds] = useState([]);
   const [selectedPositions, setSelectedPositions] = useState([]);
   const [selectedPrice, setSelectedPrice] = useState(null);
@@ -508,7 +522,7 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
           assists: elementsWithOverallAssistsRank,
           cleanSheets: elementsWithOverallCleanSheetsRank,
           bonus: elementsWithOverallBonusRank,
-          bps: [...dataSource].sort((a, b) => b.bps - a.bps)
+          bps: elementsWithOverallBPSRank
         };
       } else {
         return {
@@ -1063,7 +1077,7 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
           <div className="pics-wrapper category-scroll-wrapper">
             {filterPlayers(createSortedArrays().bps).map((player, index) => (
               <div key={player.code} className="player-pic-container">
-                <div className="player-rank">#{index + 1}</div>
+                <div className="player-rank">#{player.overallBPSRank}</div>
                 <img
                   className="player-pic-top-10"
                   src={`https://resources.premierleague.com/premierleague25/photos/players/110x140/${player.code}.png`}
@@ -1097,9 +1111,9 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
           <p className="top-10-title">Top 10 Points Per Million</p> 
           {elements.length > 0 && (
           <div className="pics-wrapper category-scroll-wrapper">
-            {filterPlayers(top10PointsPerMillion).map((player, index) => (
+            {filterPlayers(elementsWithOverallPointsPerMillionRank).map((player, index) => (
               <div key={player.code} className="player-pic-container">
-                <div className="player-rank">#{index + 1}</div>
+                <div className="player-rank">#{player.overallPointsPerMillionRank}</div>
                 <img
                   className="player-pic-top-10"
                   src={`https://resources.premierleague.com/premierleague25/photos/players/110x140/${player.code}.png`}
@@ -1113,7 +1127,7 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
                     }}
                 />
                 <p className="player-stat-name">{player.web_name}</p>
-                <p className="player-stat">{player.total_points && player.now_cost ? ((player.total_points / player.now_cost) * 10).toFixed(2) : 'N/A'}</p>
+                <p className="player-stat">{player.total_points && player.now_cost ? ((player.total_points / player.now_cost) * 10).toFixed(2) : '0.00'}</p>
               </div>
             ))}
           </div>

@@ -296,6 +296,10 @@
         padding: 3px;
     }
 
+    .long-team-name {
+      font-size: 0.5rem;
+    }
+
     .loading-message {
         max-width: 320px;
         padding: 8px 15px;

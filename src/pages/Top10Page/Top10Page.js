@@ -514,7 +514,7 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
                 All Teams
               </div>
               {teams.slice(1).map(team => (
-                <div key={team.id} className="dropdown-item" onClick={(e) => { e.stopPropagation(); handleTeamSelect(team.id); }}>
+                <div key={team.id} className={`dropdown-item ${team.name.length > 12 ? 'long-team-name' : ''}`} onClick={(e) => { e.stopPropagation(); handleTeamSelect(team.id); }}>
                   <input type="checkbox" checked={selectedTeamIds.includes(team.id)} readOnly />
                   {team.name}
                 </div>

@@ -264,13 +264,6 @@
     }
 }
 
-.total-points-wrapper {
-    display: flex;
-    flex-wrap: nowrap;
-    overflow-x: auto;
-    justify-content: flex-start;
-}
-
 .player-rank {
     position: absolute;
     top: 5px;
@@ -282,4 +275,11 @@
     padding: 2px 5px;
     border-radius: 5px;
     z-index: 1;
+}
+
+.category-scroll-wrapper {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    justify-content: flex-start;
 }

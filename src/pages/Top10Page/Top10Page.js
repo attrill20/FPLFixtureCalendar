@@ -52,6 +52,53 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
     ...player,
     overallAssistsRank: index + 1,
   }));
+
+  // Calculate overall rank based on xG Over Performance
+  const sortedElementsForOverallXGOverPerformanceRank = [...elements]
+    .map(player => ({
+      ...player,
+      xGOverPerformance: player.goals_scored - player.expected_goals
+    }))
+    .filter(player => player.xGOverPerformance >= 0)
+    .sort((a, b) => b.xGOverPerformance - a.xGOverPerformance);
+  const elementsWithOverallXGOverPerformanceRank = sortedElementsForOverallXGOverPerformanceRank.map((player, index) => ({
+    ...player,
+    overallXGOverPerformanceRank: index + 1,
+  }));
+
+  // Calculate overall rank based on xG Under Performance
+  const sortedElementsForOverallXGUnderPerformanceRank = [...elements]
+    .map(player => ({
+      ...player,
+      xGUnderPerformance: (player.expected_goals || 0) - (player.goals_scored || 0)
+    }))
+    .filter(player => player.xGUnderPerformance >= 0)
+    .sort((a, b) => b.xGUnderPerformance - a.xGUnderPerformance);
+  const elementsWithOverallXGUnderPerformanceRank = sortedElementsForOverallXGUnderPerformanceRank.map((player, index) => ({
+    ...player,
+    overallXGUnderPerformanceRank: index + 1,
+  }));
+
+  // Calculate overall rank based on clean sheets
+  const sortedElementsForOverallCleanSheetsRank = [...elements].sort((a, b) => (b.clean_sheets || 0) - (a.clean_sheets || 0));
+  const elementsWithOverallCleanSheetsRank = sortedElementsForOverallCleanSheetsRank.map((player, index) => ({
+    ...player,
+    overallCleanSheetsRank: index + 1,
+  }));
+
+  // Calculate overall rank based on defensive contributions
+  const sortedElementsForOverallDefensiveContributionsRank = [...elements].sort((a, b) => (b.defensive_contribution || 0) - (a.defensive_contribution || 0));
+  const elementsWithOverallDefensiveContributionsRank = sortedElementsForOverallDefensiveContributionsRank.map((player, index) => ({
+    ...player,
+    overallDefensiveContributionsRank: index + 1,
+  }));
+
+  // Calculate overall rank based on bonus
+  const sortedElementsForOverallBonusRank = [...elements].sort((a, b) => b.bonus - a.bonus);
+  const elementsWithOverallBonusRank = sortedElementsForOverallBonusRank.map((player, index) => ({
+    ...player,
+    overallBonusRank: index + 1,
+  }));
   const [selectedTeamIds, setSelectedTeamIds] = useState([]);
   const [selectedPositions, setSelectedPositions] = useState([]);
   const [selectedPrice, setSelectedPrice] = useState(null);
@@ -65,6 +112,7 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
   const [isSeasonDropdownOpen, setIsSeasonDropdownOpen] = useState(false);
   const [isMobileView, setIsMobileView] = useState(window.innerWidth < 500);
   const [fixtureData, setFixtureData] = useState(null);
+  const [elementsWithOverallDefensiveContributionsPerStartRank, setElementsWithOverallDefensiveContributionsPerStartRank] = useState([]);
 
   const teamDropdownRef = useRef(null);
   const positionDropdownRef = useRef(null);
@@ -298,6 +346,48 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
 
     fetchFixtureData();
 }, []);
+
+  useEffect(() => {
+    if (fixtureData && elements.length > 0) {
+      const sortedElementsForOverallDefensiveContributionsPerStartRank = [...elements]
+        .map(player => {
+            let count = 0;
+            const playerId = player.id;
+            const playerPosition = player.element_type;
+
+            if (fixtureData) {
+                fixtureData.forEach(fixture => {
+                    if (fixture.stats) {
+                        const defensiveStat = fixture.stats.find(stat => stat.identifier === 'defensive_contribution');
+                        if (defensiveStat) {
+                            const homePlayers = defensiveStat.h;
+                            const awayPlayers = defensiveStat.a;
+
+                            const allPlayers = [...homePlayers, ...awayPlayers];
+
+                            allPlayers.forEach(p => {
+                                if (p.element === playerId) {
+                                    if (playerPosition === 2 && p.value >= 10) { // Defender
+                                        count++;
+                                    } else if ((playerPosition === 3 || playerPosition === 4) && p.value >= 12) { // Midfielder or Forward
+                                        count++;
+                                    }
+                                }
+                            });
+                        }
+                    }
+                });
+            }
+            return { ...player, benchmarkMetCount: count };
+        })
+        .sort((a, b) => b.benchmarkMetCount - a.benchmarkMetCount);
+      const rankedElements = sortedElementsForOverallDefensiveContributionsPerStartRank.map((player, index) => ({
+        ...player,
+        overallDefensiveContributionsPerStartRank: index + 1,
+      }));
+      setElementsWithOverallDefensiveContributionsPerStartRank(rankedElements);
+    }
+  }, [fixtureData, elements]);
     
     useEffect(() => {
       const handleClickOutside = (event) => {
@@ -416,8 +506,8 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
           totalPoints: [...dataSource].sort((a, b) => b.total_points - a.total_points),
           goals: elementsWithOverallGoalsRank,
           assists: elementsWithOverallAssistsRank,
-          cleanSheets: [...dataSource].sort((a, b) => (b.clean_sheets || 0) - (a.clean_sheets || 0)),
-          bonus: [...dataSource].sort((a, b) => b.bonus - a.bonus),
+          cleanSheets: elementsWithOverallCleanSheetsRank,
+          bonus: elementsWithOverallBonusRank,
           bps: [...dataSource].sort((a, b) => b.bps - a.bps)
         };
       } else {
@@ -774,9 +864,9 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
           <p className="top-10-title">Top 10 xG Over Performance (Goals) </p> 
           {elements.length > 0 && (
           <div className="pics-wrapper category-scroll-wrapper">
-            {filterPlayers(sortedPlayersXGOverPerformance).map((player, index) => (
+            {filterPlayers(elementsWithOverallXGOverPerformanceRank).map((player, index) => (
               <div key={player.code} className="player-pic-container">
-                <div className="player-rank">#{index + 1}</div>
+                <div className="player-rank">#{player.overallXGOverPerformanceRank}</div>
                 <img
                   className="player-pic-top-10"
                   src={`https://resources.premierleague.com/premierleague25/photos/players/110x140/${player.code}.png`}
@@ -804,9 +894,9 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
           <p className="top-10-title">Top 10 xG Under Performance (Goals) </p> 
           {elements.length > 0 && (
           <div className="pics-wrapper category-scroll-wrapper">
-            {filterPlayers(sortedPlayersXGUnderPerformance).map((player, index) => (
+            {filterPlayers(elementsWithOverallXGUnderPerformanceRank).map((player, index) => (
               <div key={player.code} className="player-pic-container">
-                <div className="player-rank">#{index + 1}</div>
+                <div className="player-rank">#{player.overallXGUnderPerformanceRank}</div>
                 <img
                   className="player-pic-top-10"
                   src={`https://resources.premierleague.com/premierleague25/photos/players/110x140/${player.code}.png`}
@@ -835,7 +925,7 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
           <div className="pics-wrapper category-scroll-wrapper">
             {filterPlayers(createSortedArrays().cleanSheets).map((player, index) => (
               <div key={player.code} className="player-pic-container">
-                <div className="player-rank">#{index + 1}</div>
+                <div className="player-rank">#{player.overallCleanSheetsRank}</div>
                 <img
                   className="player-pic-top-10"
                   src={`https://resources.premierleague.com/premierleague25/photos/players/110x140/${player.code}.png`}
@@ -877,9 +967,9 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
           <p className="top-10-title">Top 10 Defensive Contribution Actions (Per 90 Minutes)</p> 
           {elements.length > 0 && (
           <div className="pics-wrapper category-scroll-wrapper">
-            {filterPlayers(top10DefensiveContributions).map((player, index) => (
+            {filterPlayers(elementsWithOverallDefensiveContributionsRank).map((player, index) => (
               <div key={player.code} className="player-pic-container">
-                <div className="player-rank">#{index + 1}</div>
+                <div className="player-rank">#{player.overallDefensiveContributionsRank}</div>
                 <img
                   className="player-pic-top-10"
                   src={`https://resources.premierleague.com/premierleague25/photos/players/110x140/${player.code}.png`}
@@ -907,9 +997,9 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
           <p className="top-10-title">Top 10 Defensive Contributions (Per Start)</p> 
           {elements.length > 0 && (
           <div className="pics-wrapper category-scroll-wrapper">
-            {filterPlayers(top10DefensiveContributionBenchmark).map((player, index) => (
+            {filterPlayers(elementsWithOverallDefensiveContributionsPerStartRank).map((player, index) => (
               <div key={player.code} className="player-pic-container">
-                <div className="player-rank">#{index + 1}</div>
+                <div className="player-rank">#{player.overallDefensiveContributionsPerStartRank}</div>
                 <img
                   className="player-pic-top-10"
                   src={`https://resources.premierleague.com/premierleague25/photos/players/110x140/${player.code}.png`}
@@ -938,7 +1028,7 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
           <div className="pics-wrapper category-scroll-wrapper">
             {filterPlayers(createSortedArrays().bonus).map((player, index) => (
               <div key={player.code} className="player-pic-container">
-                <div className="player-rank">#{index + 1}</div>
+                <div className="player-rank">#{player.overallBonusRank}</div>
                 <img
                   className="player-pic-top-10"
                   src={`https://resources.premierleague.com/premierleague25/photos/players/110x140/${player.code}.png`}

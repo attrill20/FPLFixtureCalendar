@@ -15,6 +15,7 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
   const [isPriceDropdownOpen, setIsPriceDropdownOpen] = useState(false);
   const [isSeasonDropdownOpen, setIsSeasonDropdownOpen] = useState(false);
   const [isMobileView, setIsMobileView] = useState(window.innerWidth < 500);
+  const [fixtureData, setFixtureData] = useState(null);
 
   const teamDropdownRef = useRef(null);
   const positionDropdownRef = useRef(null);
@@ -51,6 +52,38 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
   const sortedPlayersXGI = [...elements].sort((a, b) => b.expected_goal_involvements - a.expected_goal_involvements);
   const top10DefensiveContributions = [...elements].sort((a, b) => (b.defensive_contribution || 0) - (a.defensive_contribution || 0));
   const top10PointsPerMillion = [...elements].sort((a, b) => (b.total_points / b.now_cost) - (a.total_points / a.now_cost));
+  const top10DefensiveContributionBenchmark = [...elements]
+    .map(player => {
+        let count = 0;
+        const playerId = player.id;
+        const playerPosition = player.element_type;
+
+        if (fixtureData) {
+            fixtureData.forEach(fixture => {
+                if (fixture.stats) {
+                    const defensiveStat = fixture.stats.find(stat => stat.identifier === 'defensive_contribution');
+                    if (defensiveStat) {
+                        const homePlayers = defensiveStat.h;
+                        const awayPlayers = defensiveStat.a;
+
+                        const allPlayers = [...homePlayers, ...awayPlayers];
+
+                        allPlayers.forEach(p => {
+                            if (p.element === playerId) {
+                                if (playerPosition === 2 && p.value >= 10) { // Defender
+                                    count++;
+                                } else if ((playerPosition === 3 || playerPosition === 4) && p.value >= 12) { // Midfielder or Forward
+                                    count++;
+                                }
+                            }
+                        });
+                    }
+                }
+            });
+        }
+        return { ...player, benchmarkMetCount: count };
+    })
+    .sort((a, b) => b.benchmarkMetCount - a.benchmarkMetCount);
 
   const positions = [
     { id: 1, name: "Goalkeepers" },
@@ -199,6 +232,23 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
+
+  useEffect(() => {
+    const fetchFixtureData = async () => {
+        try {
+            const response = await fetch('https://fpl-server-nine.vercel.app/api?endpoint=fixtures');
+            if (!response.ok) {
+                throw new Error('Failed to fetch fixture data');
+            }
+            const data = await response.json();
+            setFixtureData(data);
+        } catch (error) {
+            console.error('Error fetching fixture data:', error);
+        }
+    };
+
+    fetchFixtureData();
+}, []);
     
     useEffect(() => {
       const handleClickOutside = (event) => {
@@ -765,7 +815,7 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
 
       {selectedSeason === "current" && (
         <div className="player-pics player-pics-lists">
-          <p className="top-10-title">Top 10 Defensive Contributions (Per 90 Minutes)</p> 
+          <p className="top-10-title">Top 10 Defensive Contribution Actions (Per 90 Minutes)</p> 
           {elements.length > 0 && (
           <div className="pics-wrapper">
             {filterPlayers(top10DefensiveContributions).slice(0, 10).map((player, index) => (
@@ -785,6 +835,35 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
                 <p className="player-stat-name">{player.web_name}</p>
                 <p className="player-stat">{player.defensive_contribution || 0}</p>
                 <p className="player-stat">({player.defensive_contribution_per_90.toFixed(2)})</p>
+              </div>
+            ))}
+          </div>
+        )}
+        </div>
+      )}
+
+      {selectedSeason === "current" && (
+        <div className="player-pics player-pics-lists">
+          <p className="top-10-title">Top 10 Defensive Contributions (Per Start)</p> 
+          {elements.length > 0 && (
+          <div className="pics-wrapper">
+            {filterPlayers(top10DefensiveContributionBenchmark).slice(0, 10).map((player, index) => (
+              <div key={player.code} className="player-pic-container">
+                <img
+                  className="player-pic-top-10"
+                  src={`https://resources.premierleague.com/premierleague25/photos/players/110x140/${player.code}.png`}
+                  alt={`player-${index + 1}`}
+                  onError={(e) => {
+                      if (player.element_type === 1) {
+                        e.target.src = `https://fantasy.premierleague.com/dist/img/shirts/standard/shirt_${player.team_code}_1-220.png`;
+                      } else {
+                        e.target.src = `https://fantasy.premierleague.com/dist/img/shirts/standard/shirt_${player.team_code}-220.png`;
+                      }
+                    }}
+                />
+                <p className="player-stat-name">{player.web_name}</p>
+                <p className="player-stat">{player.benchmarkMetCount}</p>
+                <p className="player-stat">({player.starts > 0 ? ((player.benchmarkMetCount / player.starts) * 100).toFixed(0) : 0}%)</p>
               </div>
             ))}
           </div>

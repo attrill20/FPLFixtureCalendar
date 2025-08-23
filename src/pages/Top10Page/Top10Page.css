@@ -200,11 +200,11 @@
   }
   
   .long-player-name {
-    font-size: 0.8em; /* Adjusted to be slightly larger than super-long-name */
+    font-size: 0.9em;
   }
   
   .super-long-name {
-    font-size: 0.6em; /* Even smaller font size */
+    font-size: 0.8em;
   }
 
 @media (max-width: 1400px) {
@@ -214,6 +214,14 @@
         top: 1px;
         left: 1px;
     }
+
+    .long-player-name {
+        font-size: 0.8em;
+      }
+      
+      .super-long-name {
+        font-size: 0.7em;
+      }
 }
 
   
@@ -308,21 +316,20 @@
         font-size: 0.5rem;
         font-weight: 600;
         padding: 0px;
-      }
-    
-      .player-stat-name {
+    }
+
+    .player-stat-name {
         /* display: none; Hide player names on mobile */
-        font-size: 0.35rem;
-        padding: 0;
-      }
+        font-size: 0.9rem;
+    }
 
-      .long-player-name {
-        font-size: 0.3em;
-      }
+    .long-player-name {
+        font-size: 0.8em;
+    }
 
-      .super-long-name {
-        font-size: 0.25em;
-      }
+    .super-long-name {
+        font-size: 0.6em;
+    }
 }
 
 
@@ -335,6 +342,20 @@
         background-color: transparent;
         color: black;
     }
+
+    .player-stat-name {
+        /* display: none; Hide player names on mobile */
+        font-size: 0.35rem;
+        padding: 0;
+      }
+
+      .long-player-name {
+        font-size: 0.3em;
+      }
+
+      .super-long-name {
+        font-size: 5px;
+      }
 }
 
 

@@ -3,6 +3,13 @@ import "./Top10Page.css";
 
 const Top10Page = ({ mainData, teams, fixturesData }) => {
   const elements = mainData && Array.isArray(mainData.elements) ? mainData.elements : [];
+
+  // Calculate overall rank based on total points
+  const sortedElementsForOverallRank = [...elements].sort((a, b) => b.total_points - a.total_points);
+  const elementsWithOverallRank = sortedElementsForOverallRank.map((player, index) => ({
+    ...player,
+    overallRank: index + 1,
+  }));
   const [selectedTeamIds, setSelectedTeamIds] = useState([]);
   const [selectedPositions, setSelectedPositions] = useState([]);
   const [selectedPrice, setSelectedPrice] = useState(null);
@@ -353,7 +360,7 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
   
     // Get the appropriate data source based on selected season
     const getDataSource = () => {
-      if (selectedSeason === "current") return elements;
+      if (selectedSeason === "current") return elementsWithOverallRank;
       if (selectedSeason === "all-time") return allTimeData || [];
       return historicalData || [];
     };
@@ -496,9 +503,10 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
       <div className="player-pics player-pics-lists">
         <p className="top-10-title">Top 10 Total Points</p> 
         {(selectedSeason === "current" ? elements.length > 0 : (selectedSeason === "all-time" ? allTimeData?.length > 0 : historicalData?.length > 0)) && (
-          <div className="pics-wrapper">
-            {filterPlayers(createSortedArrays().totalPoints).slice(0, 10).map((player, index) => (
+          <div className="pics-wrapper total-points-wrapper">
+            {filterPlayers(createSortedArrays().totalPoints).map((player, index) => (
               <div key={player.code} className="player-pic-container">
+                <div className="player-rank">#{player.overallRank}</div>
                 <img
                     className="player-pic-top-10"
                     src={`https://resources.premierleague.com/premierleague25/photos/players/110x140/${player.code}.png`}

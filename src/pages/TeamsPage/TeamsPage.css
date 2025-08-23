@@ -47,7 +47,7 @@
     object-fit: contain;
 }
 
-.player-pics-lists .pics-wrapper {
+.teams-page .player-pics-lists .pics-wrapper {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;

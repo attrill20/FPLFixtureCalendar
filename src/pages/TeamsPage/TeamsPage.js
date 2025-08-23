@@ -45,7 +45,7 @@ const TeamsPage = ({ xgData, fixturesData, teams }) => {
     .slice(0, 10);
   
   return (
-    <div>
+    <div className="teams-page">
       <div className="top-10-sub-heading">
         <p>Below is a range of stats for all 20 of the Premier League teams.</p>
         <p>Use the data below to help identify which team has been over or under performing their underlying data!</p>

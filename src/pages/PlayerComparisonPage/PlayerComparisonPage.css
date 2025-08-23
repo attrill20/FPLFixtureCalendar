@@ -18,22 +18,6 @@
   margin-right: 0%;
 }
 
-.player-stat {
-  font-size: 1rem;
-  font-weight: 800;
-  color: black;
-  text-align: center;
-  margin: 0;
-
-}
-
-.player-stat-name {
-  font-size: 1rem;
-  color: black;
-  text-align: center;
-  margin: 0;
-}
-
 .search-sub-heading {
   font-size: var(--font-size-lg);
   margin: var(--spacing-sm) 9% var(--spacing-sm) 9%;
@@ -77,16 +61,6 @@
     margin-bottom: 1px;
     padding-top: 2px;
     padding-bottom: 2px;
-  }
-
-  .player-stat {
-    font-size: 0.6rem;
-    font-weight: 600;
-    padding: 0px;
-  }
-
-  .player-stat-name {
-    display: none; /* Hide player names on mobile */
   }
 
 }

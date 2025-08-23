@@ -1,8 +1,8 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useMemo, useCallback } from 'react';
 import "./Top10Page.css";
 
 const Top10Page = ({ mainData, teams, fixturesData }) => {
-  const elements = mainData && Array.isArray(mainData.elements) ? mainData.elements : [];
+  const elements = useMemo(() => mainData && Array.isArray(mainData.elements) ? mainData.elements : [], [mainData]);
 
   // Calculate overall rank based on total points
   const sortedElementsForOverallRank = [...elements].sort((a, b) => b.total_points - a.total_points);
@@ -157,45 +157,6 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
     { id: "2006/07", name: "2006/07" }
   ];
   
-  const sortedPlayersGWPoints = [...elements].sort((a, b) => b.event_points - a.event_points);
-  const sortedPlayersForm = [...elements].sort((a, b) => b.form - a.form);
-  const sortedPlayersOwnership = [...elements].sort((a, b) => b.selected_by_percent - a.selected_by_percent);
-  const sortedPlayersXGI = [...elements].sort((a, b) => b.expected_goal_involvements - a.expected_goal_involvements);
-  const top10DefensiveContributions = [...elements].sort((a, b) => (b.defensive_contribution || 0) - (a.defensive_contribution || 0));
-  const top10PointsPerMillion = [...elements].sort((a, b) => (b.total_points / b.now_cost) - (a.total_points / a.now_cost));
-  const top10DefensiveContributionBenchmark = [...elements]
-    .map(player => {
-        let count = 0;
-        const playerId = player.id;
-        const playerPosition = player.element_type;
-
-        if (fixtureData) {
-            fixtureData.forEach(fixture => {
-                if (fixture.stats) {
-                    const defensiveStat = fixture.stats.find(stat => stat.identifier === 'defensive_contribution');
-                    if (defensiveStat) {
-                        const homePlayers = defensiveStat.h;
-                        const awayPlayers = defensiveStat.a;
-
-                        const allPlayers = [...homePlayers, ...awayPlayers];
-
-                        allPlayers.forEach(p => {
-                            if (p.element === playerId) {
-                                if (playerPosition === 2 && p.value >= 10) { // Defender
-                                    count++;
-                                } else if ((playerPosition === 3 || playerPosition === 4) && p.value >= 12) { // Midfielder or Forward
-                                    count++;
-                                }
-                            }
-                        });
-                    }
-                }
-            });
-        }
-        return { ...player, benchmarkMetCount: count };
-    })
-    .sort((a, b) => b.benchmarkMetCount - a.benchmarkMetCount);
-
   const positions = [
     { id: 1, name: "Goalkeepers" },
     { id: 2, name: "Defenders" },
@@ -212,24 +173,8 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
     priceOptions.push(price);
   }
 
-  const sortedPlayersXGUnderPerformance = [...elements]
-    .map(player => ({
-      ...player,
-      xGUnderPerformance: (player.expected_goals || 0) - (player.goals_scored || 0)
-    }))
-    .filter(player => player.xGUnderPerformance >= 0)
-    .sort((a, b) => b.xGUnderPerformance - a.xGUnderPerformance);
-
-  const sortedPlayersXGOverPerformance = [...elements]
-    .map(player => ({
-      ...player,
-      xGOverPerformance: player.goals_scored - player.expected_goals
-    }))
-    .filter(player => player.xGOverPerformance >= 0)
-    .sort((a, b) => b.xGOverPerformance - a.xGOverPerformance)
-
   // Function to fetch historical data for all players
-  const fetchHistoricalData = async (season) => {
+  const fetchHistoricalData = useCallback(async (season) => {
     if (season === "current") {
       setHistoricalData(null);
       setAllTimeData(null);
@@ -322,7 +267,7 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
     } finally {
       setLoadingHistorical(false);
     }
-  };
+  }, [elements]);
 
   // Effect to fetch historical data when season changes
   useEffect(() => {
@@ -332,7 +277,7 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
       setHistoricalData(null);
       setAllTimeData(null);
     }
-  }, [selectedSeason]);
+  }, [selectedSeason, fetchHistoricalData]);
 
   // Effect to track mobile view changes
   useEffect(() => {

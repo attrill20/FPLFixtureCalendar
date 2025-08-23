@@ -31,6 +31,27 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
     ...player,
     overallOwnershipRank: index + 1,
   }));
+
+  // Calculate overall rank based on xGI
+  const sortedElementsForOverallXGIRank = [...elements].sort((a, b) => b.expected_goal_involvements - a.expected_goal_involvements);
+  const elementsWithOverallXGIRank = sortedElementsForOverallXGIRank.map((player, index) => ({
+    ...player,
+    overallXGIRank: index + 1,
+  }));
+
+  // Calculate overall rank based on goals scored
+  const sortedElementsForOverallGoalsRank = [...elements].sort((a, b) => b.goals_scored - a.goals_scored);
+  const elementsWithOverallGoalsRank = sortedElementsForOverallGoalsRank.map((player, index) => ({
+    ...player,
+    overallGoalsRank: index + 1,
+  }));
+
+  // Calculate overall rank based on assists
+  const sortedElementsForOverallAssistsRank = [...elements].sort((a, b) => b.assists - a.assists);
+  const elementsWithOverallAssistsRank = sortedElementsForOverallAssistsRank.map((player, index) => ({
+    ...player,
+    overallAssistsRank: index + 1,
+  }));
   const [selectedTeamIds, setSelectedTeamIds] = useState([]);
   const [selectedPositions, setSelectedPositions] = useState([]);
   const [selectedPrice, setSelectedPrice] = useState(null);
@@ -393,8 +414,8 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
       if (selectedSeason === "current") {
         return {
           totalPoints: [...dataSource].sort((a, b) => b.total_points - a.total_points),
-          goals: [...dataSource].sort((a, b) => b.goals_scored - a.goals_scored),
-          assists: [...dataSource].sort((a, b) => b.assists - a.assists),
+          goals: elementsWithOverallGoalsRank,
+          assists: elementsWithOverallAssistsRank,
           cleanSheets: [...dataSource].sort((a, b) => (b.clean_sheets || 0) - (a.clean_sheets || 0)),
           bonus: [...dataSource].sort((a, b) => b.bonus - a.bonus),
           bps: [...dataSource].sort((a, b) => b.bps - a.bps)
@@ -659,9 +680,9 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
           <p className="top-10-title">Top 10 xGI (Total Goal Involvements) </p> 
           {elements.length > 0 && (
             <div className="pics-wrapper category-scroll-wrapper">
-              {filterPlayers(sortedPlayersXGI).map((player, index) => (
+              {filterPlayers(elementsWithOverallXGIRank).map((player, index) => (
                 <div key={player.code} className="player-pic-container">
-                  <div className="player-rank">#{index + 1}</div>
+                  <div className="player-rank">#{player.overallXGIRank}</div>
                   <img
                     className="player-pic-top-10"
                     src={`https://resources.premierleague.com/premierleague25/photos/players/110x140/${player.code}.png`}
@@ -690,7 +711,7 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
           <div className="pics-wrapper category-scroll-wrapper">
             {filterPlayers(createSortedArrays().goals).map((player, index) => (
               <div key={player.code} className="player-pic-container">
-                <div className="player-rank">#{index + 1}</div>
+                <div className="player-rank">#{player.overallGoalsRank}</div>
                 <img
                   className="player-pic-top-10"
                   src={`https://resources.premierleague.com/premierleague25/photos/players/110x140/${player.code}.png`}
@@ -722,7 +743,7 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
           <div className="pics-wrapper category-scroll-wrapper">
             {filterPlayers(createSortedArrays().assists).map((player, index) => (
               <div key={player.code} className="player-pic-container">
-                <div className="player-rank">#{index + 1}</div>
+                <div className="player-rank">#{player.overallAssistsRank}</div>
                 <img
                   className="player-pic-top-10"
                   src={`https://resources.premierleague.com/premierleague25/photos/players/110x140/${player.code}.png`}

@@ -17,6 +17,20 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
     ...player,
     overallFormRank: index + 1,
   }));
+
+  // Calculate overall rank based on GW points
+  const sortedElementsForOverallGWPointsRank = [...elements].sort((a, b) => b.event_points - a.event_points);
+  const elementsWithOverallGWPointsRank = sortedElementsForOverallGWPointsRank.map((player, index) => ({
+    ...player,
+    overallGWPointsRank: index + 1,
+  }));
+
+  // Calculate overall rank based on ownership
+  const sortedElementsForOverallOwnershipRank = [...elements].sort((a, b) => b.selected_by_percent - a.selected_by_percent);
+  const elementsWithOverallOwnershipRank = sortedElementsForOverallOwnershipRank.map((player, index) => ({
+    ...player,
+    overallOwnershipRank: index + 1,
+  }));
   const [selectedTeamIds, setSelectedTeamIds] = useState([]);
   const [selectedPositions, setSelectedPositions] = useState([]);
   const [selectedPrice, setSelectedPrice] = useState(null);
@@ -570,9 +584,9 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
           <p className="top-10-title">Top 10 GW Points</p> 
           {elements.length > 0 && (
             <div className="pics-wrapper category-scroll-wrapper">
-              {filterPlayers(sortedPlayersGWPoints).map((player, index) => (
+              {filterPlayers(elementsWithOverallGWPointsRank).map((player, index) => (
                 <div key={player.code} className="player-pic-container">
-                  <div className="player-rank">#{index + 1}</div>
+                  <div className="player-rank">#{player.overallGWPointsRank}</div>
                   <img
                     className="player-pic-top-10"
                     src={`https://resources.premierleague.com/premierleague25/photos/players/110x140/${player.code}.png`}
@@ -599,9 +613,9 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
           <p className="top-10-title">Top 10 Owned Players (Net GW Transfers)</p> 
           {elements.length > 0 && (
             <div className="pics-wrapper category-scroll-wrapper">
-              {filterPlayers(sortedPlayersOwnership).map((player, index) => (
+              {filterPlayers(elementsWithOverallOwnershipRank).map((player, index) => (
                 <div key={player.code} className="player-pic-container">
-                  <div className="player-rank">#{index + 1}</div>
+                  <div className="player-rank">#{player.overallOwnershipRank}</div>
                   <img
                     className="player-pic-top-10"
                     src={`https://resources.premierleague.com/premierleague25/photos/players/110x140/${player.code}.png`}

@@ -610,7 +610,7 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
                       }
                     }}
                 />
-                <p className="player-stat-name">{player.web_name}</p>
+                <p className={`player-stat-name ${player.web_name.length > 10 ? 'long-player-name' : ''}`}>{player.web_name}</p>
                 <p className="player-stat">
                   {selectedSeason === "current" ? player.total_points : (player.historical?.total_points || 0)}
                 </p>
@@ -640,7 +640,7 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
                         }
                       }}
                   />
-                  <p className="player-stat-name">{player.web_name}</p>
+                  <p className={`player-stat-name ${player.web_name.length > 12 ? 'long-player-name' : ''}`}>{player.web_name}</p>
                   <p className="player-stat">{player.form}</p>
                 </div>
               ))}
@@ -669,7 +669,7 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
                         }
                       }}
                   />
-                  <p className="player-stat-name">{player.web_name}</p>
+                  <p className={`player-stat-name ${player.web_name.length > 12 ? 'long-player-name' : ''}`}>{player.web_name}</p>
                   <p className="player-stat">{player.event_points}</p>
                 </div>
               ))}
@@ -698,7 +698,7 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
                         }
                       }}
                   />
-                  <p className="player-stat-name">{player.web_name}</p> 
+                  <p className={`player-stat-name ${player.web_name.length > 12 ? 'long-player-name' : ''}`}>{player.web_name}</p> 
                   <p className="player-stat">{player.selected_by_percent}%</p>
                   <p className="player-stat-transfers">
                     {(() => {
@@ -744,7 +744,7 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
                         }
                       }}
                   />
-                  <p className="player-stat-name">{player.web_name}</p>
+                  <p className={`player-stat-name ${player.web_name.length > 12 ? 'long-player-name' : ''}`}>{player.web_name}</p>
                   <p className="player-stat">{player.expected_goal_involvements}</p>
                   <p className="player-stat">({player.goals_scored + player.assists})</p> 
                 </div>
@@ -773,7 +773,7 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
                       }
                     }}
                 />
-                <p className="player-stat-name">{player.web_name}</p>
+                <p className={`player-stat-name ${player.web_name.length > 12 ? 'long-player-name' : ''}`}>{player.web_name}</p>
                 <p className="player-stat">
                   {selectedSeason === "current" ? player.goals_scored : (player.historical?.goals_scored || 0)}
                 </p>
@@ -805,7 +805,7 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
                       }
                     }}
                 />
-                <p className="player-stat-name">{player.web_name}</p>
+                <p className={`player-stat-name ${player.web_name.length > 12 ? 'long-player-name' : ''}`}>{player.web_name}</p>
                 <p className="player-stat">
                   {selectedSeason === "current" ? player.assists : (player.historical?.assists || 0)}
                 </p>
@@ -838,7 +838,7 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
                       }
                     }}
                 />
-                <p className="player-stat-name">{player.web_name}</p>
+                <p className={`player-stat-name ${player.web_name.length > 12 ? 'long-player-name' : ''}`}>{player.web_name}</p>
                 <p className="player-stat">+{(player.goals_scored - player.expected_goals).toFixed(2)}</p>
                 <p className="player-stat">({player.goals_scored})</p> 
               </div>
@@ -868,7 +868,7 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
                       }
                     }}
                 />
-                <p className="player-stat-name">{player.web_name}</p>
+                <p className={`player-stat-name ${player.web_name.length > 12 ? 'long-player-name' : ''}`}>{player.web_name}</p>
                 <p className="player-stat">{(player.goals_scored - player.expected_goals).toFixed(2)}</p>
                 <p className="player-stat">({player.goals_scored})</p> 
               </div>
@@ -897,7 +897,7 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
                       }
                     }}
                 />
-                <p className="player-stat-name">{player.web_name}</p>
+                <p className={`player-stat-name ${player.web_name.length > 12 ? 'long-player-name' : ''}`}>{player.web_name}</p>
                 <p className="player-stat">
                   {selectedSeason === "current" ? (player.clean_sheets || 0) : (player.historical?.clean_sheets || 0)}
                 </p>
@@ -941,7 +941,7 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
                       }
                     }}
                 />
-                <p className="player-stat-name">{player.web_name}</p>
+                <p className={`player-stat-name ${player.web_name.length > 12 ? 'long-player-name' : ''}`}>{player.web_name}</p>
                 <p className="player-stat">{player.defensive_contribution || 0}</p>
                 <p className="player-stat">({player.defensive_contribution_per_90.toFixed(2)})</p>
               </div>
@@ -971,7 +971,7 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
                       }
                     }}
                 />
-                <p className="player-stat-name">{player.web_name}</p>
+                <p className={`player-stat-name ${player.web_name.length > 12 ? 'long-player-name' : ''}`}>{player.web_name}</p>
                 <p className="player-stat">{player.benchmarkMetCount}</p>
                 <p className="player-stat">({player.starts > 0 ? ((player.benchmarkMetCount / player.starts) * 100).toFixed(0) : 0}%)</p>
               </div>
@@ -1000,7 +1000,7 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
                       }
                     }}
                 />
-                <p className="player-stat-name">{player.web_name}</p>
+                <p className={`player-stat-name ${player.web_name.length > 12 ? 'long-player-name' : ''}`}>{player.web_name}</p>
                 <p className="player-stat">
                   {selectedSeason === "current" ? player.bonus : (player.historical?.bonus || 0)}
                 </p>
@@ -1035,7 +1035,7 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
                       }
                     }}
                 />
-                <p className="player-stat-name">{player.web_name}</p>
+                <p className={`player-stat-name ${player.web_name.length > 12 ? 'long-player-name' : ''}`}>{player.web_name}</p>
                 <p className="player-stat">
                   {selectedSeason === "current" ? player.bps : (player.historical?.bps || 0)}
                 </p>
@@ -1071,7 +1071,7 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
                       }
                     }}
                 />
-                <p className="player-stat-name">{player.web_name}</p>
+                <p className={`player-stat-name ${player.web_name.length > 12 ? 'long-player-name' : ''}`}>{player.web_name}</p>
                 <p className="player-stat">{player.total_points && player.now_cost ? ((player.total_points / player.now_cost) * 10).toFixed(2) : '0.00'}</p>
               </div>
             ))}

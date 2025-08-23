@@ -198,6 +198,10 @@
     text-align: center;
     margin: 0;
   }
+  
+  .long-player-name {
+    font-size: 0.9em;
+   }
 
 @media (max-width: 1400px) {
     .player-rank {
@@ -307,6 +311,10 @@
         font-size: 0.4rem;
         padding: 0;
       }
+
+      .long-player-name {
+        font-size: 0.3em;
+      }
 }
 
 
@@ -325,6 +333,10 @@
 @media (max-width: 500px) {
     .player-stat-transfers {
         font-size: 0.5rem;
+    }
+
+    .long-player-name {
+      font-size: 5px;
     }
 }
 

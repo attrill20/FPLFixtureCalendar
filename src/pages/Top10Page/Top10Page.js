@@ -499,7 +499,7 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
   return (
     <div>
       <div className="top-10-sub-heading">
-        <p>Use these Top 10 lists to help you notice current trends and in form players to help you decide who to pick for your team.</p>
+        <p>Use these lists to help you notice current trends and in form players to help you decide who to pick for your team.</p>
         <p>'All Teams' and 'All Positions' and the highest 'Max Price' are all set as default, use the dropdowns to filter for a specific combination of teams, positions and price!</p>
       </div>
 
@@ -592,7 +592,7 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
       )}
 
       <div className="player-pics player-pics-lists">
-        <p className="top-10-title">Top 10 Total Points</p> 
+        <p className="top-10-title">Total Points</p> 
         {(selectedSeason === "current" ? elements.length > 0 : (selectedSeason === "all-time" ? allTimeData?.length > 0 : historicalData?.length > 0)) && (
           <div className="pics-wrapper category-scroll-wrapper">
             {filterPlayers(createSortedArrays().totalPoints).map((player, index) => (
@@ -622,7 +622,7 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
 
       {selectedSeason === "current" && (
         <div className="player-pics player-pics-lists">
-          <p className="top-10-title">Top 10 Form (Last 4 Games Average)</p> 
+          <p className="top-10-title">Form (Last 4 Games Average)</p> 
           {elements.length > 0 && (
             <div className="pics-wrapper category-scroll-wrapper">
               {filterPlayers(elementsWithOverallFormRank).map((player, index) => (
@@ -651,7 +651,7 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
 
       {selectedSeason === "current" && (
         <div className="player-pics player-pics-lists">
-          <p className="top-10-title">Top 10 GW Points</p> 
+          <p className="top-10-title">GW Points</p> 
           {elements.length > 0 && (
             <div className="pics-wrapper category-scroll-wrapper">
               {filterPlayers(elementsWithOverallGWPointsRank).map((player, index) => (
@@ -680,7 +680,7 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
 
       {selectedSeason === "current" && (
         <div className="player-pics player-pics-lists">
-          <p className="top-10-title">Top 10 Owned Players (Net GW Transfers)</p> 
+          <p className="top-10-title">Owned Players (Net GW Transfers)</p> 
           {elements.length > 0 && (
             <div className="pics-wrapper category-scroll-wrapper">
               {filterPlayers(elementsWithOverallOwnershipRank).map((player, index) => (
@@ -726,7 +726,7 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
 
       {selectedSeason === "current" && (
         <div className="player-pics player-pics-lists">
-          <p className="top-10-title">Top 10 xGI (Total Goal Involvements) </p> 
+          <p className="top-10-title">xGI (Total Goal Involvements) </p> 
           {elements.length > 0 && (
             <div className="pics-wrapper category-scroll-wrapper">
               {filterPlayers(elementsWithOverallXGIRank).map((player, index) => (
@@ -755,7 +755,7 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
       )}
 
       <div className="player-pics player-pics-lists">
-        <p className="top-10-title">Top 10 Goals (xG)</p> 
+        <p className="top-10-title">Goals (xG)</p> 
         {(selectedSeason === "current" ? elements.length > 0 : (selectedSeason === "all-time" ? allTimeData?.length > 0 : historicalData?.length > 0)) && (
           <div className="pics-wrapper category-scroll-wrapper">
             {filterPlayers(createSortedArrays().goals).map((player, index) => (
@@ -787,7 +787,7 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
       </div>
 
       <div className="player-pics player-pics-lists">
-        <p className="top-10-title">Top 10 Assists (xA)</p>
+        <p className="top-10-title">Assists (xA)</p>
         {(selectedSeason === "current" ? elements.length > 0 : (selectedSeason === "all-time" ? allTimeData?.length > 0 : historicalData?.length > 0)) && (
           <div className="pics-wrapper category-scroll-wrapper">
             {filterPlayers(createSortedArrays().assists).map((player, index) => (
@@ -820,7 +820,7 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
 
       {selectedSeason === "current" && (
         <div className="player-pics player-pics-lists">
-          <p className="top-10-title">Top 10 xG Over Performance (Goals) </p> 
+          <p className="top-10-title">xG Over Performance (Goals) </p> 
           {elements.length > 0 && (
           <div className="pics-wrapper category-scroll-wrapper">
             {filterPlayers(elementsWithOverallXGOverPerformanceRank).map((player, index) => (
@@ -850,7 +850,7 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
 
       {selectedSeason === "current" && (
         <div className="player-pics player-pics-lists">
-          <p className="top-10-title">Top 10 xG Under Performance (Goals) </p> 
+          <p className="top-10-title">xG Under Performance (Goals) </p> 
           {elements.length > 0 && (
           <div className="pics-wrapper category-scroll-wrapper">
             {filterPlayers(elementsWithOverallXGUnderPerformanceRank).map((player, index) => (
@@ -879,7 +879,7 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
       )}
 
       <div className="player-pics player-pics-lists">
-        <p className="top-10-title">Top 10 Clean Sheets (Per Start)</p>
+        <p className="top-10-title">Clean Sheets (Per Start)</p>
         {(selectedSeason === "current" ? elements.length > 0 : (selectedSeason === "all-time" ? allTimeData?.length > 0 : historicalData?.length > 0)) && (
           <div className="pics-wrapper category-scroll-wrapper">
             {filterPlayers(createSortedArrays().cleanSheets).map((player, index) => (
@@ -923,7 +923,7 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
 
       {selectedSeason === "current" && (
         <div className="player-pics player-pics-lists">
-          <p className="top-10-title">Top 10 Defensive Contribution Actions (Per 90 Minutes)</p> 
+          <p className="top-10-title">Defensive Contribution Actions (Per 90 Minutes)</p> 
           {elements.length > 0 && (
           <div className="pics-wrapper category-scroll-wrapper">
             {filterPlayers(elementsWithOverallDefensiveContributionsRank).map((player, index) => (
@@ -953,7 +953,7 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
 
       {selectedSeason === "current" && (
         <div className="player-pics player-pics-lists">
-          <p className="top-10-title">Top 10 Defensive Contributions (Per Start)</p> 
+          <p className="top-10-title">Defensive Contributions (Per Start)</p> 
           {elements.length > 0 && (
           <div className="pics-wrapper category-scroll-wrapper">
             {filterPlayers(elementsWithOverallDefensiveContributionsPerStartRank).map((player, index) => (
@@ -982,7 +982,7 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
       )}
 
       <div className="player-pics player-pics-lists">
-        <p className="top-10-title">Top 10 Bonus (Per 90 Minutes)</p>
+        <p className="top-10-title">Bonus (Per 90 Minutes)</p>
         {(selectedSeason === "current" ? elements.length > 0 : (selectedSeason === "all-time" ? allTimeData?.length > 0 : historicalData?.length > 0)) && (
           <div className="pics-wrapper category-scroll-wrapper">
             {filterPlayers(createSortedArrays().bonus).map((player, index) => (
@@ -1017,7 +1017,7 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
       </div>
 
       <div className="player-pics player-pics-lists">
-        <p className="top-10-title">Top 10 BPS (Per 90 Minutes)</p>
+        <p className="top-10-title">BPS (Per 90 Minutes)</p>
         {(selectedSeason === "current" ? elements.length > 0 : (selectedSeason === "all-time" ? allTimeData?.length > 0 : historicalData?.length > 0)) && (
           <div className="pics-wrapper category-scroll-wrapper">
             {filterPlayers(createSortedArrays().bps).map((player, index) => (
@@ -1053,7 +1053,7 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
 
       {selectedSeason === "current" && (
         <div className="player-pics player-pics-lists">
-          <p className="top-10-title">Top 10 Points Per Million</p> 
+          <p className="top-10-title">Points Per Million</p> 
           {elements.length > 0 && (
           <div className="pics-wrapper category-scroll-wrapper">
             {filterPlayers(elementsWithOverallPointsPerMillionRank).map((player, index) => (

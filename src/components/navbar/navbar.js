@@ -49,7 +49,7 @@ function Navbar() {
               className={({ isActive }) => isActive ? 'active' : ''} 
               onClick={toggleMenu}
             >
-            Top 10s
+            Player Stats
             </NavLink>
           </li>
           <li>
@@ -58,7 +58,7 @@ function Navbar() {
               className={({ isActive }) => isActive ? 'active' : ''} 
               onClick={toggleMenu}
             >
-            Teams
+            Team Stats
             </NavLink>
           </li>
           <li>

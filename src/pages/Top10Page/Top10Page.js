@@ -10,6 +10,13 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
     ...player,
     overallRank: index + 1,
   }));
+
+  // Calculate overall rank based on form
+  const sortedElementsForOverallFormRank = [...elements].sort((a, b) => b.form - a.form);
+  const elementsWithOverallFormRank = sortedElementsForOverallFormRank.map((player, index) => ({
+    ...player,
+    overallFormRank: index + 1,
+  }));
   const [selectedTeamIds, setSelectedTeamIds] = useState([]);
   const [selectedPositions, setSelectedPositions] = useState([]);
   const [selectedPrice, setSelectedPrice] = useState(null);
@@ -534,9 +541,9 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
           <p className="top-10-title">Top 10 Form (Last 4 Games Average)</p> 
           {elements.length > 0 && (
             <div className="pics-wrapper category-scroll-wrapper">
-              {filterPlayers(sortedPlayersForm).map((player, index) => (
+              {filterPlayers(elementsWithOverallFormRank).map((player, index) => (
                 <div key={player.code} className="player-pic-container">
-                  <div className="player-rank">#{index + 1}</div>
+                  <div className="player-rank">#{player.overallFormRank}</div>
                   <img
                       className="player-pic-top-10"
                       src={`https://resources.premierleague.com/premierleague25/photos/players/110x140/${player.code}.png`}

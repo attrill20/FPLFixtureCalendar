@@ -200,8 +200,12 @@
   }
   
   .long-player-name {
-    font-size: 0.9em;
-   }
+    font-size: 0.8em; /* Adjusted to be slightly larger than super-long-name */
+  }
+  
+  .super-long-name {
+    font-size: 0.6em; /* Even smaller font size */
+  }
 
 @media (max-width: 1400px) {
     .player-rank {
@@ -308,12 +312,16 @@
     
       .player-stat-name {
         /* display: none; Hide player names on mobile */
-        font-size: 0.4rem;
+        font-size: 0.35rem;
         padding: 0;
       }
 
       .long-player-name {
         font-size: 0.3em;
+      }
+
+      .super-long-name {
+        font-size: 0.25em;
       }
 }
 
@@ -336,7 +344,11 @@
     }
 
     .long-player-name {
-      font-size: 5px;
+      font-size: 4.5px;
+    }
+
+    .super-long-name {
+      font-size: 4px;
     }
 }
 

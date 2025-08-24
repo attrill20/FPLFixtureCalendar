@@ -102,7 +102,7 @@ export default function App() {
             }
           />
           <Route
-            path="/top10"
+            path="/players"
             element={
               <Top10Page
                 mainData={mainData}

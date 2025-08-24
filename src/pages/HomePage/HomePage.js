@@ -30,7 +30,7 @@ const HomePage = () => {
           <ul>
             <li><Link to="/calendar"><strong>Fixture Difficulty Calendar</strong></Link> - Our revolutionary custom FDR system reveals which teams have the most favorable upcoming fixtures 📅</li>
             <li><Link to="/comparison"><strong>Player Comparison Tool</strong></Link> - Advanced side-by-side statistical analysis to help you pick your next transfer with confidence 📊</li>
-            <li><Link to="/top10"><strong>Player Stats</strong></Link> - Explore a range of player lists for different point scoring metrics and filter by position, price or club 🏆 </li>
+            <li><Link to="/players"><strong>Player Stats</strong></Link> - Explore a range of player lists for different point scoring metrics and filter by position, price or club 🏆 </li>
             <li><Link to="/teams"><strong>Team Stats</strong></Link> - Comprehensive analytics for all 20 Premier League teams to help identify underlying team trends to target the best club 🏟️</li>
             <li><Link to="/faq"><strong>FAQs</strong></Link> - Learn how to get the very best out of our tools and understand the calculations behind our FDR ratings ❓</li>
           </ul>

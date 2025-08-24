@@ -45,7 +45,7 @@ function Navbar() {
           </li>
           <li>
             <NavLink 
-              to="/top10" 
+              to="/players" 
               className={({ isActive }) => isActive ? 'active' : ''} 
               onClick={toggleMenu}
             >

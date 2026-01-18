@@ -133,6 +133,29 @@
     transform: rotate(180deg);
 }
 
+.gameweek-input-container {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: default;
+}
+
+.gameweek-input {
+    width: 50px;
+    padding: 4px 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+    font-weight: bold;
+    text-align: center;
+    cursor: text;
+}
+
+.gameweek-input:focus {
+    outline: none;
+    border-color: #000000;
+}
+
 .player-stat-transfers {
     font-weight: 800;
     margin: 0px;
@@ -298,6 +321,12 @@
 
     .long-team-name {
       font-size: 0.5rem;
+    }
+
+    .gameweek-input {
+        width: 40px;
+        font-size: 0.6rem;
+        padding: 2px 4px;
     }
 
     .loading-message {

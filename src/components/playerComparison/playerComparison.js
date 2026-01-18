@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import FormResults from "./formResults/formResults";
 import Checkboxes from "./checkboxes/checkboxes";
-import GameweekRangeFilter from "../GameweekRangeFilter/GameweekRangeFilter";
-import { supabase } from "../../supabaseClient";
 import "./playerComparison.css";
 
 export default function PlayerComparison({ mainData }) {
@@ -22,65 +20,6 @@ export default function PlayerComparison({ mainData }) {
 	const [showGoalsConceded, setShowGoalsConceded] = useState(false);
 	const [showGoalsConcededPer90, setShowGoalsConcededPer90] = useState(false);
 	const [showDefensiveContributions, setShowDefensiveContributions] = useState(false);
-
-	// Gameweek filtering state
-	const [gwRange, setGwRange] = useState(null); // null = no filter (use full season data)
-	const [filteredStats, setFilteredStats] = useState({}); // { playerId: { ...stats } }
-	const [filterLoading, setFilterLoading] = useState(false);
-
-	// Get current gameweek from mainData
-	const activeGameweek = mainData?.events?.find(event => event.is_current)?.id || 38;
-
-	// Handle gameweek filter apply
-	const handleFilterApply = async (range) => {
-		if (!targetedPlayer && !targetedPlayer2) {
-			// No players selected yet
-			setGwRange(range);
-			return;
-		}
-
-		setFilterLoading(true);
-		try {
-			const playerIds = [];
-			if (targetedPlayer) playerIds.push(targetedPlayer.id);
-			if (targetedPlayer2) playerIds.push(targetedPlayer2.id);
-
-			if (playerIds.length === 0) {
-				setGwRange(range);
-				setFilteredStats({});
-				return;
-			}
-
-			// Fetch filtered stats from Supabase
-			const { data, error } = await supabase
-				.rpc('aggregate_player_stats_by_gw_range', {
-					player_ids: playerIds,
-					start_gw: range[0],
-					end_gw: range[1]
-				});
-
-			if (error) {
-				console.error('Error fetching filtered stats:', error);
-				throw error;
-			}
-
-			// Convert array to object keyed by player_id for easy lookup
-			const statsMap = {};
-			data.forEach(stat => {
-				statsMap[stat.player_id] = stat;
-			});
-
-			setFilteredStats(statsMap);
-			setGwRange(range);
-		} catch (error) {
-			console.error('Failed to apply gameweek filter:', error);
-			alert('Failed to load filtered stats. Using full season data.');
-			setGwRange(null);
-			setFilteredStats({});
-		} finally {
-			setFilterLoading(false);
-		}
-	};
 
 	function reverseNormalize(name) {
 		const specialChars = {
@@ -137,13 +76,6 @@ export default function PlayerComparison({ mainData }) {
 
 	return (
 		<div className="player-comparison-wrapper">
-			{/* Gameweek Range Filter */}
-			<GameweekRangeFilter
-				maxGameweek={activeGameweek}
-				onFilterApply={handleFilterApply}
-				disabled={filterLoading}
-			/>
-
 			<div className="checkbox-container">
 				<Checkboxes
 					showAttackingStats={showAttackingStats}
@@ -187,8 +119,6 @@ export default function PlayerComparison({ mainData }) {
 					showGoalsConceded={showGoalsConceded}
 					showGoalsConcededPer90={showGoalsConcededPer90}
 					showDefensiveContributions={showDefensiveContributions}
-					filteredStats={targetedPlayer ? filteredStats[targetedPlayer.id] : null}
-					gwRange={gwRange}
 				/>
 
 				<FormResults
@@ -208,8 +138,6 @@ export default function PlayerComparison({ mainData }) {
 					showGoalsConceded={showGoalsConceded}
 					showGoalsConcededPer90={showGoalsConcededPer90}
 					showDefensiveContributions={showDefensiveContributions}
-					filteredStats={targetedPlayer2 ? filteredStats[targetedPlayer2.id] : null}
-					gwRange={gwRange}
 				/>
 			</div>
 		</div>

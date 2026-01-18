@@ -1,118 +1,11 @@
 import React, { useState, useRef, useEffect, useMemo, useCallback } from 'react';
+import { supabase } from "../../supabaseClient";
 import "./Top10Page.css";
 
 const Top10Page = ({ mainData, teams, fixturesData }) => {
   const elements = useMemo(() => mainData && Array.isArray(mainData.elements) ? mainData.elements : [], [mainData]);
 
-  // Calculate overall rank based on total points
-  const sortedElementsForOverallRank = [...elements].sort((a, b) => b.total_points - a.total_points);
-  const elementsWithOverallRank = sortedElementsForOverallRank.map((player, index) => ({
-    ...player,
-    overallRank: index + 1,
-  }));
-
-  // Calculate overall rank based on form
-  const sortedElementsForOverallFormRank = [...elements].sort((a, b) => b.form - a.form);
-  const elementsWithOverallFormRank = sortedElementsForOverallFormRank.map((player, index) => ({
-    ...player,
-    overallFormRank: index + 1,
-  }));
-
-  // Calculate overall rank based on GW points
-  const sortedElementsForOverallGWPointsRank = [...elements].sort((a, b) => b.event_points - a.event_points);
-  const elementsWithOverallGWPointsRank = sortedElementsForOverallGWPointsRank.map((player, index) => ({
-    ...player,
-    overallGWPointsRank: index + 1,
-  }));
-
-  // Calculate overall rank based on ownership
-  const sortedElementsForOverallOwnershipRank = [...elements].sort((a, b) => b.selected_by_percent - a.selected_by_percent);
-  const elementsWithOverallOwnershipRank = sortedElementsForOverallOwnershipRank.map((player, index) => ({
-    ...player,
-    overallOwnershipRank: index + 1,
-  }));
-
-  // Calculate overall rank based on xGI
-  const sortedElementsForOverallXGIRank = [...elements].sort((a, b) => b.expected_goal_involvements - a.expected_goal_involvements);
-  const elementsWithOverallXGIRank = sortedElementsForOverallXGIRank.map((player, index) => ({
-    ...player,
-    overallXGIRank: index + 1,
-  }));
-
-  // Calculate overall rank based on goals scored
-  const sortedElementsForOverallGoalsRank = [...elements].sort((a, b) => b.goals_scored - a.goals_scored);
-  const elementsWithOverallGoalsRank = sortedElementsForOverallGoalsRank.map((player, index) => ({
-    ...player,
-    overallGoalsRank: index + 1,
-  }));
-
-  // Calculate overall rank based on assists
-  const sortedElementsForOverallAssistsRank = [...elements].sort((a, b) => b.assists - a.assists);
-  const elementsWithOverallAssistsRank = sortedElementsForOverallAssistsRank.map((player, index) => ({
-    ...player,
-    overallAssistsRank: index + 1,
-  }));
-
-  // Calculate overall rank based on xG Over Performance
-  const sortedElementsForOverallXGOverPerformanceRank = [...elements]
-    .map(player => ({
-      ...player,
-      xGOverPerformance: player.goals_scored - player.expected_goals
-    }))
-    .filter(player => player.xGOverPerformance >= 0)
-    .sort((a, b) => b.xGOverPerformance - a.xGOverPerformance);
-  const elementsWithOverallXGOverPerformanceRank = sortedElementsForOverallXGOverPerformanceRank.map((player, index) => ({
-    ...player,
-    overallXGOverPerformanceRank: index + 1,
-  }));
-
-  // Calculate overall rank based on xG Under Performance
-  const sortedElementsForOverallXGUnderPerformanceRank = [...elements]
-    .map(player => ({
-      ...player,
-      xGUnderPerformance: (player.expected_goals || 0) - (player.goals_scored || 0)
-    }))
-    .filter(player => player.xGUnderPerformance >= 0)
-    .sort((a, b) => b.xGUnderPerformance - a.xGUnderPerformance);
-  const elementsWithOverallXGUnderPerformanceRank = sortedElementsForOverallXGUnderPerformanceRank.map((player, index) => ({
-    ...player,
-    overallXGUnderPerformanceRank: index + 1,
-  }));
-
-  // Calculate overall rank based on clean sheets
-  const sortedElementsForOverallCleanSheetsRank = [...elements].sort((a, b) => (b.clean_sheets || 0) - (a.clean_sheets || 0));
-  const elementsWithOverallCleanSheetsRank = sortedElementsForOverallCleanSheetsRank.map((player, index) => ({
-    ...player,
-    overallCleanSheetsRank: index + 1,
-  }));
-
-  // Calculate overall rank based on defensive contributions
-  const sortedElementsForOverallDefensiveContributionsRank = [...elements].sort((a, b) => (b.defensive_contribution || 0) - (a.defensive_contribution || 0));
-  const elementsWithOverallDefensiveContributionsRank = sortedElementsForOverallDefensiveContributionsRank.map((player, index) => ({
-    ...player,
-    overallDefensiveContributionsRank: index + 1,
-  }));
-
-  // Calculate overall rank based on bonus
-  const sortedElementsForOverallBonusRank = [...elements].sort((a, b) => b.bonus - a.bonus);
-  const elementsWithOverallBonusRank = sortedElementsForOverallBonusRank.map((player, index) => ({
-    ...player,
-    overallBonusRank: index + 1,
-  }));
-
-  // Calculate overall rank based on BPS
-  const sortedElementsForOverallBPSRank = [...elements].sort((a, b) => b.bps - a.bps);
-  const elementsWithOverallBPSRank = sortedElementsForOverallBPSRank.map((player, index) => ({
-    ...player,
-    overallBPSRank: index + 1,
-  }));
-
-  // Calculate overall rank based on points per million
-  const sortedElementsForOverallPointsPerMillionRank = [...elements].sort((a, b) => (b.total_points / b.now_cost) - (a.total_points / a.now_cost));
-  const elementsWithOverallPointsPerMillionRank = sortedElementsForOverallPointsPerMillionRank.map((player, index) => ({
-    ...player,
-    overallPointsPerMillionRank: index + 1,
-  }));
+  // All state declarations first
   const [selectedTeamIds, setSelectedTeamIds] = useState([]);
   const [selectedPositions, setSelectedPositions] = useState([]);
   const [selectedPrice, setSelectedPrice] = useState(null);
@@ -127,6 +20,10 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
   const [isMobileView, setIsMobileView] = useState(window.innerWidth < 500);
   const [fixtureData, setFixtureData] = useState(null);
   const [elementsWithOverallDefensiveContributionsPerStartRank, setElementsWithOverallDefensiveContributionsPerStartRank] = useState([]);
+  const [elementsWithDefensiveContributionsFromFixtures, setElementsWithDefensiveContributionsFromFixtures] = useState([]);
+  const [fromGameweek, setFromGameweek] = useState(1);
+  const [filteredStatsMap, setFilteredStatsMap] = useState({});
+  const [loadingFilteredStats, setLoadingFilteredStats] = useState(false);
 
   const teamDropdownRef = useRef(null);
   const positionDropdownRef = useRef(null);
@@ -167,11 +64,162 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
 
   const minPrice = 4.0;
   const maxPrice = Math.ceil(Math.max(...elements.map(player => player.now_cost / 10 || minPrice)));
-  
+
   const priceOptions = [];
   for (let price = minPrice; price <= maxPrice; price += price < 10.0 ? 0.5 : 1.0) {
     priceOptions.push(price);
   }
+
+  // Get current gameweek
+  const currentGameweek = useMemo(() => {
+    return mainData?.events?.find(event => event.is_current)?.id || 38;
+  }, [mainData]);
+
+  // Helper function to get player stats (either full season or filtered)
+  const getPlayerStats = useCallback((player) => {
+    if (fromGameweek === 1 || Object.keys(filteredStatsMap).length === 0) {
+      return player; // Use full season stats
+    }
+
+    const filtered = filteredStatsMap[player.id];
+    if (!filtered) {
+      return player; // Fallback to full season if no filtered data
+    }
+
+    // Merge filtered stats with player data
+    return {
+      ...player,
+      total_points: filtered.total_points || 0,
+      goals_scored: filtered.goals_scored || 0,
+      assists: filtered.assists || 0,
+      clean_sheets: filtered.clean_sheets || 0,
+      goals_conceded: filtered.goals_conceded || 0,
+      expected_goals: filtered.expected_goals || 0,
+      expected_assists: filtered.expected_assists || 0,
+      expected_goal_involvements: filtered.expected_goal_involvements || 0,
+      expected_goals_conceded: filtered.expected_goals_conceded || 0,
+      bonus: filtered.bonus || 0,
+      bps: filtered.bps || 0,
+      minutes: filtered.minutes || 0,
+      starts: filtered.starts || 0
+      // Note: defensive_contribution is calculated from fixture data in a separate useEffect
+    };
+  }, [fromGameweek, filteredStatsMap]);
+
+  // Apply filtered stats to elements if needed
+  const elementsWithStats = useMemo(() => {
+    return elements.map(player => getPlayerStats(player));
+  }, [elements, getPlayerStats]);
+
+  // Calculate overall rank based on total points
+  const sortedElementsForOverallRank = [...elementsWithStats].sort((a, b) => b.total_points - a.total_points);
+  const elementsWithOverallRank = sortedElementsForOverallRank.map((player, index) => ({
+    ...player,
+    overallRank: index + 1,
+  }));
+
+  // Calculate overall rank based on form
+  const sortedElementsForOverallFormRank = [...elementsWithStats].sort((a, b) => b.form - a.form);
+  const elementsWithOverallFormRank = sortedElementsForOverallFormRank.map((player, index) => ({
+    ...player,
+    overallFormRank: index + 1,
+  }));
+
+  // Calculate overall rank based on GW points
+  const sortedElementsForOverallGWPointsRank = [...elementsWithStats].sort((a, b) => b.event_points - a.event_points);
+  const elementsWithOverallGWPointsRank = sortedElementsForOverallGWPointsRank.map((player, index) => ({
+    ...player,
+    overallGWPointsRank: index + 1,
+  }));
+
+  // Calculate overall rank based on ownership
+  const sortedElementsForOverallOwnershipRank = [...elementsWithStats].sort((a, b) => b.selected_by_percent - a.selected_by_percent);
+  const elementsWithOverallOwnershipRank = sortedElementsForOverallOwnershipRank.map((player, index) => ({
+    ...player,
+    overallOwnershipRank: index + 1,
+  }));
+
+  // Calculate overall rank based on xGI
+  const sortedElementsForOverallXGIRank = [...elementsWithStats].sort((a, b) => b.expected_goal_involvements - a.expected_goal_involvements);
+  const elementsWithOverallXGIRank = sortedElementsForOverallXGIRank.map((player, index) => ({
+    ...player,
+    overallXGIRank: index + 1,
+  }));
+
+  // Calculate overall rank based on goals scored
+  const sortedElementsForOverallGoalsRank = [...elementsWithStats].sort((a, b) => b.goals_scored - a.goals_scored);
+  const elementsWithOverallGoalsRank = sortedElementsForOverallGoalsRank.map((player, index) => ({
+    ...player,
+    overallGoalsRank: index + 1,
+  }));
+
+  // Calculate overall rank based on assists
+  const sortedElementsForOverallAssistsRank = [...elementsWithStats].sort((a, b) => b.assists - a.assists);
+  const elementsWithOverallAssistsRank = sortedElementsForOverallAssistsRank.map((player, index) => ({
+    ...player,
+    overallAssistsRank: index + 1,
+  }));
+
+  // Calculate overall rank based on xG Over Performance
+  const sortedElementsForOverallXGOverPerformanceRank = [...elementsWithStats]
+    .map(player => ({
+      ...player,
+      xGOverPerformance: player.goals_scored - player.expected_goals
+    }))
+    .filter(player => player.xGOverPerformance >= 0)
+    .sort((a, b) => b.xGOverPerformance - a.xGOverPerformance);
+  const elementsWithOverallXGOverPerformanceRank = sortedElementsForOverallXGOverPerformanceRank.map((player, index) => ({
+    ...player,
+    overallXGOverPerformanceRank: index + 1,
+  }));
+
+  // Calculate overall rank based on xG Under Performance
+  const sortedElementsForOverallXGUnderPerformanceRank = [...elementsWithStats]
+    .map(player => ({
+      ...player,
+      xGUnderPerformance: (player.expected_goals || 0) - (player.goals_scored || 0)
+    }))
+    .filter(player => player.xGUnderPerformance >= 0)
+    .sort((a, b) => b.xGUnderPerformance - a.xGUnderPerformance);
+  const elementsWithOverallXGUnderPerformanceRank = sortedElementsForOverallXGUnderPerformanceRank.map((player, index) => ({
+    ...player,
+    overallXGUnderPerformanceRank: index + 1,
+  }));
+
+  // Calculate overall rank based on clean sheets
+  const sortedElementsForOverallCleanSheetsRank = [...elementsWithStats].sort((a, b) => (b.clean_sheets || 0) - (a.clean_sheets || 0));
+  const elementsWithOverallCleanSheetsRank = sortedElementsForOverallCleanSheetsRank.map((player, index) => ({
+    ...player,
+    overallCleanSheetsRank: index + 1,
+  }));
+
+  // Calculate overall rank based on defensive contributions
+  const sortedElementsForOverallDefensiveContributionsRank = [...elementsWithStats].sort((a, b) => (b.defensive_contribution || 0) - (a.defensive_contribution || 0));
+  const elementsWithOverallDefensiveContributionsRank = sortedElementsForOverallDefensiveContributionsRank.map((player, index) => ({
+    ...player,
+    overallDefensiveContributionsRank: index + 1,
+  }));
+
+  // Calculate overall rank based on bonus
+  const sortedElementsForOverallBonusRank = [...elementsWithStats].sort((a, b) => b.bonus - a.bonus);
+  const elementsWithOverallBonusRank = sortedElementsForOverallBonusRank.map((player, index) => ({
+    ...player,
+    overallBonusRank: index + 1,
+  }));
+
+  // Calculate overall rank based on BPS
+  const sortedElementsForOverallBPSRank = [...elementsWithStats].sort((a, b) => b.bps - a.bps);
+  const elementsWithOverallBPSRank = sortedElementsForOverallBPSRank.map((player, index) => ({
+    ...player,
+    overallBPSRank: index + 1,
+  }));
+
+  // Calculate overall rank based on points per million
+  const sortedElementsForOverallPointsPerMillionRank = [...elementsWithStats].sort((a, b) => (b.total_points / b.now_cost) - (a.total_points / a.now_cost));
+  const elementsWithOverallPointsPerMillionRank = sortedElementsForOverallPointsPerMillionRank.map((player, index) => ({
+    ...player,
+    overallPointsPerMillionRank: index + 1,
+  }));
 
   // Function to fetch historical data for all players
   const fetchHistoricalData = useCallback(async (season) => {
@@ -306,16 +354,71 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
     fetchFixtureData();
 }, []);
 
+  // Fetch filtered stats when fromGameweek changes
   useEffect(() => {
-    if (fixtureData && elements.length > 0) {
-      const sortedElementsForOverallDefensiveContributionsPerStartRank = [...elements]
+    const fetchFilteredStats = async () => {
+      if (fromGameweek === 1 || selectedSeason !== "current") {
+        // No filtering needed for GW1 or historical seasons
+        setFilteredStatsMap({});
+        return;
+      }
+
+      setLoadingFilteredStats(true);
+      try {
+        // Get all player IDs
+        const playerIds = elements.map(player => player.id);
+
+        // Fetch filtered stats from Supabase
+        const { data, error } = await supabase
+          .rpc('aggregate_player_stats_by_gw_range', {
+            player_ids: playerIds,
+            start_gw: fromGameweek,
+            end_gw: currentGameweek
+          });
+
+        if (error) {
+          console.error('Error fetching filtered stats:', error);
+          throw error;
+        }
+
+        // Convert array to object keyed by player_id for easy lookup
+        const statsMap = {};
+        data.forEach(stat => {
+          statsMap[stat.player_id] = stat;
+        });
+
+        setFilteredStatsMap(statsMap);
+      } catch (error) {
+        console.error('Failed to fetch filtered stats:', error);
+        setFilteredStatsMap({});
+      } finally {
+        setLoadingFilteredStats(false);
+      }
+    };
+
+    fetchFilteredStats();
+  }, [fromGameweek, elements, currentGameweek, selectedSeason]);
+
+  useEffect(() => {
+    if (fixtureData && elementsWithStats.length > 0) {
+      const playersWithDefensiveData = [...elementsWithStats]
         .map(player => {
             let count = 0;
+            let totalDefensiveContribution = 0;
+            let gamesWithDefensiveData = 0; // Count games where player had defensive contribution data
             const playerId = player.id;
             const playerPosition = player.element_type;
 
             if (fixtureData) {
-                fixtureData.forEach(fixture => {
+                // Filter fixtures based on selected gameweek range
+                const filteredFixtures = fixtureData.filter(fixture => {
+                    if (selectedSeason !== "current") return true; // Don't filter for historical seasons
+                    if (fromGameweek === 1) return true; // Don't filter if showing all data
+                    // Only include fixtures from the selected gameweek range
+                    return fixture.event >= fromGameweek && fixture.event <= currentGameweek;
+                });
+
+                filteredFixtures.forEach(fixture => {
                     if (fixture.stats) {
                         const defensiveStat = fixture.stats.find(stat => stat.identifier === 'defensive_contribution');
                         if (defensiveStat) {
@@ -324,29 +427,56 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
 
                             const allPlayers = [...homePlayers, ...awayPlayers];
 
-                            allPlayers.forEach(p => {
-                                if (p.element === playerId) {
-                                    if (playerPosition === 2 && p.value >= 10) { // Defender
-                                        count++;
-                                    } else if ((playerPosition === 3 || playerPosition === 4) && p.value >= 12) { // Midfielder or Forward
-                                        count++;
-                                    }
+                            // Check if this player played in this fixture
+                            const playerInFixture = allPlayers.find(p => p.element === playerId);
+                            if (playerInFixture) {
+                                gamesWithDefensiveData++; // Count as a start/appearance
+
+                                // Add the defensive contribution value
+                                totalDefensiveContribution += playerInFixture.value;
+
+                                // Count benchmark met (10+ for defenders, 12+ for mids/forwards)
+                                if (playerPosition === 2 && playerInFixture.value >= 10) { // Defender
+                                    count++;
+                                } else if ((playerPosition === 3 || playerPosition === 4) && playerInFixture.value >= 12) { // Midfielder or Forward
+                                    count++;
                                 }
-                            });
+                            }
                         }
                     }
                 });
             }
-            return { ...player, benchmarkMetCount: count };
-        })
-        .sort((a, b) => b.benchmarkMetCount - a.benchmarkMetCount);
-      const rankedElements = sortedElementsForOverallDefensiveContributionsPerStartRank.map((player, index) => ({
+
+            // Calculate defensive contribution per 90
+            const filteredMinutes = player.minutes || 0;
+            const defensiveContributionPer90 = filteredMinutes > 0 ? (totalDefensiveContribution / filteredMinutes * 90) : 0;
+
+            return {
+                ...player,
+                benchmarkMetCount: count,
+                gamesWithDefensiveData: gamesWithDefensiveData, // Use this for percentage calculation
+                defensive_contribution: totalDefensiveContribution,
+                defensive_contribution_per_90: defensiveContributionPer90
+            };
+        });
+
+      // Sort by benchmark count for "Per Start" ranking
+      const sortedByBenchmark = [...playersWithDefensiveData].sort((a, b) => b.benchmarkMetCount - a.benchmarkMetCount);
+      const rankedByBenchmark = sortedByBenchmark.map((player, index) => ({
         ...player,
         overallDefensiveContributionsPerStartRank: index + 1,
       }));
-      setElementsWithOverallDefensiveContributionsPerStartRank(rankedElements);
+      setElementsWithOverallDefensiveContributionsPerStartRank(rankedByBenchmark);
+
+      // Sort by total defensive contribution for "Actions (Per 90)" ranking
+      const sortedByDefContribution = [...playersWithDefensiveData].sort((a, b) => b.defensive_contribution - a.defensive_contribution);
+      const rankedByDefContribution = sortedByDefContribution.map((player, index) => ({
+        ...player,
+        overallDefensiveContributionsRank: index + 1,
+      }));
+      setElementsWithDefensiveContributionsFromFixtures(rankedByDefContribution);
     }
-  }, [fixtureData, elements]);
+  }, [fixtureData, elementsWithStats, fromGameweek, currentGameweek, selectedSeason]);
     
     useEffect(() => {
       const handleClickOutside = (event) => {
@@ -583,6 +713,24 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
             </div>
           )}
         </div>
+
+        {selectedSeason === "current" && (
+          <div className="dropdown gameweek-input-container">
+            <span><strong>From GW:</strong></span>
+            <input
+              type="number"
+              min="1"
+              max="38"
+              value={fromGameweek}
+              onChange={(e) => {
+                const value = parseInt(e.target.value) || 1;
+                setFromGameweek(Math.max(1, Math.min(38, value)));
+              }}
+              onClick={(e) => e.stopPropagation()}
+              className="gameweek-input"
+            />
+          </div>
+        )}
       </div>
 
       {loadingHistorical && (
@@ -591,9 +739,15 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
         </div>
       )}
 
+      {loadingFilteredStats && fromGameweek > 1 && (
+        <div className="loading-message">
+          <p>⏳ Loading Filtered Stats... ⏳</p>
+        </div>
+      )}
+
       <div className="player-pics player-pics-lists">
-        <p className="top-10-title">Total Points</p> 
-        {(selectedSeason === "current" ? elements.length > 0 : (selectedSeason === "all-time" ? allTimeData?.length > 0 : historicalData?.length > 0)) && (
+        <p className="top-10-title">Total Points</p>
+        {(selectedSeason === "current" ? elementsWithStats.length > 0 : (selectedSeason === "all-time" ? allTimeData?.length > 0 : historicalData?.length > 0)) && (
           <div className="pics-wrapper category-scroll-wrapper">
             {filterPlayers(createSortedArrays().totalPoints).map((player, index) => (
               <div key={player.code} className="player-pic-container">
@@ -623,8 +777,8 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
 
       {selectedSeason === "current" && (
         <div className="player-pics player-pics-lists">
-          <p className="top-10-title">Form (Last 4 Games Average)</p> 
-          {elements.length > 0 && (
+          <p className="top-10-title">Form (Last 4 Games Average)</p>
+          {elementsWithStats.length > 0 && (
             <div className="pics-wrapper category-scroll-wrapper">
               {filterPlayers(elementsWithOverallFormRank).map((player, index) => (
                 <div key={player.code} className="player-pic-container">
@@ -653,7 +807,7 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
       {selectedSeason === "current" && (
         <div className="player-pics player-pics-lists">
           <p className="top-10-title">GW Points</p> 
-          {elements.length > 0 && (
+          {elementsWithStats.length > 0 && (
             <div className="pics-wrapper category-scroll-wrapper">
               {filterPlayers(elementsWithOverallGWPointsRank).map((player, index) => (
                 <div key={player.code} className="player-pic-container">
@@ -682,7 +836,7 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
       {selectedSeason === "current" && (
         <div className="player-pics player-pics-lists">
           <p className="top-10-title">Owned Players (Net GW Transfers)</p> 
-          {elements.length > 0 && (
+          {elementsWithStats.length > 0 && (
             <div className="pics-wrapper category-scroll-wrapper">
               {filterPlayers(elementsWithOverallOwnershipRank).map((player, index) => (
                 <div key={player.code} className="player-pic-container">
@@ -728,7 +882,7 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
       {selectedSeason === "current" && (
         <div className="player-pics player-pics-lists">
           <p className="top-10-title">xGI (Total Goal Involvements) </p> 
-          {elements.length > 0 && (
+          {elementsWithStats.length > 0 && (
             <div className="pics-wrapper category-scroll-wrapper">
               {filterPlayers(elementsWithOverallXGIRank).map((player, index) => (
                 <div key={player.code} className="player-pic-container">
@@ -757,7 +911,7 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
 
       <div className="player-pics player-pics-lists">
         <p className="top-10-title">Goals (xG)</p> 
-        {(selectedSeason === "current" ? elements.length > 0 : (selectedSeason === "all-time" ? allTimeData?.length > 0 : historicalData?.length > 0)) && (
+        {(selectedSeason === "current" ? elementsWithStats.length > 0 : (selectedSeason === "all-time" ? allTimeData?.length > 0 : historicalData?.length > 0)) && (
           <div className="pics-wrapper category-scroll-wrapper">
             {filterPlayers(createSortedArrays().goals).map((player, index) => (
               <div key={player.code} className="player-pic-container">
@@ -789,7 +943,7 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
 
       <div className="player-pics player-pics-lists">
         <p className="top-10-title">Assists (xA)</p>
-        {(selectedSeason === "current" ? elements.length > 0 : (selectedSeason === "all-time" ? allTimeData?.length > 0 : historicalData?.length > 0)) && (
+        {(selectedSeason === "current" ? elementsWithStats.length > 0 : (selectedSeason === "all-time" ? allTimeData?.length > 0 : historicalData?.length > 0)) && (
           <div className="pics-wrapper category-scroll-wrapper">
             {filterPlayers(createSortedArrays().assists).map((player, index) => (
               <div key={player.code} className="player-pic-container">
@@ -822,7 +976,7 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
       {selectedSeason === "current" && (
         <div className="player-pics player-pics-lists">
           <p className="top-10-title">xG Over Performance (Goals) </p> 
-          {elements.length > 0 && (
+          {elementsWithStats.length > 0 && (
           <div className="pics-wrapper category-scroll-wrapper">
             {filterPlayers(elementsWithOverallXGOverPerformanceRank).map((player, index) => (
               <div key={player.code} className="player-pic-container">
@@ -852,7 +1006,7 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
       {selectedSeason === "current" && (
         <div className="player-pics player-pics-lists">
           <p className="top-10-title">xG Under Performance (Goals) </p> 
-          {elements.length > 0 && (
+          {elementsWithStats.length > 0 && (
           <div className="pics-wrapper category-scroll-wrapper">
             {filterPlayers(elementsWithOverallXGUnderPerformanceRank).map((player, index) => (
               <div key={player.code} className="player-pic-container">
@@ -881,7 +1035,7 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
 
       <div className="player-pics player-pics-lists">
         <p className="top-10-title">Clean Sheets (Per Start)</p>
-        {(selectedSeason === "current" ? elements.length > 0 : (selectedSeason === "all-time" ? allTimeData?.length > 0 : historicalData?.length > 0)) && (
+        {(selectedSeason === "current" ? elementsWithStats.length > 0 : (selectedSeason === "all-time" ? allTimeData?.length > 0 : historicalData?.length > 0)) && (
           <div className="pics-wrapper category-scroll-wrapper">
             {filterPlayers(createSortedArrays().cleanSheets).map((player, index) => (
               <div key={player.code} className="player-pic-container">
@@ -924,10 +1078,10 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
 
       {selectedSeason === "current" && (
         <div className="player-pics player-pics-lists">
-          <p className="top-10-title">Defensive Contribution Actions (Per 90 Minutes)</p> 
-          {elements.length > 0 && (
+          <p className="top-10-title">Defensive Contribution Actions (Per 90 Minutes)</p>
+          {elementsWithStats.length > 0 && elementsWithDefensiveContributionsFromFixtures.length > 0 && (
           <div className="pics-wrapper category-scroll-wrapper">
-            {filterPlayers(elementsWithOverallDefensiveContributionsRank).map((player, index) => (
+            {filterPlayers(elementsWithDefensiveContributionsFromFixtures).map((player, index) => (
               <div key={player.code} className="player-pic-container">
                 <div className="player-rank">#{player.overallDefensiveContributionsRank}</div>
                 <img
@@ -955,7 +1109,7 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
       {selectedSeason === "current" && (
         <div className="player-pics player-pics-lists">
           <p className="top-10-title">Defensive Contributions (Per Start)</p> 
-          {elements.length > 0 && (
+          {elementsWithStats.length > 0 && (
           <div className="pics-wrapper category-scroll-wrapper">
             {filterPlayers(elementsWithOverallDefensiveContributionsPerStartRank).map((player, index) => (
               <div key={player.code} className="player-pic-container">
@@ -974,7 +1128,7 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
                 />
                 <p className={`player-stat-name ${player.web_name.length >= 13 ? 'super-long-name' : player.web_name.length > 10 ? 'long-player-name' : ''}`}>{player.web_name}</p>
                 <p className="player-stat">{player.benchmarkMetCount}</p>
-                <p className="player-stat">({player.starts > 0 ? ((player.benchmarkMetCount / player.starts) * 100).toFixed(0) : 0}%)</p>
+                <p className="player-stat">({player.gamesWithDefensiveData > 0 ? ((player.benchmarkMetCount / player.gamesWithDefensiveData) * 100).toFixed(0) : 0}%)</p>
               </div>
             ))}
           </div>
@@ -984,7 +1138,7 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
 
       <div className="player-pics player-pics-lists">
         <p className="top-10-title">Bonus (Per 90 Minutes)</p>
-        {(selectedSeason === "current" ? elements.length > 0 : (selectedSeason === "all-time" ? allTimeData?.length > 0 : historicalData?.length > 0)) && (
+        {(selectedSeason === "current" ? elementsWithStats.length > 0 : (selectedSeason === "all-time" ? allTimeData?.length > 0 : historicalData?.length > 0)) && (
           <div className="pics-wrapper category-scroll-wrapper">
             {filterPlayers(createSortedArrays().bonus).map((player, index) => (
               <div key={player.code} className="player-pic-container">
@@ -1019,7 +1173,7 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
 
       <div className="player-pics player-pics-lists">
         <p className="top-10-title">BPS (Per 90 Minutes)</p>
-        {(selectedSeason === "current" ? elements.length > 0 : (selectedSeason === "all-time" ? allTimeData?.length > 0 : historicalData?.length > 0)) && (
+        {(selectedSeason === "current" ? elementsWithStats.length > 0 : (selectedSeason === "all-time" ? allTimeData?.length > 0 : historicalData?.length > 0)) && (
           <div className="pics-wrapper category-scroll-wrapper">
             {filterPlayers(createSortedArrays().bps).map((player, index) => (
               <div key={player.code} className="player-pic-container">
@@ -1055,7 +1209,7 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
       {selectedSeason === "current" && (
         <div className="player-pics player-pics-lists">
           <p className="top-10-title">Points Per Million</p> 
-          {elements.length > 0 && (
+          {elementsWithStats.length > 0 && (
           <div className="pics-wrapper category-scroll-wrapper">
             {filterPlayers(elementsWithOverallPointsPerMillionRank).map((player, index) => (
               <div key={player.code} className="player-pic-container">

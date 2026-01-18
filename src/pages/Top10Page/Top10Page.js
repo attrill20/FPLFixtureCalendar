@@ -23,6 +23,8 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
   const [elementsWithDefensiveContributionsFromFixtures, setElementsWithDefensiveContributionsFromFixtures] = useState([]);
   const [fromGameweek, setFromGameweek] = useState(1);
   const [toGameweek, setToGameweek] = useState(null); // null means current gameweek
+  const [showHome, setShowHome] = useState(true);
+  const [showAway, setShowAway] = useState(true);
   const [filteredStatsMap, setFilteredStatsMap] = useState({});
   const [loadingFilteredStats, setLoadingFilteredStats] = useState(false);
 
@@ -351,13 +353,14 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
     fetchFixtureData();
 }, []);
 
-  // Fetch filtered stats when fromGameweek or toGameweek changes
+  // Fetch filtered stats when fromGameweek, toGameweek, or venue filters change
   useEffect(() => {
     const fetchFilteredStats = async () => {
       const endGameweek = toGameweek || currentGameweek;
+      const venueFilterActive = !showHome || !showAway;
 
-      if (fromGameweek === 1 && endGameweek === currentGameweek) {
-        // No filtering needed for full season
+      if (fromGameweek === 1 && endGameweek === currentGameweek && !venueFilterActive) {
+        // No filtering needed for full season with both venues
         setFilteredStatsMap({});
         return;
       }
@@ -373,12 +376,14 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
         // Get all player IDs
         const playerIds = elements.map(player => player.id);
 
-        // Fetch filtered stats from Supabase
+        // Use database function with venue filtering support
         const { data, error } = await supabase
-          .rpc('aggregate_player_stats_by_gw_range', {
+          .rpc('aggregate_player_stats_with_venue', {
             player_ids: playerIds,
             start_gw: fromGameweek,
-            end_gw: endGameweek
+            end_gw: endGameweek,
+            include_home: showHome,
+            include_away: showAway
           });
 
         if (error) {
@@ -402,7 +407,7 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
     };
 
     fetchFilteredStats();
-  }, [fromGameweek, toGameweek, elements, currentGameweek, selectedSeason]);
+  }, [fromGameweek, toGameweek, elements, currentGameweek, selectedSeason, showHome, showAway]);
 
   useEffect(() => {
     if (fixtureData && elementsWithStats.length > 0) {
@@ -426,6 +431,15 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
 
                 filteredFixtures.forEach(fixture => {
                     if (fixture.stats) {
+                        // Check if player was home or away in this fixture
+                        const isHome = fixture.team_h === player.team;
+                        const isAway = fixture.team_a === player.team;
+
+                        // Skip fixture if venue filter doesn't match
+                        if ((isHome && !showHome) || (isAway && !showAway)) {
+                            return;
+                        }
+
                         const defensiveStat = fixture.stats.find(stat => stat.identifier === 'defensive_contribution');
                         if (defensiveStat) {
                             const homePlayers = defensiveStat.h;
@@ -482,7 +496,7 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
       }));
       setElementsWithDefensiveContributionsFromFixtures(rankedByDefContribution);
     }
-  }, [fixtureData, elementsWithStats, fromGameweek, toGameweek, currentGameweek, selectedSeason]);
+  }, [fixtureData, elementsWithStats, fromGameweek, toGameweek, currentGameweek, selectedSeason, showHome, showAway]);
     
     useEffect(() => {
       const handleClickOutside = (event) => {
@@ -780,6 +794,23 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
                 className="gameweek-range-input"
               />
               <label htmlFor="to-gw-input">To GW</label>
+            </div>
+
+            <div className="venue-filter-group">
+              <button
+                className={`venue-filter-btn ${showHome ? 'active' : ''}`}
+                onClick={() => setShowHome(!showHome)}
+                title="Toggle Home fixtures"
+              >
+                H
+              </button>
+              <button
+                className={`venue-filter-btn ${showAway ? 'active' : ''}`}
+                onClick={() => setShowAway(!showAway)}
+                title="Toggle Away fixtures"
+              >
+                A
+              </button>
             </div>
           </div>
         </div>

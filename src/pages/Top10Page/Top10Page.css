@@ -282,6 +282,39 @@
     border-color: #D84315;
 }
 
+.venue-filter-group {
+    display: flex;
+    gap: 5px;
+    margin-left: 15px;
+}
+
+.venue-filter-btn {
+    width: 32px;
+    height: 32px;
+    border: 2px solid #000;
+    background: white;
+    border-radius: 4px;
+    font-weight: bold;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    color: #666;
+}
+
+.venue-filter-btn:hover {
+    background: #f0f0f0;
+}
+
+.venue-filter-btn.active {
+    background: #4CAF50;
+    color: white;
+    border-color: #2E7D32;
+}
+
+.venue-filter-btn:active {
+    transform: scale(0.95);
+}
+
 .player-stat-transfers {
     font-weight: 800;
     margin: 0px;
@@ -506,6 +539,18 @@
         width: 16px;
         height: 16px;
         border-width: 2px;
+    }
+
+    .venue-filter-group {
+        margin-left: 8px;
+        gap: 3px;
+    }
+
+    .venue-filter-btn {
+        width: 26px;
+        height: 26px;
+        font-size: 0.7rem;
+        border-width: 1px;
     }
 
     .loading-message {

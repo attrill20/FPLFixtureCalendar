@@ -19,7 +19,7 @@ const fetchPlayerHistory = async (playerId) => {
 export default function FormResults({ targetWebName, setTargetWebName, handleSubmit, setTargetedPlayer, targetedPlayer, mainData, showAttackingStats, showDefendingStats, showGoals, showAssists, showGoalsPer90, showAssistsPer90, showCleanSheets, showGoalsConceded, showGoalsConcededPer90, showDefensiveContributions }) {
     const [searchResults, setSearchResults] = useState([]);
     const [playerHistory, setPlayerHistory] = useState(null);
-    const [loadingHistory, setLoadingHistory] = useState(false);
+    const [, setLoadingHistory] = useState(false);
     const [fixtureData, setFixtureData] = useState(null);
     const [defensiveContributions, setDefensiveContributions] = useState(0);
     const dropdownRef = useRef(null);

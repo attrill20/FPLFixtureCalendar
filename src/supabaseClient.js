@@ -24,7 +24,7 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
 // Helper function to check Supabase connection
 export async function testSupabaseConnection() {
   try {
-    const { data, error } = await supabase
+    const { error } = await supabase
       .from('seasons')
       .select('count')
       .limit(1);

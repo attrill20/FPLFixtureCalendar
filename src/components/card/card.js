@@ -14,8 +14,6 @@ export default function Row({
   isTableRow = false,
 }) {
   const [teamFixturesData, setTeamFixturesData] = useState(null);
-  const [totalDifficulty, setTotalDifficulty] = useState(0);
-  const [customTotalDifficulty, setCustomTotalDifficulty] = useState(0);
 
   useEffect(() => {
     function getFixturesForTeam(teamId) {

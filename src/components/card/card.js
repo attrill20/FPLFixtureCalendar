@@ -49,8 +49,6 @@ export default function Row({
           return acc + difficulty;
         }, 0);
 
-        setTotalDifficulty((prevTotal) => prevTotal + gameweekDifficulty);
-
         if (gameweek.length > 0) {
           gameweekFixtures[i] = gameweek.map((fixture) => {
             const opponentNumber =

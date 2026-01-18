@@ -198,48 +198,6 @@ const TeamsPage = ({ teams }) => {
       </div>
 
       <div className="player-pics player-pics-lists">
-        <p className="top-10-title">xG Over/Under Performance (Goals Scored)</p>
-        {allTeamsXGPerformance.length > 0 && (
-          <div className="pics-wrapper category-scroll-wrapper">
-            {allTeamsXGPerformance.map((team, index) => (
-              <div key={index} className="player-pic-container">
-                <div className="player-rank">#{index + 1}</div>
-                {team.badge ? (
-                  <img className="team-pic-top-10" src={team.badge} alt={team.teamName} />
-                ) : (
-                  <p>Badge not available</p>
-                )}
-                <p className="player-stat-name">{team.teamName}</p>
-                <p className="player-stat">{team.xgDiff > 0 ? '+' : ''}{team.xgDiff.toFixed(2)}</p>
-                <p className="player-stat">({team.totalGoals})</p>
-              </div>
-            ))}
-          </div>
-        )}
-      </div>
-
-      <div className="player-pics player-pics-lists">
-        <p className="top-10-title">xGC Over/Under Performance (Goals Conceded)</p>
-        {allTeamsXGCPerformance.length > 0 && (
-          <div className="pics-wrapper category-scroll-wrapper">
-            {allTeamsXGCPerformance.map((team, index) => (
-              <div key={index} className="player-pic-container">
-                <div className="player-rank">#{index + 1}</div>
-                {team.badge ? (
-                  <img className="team-pic-top-10" src={team.badge} alt={team.teamName} />
-                ) : (
-                  <p>Badge not available</p>
-                )}
-                <p className="player-stat-name">{team.teamName}</p>
-                <p className="player-stat">{team.xgcDiff > 0 ? '+' : ''}{team.xgcDiff.toFixed(2)}</p>
-                <p className="player-stat">({team.totalConceded})</p>
-              </div>
-            ))}
-          </div>
-        )}
-      </div>
-
-      <div className="player-pics player-pics-lists">
         <p className="top-10-title">Overall Strength xG-xGC (Goals-Conceded)</p>
         {allTeamsOverallStrength.length > 0 && (
           <div className="pics-wrapper category-scroll-wrapper">
@@ -296,6 +254,48 @@ const TeamsPage = ({ teams }) => {
                 <p className="player-stat-name">{team.teamName}</p>
                 <p className="player-stat">{team.strength > 0 ? '+' : ''}{team.strength.toFixed(2)}</p>
                 <p className="player-stat">({team.goalDiff > 0 ? '+' : ''}{team.goalDiff})</p>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+
+      <div className="player-pics player-pics-lists">
+        <p className="top-10-title">xG Over/Under Performance (Goals Scored)</p>
+        {allTeamsXGPerformance.length > 0 && (
+          <div className="pics-wrapper category-scroll-wrapper">
+            {allTeamsXGPerformance.map((team, index) => (
+              <div key={index} className="player-pic-container">
+                <div className="player-rank">#{index + 1}</div>
+                {team.badge ? (
+                  <img className="team-pic-top-10" src={team.badge} alt={team.teamName} />
+                ) : (
+                  <p>Badge not available</p>
+                )}
+                <p className="player-stat-name">{team.teamName}</p>
+                <p className="player-stat">{team.xgDiff > 0 ? '+' : ''}{team.xgDiff.toFixed(2)}</p>
+                <p className="player-stat">({team.totalGoals})</p>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+
+      <div className="player-pics player-pics-lists">
+        <p className="top-10-title">xGC Over/Under Performance (Goals Conceded)</p>
+        {allTeamsXGCPerformance.length > 0 && (
+          <div className="pics-wrapper category-scroll-wrapper">
+            {allTeamsXGCPerformance.map((team, index) => (
+              <div key={index} className="player-pic-container">
+                <div className="player-rank">#{index + 1}</div>
+                {team.badge ? (
+                  <img className="team-pic-top-10" src={team.badge} alt={team.teamName} />
+                ) : (
+                  <p>Badge not available</p>
+                )}
+                <p className="player-stat-name">{team.teamName}</p>
+                <p className="player-stat">{team.xgcDiff > 0 ? '+' : ''}{team.xgcDiff.toFixed(2)}</p>
+                <p className="player-stat">({team.totalConceded})</p>
               </div>
             ))}
           </div>

@@ -193,12 +193,7 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
     overallCleanSheetsRank: index + 1,
   }));
 
-  // Calculate overall rank based on defensive contributions
-  const sortedElementsForOverallDefensiveContributionsRank = [...elementsWithStats].sort((a, b) => (b.defensive_contribution || 0) - (a.defensive_contribution || 0));
-  const elementsWithOverallDefensiveContributionsRank = sortedElementsForOverallDefensiveContributionsRank.map((player, index) => ({
-    ...player,
-    overallDefensiveContributionsRank: index + 1,
-  }));
+  // Note: Defensive contributions ranking is now calculated from fixture data in useEffect
 
   // Calculate overall rank based on bonus
   const sortedElementsForOverallBonusRank = [...elementsWithStats].sort((a, b) => b.bonus - a.bonus);

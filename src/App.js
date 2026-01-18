@@ -14,26 +14,6 @@ export default function App() {
   const [mainData, setMainData] = useState(null);
   const [fixturesData, setFixturesData] = useState(null);
   const [activeGameweek, setActiveGameweek] = useState(null);
-  const [xgData, setXgData] = useState([]);
-
-  // Fetch the xG fbref data from new server
-  useEffect(() => {
-    async function fetchXGData() {
-      try {
-        const response = await fetch("https://fpl-server-nine.vercel.app/api/fbrefdata");
-        if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-        const data = await response.json();
-
-        setXgData(data);
-      } catch (error) {
-        console.error("Failed to fetch xG data:", error);
-      }
-    }
-
-    fetchXGData();
-  }, []);
 
   // Fetch the FPL API data from new server
   useEffect(() => {
@@ -113,10 +93,8 @@ export default function App() {
           <Route 
             path="/teams" 
             element={
-              <TeamsPage 
+              <TeamsPage
                 teams={teams}
-                fixturesData={fixturesData}
-                xgData={xgData}
               />
             }      
           />

@@ -390,6 +390,10 @@
   }
 
 @media (max-width: 1400px) {
+    .player-pics-lists .player-pic-container {
+        margin: 0 5px;
+    }
+
     .player-rank {
         font-size: 10px;
         padding: 0px 1px;
@@ -400,7 +404,7 @@
     .long-player-name {
         font-size: 0.8em;
       }
-      
+
       .super-long-name {
         font-size: 0.7em;
       }
@@ -415,7 +419,8 @@
     }
 
     .player-pics-lists .player-pic-container {
-        margin: 0 1px;
+        margin: 0 3px;
+        width: 108px;
     }
 
     .top-10-title {
@@ -589,8 +594,26 @@
     }
 }
 
+@media (max-width: 1000px) {
+    .player-pics-lists .player-pic-container {
+        margin: 0 2.5px;
+        width: 90px;
+    }
+}
+
+@media (max-width: 900px) {
+    .player-pics-lists .player-pic-container {
+        margin: 0 2px;
+        width: 82px;
+    }
+}
 
 @media (max-width: 800px) {
+    .player-pics-lists .player-pic-container {
+        margin: 0 2px;
+        width: 72px;
+    }
+
     .player-rank {
         font-size: 6px;
         padding: 0px 1px;
@@ -615,8 +638,27 @@
       }
 }
 
+@media (max-width: 700px) {
+    .player-pics-lists .player-pic-container {
+        margin: 0 2px;
+        width: 63px;
+    }
+}
+
+@media (max-width: 600px) {
+    .player-pics-lists .player-pic-container {
+        margin: 0 1.5px;
+        width: 54px;
+    }
+}
+
 
 @media (max-width: 500px) {
+    .player-pics-lists .player-pic-container {
+        margin: 0 1px;
+        width: 46px;
+    }
+
     .player-stat-transfers {
         font-size: 0.5rem;
     }
@@ -631,6 +673,11 @@
 }
 
 @media (max-width: 450px) {
+    .player-pics-lists .player-pic-container {
+        margin: 0 1px;
+        width: 41px;
+    }
+
     .player-stat-transfers {
         font-size: 0.4rem;
     }
@@ -640,6 +687,20 @@
         padding: 0px 0px;
         top: 0px;
         left: 0px;
+    }
+}
+
+@media (max-width: 375px) {
+    .player-pics-lists .player-pic-container {
+        margin: 0 0.5px;
+        width: 35px;
+    }
+}
+
+@media (max-width: 320px) {
+    .player-pics-lists .player-pic-container {
+        margin: 0 0px;
+        width: 30px;
     }
 }
 

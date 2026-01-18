@@ -22,6 +22,7 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
   const [elementsWithOverallDefensiveContributionsPerStartRank, setElementsWithOverallDefensiveContributionsPerStartRank] = useState([]);
   const [elementsWithDefensiveContributionsFromFixtures, setElementsWithDefensiveContributionsFromFixtures] = useState([]);
   const [fromGameweek, setFromGameweek] = useState(1);
+  const [toGameweek, setToGameweek] = useState(null); // null means current gameweek
   const [filteredStatsMap, setFilteredStatsMap] = useState({});
   const [loadingFilteredStats, setLoadingFilteredStats] = useState(false);
 
@@ -77,7 +78,8 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
 
   // Helper function to get player stats (either full season or filtered)
   const getPlayerStats = useCallback((player) => {
-    if (fromGameweek === 1 || Object.keys(filteredStatsMap).length === 0) {
+    const endGameweek = toGameweek || currentGameweek;
+    if ((fromGameweek === 1 && endGameweek === currentGameweek) || Object.keys(filteredStatsMap).length === 0) {
       return player; // Use full season stats
     }
 
@@ -104,7 +106,7 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
       starts: filtered.starts || 0
       // Note: defensive_contribution is calculated from fixture data in a separate useEffect
     };
-  }, [fromGameweek, filteredStatsMap]);
+  }, [fromGameweek, toGameweek, currentGameweek, filteredStatsMap]);
 
   // Apply filtered stats to elements if needed
   const elementsWithStats = useMemo(() => {
@@ -349,11 +351,19 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
     fetchFixtureData();
 }, []);
 
-  // Fetch filtered stats when fromGameweek changes
+  // Fetch filtered stats when fromGameweek or toGameweek changes
   useEffect(() => {
     const fetchFilteredStats = async () => {
-      if (fromGameweek === 1 || selectedSeason !== "current") {
-        // No filtering needed for GW1 or historical seasons
+      const endGameweek = toGameweek || currentGameweek;
+
+      if (fromGameweek === 1 && endGameweek === currentGameweek) {
+        // No filtering needed for full season
+        setFilteredStatsMap({});
+        return;
+      }
+
+      if (selectedSeason !== "current") {
+        // No filtering for historical seasons
         setFilteredStatsMap({});
         return;
       }
@@ -368,7 +378,7 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
           .rpc('aggregate_player_stats_by_gw_range', {
             player_ids: playerIds,
             start_gw: fromGameweek,
-            end_gw: currentGameweek
+            end_gw: endGameweek
           });
 
         if (error) {
@@ -392,7 +402,7 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
     };
 
     fetchFilteredStats();
-  }, [fromGameweek, elements, currentGameweek, selectedSeason]);
+  }, [fromGameweek, toGameweek, elements, currentGameweek, selectedSeason]);
 
   useEffect(() => {
     if (fixtureData && elementsWithStats.length > 0) {
@@ -406,11 +416,12 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
 
             if (fixtureData) {
                 // Filter fixtures based on selected gameweek range
+                const endGameweek = toGameweek || currentGameweek;
                 const filteredFixtures = fixtureData.filter(fixture => {
                     if (selectedSeason !== "current") return true; // Don't filter for historical seasons
-                    if (fromGameweek === 1) return true; // Don't filter if showing all data
+                    if (fromGameweek === 1 && endGameweek === currentGameweek) return true; // Don't filter if showing all data
                     // Only include fixtures from the selected gameweek range
-                    return fixture.event >= fromGameweek && fixture.event <= currentGameweek;
+                    return fixture.event >= fromGameweek && fixture.event <= endGameweek;
                 });
 
                 filteredFixtures.forEach(fixture => {
@@ -471,7 +482,7 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
       }));
       setElementsWithDefensiveContributionsFromFixtures(rankedByDefContribution);
     }
-  }, [fixtureData, elementsWithStats, fromGameweek, currentGameweek, selectedSeason]);
+  }, [fixtureData, elementsWithStats, fromGameweek, toGameweek, currentGameweek, selectedSeason]);
     
     useEffect(() => {
       const handleClickOutside = (event) => {
@@ -708,25 +719,71 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
             </div>
           )}
         </div>
-
-        {selectedSeason === "current" && (
-          <div className="dropdown gameweek-input-container">
-            <span><strong>From GW:</strong></span>
-            <input
-              type="number"
-              min="1"
-              max="38"
-              value={fromGameweek}
-              onChange={(e) => {
-                const value = parseInt(e.target.value) || 1;
-                setFromGameweek(Math.max(1, Math.min(38, value)));
-              }}
-              onClick={(e) => e.stopPropagation()}
-              className="gameweek-input"
-            />
-          </div>
-        )}
       </div>
+
+      {selectedSeason === "current" && (
+        <div className="gameweek-range-container">
+          <div className="gameweek-range-wrapper">
+            <div className="gameweek-input-group">
+              <label htmlFor="from-gw-input">From GW</label>
+              <input
+                id="from-gw-input"
+                type="number"
+                min="1"
+                max={toGameweek || currentGameweek}
+                value={fromGameweek}
+                onChange={(e) => {
+                  const value = parseInt(e.target.value) || 1;
+                  const maxVal = toGameweek || currentGameweek;
+                  setFromGameweek(Math.max(1, Math.min(maxVal, value)));
+                }}
+                className="gameweek-range-input"
+              />
+            </div>
+
+            <div className="gameweek-slider-container">
+              <input
+                type="range"
+                min="0"
+                max={currentGameweek - 1}
+                value={fromGameweek - 1}
+                onChange={(e) => setFromGameweek(parseInt(e.target.value) + 1)}
+                className="gameweek-slider gameweek-slider-from"
+                style={{ zIndex: fromGameweek > (toGameweek || currentGameweek) / 2 ? 2 : 1 }}
+              />
+              <input
+                type="range"
+                min="0"
+                max={currentGameweek - 1}
+                value={(toGameweek || currentGameweek) - 1}
+                onChange={(e) => {
+                  const value = parseInt(e.target.value) + 1;
+                  setToGameweek(value === currentGameweek ? null : value);
+                }}
+                className="gameweek-slider gameweek-slider-to"
+                style={{ zIndex: (toGameweek || currentGameweek) <= currentGameweek / 2 ? 2 : 1 }}
+              />
+            </div>
+
+            <div className="gameweek-input-group">
+              <input
+                id="to-gw-input"
+                type="number"
+                min={fromGameweek}
+                max={currentGameweek}
+                value={toGameweek || currentGameweek}
+                onChange={(e) => {
+                  const value = parseInt(e.target.value) || currentGameweek;
+                  const clampedValue = Math.max(fromGameweek, Math.min(currentGameweek, value));
+                  setToGameweek(clampedValue === currentGameweek ? null : clampedValue);
+                }}
+                className="gameweek-range-input"
+              />
+              <label htmlFor="to-gw-input">To GW</label>
+            </div>
+          </div>
+        </div>
+      )}
 
       {loadingHistorical && (
         <div className="loading-message">
@@ -734,7 +791,7 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
         </div>
       )}
 
-      {loadingFilteredStats && fromGameweek > 1 && (
+      {loadingFilteredStats && (
         <div className="loading-message">
           <p>⏳ Loading Filtered Stats... ⏳</p>
         </div>

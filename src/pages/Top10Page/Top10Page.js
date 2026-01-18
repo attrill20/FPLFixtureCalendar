@@ -81,7 +81,10 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
   // Helper function to get player stats (either full season or filtered)
   const getPlayerStats = useCallback((player) => {
     const endGameweek = toGameweek || currentGameweek;
-    if ((fromGameweek === 1 && endGameweek === currentGameweek) || Object.keys(filteredStatsMap).length === 0) {
+    const venueFilterActive = !showHome || !showAway;
+
+    // Only use full season stats if showing full GW range with both venues AND no filtered data
+    if ((fromGameweek === 1 && endGameweek === currentGameweek && !venueFilterActive) || Object.keys(filteredStatsMap).length === 0) {
       return player; // Use full season stats
     }
 
@@ -108,7 +111,7 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
       starts: filtered.starts || 0
       // Note: defensive_contribution is calculated from fixture data in a separate useEffect
     };
-  }, [fromGameweek, toGameweek, currentGameweek, filteredStatsMap]);
+  }, [fromGameweek, toGameweek, currentGameweek, filteredStatsMap, showHome, showAway]);
 
   // Apply filtered stats to elements if needed
   const elementsWithStats = useMemo(() => {
@@ -431,25 +434,26 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
 
                 filteredFixtures.forEach(fixture => {
                     if (fixture.stats) {
-                        // Check if player was home or away in this fixture
-                        const isHome = fixture.team_h === player.team;
-                        const isAway = fixture.team_a === player.team;
-
-                        // Skip fixture if venue filter doesn't match
-                        if ((isHome && !showHome) || (isAway && !showAway)) {
-                            return;
-                        }
-
                         const defensiveStat = fixture.stats.find(stat => stat.identifier === 'defensive_contribution');
                         if (defensiveStat) {
                             const homePlayers = defensiveStat.h;
                             const awayPlayers = defensiveStat.a;
 
-                            const allPlayers = [...homePlayers, ...awayPlayers];
+                            // Check if this player played in this fixture and determine their venue
+                            const playerInHome = homePlayers.find(p => p.element === playerId);
+                            const playerInAway = awayPlayers.find(p => p.element === playerId);
+                            const playerInFixture = playerInHome || playerInAway;
 
-                            // Check if this player played in this fixture
-                            const playerInFixture = allPlayers.find(p => p.element === playerId);
                             if (playerInFixture) {
+                                // Determine if this was a home or away game for the player
+                                const wasHome = !!playerInHome;
+                                const wasAway = !!playerInAway;
+
+                                // Skip fixture if venue filter doesn't match
+                                if ((wasHome && !showHome) || (wasAway && !showAway)) {
+                                    return;
+                                }
+
                                 gamesWithDefensiveData++; // Count as a start/appearance
 
                                 // Add the defensive contribution value

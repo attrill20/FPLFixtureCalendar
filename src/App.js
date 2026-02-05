@@ -6,7 +6,8 @@ import HomePage from "./pages/HomePage/HomePage";
 import Top10Page from "./pages/Top10Page/Top10Page";
 import TeamsPage from "./pages/TeamsPage/TeamsPage";
 import FAQPage from "./pages/FAQPage/FAQPage";
-import { teams } from "./components/dummyArrays/dummy";
+import FDRComparisonPage from "./pages/FDRComparisonPage/FDRComparisonPage";
+import { teams, fdrReady } from "./components/dummyArrays/dummy";
 import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 import Navbar from "./components/navbar/navbar";
 
@@ -14,6 +15,13 @@ export default function App() {
   const [mainData, setMainData] = useState(null);
   const [fixturesData, setFixturesData] = useState(null);
   const [activeGameweek, setActiveGameweek] = useState(null);
+  const [teamsData, setTeamsData] = useState(teams);
+
+  // Once the async FDR fetch in dummy.js completes, spread the array to give
+  // React a new reference so components re-render with the Supabase values
+  useEffect(() => {
+    fdrReady.then(() => setTeamsData([...teams]));
+  }, []);
 
   // Fetch the FPL API data from new server
   useEffect(() => {
@@ -67,7 +75,7 @@ export default function App() {
             path="/calendar"
             element={
               <FixtureCalendarPage
-                teams={teams}
+                teams={teamsData}
                 fixturesData={fixturesData}
                 activeGameweek={activeGameweek}
               />
@@ -86,7 +94,7 @@ export default function App() {
             element={
               <Top10Page
                 mainData={mainData}
-                teams={teams}
+                teams={teamsData}
               />
             }
           />
@@ -94,16 +102,22 @@ export default function App() {
             path="/teams" 
             element={
               <TeamsPage
-                teams={teams}
+                teams={teamsData}
               />
             }      
           />
-          <Route 
-            path="/faq" 
+          <Route
+            path="/faq"
             element={
-              <FAQPage 
+              <FAQPage
               />
-            } 
+            }
+          />
+          <Route
+            path="/fdr-comparison"
+            element={
+              <FDRComparisonPage />
+            }
           />
         </Routes>
       </BrowserRouter>

@@ -53,18 +53,27 @@ function Navbar() {
             </NavLink>
           </li>
           <li>
-            <NavLink 
-              to="/teams" 
-              className={({ isActive }) => isActive ? 'active' : ''} 
+            <NavLink
+              to="/teams"
+              className={({ isActive }) => isActive ? 'active' : ''}
               onClick={toggleMenu}
             >
             Team Stats
             </NavLink>
           </li>
           <li>
-            <NavLink 
-              to="/faq" 
-              className={({ isActive }) => isActive ? 'active' : ''} 
+            <NavLink
+              to="/fdr-comparison"
+              className={({ isActive }) => isActive ? 'active' : ''}
+              onClick={toggleMenu}
+            >
+            FDR Comparison
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
+              to="/faq"
+              className={({ isActive }) => isActive ? 'active' : ''}
               onClick={toggleMenu}
             >
               FAQs

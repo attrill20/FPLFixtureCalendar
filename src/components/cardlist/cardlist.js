@@ -133,8 +133,8 @@ export default function CardList({ teams, fixturesData, activeGameweek: initialA
         const home = fixture.team_h === teamId;
         const opponentNumber = home ? fixture.team_a : fixture.team_h;
         const difficulty = home
-          ? teams[opponentNumber]?.h_diff || 0
-          : teams[opponentNumber]?.a_diff || 0;
+          ? teams[opponentNumber]?.a_diff || 0
+          : teams[opponentNumber]?.h_diff || 0;
 
         return acc + difficulty;
       }, 0);

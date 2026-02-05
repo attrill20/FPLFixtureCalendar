@@ -1,0 +1,589 @@
+.fdr-comparison-page {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+}
+
+.comparison-info {
+  background-color: var(--color-bg-secondary);
+  padding: var(--spacing-xs) var(--spacing-md);
+  border-radius: var(--radius-lg);
+  border: 1px solid #000000;
+  box-shadow: 0 2px 4px var(--color-shadow);
+  margin: var(--spacing-sm) 9% var(--spacing-sm) 9%;
+}
+
+.comparison-info .description {
+  font-size: 1rem;
+  color: #555;
+  margin-bottom: 10px;
+  line-height: 1.6;
+}
+
+.last-updated {
+  font-size: 0.875rem;
+  color: #666;
+  font-style: italic;
+}
+
+.stats-summary {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.stat-box {
+  background: white;
+  padding: 15px;
+  border-radius: 6px;
+  text-align: center;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.stat-label {
+  font-size: 0.875rem;
+  color: #666;
+  margin-bottom: 8px;
+}
+
+.stat-value {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 4px;
+}
+
+.stat-subtitle {
+  font-size: 0.75rem;
+  color: #999;
+}
+
+.comparison-table-container {
+  overflow-x: auto;
+  margin: 0 9%;
+}
+
+.comparison-table {
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: collapse;
+  background: white;
+  border: 1px solid #000000;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.comparison-table colgroup .col-team {
+  width: 22%;
+}
+
+.comparison-table colgroup .col-data {
+  width: 13%;
+}
+
+.comparison-table th {
+  background: #37003c;
+  color: white;
+  padding: 12px;
+  text-align: center;
+  font-weight: 600;
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.comparison-table th.sortable {
+  cursor: pointer;
+  user-select: none;
+  transition: background 0.2s;
+}
+
+.comparison-table th.sortable:hover {
+  background: #4a0050;
+}
+
+.comparison-table td {
+  padding: 12px;
+  text-align: center;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+/* Black border on right and bottom outer edges (cell borders win over table border in border-collapse) */
+.comparison-table th:last-child,
+.comparison-table td:last-child {
+  border-right: 1px solid #000000;
+}
+
+.comparison-table tbody tr:last-child td {
+  border-bottom: 1px solid #000000;
+}
+
+.comparison-table tbody tr:hover .team-name {
+  background: #f8f9fa;
+}
+
+/* Don't override rating and diff cell backgrounds on hover */
+.comparison-table tbody tr:hover .rating,
+.comparison-table tbody tr:hover .diff {
+  /* Keep their original background colors */
+}
+
+.comparison-table tbody tr.selected-row {
+  background: #e3f2fd;
+}
+
+.comparison-table .team-name {
+  text-align: left !important;
+  font-weight: 600;
+  font-size: 1.05rem;
+  color: #333;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.comparison-table .table-team-badge {
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+.rating {
+  font-weight: bold;
+  padding: 6px 12px !important;
+  border-radius: 4px;
+  color: #000 !important;
+}
+
+.rating-badge {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 4px;
+  font-weight: bold;
+  color: #000;
+}
+
+/* Oracle FDR Colour Scheme (1-10 scale) - matches calendar page */
+.comparison-table .rating.custom-difficulty-1 {
+  background-color: rgb(159, 251, 159) !important;
+}
+
+.comparison-table .rating.custom-difficulty-2 {
+  background-color: rgb(152, 241, 130) !important;
+}
+
+.comparison-table .rating.custom-difficulty-3 {
+  background-color: rgb(162, 236, 143) !important;
+}
+
+.comparison-table .rating.custom-difficulty-4 {
+  background-color: rgb(187, 219, 132) !important;
+}
+
+.comparison-table .rating.custom-difficulty-5 {
+  background-color: rgb(223, 237, 153) !important;
+}
+
+.comparison-table .rating.custom-difficulty-6 {
+  background-color: rgb(245, 245, 137) !important;
+}
+
+.comparison-table .rating.custom-difficulty-7 {
+  background-color: rgb(250, 214, 143) !important;
+}
+
+.comparison-table .rating.custom-difficulty-8 {
+  background-color: rgb(245, 189, 137) !important;
+}
+
+.comparison-table .rating.custom-difficulty-9 {
+  background-color: rgb(240, 164, 164) !important;
+}
+
+.comparison-table .rating.custom-difficulty-10 {
+  background-color: rgb(243, 143, 143) !important;
+}
+
+.diff {
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: #000 !important;
+  padding: 6px 12px !important;
+}
+
+/* Diff colour scale based on difference magnitude */
+.comparison-table .diff.diff-0 {
+  background-color: #e8f5e9 !important;
+  color: #1b5e20 !important;
+}
+
+.comparison-table .diff.diff-1 {
+  background-color: #fff9c4 !important;
+}
+
+.comparison-table .diff.diff-2 {
+  background-color: #ffe082 !important;
+}
+
+.comparison-table .diff.diff-3 {
+  background-color: #ffcc80 !important;
+}
+
+.comparison-table .diff.diff-4 {
+  background-color: #ffab91 !important;
+}
+
+.comparison-table .diff.diff-5-plus {
+  background-color: #ef9a9a !important;
+  color: #b71c1c !important;
+}
+
+.diff-match {
+  color: #4caf50;
+}
+
+.diff-minor {
+  color: #ff9800;
+}
+
+.diff-major {
+  color: #f44336;
+}
+
+/* Home and Away section separation - only for non-rating cells */
+.comparison-table tbody td.diff.home-section {
+  border-right: 3px solid #37003c;
+}
+
+.comparison-table tbody td.diff.away-section {
+  /* no special background for diff cells, they have their own colors */
+}
+
+/* Remove right border from last home column in tbody */
+.comparison-table tbody td.home-section:nth-child(4) {
+  border-right: 3px solid #37003c;
+}
+
+/* Ensure header spans also have proper borders */
+.comparison-table thead th.home-section {
+  border-right: 3px solid rgba(255, 255, 255, 0.3);
+}
+
+.comparison-table thead th.away-section {
+  border-left: none;
+}
+
+/* Add left border to away section for visual separation */
+.comparison-table tbody td.away-section:nth-child(5) {
+  border-left: 3px solid #37003c;
+}
+
+/* Totals row styling */
+.comparison-table tfoot tr.totals-row {
+  background: #f5f5f5;
+  border-top: 2px solid #37003c;
+}
+
+.comparison-table tfoot td {
+  padding: 14px 12px;
+  font-size: 0.95rem;
+}
+
+.comparison-table tfoot .team-name {
+  background: #e0e0e0;
+  color: #37003c;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.comparison-table tfoot td.home-section:nth-child(4) {
+  border-right: 3px solid #37003c;
+}
+
+.comparison-table tfoot td.away-section:nth-child(5) {
+  border-left: 3px solid #37003c;
+}
+
+.breakdown-btn {
+  background: #37003c;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: background 0.2s;
+}
+
+.breakdown-btn:hover {
+  background: #00ff87;
+  color: #37003c;
+}
+
+.breakdown-panel {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: white;
+  width: 90%;
+  max-width: 800px;
+  max-height: 90vh;
+  overflow-y: auto;
+  border-radius: 12px;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+  z-index: 1000;
+}
+
+.breakdown-header {
+  background: #37003c;
+  color: white;
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 12px 12px 0 0;
+}
+
+.breakdown-header h2 {
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 2rem;
+  cursor: pointer;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: background 0.2s;
+}
+
+.close-btn:hover {
+  background: rgba(255,255,255,0.2);
+}
+
+.breakdown-content {
+  padding: 20px;
+}
+
+.breakdown-section {
+  margin-bottom: 30px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.breakdown-section:last-child {
+  border-bottom: none;
+}
+
+.breakdown-section h3 {
+  margin-top: 0;
+  margin-bottom: 15px;
+  color: #37003c;
+  font-size: 1.25rem;
+}
+
+.factor-grid {
+  display: grid;
+  gap: 12px;
+}
+
+.factor-item {
+  display: grid;
+  grid-template-columns: 200px 1fr 60px;
+  align-items: center;
+  gap: 10px;
+}
+
+.factor-label {
+  font-size: 0.875rem;
+  color: #666;
+  text-transform: capitalize;
+}
+
+.factor-bar-container {
+  height: 24px;
+  background: #f0f0f0;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.factor-bar {
+  height: 100%;
+  background: linear-gradient(90deg, #37003c 0%, #00ff87 100%);
+  transition: width 0.3s ease;
+}
+
+.factor-value {
+  font-weight: 600;
+  color: #333;
+  text-align: right;
+}
+
+.weights-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.weight-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 12px;
+  background: #f8f9fa;
+  border-radius: 4px;
+}
+
+.weight-label {
+  font-size: 0.875rem;
+  color: #666;
+  text-transform: capitalize;
+}
+
+.weight-value {
+  font-weight: 600;
+  color: #37003c;
+}
+
+.weight-description {
+  font-size: 0.875rem;
+  color: #666;
+  font-style: italic;
+  margin-bottom: 10px;
+}
+
+.badge-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.badge-stat-box {
+  background: white;
+  padding: 14px 16px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.badge-stat-box.overrated {
+  border-top: 3px solid #ef5350;
+}
+
+.badge-stat-box.underrated {
+  border-top: 3px solid #66bb6a;
+}
+
+.badge-stat-box img {
+  width: 52px;
+  height: 52px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+.badge-stat-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.badge-stat-label {
+  font-size: 0.7rem;
+  color: #666;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-weight: 600;
+}
+
+.badge-stat-team {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #333;
+  line-height: 1.3;
+}
+
+.badge-stat-diff {
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.badge-stat-diff.overrated {
+  color: #ef5350;
+}
+
+.badge-stat-diff.underrated {
+  color: #66bb6a;
+}
+
+.loading {
+  text-align: center;
+  padding: 60px 20px;
+  font-size: 1.25rem;
+  color: #666;
+}
+
+@media (max-width: 768px) {
+  .comparison-table {
+    font-size: 0.75rem;
+  }
+
+  .comparison-table th,
+  .comparison-table td {
+    padding: 8px 4px;
+  }
+
+  .breakdown-panel {
+    width: 95%;
+    max-height: 95vh;
+  }
+
+  .factor-item {
+    grid-template-columns: 1fr;
+    gap: 5px;
+  }
+
+  .factor-label {
+    font-weight: 600;
+  }
+
+  .factor-value {
+    text-align: left;
+  }
+
+  .weights-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .stat-box {
+    padding: 10px;
+  }
+
+  .stat-value {
+    font-size: 1.5rem;
+  }
+
+  .badge-stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .badge-stat-box img {
+    width: 40px;
+    height: 40px;
+  }
+
+  .badge-stat-team {
+    font-size: 0.875rem;
+  }
+}

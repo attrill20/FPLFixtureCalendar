@@ -27,6 +27,7 @@ import WHUbadge from '../badges/WHUbadge.png'
 import WOLbadge from '../badges/WOLbadge.png'
 
 import axios from 'axios';
+import { supabase } from '../../supabaseClient';
 
 export let teams = [
   { id: 0, name: "Blank", initial: "NULL", badge: null, h_diff: 11, a_diff: 11 },
@@ -52,11 +53,67 @@ export let teams = [
   { id: 20, name: "Wolves", initial: "WOL", badge: WOLbadge, h_diff: 3, a_diff: 5, code: 39 },
 ];
 
+// Fetch automated FDR ratings from Supabase
+const fetchFDRFromSupabase = async () => {
+  try {
+    console.log('📊 Fetching automated FDR from Supabase...');
+
+    // Fetch from team_fdr_calculations for full decimal precision (same as comparison page)
+    const { data: fdrData, error: fdrError } = await supabase
+      .from('team_fdr_calculations')
+      .select('team_id, home_difficulty, away_difficulty');
+
+    // Get updated_at timestamp from teams table
+    const { data: teamsData } = await supabase
+      .from('teams')
+      .select('id, updated_at')
+      .order('id')
+      .limit(1);
+
+    if (fdrError) {
+      console.warn('⚠️ Supabase FDR fetch failed:', fdrError.message);
+      return false;
+    }
+
+    if (!fdrData || fdrData.length === 0) {
+      console.warn('⚠️ No FDR data found in Supabase');
+      return false;
+    }
+
+    // Update teams array with automated FDR ratings (with decimal precision)
+    let updatedCount = 0;
+    fdrData.forEach(fdr => {
+      const team = teams.find(t => t.id === fdr.team_id);
+      if (team) {
+        team.h_diff = parseFloat(fdr.home_difficulty) || 5;
+        team.a_diff = parseFloat(fdr.away_difficulty) || 5;
+        updatedCount++;
+      }
+    });
+
+    console.log(`✅ Loaded automated FDR for ${updatedCount} teams from Supabase`);
+    console.log(`   Last updated: ${teamsData?.[0]?.updated_at || 'Unknown'}`);
+    return true;
+
+  } catch (error) {
+    console.error('❌ Error fetching FDR from Supabase:', error);
+    return false;
+  }
+};
+
+// Fallback to Google Sheets (manual ratings)
 const fetchDataFromGoogleSheets = async () => {
   try {
+    console.log('📊 Fetching manual FDR from Google Sheets...');
+
     const spreadsheetId = process.env.REACT_APP_SPREADSHEET_ID;
     const apiKey = process.env.REACT_APP_GOOGLE_API_KEY;
     const sheetName = process.env.REACT_APP_SHEET_NAME;
+
+    if (!spreadsheetId || !apiKey || !sheetName) {
+      console.warn('⚠️ Google Sheets environment variables not configured');
+      return false;
+    }
 
     const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${sheetName}?key=${apiKey}`;
 
@@ -64,13 +121,40 @@ const fetchDataFromGoogleSheets = async () => {
     const data = response.data.values;
 
     for (let i = 1; i <= 20; i++) {
-      teams[i].h_diff = parseInt(data[i + 3][2]); 
-      teams[i].a_diff = parseInt(data[i + 3][3]); 
+      if (teams[i]) {
+        teams[i].h_diff = parseInt(data[i + 3][2]);
+        teams[i].a_diff = parseInt(data[i + 3][3]);
+      }
     }
 
+    console.log('✅ Loaded manual FDR from Google Sheets');
+    return true;
+
   } catch (error) {
-    console.error('Error fetching data from Google Sheets:', error);
+    console.error('❌ Error fetching data from Google Sheets:', error);
+    return false;
   }
 };
 
-fetchDataFromGoogleSheets();
+// Hybrid FDR loading: Try Supabase first, fallback to Google Sheets
+const loadFDR = async () => {
+  // Try automated FDR from Supabase first
+  const supabaseSuccess = await fetchFDRFromSupabase();
+
+  if (supabaseSuccess) {
+    console.log('🎯 Using automated FDR from Supabase');
+    return;
+  }
+
+  // Fallback to manual Google Sheets ratings
+  console.log('🔄 Falling back to manual Google Sheets FDR...');
+  const sheetsSuccess = await fetchDataFromGoogleSheets();
+
+  if (!sheetsSuccess) {
+    console.warn('⚠️ Using default hardcoded FDR ratings');
+  }
+};
+
+// Load FDR on module initialization — export the promise so App.js can
+// trigger a re-render once the async fetch completes
+export const fdrReady = loadFDR();

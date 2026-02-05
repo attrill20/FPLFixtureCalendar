@@ -78,8 +78,8 @@ export default function Row({
             const opponentNumber =
               fixture.team_h === teamId ? fixture.team_a : fixture.team_h;
             const difficulty = home
-              ? teams[opponentNumber]?.h_diff || 0
-              : teams[opponentNumber]?.a_diff || 0;
+              ? teams[opponentNumber]?.a_diff || 0
+              : teams[opponentNumber]?.h_diff || 0;
 
             return acc + difficulty;
           }, 0);
@@ -133,7 +133,7 @@ export default function Row({
           )}
           {showCustomScore && teamFixturesData && (
             <h2 className="fdr-number">
-              {teamFixturesData.reversedCustomDifficulty}
+              {Number(teamFixturesData.reversedCustomDifficulty).toFixed(1)}
             </h2>
           )}
         </td>
@@ -151,10 +151,10 @@ export default function Row({
                       className={`fixture-info ${
                         showOriginalScore
                           ? `difficulty-${fixture.difficulty}`
-                          : `custom-difficulty-${fixture.home
-                              ? teams[fixture.opponentNumber]?.h_diff
-                              : teams[fixture.opponentNumber]?.a_diff
-                            }`
+                          : `custom-difficulty-${Math.round(fixture.home
+                              ? teams[fixture.opponentNumber]?.a_diff
+                              : teams[fixture.opponentNumber]?.h_diff
+                            )}`
                       }`}
                       key={index}
                     >
@@ -227,7 +227,7 @@ export default function Row({
               )}
               {showCustomScore && teamFixturesData && (
                 <h2 className="fdr-number">
-                  {teamFixturesData.reversedCustomDifficulty}
+                  {Number(teamFixturesData.reversedCustomDifficulty).toFixed(1)}
                 </h2>
               )}
             </td>
@@ -245,10 +245,10 @@ export default function Row({
                           className={`fixture-info ${
                             showOriginalScore
                               ? `difficulty-${fixture.difficulty}`
-                              : `custom-difficulty-${fixture.home
-                                  ? teams[fixture.opponentNumber]?.h_diff
-                                  : teams[fixture.opponentNumber]?.a_diff
-                                }`
+                              : `custom-difficulty-${Math.round(fixture.home
+                                  ? teams[fixture.opponentNumber]?.a_diff
+                                  : teams[fixture.opponentNumber]?.h_diff
+                                )}`
                           }`}
                           key={index}
                         >

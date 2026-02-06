@@ -145,7 +145,44 @@ export default function Row({
 
             return (
               <td className="fixture-column" key={gameweekIndex}>
-                {gameweek.length > 0 ? (
+                {gameweek.length > 1 ? (
+                  <div className="dgw-container">
+                    {gameweek.map((fixture, index) => {
+                      const diffClass = showOriginalScore
+                        ? `difficulty-${fixture.difficulty}`
+                        : `custom-difficulty-${Math.round(fixture.home
+                            ? teams[fixture.opponentNumber]?.a_diff
+                            : teams[fixture.opponentNumber]?.h_diff
+                          )}`;
+                      const compactClass = shouldCompactOpponents ? 'opponent-name-compact' : '';
+                      const badge = fixture.opponentNumber !== null && teams[fixture.opponentNumber]?.badge;
+                      return (
+                        <div
+                          className={`fixture-info dgw-fixture ${diffClass}`}
+                          key={index}
+                        >
+                          <span className="dgw-text">
+                            <b className={`opponent-name ${compactClass}`}>{fixture.opponent}</b>{" "}
+                            {fixture.opponentNumber !== 0 ? (
+                              <span className={compactClass}>
+                                {fixture.home ? "(H)" : "(A)"}
+                              </span>
+                            ) : (
+                              <strong>BLANK</strong>
+                            )}
+                          </span>
+                          {badge && (
+                            <img
+                              className="fixture-badge"
+                              src={teams[fixture.opponentNumber]?.badge}
+                              alt={fixture.opponent}
+                            />
+                          )}
+                        </div>
+                      );
+                    })}
+                  </div>
+                ) : gameweek.length > 0 ? (
                   gameweek.map((fixture, index) => (
                     <div
                       className={`fixture-info ${
@@ -239,7 +276,44 @@ export default function Row({
 
                 return (
                   <td className="fixture-column" key={gameweekIndex}>
-                    {gameweek.length > 0 ? (
+                    {gameweek.length > 1 ? (
+                      <div className="dgw-container">
+                        {gameweek.map((fixture, index) => {
+                          const diffClass = showOriginalScore
+                            ? `difficulty-${fixture.difficulty}`
+                            : `custom-difficulty-${Math.round(fixture.home
+                                ? teams[fixture.opponentNumber]?.a_diff
+                                : teams[fixture.opponentNumber]?.h_diff
+                              )}`;
+                          const compactClass = shouldCompactOpponents ? 'opponent-name-compact' : '';
+                          const badge = fixture.opponentNumber !== null && teams[fixture.opponentNumber]?.badge;
+                          return (
+                            <div
+                              className={`fixture-info dgw-fixture ${diffClass}`}
+                              key={index}
+                            >
+                              <span className="dgw-text">
+                                <b className={`opponent-name ${compactClass}`}>{fixture.opponent}</b>{" "}
+                                {fixture.opponentNumber !== 0 ? (
+                                  <span className={compactClass}>
+                                    {fixture.home ? "(H)" : "(A)"}
+                                  </span>
+                                ) : (
+                                  <strong>BLANK</strong>
+                                )}
+                              </span>
+                              {badge && (
+                                <img
+                                  className="fixture-badge"
+                                  src={teams[fixture.opponentNumber]?.badge}
+                                  alt={fixture.opponent}
+                                />
+                              )}
+                            </div>
+                          );
+                        })}
+                      </div>
+                    ) : gameweek.length > 0 ? (
                       gameweek.map((fixture, index) => (
                         <div
                           className={`fixture-info ${

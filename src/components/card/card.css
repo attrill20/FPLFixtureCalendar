@@ -100,8 +100,9 @@ th {
 }
 
 .fixture-column {
-  overflow-wrap: break-word; 
+  overflow-wrap: break-word;
   padding: 0px;
+  height: 1px; /* table-cell hack: lets children use height:100% */
 }
 
 .cards {
@@ -171,10 +172,39 @@ th {
   }
 
   .fixture-badge {
-    height: 80px; 
-    margin-top: 0px; 
+    height: 80px;
+    margin-top: 0px;
   }
-  
+
+  /* DGW side-by-side layout */
+  .dgw-container {
+    display: flex;
+    height: 100%;
+  }
+
+  .dgw-fixture {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-width: 0;
+    padding: 2px 1px;
+    font-size: 0.85em;
+    overflow: hidden;
+  }
+
+  .dgw-fixture:first-child {
+    border-right: 1px solid rgba(0, 0, 0, 0.25);
+  }
+
+  .dgw-fixture .fixture-badge {
+    height: auto;
+    max-height: 70px;
+    max-width: 90%;
+    object-fit: contain;
+  }
+
   table {
     border-collapse: separate;
     border-spacing: 0;
@@ -265,8 +295,19 @@ th {
   }
 
   .fixture-badge {
-    height: 30px; 
+    height: 30px;
     margin-top: 2px;
+  }
+
+  .dgw-fixture .fixture-badge {
+    height: auto;
+    max-height: 26px;
+    max-width: 90%;
+    object-fit: contain;
+  }
+
+  .dgw-fixture {
+    padding: 1px 0;
   }
 
   .fdr-column {
@@ -335,8 +376,15 @@ th {
   }
 
   .fixture-badge {
-    height: 25px; 
+    height: 25px;
     margin-top: 1px;
+  }
+
+  .dgw-fixture .fixture-badge {
+    height: auto;
+    max-height: 22px;
+    max-width: 90%;
+    object-fit: contain;
   }
 
   .fdr-column {

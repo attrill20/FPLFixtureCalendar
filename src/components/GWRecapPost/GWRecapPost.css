@@ -1,0 +1,193 @@
+/* GW Recap Movers Layout */
+.gw-recap-movers {
+  display: flex;
+  gap: var(--spacing-xl);
+  margin-top: var(--spacing-md);
+  width: 100%;
+}
+
+.movers-column {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.movers-column-title {
+  font-size: var(--font-size-lg) !important;
+  font-weight: 600;
+  margin: 0 0 var(--spacing-xs) 0;
+  padding-bottom: var(--spacing-xs);
+  border-bottom: 2px solid var(--color-border);
+}
+
+.movers-title-up {
+  color: #1a8a1a;
+}
+
+.movers-title-down {
+  color: #c62828;
+}
+
+/* Individual Mover Card */
+.mover-card {
+  background: var(--color-bg-primary);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--spacing-sm) var(--spacing-md);
+  box-shadow: 0 2px 4px var(--color-shadow);
+  transition: box-shadow 0.2s ease;
+}
+
+.mover-card:hover {
+  box-shadow: 0 4px 8px var(--color-shadow-hover);
+}
+
+.mover-up {
+  border-left: 4px solid #1a8a1a;
+}
+
+.mover-down {
+  border-left: 4px solid #c62828;
+}
+
+.mover-card-header {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  margin-bottom: var(--spacing-xs);
+}
+
+.mover-badge {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+.mover-card-info {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  flex-wrap: wrap;
+}
+
+.mover-team-name {
+  font-weight: 600;
+  font-size: var(--font-size-base);
+  color: var(--color-text-primary);
+}
+
+.mover-change {
+  font-weight: 700;
+  font-size: var(--font-size-base);
+  padding: 2px 8px;
+  border-radius: var(--radius-sm);
+}
+
+.mover-change-up {
+  color: #1a8a1a;
+  background: rgba(26, 138, 26, 0.1);
+}
+
+.mover-change-down {
+  color: #c62828;
+  background: rgba(198, 40, 40, 0.1);
+}
+
+/* Difficulty detail rows */
+.mover-details {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: var(--spacing-xs);
+}
+
+.mover-difficulty-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: var(--font-size-sm);
+}
+
+.mover-venue-label {
+  font-weight: 600;
+  color: var(--color-text-secondary);
+  width: 16px;
+}
+
+.mover-difficulty-badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: var(--radius-sm);
+  font-weight: 600;
+  font-size: var(--font-size-sm);
+  color: var(--color-text-primary);
+  min-width: 36px;
+  text-align: center;
+}
+
+.mover-arrow {
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-sm);
+}
+
+.mover-reason {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  font-style: italic;
+  margin: 0;
+}
+
+/* Responsive: tablet */
+@media (max-width: 1200px) {
+  .gw-recap-movers {
+    gap: var(--spacing-md);
+  }
+
+  .mover-badge {
+    width: 32px;
+    height: 32px;
+  }
+
+  .mover-team-name {
+    font-size: var(--font-size-sm);
+  }
+
+  .mover-change {
+    font-size: var(--font-size-sm);
+  }
+}
+
+/* Responsive: stack on mobile */
+@media (max-width: 800px) {
+  .gw-recap-movers {
+    flex-direction: column;
+    gap: var(--spacing-md);
+  }
+
+  .mover-badge {
+    width: 28px;
+    height: 28px;
+  }
+
+  .mover-team-name {
+    font-size: var(--font-size-xs);
+  }
+
+  .mover-change {
+    font-size: var(--font-size-xs);
+  }
+
+  .mover-difficulty-row {
+    font-size: var(--font-size-xs);
+  }
+
+  .mover-reason {
+    font-size: var(--font-size-xs);
+  }
+
+  .movers-column-title {
+    font-size: var(--font-size-base) !important;
+  }
+}

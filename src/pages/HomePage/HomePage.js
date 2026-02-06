@@ -6,8 +6,12 @@ import july_24_fdr_top from '../../components/images/july_24_fdr_top.png';
 import july_24_fdr_bottom from '../../components/images/july_24_fdr_bottom.png';
 import oct_24_fdr from '../../components/images/oct_24_fdr.png';
 import nov_24_fdr from '../../components/images/nov_24_fdr.png';
+import GWRecapPost from '../../components/GWRecapPost/GWRecapPost';
+import { useFDRMovers } from '../../hooks/useFDRMovers';
+import { teams } from '../../components/dummyArrays/dummy';
 
 const HomePage = () => {
+  const { recaps, loading } = useFDRMovers();
   return (
     <div>
       {/* Hero Section */}
@@ -39,6 +43,18 @@ const HomePage = () => {
           </p>
         </div>
       </section>
+
+      {/* Auto-generated GW Recap Movers */}
+      {!loading && recaps.map((recap, index) => (
+        <GWRecapPost
+          key={recap.gameweekId}
+          currentSnapshots={recap.currentSnapshots}
+          previousSnapshots={recap.previousSnapshots}
+          gameweekName={recap.gameweekName}
+          teams={teams}
+          isLight={index % 2 === 0}
+        />
+      ))}
 
       {/* Latest FDR Update Section - Light Green */}
       <section className="section-light">

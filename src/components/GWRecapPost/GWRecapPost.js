@@ -78,12 +78,12 @@ function generateReason(current, previous, direction) {
     });
   }
 
-  // Sort by magnitude and pick top reason
+  // Sort by magnitude and pick top 2 reasons
   factors.sort((a, b) => b.magnitude - a.magnitude);
   if (factors.length === 0) {
-    return direction === 'up' ? 'Marginal improvements across metrics' : 'Marginal decline across metrics';
+    return [direction === 'up' ? 'Marginal improvements across metrics' : 'Marginal decline across metrics'];
   }
-  return factors[0].text;
+  return factors.slice(0, 2).map(f => f.text);
 }
 
 /**
@@ -152,7 +152,7 @@ const GWRecapPost = ({ currentSnapshots, previousSnapshots, gameweekName, teams,
 
   const renderMoverCard = (mover, direction) => {
     const team = getTeam(mover.team_id);
-    const reason = generateReason(mover.current, mover.previous, direction);
+    const reasons = generateReason(mover.current, mover.previous, direction);
 
     return (
       <div key={mover.team_id} className={`mover-card mover-${direction}`}>
@@ -201,7 +201,11 @@ const GWRecapPost = ({ currentSnapshots, previousSnapshots, gameweekName, teams,
             </span>
           </div>
         </div>
-        <p className="mover-reason">{reason}</p>
+        <ul className="mover-reasons">
+          {reasons.map((r, i) => (
+            <li key={i} className="mover-reason">{r}</li>
+          ))}
+        </ul>
       </div>
     );
   };
@@ -209,25 +213,38 @@ const GWRecapPost = ({ currentSnapshots, previousSnapshots, gameweekName, teams,
   // Extract GW number from name (e.g. "Gameweek 12" → "12")
   const gwNumber = gameweekName ? gameweekName.replace(/\D/g, '') : '';
 
+  // Format the posted date from the snapshot's created_at, or fall back to now
+  const postedDate = (() => {
+    const timestamp = currentSnapshots[0]?.created_at;
+    const date = timestamp ? new Date(timestamp) : new Date();
+    return date.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+  })();
+
   return (
     <section className={isLight ? 'section-light' : 'section-white'}>
       <div className="fdr-wrapper">
         <div className="fdr-heading">
-          <h2>GW{gwNumber} FDR Movers</h2>
-          <p className="date-posted"><strong>Auto-generated after GW{gwNumber}</strong></p>
-          <p>Here are the biggest FDR changes following Gameweek {gwNumber}. These ratings are automatically calculated based on goals, xG, defensive record, and recent form.</p>
+          <div className="recap-title-row">
+            <h2>GW{gwNumber} FDR Movers</h2>
+            <span className="recap-date">Posted: <strong>{postedDate}</strong></span>
+          </div>
+          <p>Here are the biggest FDR changes following Gameweek {gwNumber}, automatically calculated based on goals, xG, defensive record, and recent form.</p>
 
-          <div className="gw-recap-movers">
+          <div className="movers-container">
             {risers.length > 0 && (
-              <div className="movers-column">
-                <h3 className="movers-column-title movers-title-up">Risers</h3>
-                {risers.map(m => renderMoverCard(m, 'up'))}
+              <div className="movers-section">
+                <h3 className="movers-section-title movers-title-up">Biggest Risers</h3>
+                <div className="movers-row">
+                  {risers.map(m => renderMoverCard(m, 'up'))}
+                </div>
               </div>
             )}
             {fallers.length > 0 && (
-              <div className="movers-column">
-                <h3 className="movers-column-title movers-title-down">Fallers</h3>
-                {fallers.map(m => renderMoverCard(m, 'down'))}
+              <div className="movers-section">
+                <h3 className="movers-section-title movers-title-down">Biggest Fallers</h3>
+                <div className="movers-row">
+                  {fallers.map(m => renderMoverCard(m, 'down'))}
+                </div>
               </div>
             )}
           </div>

@@ -1,24 +1,40 @@
-/* GW Recap Movers Layout */
-.gw-recap-movers {
+/* Title row - title and date on same line */
+.recap-title-row {
   display: flex;
-  gap: var(--spacing-xl);
+  align-items: baseline;
+  gap: var(--spacing-md);
+  flex-wrap: wrap;
+}
+
+.recap-title-row h2 {
+  margin: 0;
+}
+
+.recap-date {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  font-style: italic;
+  white-space: nowrap;
+}
+
+/* Container for both risers and fallers sections */
+.movers-container {
   margin-top: var(--spacing-md);
-  width: 100%;
 }
 
-.movers-column {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-sm);
+/* Movers section: title + row of 3 cards */
+.movers-section {
+  margin-top: var(--spacing-md);
 }
 
-.movers-column-title {
-  font-size: var(--font-size-lg) !important;
+.movers-section:first-child {
+  margin-top: 0;
+}
+
+.movers-section-title {
+  font-size: var(--font-size-base) !important;
   font-weight: 600;
-  margin: 0 0 var(--spacing-xs) 0;
-  padding-bottom: var(--spacing-xs);
-  border-bottom: 2px solid var(--color-border);
+  margin: 0 0 var(--spacing-sm) 0;
 }
 
 .movers-title-up {
@@ -29,12 +45,19 @@
   color: #c62828;
 }
 
+/* Row of 3 cards */
+.movers-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--spacing-sm);
+}
+
 /* Individual Mover Card */
 .mover-card {
   background: var(--color-bg-primary);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
-  padding: var(--spacing-sm) var(--spacing-md);
+  padding: var(--spacing-sm) var(--spacing-sm) 3px var(--spacing-sm);
   box-shadow: 0 2px 4px var(--color-shadow);
   transition: box-shadow 0.2s ease;
 }
@@ -59,8 +82,8 @@
 }
 
 .mover-badge {
-  width: 40px;
-  height: 40px;
+  width: 44px;
+  height: 44px;
   object-fit: contain;
   flex-shrink: 0;
 }
@@ -68,7 +91,7 @@
 .mover-card-info {
   display: flex;
   align-items: center;
-  gap: var(--spacing-sm);
+  gap: var(--spacing-xs);
   flex-wrap: wrap;
 }
 
@@ -99,7 +122,7 @@
 .mover-details {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 3px;
   margin-bottom: var(--spacing-xs);
 }
 
@@ -132,6 +155,15 @@
   font-size: var(--font-size-sm);
 }
 
+.mover-reasons {
+  list-style-type: disc;
+  padding-left: 18px;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
 .mover-reason {
   font-size: var(--font-size-sm);
   color: var(--color-text-secondary);
@@ -139,36 +171,15 @@
   margin: 0;
 }
 
-/* Responsive: tablet */
+/* Responsive: tablet - keep 3 across but tighter */
 @media (max-width: 1200px) {
-  .gw-recap-movers {
-    gap: var(--spacing-md);
+  .movers-row {
+    gap: var(--spacing-xs);
   }
 
   .mover-badge {
-    width: 32px;
-    height: 32px;
-  }
-
-  .mover-team-name {
-    font-size: var(--font-size-sm);
-  }
-
-  .mover-change {
-    font-size: var(--font-size-sm);
-  }
-}
-
-/* Responsive: stack on mobile */
-@media (max-width: 800px) {
-  .gw-recap-movers {
-    flex-direction: column;
-    gap: var(--spacing-md);
-  }
-
-  .mover-badge {
-    width: 28px;
-    height: 28px;
+    width: 30px;
+    height: 30px;
   }
 
   .mover-team-name {
@@ -177,17 +188,91 @@
 
   .mover-change {
     font-size: var(--font-size-xs);
+    padding: 1px 5px;
   }
 
   .mover-difficulty-row {
     font-size: var(--font-size-xs);
   }
 
+  .mover-difficulty-badge {
+    font-size: var(--font-size-xs);
+    min-width: 30px;
+    padding: 1px 5px;
+  }
+
   .mover-reason {
     font-size: var(--font-size-xs);
   }
+}
 
-  .movers-column-title {
-    font-size: var(--font-size-base) !important;
+/* Responsive: mobile - risers column left, fallers column right */
+@media (max-width: 800px) {
+  .movers-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-xs);
+    margin-top: var(--spacing-sm);
+  }
+
+  .movers-section {
+    margin-top: 0;
+  }
+
+  .movers-row {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-xs);
+  }
+
+  .recap-title-row {
+    gap: var(--spacing-xs);
+  }
+
+  .recap-date {
+    font-size: var(--font-size-xs);
+  }
+
+  .mover-badge {
+    width: 24px;
+    height: 24px;
+  }
+
+  .mover-card {
+    padding: var(--spacing-xs);
+  }
+
+  .mover-team-name {
+    font-size: var(--font-size-xs);
+  }
+
+  .mover-change {
+    font-size: var(--font-size-xs);
+    padding: 1px 4px;
+  }
+
+  .mover-difficulty-row {
+    font-size: 0.6rem;
+  }
+
+  .mover-difficulty-badge {
+    font-size: 0.6rem;
+    min-width: 28px;
+    padding: 1px 4px;
+  }
+
+  .mover-reason {
+    font-size: 0.6rem;
+  }
+
+  .movers-section-title {
+    font-size: var(--font-size-sm) !important;
+    margin-bottom: var(--spacing-xs);
+  }
+}
+
+@media (max-width: 420px) {
+  .mover-badge {
+    width: 20px;
+    height: 20px;
   }
 }

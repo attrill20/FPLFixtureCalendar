@@ -21,7 +21,7 @@ const HomePage = () => {
           <p className="hero-subtitle">Crystal clear insights for FPL success!</p>
         </div>
       </section>
-        
+
       {/* Tools Overview Section */}
       <section className="section-white">
         <div className="home-sub-heading">

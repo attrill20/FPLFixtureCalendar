@@ -178,6 +178,7 @@ const FDRComparisonPage = () => {
   };
 
   const stats = calculateStats();
+  const arsenalHome = (() => { const ars = oracleRatings.find(t => t.short_name === 'ARS'); return ars ? Number(ars.home_difficulty).toFixed(1) : '...'; })();
 
   const handleSort = (column) => {
     if (sortBy === column) {
@@ -287,9 +288,12 @@ const FDRComparisonPage = () => {
     <div className="fdr-comparison-page">
       <div className="comparison-info">
         <p className="description">
-          Compare two difficulty rating systems (all on 1-10 scale):
+          The table below compare the two difficulty rating systems (all on 1-10 scale):
           <strong> FPL Official</strong> (doubled from 1-5) and
           <strong> Oracle FDR</strong> (automatically generated from home / away underlying data).
+        </p>
+        <p className="description">
+          <strong>Home Strength</strong> is a measure of how tough a team is when they are playing at home, <strong>Away Strength</strong> is their strength when they are playing on the road. The values on the Fixture Difficulty Calendar are reversed to show the fixture difficulty — e.g. Arsenal have a <strong>Home Strength: {arsenalHome}</strong>, so a team playing away at Arsenal would show as <strong>FDR: {arsenalHome} (A)</strong> for this fixture.
         </p>
 
         {lastUpdated && (
@@ -364,8 +368,8 @@ const FDRComparisonPage = () => {
               <th rowSpan="2" onClick={() => handleSort('name')} className="sortable">
                 Team {sortBy === 'name' && (sortOrder === 'asc' ? '▲' : '▼')}
               </th>
-              <th colSpan="3" className="home-section">Home Difficulty</th>
-              <th colSpan="3" className="away-section">Away Difficulty</th>
+              <th colSpan="3" className="home-section">Home Strength</th>
+              <th colSpan="3" className="away-section">Away Strength</th>
             </tr>
             <tr>
               <th className="home-section">FPL</th>

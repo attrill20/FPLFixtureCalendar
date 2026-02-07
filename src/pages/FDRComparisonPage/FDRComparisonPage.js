@@ -401,7 +401,7 @@ const FDRComparisonPage = () => {
                     {badgeMap[team.short_name] && (
                       <img className="table-team-badge" src={badgeMap[team.short_name]} alt={team.name} />
                     )}
-                    {getDisplayName(team)}
+                    <span className="team-name-text">{getDisplayName(team)}</span>
                   </td>
 
                   {/* Home ratings */}

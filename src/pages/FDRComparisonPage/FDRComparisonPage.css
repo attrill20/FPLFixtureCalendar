@@ -65,9 +65,12 @@
 .comparison-table {
   width: 100%;
   table-layout: fixed;
-  border-collapse: collapse;
+  border-collapse: separate;
+  border-spacing: 0;
   background: white;
-  border: 1px solid #000000;
+  border: 2px solid #000000;
+  border-radius: 4px;
+  overflow: hidden;
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
 }
 
@@ -88,6 +91,12 @@
   font-size: 0.875rem;
   text-transform: uppercase;
   letter-spacing: 0.5px;
+  border-right: 1px solid #000000;
+  border-bottom: 1px solid #000000;
+}
+
+.comparison-table th:last-child {
+  border-right: none;
 }
 
 .comparison-table th.sortable {
@@ -103,18 +112,14 @@
 .comparison-table td {
   padding: 12px;
   text-align: center;
-  border-bottom: 1px solid #f0f0f0;
-}
-
-/* Black border on right and bottom outer edges (cell borders win over table border in border-collapse) */
-.comparison-table th:last-child,
-.comparison-table td:last-child {
   border-right: 1px solid #000000;
-}
-
-.comparison-table tbody tr:last-child td {
   border-bottom: 1px solid #000000;
 }
+
+.comparison-table td:last-child {
+  border-right: none;
+}
+
 
 .comparison-table tbody tr:hover .team-name {
   background: #f8f9fa;
@@ -138,6 +143,13 @@
   display: flex;
   align-items: center;
   gap: 10px;
+}
+
+.team-name-text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  min-width: 0;
 }
 
 .comparison-table .table-team-badge {
@@ -249,43 +261,26 @@
   color: #f44336;
 }
 
-/* Home and Away section separation - only for non-rating cells */
-.comparison-table tbody td.diff.home-section {
+/* Home / Away section purple divider */
+.comparison-table td.home-section:nth-child(4),
+.comparison-table th.home-section:nth-child(4) {
   border-right: 3px solid #37003c;
 }
 
-.comparison-table tbody td.diff.away-section {
-  /* no special background for diff cells, they have their own colors */
-}
-
-/* Remove right border from last home column in tbody */
-.comparison-table tbody td.home-section:nth-child(4) {
-  border-right: 3px solid #37003c;
-}
-
-/* Ensure header spans also have proper borders */
-.comparison-table thead th.home-section {
+/* Header top-level Home Strength / Away Strength divider */
+.comparison-table thead tr:first-child th.home-section {
   border-right: 3px solid rgba(255, 255, 255, 0.3);
-}
-
-.comparison-table thead th.away-section {
-  border-left: none;
-}
-
-/* Add left border to away section for visual separation */
-.comparison-table tbody td.away-section:nth-child(5) {
-  border-left: 3px solid #37003c;
 }
 
 /* Totals row styling */
 .comparison-table tfoot tr.totals-row {
   background: #f5f5f5;
-  border-top: 2px solid #37003c;
 }
 
 .comparison-table tfoot td {
   padding: 14px 12px;
   font-size: 0.95rem;
+  border-bottom: none;
 }
 
 .comparison-table tfoot .team-name {
@@ -298,10 +293,6 @@
 
 .comparison-table tfoot td.home-section:nth-child(4) {
   border-right: 3px solid #37003c;
-}
-
-.comparison-table tfoot td.away-section:nth-child(5) {
-  border-left: 3px solid #37003c;
 }
 
 .breakdown-btn {
@@ -534,14 +525,114 @@
   color: #666;
 }
 
+/* TABLET / MOBILE */
 @media (max-width: 768px) {
+  .comparison-info {
+    margin: var(--spacing-xs) 3% var(--spacing-xs) 3%;
+    padding: var(--spacing-xs) var(--spacing-sm);
+  }
+
+  .comparison-info .description {
+    font-size: 0.75rem;
+    line-height: 1.4;
+    margin-bottom: 6px;
+  }
+
+  .last-updated {
+    font-size: 0.65rem;
+  }
+
+  .comparison-table-container {
+    margin: 0 3%;
+  }
+
   .comparison-table {
+    font-size: 0.65rem;
+  }
+
+  .comparison-table th {
+    padding: 6px 2px;
+    font-size: 0.55rem;
+    letter-spacing: 0;
+  }
+
+  .comparison-table td {
+    padding: 6px 2px;
+  }
+
+  .comparison-table .team-name {
+    font-size: 0.65rem;
+    gap: 4px;
+  }
+
+  .comparison-table .table-team-badge {
+    width: 20px;
+    height: 20px;
+  }
+
+  .rating {
+    padding: 4px 2px !important;
+  }
+
+  .diff {
+    font-size: 0.65rem;
+    padding: 4px 2px !important;
+  }
+
+  .comparison-table tfoot td {
+    padding: 8px 2px;
+    font-size: 0.65rem;
+  }
+
+  .stats-summary {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 6px;
+    margin-top: 12px;
+  }
+
+  .stat-box {
+    padding: 6px 4px;
+  }
+
+  .stat-label {
+    font-size: 0.5rem;
+    margin-bottom: 2px;
+  }
+
+  .stat-value {
+    font-size: 0.85rem;
+  }
+
+  .stat-subtitle {
+    font-size: 0.45rem;
+  }
+
+  .badge-stats {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+    margin-top: 12px;
+  }
+
+  .badge-stat-box {
+    padding: 8px 10px;
+    gap: 8px;
+  }
+
+  .badge-stat-box img {
+    width: 32px;
+    height: 32px;
+  }
+
+  .badge-stat-label {
+    font-size: 0.5rem;
+  }
+
+  .badge-stat-team {
     font-size: 0.75rem;
   }
 
-  .comparison-table th,
-  .comparison-table td {
-    padding: 8px 4px;
+  .badge-stat-diff {
+    font-size: 0.65rem;
   }
 
   .breakdown-panel {
@@ -565,25 +656,81 @@
   .weights-grid {
     grid-template-columns: 1fr;
   }
+}
 
-  .stat-box {
-    padding: 10px;
+/* SMALL MOBILE */
+@media (max-width: 420px) {
+  .comparison-info {
+    margin: var(--spacing-xs) 2% var(--spacing-xs) 2%;
+  }
+
+  .comparison-info .description {
+    font-size: 0.6rem;
+  }
+
+  .comparison-table-container {
+    margin: 0 2%;
+  }
+
+  .comparison-table {
+    font-size: 0.55rem;
+  }
+
+  .comparison-table th {
+    padding: 4px 1px;
+    font-size: 0.45rem;
+  }
+
+  .comparison-table td {
+    padding: 4px 1px;
+  }
+
+  .comparison-table .team-name {
+    font-size: 0.55rem;
+    gap: 3px;
+  }
+
+  .comparison-table .table-team-badge {
+    width: 16px;
+    height: 16px;
+  }
+
+  .stats-summary {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 4px;
   }
 
   .stat-value {
-    font-size: 1.5rem;
+    font-size: 0.7rem;
+  }
+
+  .stat-label {
+    font-size: 0.4rem;
+  }
+
+  .stat-subtitle {
+    font-size: 0.35rem;
   }
 
   .badge-stats {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
   }
 
   .badge-stat-box img {
-    width: 40px;
-    height: 40px;
+    width: 24px;
+    height: 24px;
+  }
+
+  .badge-stat-label {
+    font-size: 0.4rem;
   }
 
   .badge-stat-team {
-    font-size: 0.875rem;
+    font-size: 0.6rem;
+  }
+
+  .badge-stat-diff {
+    font-size: 0.55rem;
   }
 }

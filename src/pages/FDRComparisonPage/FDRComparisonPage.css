@@ -103,10 +103,24 @@
   cursor: pointer;
   user-select: none;
   transition: background 0.2s;
+  position: relative;
 }
 
 .comparison-table th.sortable:hover {
   background: #4a0050;
+}
+
+.sort-icon {
+  position: absolute;
+  right: 3px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1.3em;
+  opacity: 0.4;
+}
+
+.sort-icon.active {
+  opacity: 1;
 }
 
 .comparison-table td {
@@ -150,6 +164,42 @@
   text-overflow: ellipsis;
   white-space: nowrap;
   min-width: 0;
+}
+
+.comparison-table .team-name.clickable {
+  cursor: pointer;
+}
+
+.comparison-table .team-name.clickable:hover {
+  background: #f0f0f0;
+}
+
+.expand-arrow {
+  margin-left: auto;
+  font-size: 1.1rem;
+  color: #37003c;
+  transition: transform 0.2s;
+  flex-shrink: 0;
+  opacity: 0.5;
+}
+
+.expand-arrow.expanded {
+  transform: rotate(180deg);
+  opacity: 1;
+}
+
+.expand-arrow.rating-arrow {
+  position: absolute;
+  right: 3px;
+  top: 50%;
+  transform: translateY(-50%);
+  margin-left: 0;
+  font-size: 1.1rem;
+  line-height: 1;
+}
+
+.expand-arrow.rating-arrow.expanded {
+  transform: translateY(-50%) rotate(180deg);
 }
 
 .comparison-table .table-team-badge {
@@ -259,15 +309,19 @@
   color: #f44336;
 }
 
-/* Home / Away section purple divider */
-.comparison-table td.home-section:nth-child(4),
-.comparison-table th.home-section:nth-child(4) {
-  border-right: 3px solid #37003c;
+/* Home / Away section purple dividers */
+/* Left edge of home section (between Team and FPL Home) */
+.comparison-table td.home-section:nth-child(2),
+.comparison-table thead tr:first-child th.home-section,
+.comparison-table thead tr:nth-child(2) th.home-section:nth-child(1) {
+  border-left: 3px solid #37003c;
 }
 
-/* Header top-level Home Strength / Away Strength divider */
-.comparison-table thead tr:first-child th.home-section {
-  border-right: 3px solid rgba(255, 255, 255, 0.3);
+/* Centre divider (between home Diff and away FPL) */
+.comparison-table td.home-section:nth-child(4),
+.comparison-table thead tr:first-child th.home-section,
+.comparison-table thead tr:nth-child(2) th.home-section:nth-child(3) {
+  border-right: 3px solid #37003c;
 }
 
 /* Totals row styling */
@@ -289,165 +343,168 @@
   letter-spacing: 0.5px;
 }
 
+.comparison-table tfoot td.home-section:nth-child(2) {
+  border-left: 3px solid #37003c;
+}
+
 .comparison-table tfoot td.home-section:nth-child(4) {
   border-right: 3px solid #37003c;
 }
 
-.breakdown-btn {
-  background: #37003c;
-  color: white;
-  border: none;
-  padding: 8px 16px;
-  border-radius: 4px;
+/* Clickable Oracle cells */
+.comparison-table td.clickable {
   cursor: pointer;
-  font-size: 0.875rem;
-  font-weight: 500;
-  transition: background 0.2s;
+  position: relative;
+  transition: filter 0.15s, box-shadow 0.15s;
 }
 
-.breakdown-btn:hover {
-  background: #00ff87;
-  color: #37003c;
+.comparison-table td.clickable:hover {
+  filter: brightness(0.9);
+  box-shadow: inset 0 0 0 2px #37003c;
 }
 
-.breakdown-panel {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background: white;
-  width: 90%;
-  max-width: 800px;
-  max-height: 90vh;
-  overflow-y: auto;
-  border-radius: 12px;
-  box-shadow: 0 10px 40px rgba(0,0,0,0.3);
-  z-index: 1000;
+.expanded-team-row td {
+  border-bottom: none !important;
 }
 
-.breakdown-header {
-  background: #37003c;
-  color: white;
-  padding: 20px;
+/* Breakdown row */
+.breakdown-row td {
+  padding: 0 !important;
+}
+
+.breakdown-cell {
+  background: #f8f9fa;
+  border-bottom: 1px solid #000000;
+}
+
+.breakdown-team-cell {
+  vertical-align: middle;
+  padding: 10px 8px !important;
+}
+
+.breakdown-home-cell {
+  border-left: 3px solid #37003c !important;
+  border-right: 3px solid #37003c !important;
+}
+
+.breakdown-summary {
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
+  gap: 6px;
+  width: 80%;
+  margin: 0 auto;
+}
+
+.summary-line {
+  display: flex;
   align-items: center;
-  border-radius: 12px 12px 0 0;
+  gap: 0;
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  flex: 1;
 }
 
-.breakdown-header h2 {
-  margin: 0;
-  font-size: 1.5rem;
+.summary-label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: #37003c;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  padding: 6px 8px;
+  flex: 1;
 }
 
-.close-btn {
-  background: none;
-  border: none;
-  color: white;
-  font-size: 2rem;
-  cursor: pointer;
-  width: 40px;
-  height: 40px;
-  display: flex;
+.summary-score {
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  border-radius: 50%;
-  transition: background 0.2s;
+  padding: 6px 14px;
+  font-weight: 700;
+  font-size: 1rem;
+  color: #000;
+  min-width: 50px;
 }
 
-.close-btn:hover {
-  background: rgba(255,255,255,0.2);
+.summary-score.custom-difficulty-1 { background-color: rgb(159, 251, 159); }
+.summary-score.custom-difficulty-2 { background-color: rgb(152, 241, 130); }
+.summary-score.custom-difficulty-3 { background-color: rgb(162, 236, 143); }
+.summary-score.custom-difficulty-4 { background-color: rgb(187, 219, 132); }
+.summary-score.custom-difficulty-5 { background-color: rgb(223, 237, 153); }
+.summary-score.custom-difficulty-6 { background-color: rgb(245, 245, 137); }
+.summary-score.custom-difficulty-7 { background-color: rgb(250, 214, 143); }
+.summary-score.custom-difficulty-8 { background-color: rgb(245, 189, 137); }
+.summary-score.custom-difficulty-9 { background-color: rgb(240, 164, 164); }
+.summary-score.custom-difficulty-10 { background-color: rgb(243, 143, 143); }
+
+/* Each side is a 3-row x 2-col grid of tiles */
+.breakdown-side {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
 }
 
-.breakdown-content {
-  padding: 20px;
+
+/* Individual metric tile — 3-column grid: label | score | raw */
+.metric-tile {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  padding: 6px 6px;
+  gap: 4px;
+  border-bottom: 1px solid #000000;
+  border-right: 1px solid #000000;
 }
 
-.breakdown-section {
-  margin-bottom: 30px;
-  padding-bottom: 20px;
-  border-bottom: 1px solid #e0e0e0;
+/* Remove right border on last column of each side */
+.breakdown-side .metric-tile:nth-child(2n) {
+  border-right: none;
 }
 
-.breakdown-section:last-child {
+/* Remove bottom border on last row */
+.breakdown-side .metric-tile:nth-last-child(-n+2) {
   border-bottom: none;
 }
 
-.breakdown-section h3 {
-  margin-top: 0;
-  margin-bottom: 15px;
-  color: #37003c;
-  font-size: 1.25rem;
-}
-
-.factor-grid {
-  display: grid;
-  gap: 12px;
-}
-
-.factor-item {
-  display: grid;
-  grid-template-columns: 200px 1fr 60px;
-  align-items: center;
-  gap: 10px;
-}
-
-.factor-label {
-  font-size: 0.875rem;
-  color: #666;
-  text-transform: capitalize;
-}
-
-.factor-bar-container {
-  height: 24px;
-  background: #f0f0f0;
-  border-radius: 4px;
-  overflow: hidden;
-}
-
-.factor-bar {
-  height: 100%;
-  background: linear-gradient(90deg, #37003c 0%, #00ff87 100%);
-  transition: width 0.3s ease;
-}
-
-.factor-value {
+.metric-tile-label {
+  font-size: 0.7rem;
+  color: #555;
   font-weight: 600;
-  color: #333;
   text-align: right;
+  white-space: nowrap;
 }
 
-.weights-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-  gap: 10px;
-  margin-top: 15px;
+.metric-score {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 6px;
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: #000;
+  flex-shrink: 0;
+  margin: 0 6px;
 }
 
-.weight-item {
-  display: flex;
-  justify-content: space-between;
-  padding: 8px 12px;
-  background: #f8f9fa;
-  border-radius: 4px;
-}
+/* Difficulty color scale for metric score pills */
+.metric-score.custom-difficulty-1 { background-color: rgb(159, 251, 159); }
+.metric-score.custom-difficulty-2 { background-color: rgb(152, 241, 130); }
+.metric-score.custom-difficulty-3 { background-color: rgb(162, 236, 143); }
+.metric-score.custom-difficulty-4 { background-color: rgb(187, 219, 132); }
+.metric-score.custom-difficulty-5 { background-color: rgb(223, 237, 153); }
+.metric-score.custom-difficulty-6 { background-color: rgb(245, 245, 137); }
+.metric-score.custom-difficulty-7 { background-color: rgb(250, 214, 143); }
+.metric-score.custom-difficulty-8 { background-color: rgb(245, 189, 137); }
+.metric-score.custom-difficulty-9 { background-color: rgb(240, 164, 164); }
+.metric-score.custom-difficulty-10 { background-color: rgb(243, 143, 143); }
 
-.weight-label {
-  font-size: 0.875rem;
-  color: #666;
-  text-transform: capitalize;
-}
-
-.weight-value {
-  font-weight: 600;
-  color: #37003c;
-}
-
-.weight-description {
-  font-size: 0.875rem;
-  color: #666;
-  font-style: italic;
-  margin-bottom: 10px;
+.metric-raw {
+  font-size: 0.65rem;
+  color: #888;
+  text-align: left;
 }
 
 .badge-stats {
@@ -633,26 +690,53 @@
     font-size: 0.65rem;
   }
 
-  .breakdown-panel {
-    width: 95%;
-    max-height: 95vh;
+  .expand-arrow {
+    font-size: 0.8rem;
   }
 
-  .factor-item {
-    grid-template-columns: 1fr;
-    gap: 5px;
+  .expand-arrow.rating-arrow {
+    font-size: 0.8rem;
   }
 
-  .factor-label {
-    font-weight: 600;
+  .summary-label {
+    font-size: 0.5rem;
+    padding: 4px 5px;
   }
 
-  .factor-value {
-    text-align: left;
+  .summary-score {
+    font-size: 0.65rem;
+    padding: 4px 8px;
+    min-width: 35px;
   }
 
-  .weights-grid {
-    grid-template-columns: 1fr;
+  .breakdown-spacer {
+    padding: 4px;
+  }
+
+  .breakdown-summary {
+    flex-direction: column;
+    gap: 3px;
+  }
+
+  .metric-tile {
+    padding: 5px 2px;
+    gap: 2px;
+  }
+
+  .metric-tile-label {
+    font-size: 0.5rem;
+  }
+
+  .metric-score {
+    width: 20px;
+    height: 20px;
+    font-size: 0.65rem;
+    border-radius: 4px;
+    margin: 0 3px;
+  }
+
+  .metric-raw {
+    font-size: 0.5rem;
   }
 }
 
@@ -730,5 +814,54 @@
 
   .badge-stat-diff {
     font-size: 0.55rem;
+  }
+
+  .expand-arrow {
+    font-size: 0.65rem;
+  }
+
+  .expand-arrow.rating-arrow {
+    font-size: 0.65rem;
+  }
+
+  .summary-label {
+    font-size: 0.4rem;
+    padding: 3px 4px;
+  }
+
+  .summary-score {
+    font-size: 0.5rem;
+    padding: 3px 5px;
+    min-width: 28px;
+  }
+
+  .breakdown-spacer {
+    padding: 2px;
+  }
+
+  .breakdown-summary {
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .metric-tile {
+    padding: 3px 1px;
+    gap: 1px;
+  }
+
+  .metric-tile-label {
+    font-size: 0.4rem;
+  }
+
+  .metric-score {
+    width: 16px;
+    height: 16px;
+    font-size: 0.5rem;
+    border-radius: 3px;
+    margin: 0 2px;
+  }
+
+  .metric-raw {
+    font-size: 0.4rem;
   }
 }

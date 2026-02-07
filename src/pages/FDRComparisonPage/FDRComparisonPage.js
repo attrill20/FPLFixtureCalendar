@@ -33,6 +33,43 @@ const badgeMap = {
 
 const getDisplayName = (team) => calendarTeams[team.id]?.name || team.name;
 
+const formatRaw = (value, suffix = ' per 90', decimals = 2) => {
+  if (value == null) return '—';
+  return `${parseFloat(value).toFixed(decimals)}${suffix}`;
+};
+
+const BreakdownContent = ({ team, getDifficultyClass }) => {
+  const homeMetrics = [
+    { label: 'Goals Scored', score: team.home_goals_scored_per_90_score, raw: team.home_goals_scored_per_90, suffix: ' per 90' },
+    { label: 'xG', score: team.home_xg_per_90_score, raw: team.home_xg_per_90, suffix: ' per 90' },
+    { label: 'Goals Conceded', score: team.home_goals_conceded_per_90_score, raw: team.home_goals_conceded_per_90, suffix: ' per 90' },
+    { label: 'xGC', score: team.home_xgc_per_90_score, raw: team.home_xgc_per_90, suffix: ' per 90' },
+    { label: 'Overall Form', score: team.recent_form_score, raw: team.recent_form, suffix: '' },
+    { label: 'Home PPG (Last 5)', score: team.home_ppg_recent_score, raw: team.home_ppg_recent, suffix: ' points', decimals: 0 },
+  ];
+
+  const awayMetrics = [
+    { label: 'Goals Scored', score: team.away_goals_scored_per_90_score, raw: team.away_goals_scored_per_90, suffix: ' per 90' },
+    { label: 'xG', score: team.away_xg_per_90_score, raw: team.away_xg_per_90, suffix: ' per 90' },
+    { label: 'Goals Conceded', score: team.away_goals_conceded_per_90_score, raw: team.away_goals_conceded_per_90, suffix: ' per 90' },
+    { label: 'xGC', score: team.away_xgc_per_90_score, raw: team.away_xgc_per_90, suffix: ' per 90' },
+    { label: 'Overall Form', score: team.recent_form_score, raw: team.recent_form, suffix: '' },
+    { label: 'Away PPG (Last 5)', score: team.away_ppg_recent_score, raw: team.away_ppg_recent, suffix: ' points', decimals: 0 },
+  ];
+
+  const renderTile = (m) => (
+    <div className="metric-tile">
+      <span className="metric-tile-label">{m.label}</span>
+      <span className={`metric-score ${m.score != null ? getDifficultyClass(m.score) : ''}`}>
+        {m.score != null ? Math.round(m.score) : '—'}
+      </span>
+      <span className="metric-raw">{formatRaw(m.raw, m.suffix, m.decimals)}</span>
+    </div>
+  );
+
+  return { homeMetrics, awayMetrics, renderTile };
+};
+
 const FDRComparisonPage = () => {
   const [oracleRatings, setOracleRatings] = useState([]);
   const [fplRatings, setFplRatings] = useState([]);
@@ -40,6 +77,16 @@ const FDRComparisonPage = () => {
   const [lastUpdated, setLastUpdated] = useState(null);
   const [sortBy, setSortBy] = useState('name'); // 'name', 'homeDiff', 'awayDiff', 'totalDiff'
   const [sortOrder, setSortOrder] = useState('asc'); // 'asc' or 'desc'
+  const [expandedTeams, setExpandedTeams] = useState(new Set());
+
+  const toggleBreakdown = (teamId) => {
+    setExpandedTeams(prev => {
+      const next = new Set(prev);
+      if (next.has(teamId)) next.delete(teamId);
+      else next.add(teamId);
+      return next;
+    });
+  };
 
   useEffect(() => {
     fetchRatings();
@@ -55,23 +102,46 @@ const FDRComparisonPage = () => {
         .select('id, name, short_name, fpl_home_difficulty, fpl_away_difficulty, updated_at')
         .order('name');
 
-      // Get Oracle FDR from team_fdr_calculations (full decimal precision)
+      // Get Oracle FDR from team_fdr_calculations (full decimal precision + metric breakdowns)
       const { data: fdrData, error: fdrError } = await supabase
         .from('team_fdr_calculations')
-        .select('team_id, home_difficulty, away_difficulty');
+        .select('team_id, home_difficulty, away_difficulty, home_goals_scored_per_90, home_goals_scored_per_90_score, home_goals_conceded_per_90, home_goals_conceded_per_90_score, home_xg_per_90, home_xg_per_90_score, home_xgc_per_90, home_xgc_per_90_score, away_goals_scored_per_90, away_goals_scored_per_90_score, away_goals_conceded_per_90, away_goals_conceded_per_90_score, away_xg_per_90, away_xg_per_90_score, away_xgc_per_90, away_xgc_per_90_score, recent_form, recent_form_score, home_ppg_recent, home_ppg_recent_score, away_ppg_recent, away_ppg_recent_score');
 
       if (teamsError) {
         console.error('Error fetching teams:', teamsError);
       } else if (fdrError) {
         console.error('Error fetching FDR calculations:', fdrError);
       } else {
-        // Merge Oracle FDR decimals into team data
+        // Merge Oracle FDR decimals + metric breakdowns into team data
         const oracleData = (teamsData || []).map(team => {
           const fdr = (fdrData || []).find(f => f.team_id === team.id);
           return {
             ...team,
             home_difficulty: fdr ? parseFloat(fdr.home_difficulty) : 5,
-            away_difficulty: fdr ? parseFloat(fdr.away_difficulty) : 5
+            away_difficulty: fdr ? parseFloat(fdr.away_difficulty) : 5,
+            // Metric breakdowns
+            home_goals_scored_per_90: fdr?.home_goals_scored_per_90,
+            home_goals_scored_per_90_score: fdr?.home_goals_scored_per_90_score,
+            home_goals_conceded_per_90: fdr?.home_goals_conceded_per_90,
+            home_goals_conceded_per_90_score: fdr?.home_goals_conceded_per_90_score,
+            home_xg_per_90: fdr?.home_xg_per_90,
+            home_xg_per_90_score: fdr?.home_xg_per_90_score,
+            home_xgc_per_90: fdr?.home_xgc_per_90,
+            home_xgc_per_90_score: fdr?.home_xgc_per_90_score,
+            away_goals_scored_per_90: fdr?.away_goals_scored_per_90,
+            away_goals_scored_per_90_score: fdr?.away_goals_scored_per_90_score,
+            away_goals_conceded_per_90: fdr?.away_goals_conceded_per_90,
+            away_goals_conceded_per_90_score: fdr?.away_goals_conceded_per_90_score,
+            away_xg_per_90: fdr?.away_xg_per_90,
+            away_xg_per_90_score: fdr?.away_xg_per_90_score,
+            away_xgc_per_90: fdr?.away_xgc_per_90,
+            away_xgc_per_90_score: fdr?.away_xgc_per_90_score,
+            recent_form: fdr?.recent_form,
+            recent_form_score: fdr?.recent_form_score,
+            home_ppg_recent: fdr?.home_ppg_recent,
+            home_ppg_recent_score: fdr?.home_ppg_recent_score,
+            away_ppg_recent: fdr?.away_ppg_recent,
+            away_ppg_recent_score: fdr?.away_ppg_recent_score,
           };
         });
         setOracleRatings(oracleData);
@@ -185,8 +255,14 @@ const FDRComparisonPage = () => {
       setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
     } else {
       setSortBy(column);
-      setSortOrder('desc'); // Default to descending for diff columns
+      setSortOrder(column === 'name' ? 'asc' : 'desc');
     }
+  };
+
+  const sortArrow = (column) => {
+    const isActive = sortBy === column;
+    const icon = isActive ? (sortOrder === 'asc' ? '▲' : '▼') : '↕';
+    return <span className={`sort-icon ${isActive ? 'active' : ''}`}>{icon}</span>;
   };
 
   const getSortedTeams = () => {
@@ -214,8 +290,20 @@ const FDRComparisonPage = () => {
         case 'name':
           compareValue = a.name.localeCompare(b.name);
           break;
+        case 'fplHome':
+          compareValue = a.fpl.home_difficulty - b.fpl.home_difficulty;
+          break;
+        case 'oracleHome':
+          compareValue = a.home_difficulty - b.home_difficulty;
+          break;
         case 'homeDiff':
           compareValue = a.homeDiff - b.homeDiff;
+          break;
+        case 'fplAway':
+          compareValue = a.fpl.away_difficulty - b.fpl.away_difficulty;
+          break;
+        case 'oracleAway':
+          compareValue = a.away_difficulty - b.away_difficulty;
           break;
         case 'awayDiff':
           compareValue = a.awayDiff - b.awayDiff;
@@ -366,27 +454,29 @@ const FDRComparisonPage = () => {
           <thead>
             <tr>
               <th rowSpan="2" onClick={() => handleSort('name')} className="sortable">
-                Team {sortBy === 'name' && (sortOrder === 'asc' ? '▲' : '▼')}
+                Team{sortArrow('name')}
               </th>
               <th colSpan="3" className="home-section">Home Strength</th>
               <th colSpan="3" className="away-section">Away Strength</th>
             </tr>
             <tr>
-              <th className="home-section">FPL</th>
-              <th className="home-section">Oracle</th>
-              <th
-                className="home-section sortable"
-                onClick={() => handleSort('homeDiff')}
-              >
-                Diff {sortBy === 'homeDiff' && (sortOrder === 'asc' ? '▲' : '▼')}
+              <th className="home-section sortable" onClick={() => handleSort('fplHome')}>
+                FPL{sortArrow('fplHome')}
               </th>
-              <th className="away-section">FPL</th>
-              <th className="away-section">Oracle</th>
-              <th
-                className="away-section sortable"
-                onClick={() => handleSort('awayDiff')}
-              >
-                Diff {sortBy === 'awayDiff' && (sortOrder === 'asc' ? '▲' : '▼')}
+              <th className="home-section sortable" onClick={() => handleSort('oracleHome')}>
+                Oracle{sortArrow('oracleHome')}
+              </th>
+              <th className="home-section sortable" onClick={() => handleSort('homeDiff')}>
+                Diff{sortArrow('homeDiff')}
+              </th>
+              <th className="away-section sortable" onClick={() => handleSort('fplAway')}>
+                FPL{sortArrow('fplAway')}
+              </th>
+              <th className="away-section sortable" onClick={() => handleSort('oracleAway')}>
+                Oracle{sortArrow('oracleAway')}
+              </th>
+              <th className="away-section sortable" onClick={() => handleSort('awayDiff')}>
+                Diff{sortArrow('awayDiff')}
               </th>
             </tr>
           </thead>
@@ -394,38 +484,85 @@ const FDRComparisonPage = () => {
             {sortedTeams.map((team) => {
               const homeDiffSigned = parseFloat((team.fpl.home_difficulty - team.home_difficulty).toFixed(1));
               const awayDiffSigned = parseFloat((team.fpl.away_difficulty - team.away_difficulty).toFixed(1));
+              const isExpanded = expandedTeams.has(team.id);
 
               return (
-                <tr key={team.id}>
-                  <td className="team-name">
-                    {badgeMap[team.short_name] && (
-                      <img className="table-team-badge" src={badgeMap[team.short_name]} alt={team.name} />
-                    )}
-                    <span className="team-name-text">{getDisplayName(team)}</span>
-                  </td>
+                <React.Fragment key={team.id}>
+                  <tr className={isExpanded ? 'expanded-team-row' : ''}>
+                    <td className="team-name clickable" onClick={() => toggleBreakdown(team.id)}>
+                      {badgeMap[team.short_name] && (
+                        <img className="table-team-badge" src={badgeMap[team.short_name]} alt={team.name} />
+                      )}
+                      <span className="team-name-text">{getDisplayName(team)}</span>
+                      <span className={`expand-arrow ${isExpanded ? 'expanded' : ''}`}>&#9662;</span>
+                    </td>
 
-                  {/* Home ratings */}
-                  <td className={`rating home-section ${getDifficultyClass(team.fpl.home_difficulty)}`}>
-                    {team.fpl.home_difficulty}
-                  </td>
-                  <td className={`rating home-section ${getDifficultyClass(team.home_difficulty)}`}>
-                    {Number(team.home_difficulty).toFixed(1)}
-                  </td>
-                  <td className={`diff home-section ${getDiffClass(homeDiffSigned)}`}>
-                    {homeDiffSigned > 0 ? `+${homeDiffSigned}` : homeDiffSigned}
-                  </td>
+                    {/* Home ratings */}
+                    <td className={`rating home-section ${getDifficultyClass(team.fpl.home_difficulty)}`}>
+                      {team.fpl.home_difficulty}
+                    </td>
+                    <td
+                      className={`rating home-section clickable ${getDifficultyClass(team.home_difficulty)}`}
+                      onClick={() => toggleBreakdown(team.id)}
+                      title="Click to see breakdown"
+                    >
+                      {Number(team.home_difficulty).toFixed(1)}
+                      <span className={`expand-arrow rating-arrow ${isExpanded ? 'expanded' : ''}`}>&#9662;</span>
+                    </td>
+                    <td className={`diff home-section ${getDiffClass(homeDiffSigned)}`}>
+                      {homeDiffSigned > 0 ? `+${homeDiffSigned}` : homeDiffSigned}
+                    </td>
 
-                  {/* Away ratings */}
-                  <td className={`rating away-section ${getDifficultyClass(team.fpl.away_difficulty)}`}>
-                    {team.fpl.away_difficulty}
-                  </td>
-                  <td className={`rating away-section ${getDifficultyClass(team.away_difficulty)}`}>
-                    {Number(team.away_difficulty).toFixed(1)}
-                  </td>
-                  <td className={`diff away-section ${getDiffClass(awayDiffSigned)}`}>
-                    {awayDiffSigned > 0 ? `+${awayDiffSigned}` : awayDiffSigned}
-                  </td>
-                </tr>
+                    {/* Away ratings */}
+                    <td className={`rating away-section ${getDifficultyClass(team.fpl.away_difficulty)}`}>
+                      {team.fpl.away_difficulty}
+                    </td>
+                    <td
+                      className={`rating away-section clickable ${getDifficultyClass(team.away_difficulty)}`}
+                      onClick={() => toggleBreakdown(team.id)}
+                      title="Click to see breakdown"
+                    >
+                      {Number(team.away_difficulty).toFixed(1)}
+                      <span className={`expand-arrow rating-arrow ${isExpanded ? 'expanded' : ''}`}>&#9662;</span>
+                    </td>
+                    <td className={`diff away-section ${getDiffClass(awayDiffSigned)}`}>
+                      {awayDiffSigned > 0 ? `+${awayDiffSigned}` : awayDiffSigned}
+                    </td>
+                  </tr>
+                  {isExpanded && (() => {
+                    const { homeMetrics, awayMetrics, renderTile } = BreakdownContent({ team, getDifficultyClass });
+                    return (
+                      <tr className="breakdown-row">
+                        <td className="breakdown-cell breakdown-team-cell">
+                          <div className="breakdown-summary">
+                            <div className="summary-line">
+                              <span className="summary-label">Home Strength:</span>
+                              <span className={`summary-score ${getDifficultyClass(team.home_difficulty)}`}>
+                                {Number(team.home_difficulty).toFixed(1)}
+                              </span>
+                            </div>
+                            <div className="summary-line">
+                              <span className="summary-label">Away Strength:</span>
+                              <span className={`summary-score ${getDifficultyClass(team.away_difficulty)}`}>
+                                {Number(team.away_difficulty).toFixed(1)}
+                              </span>
+                            </div>
+                          </div>
+                        </td>
+                        <td colSpan="3" className="breakdown-cell breakdown-home-cell">
+                          <div className="breakdown-side">
+                            {homeMetrics.map((m, i) => <React.Fragment key={i}>{renderTile(m)}</React.Fragment>)}
+                          </div>
+                        </td>
+                        <td colSpan="3" className="breakdown-cell breakdown-away-cell">
+                          <div className="breakdown-side">
+                            {awayMetrics.map((m, i) => <React.Fragment key={i}>{renderTile(m)}</React.Fragment>)}
+                          </div>
+                        </td>
+                      </tr>
+                    );
+                  })()}
+                </React.Fragment>
               );
             })}
           </tbody>

@@ -155,7 +155,7 @@ th {
   /* Extra narrow FDR column for mobile screens under 600px */
   @media (max-width: 599px) {
     .fdr-number {
-      font-size: 0.55em;
+      font-size: 0.45em;
     }
   }
 
@@ -353,7 +353,7 @@ th {
   }
 
   .fdr-number {
-    font-size: 0.65em;
+    font-size: 0.55em;
   }
 
   .cards {
@@ -403,7 +403,7 @@ th {
   }
 
   .fdr-number {
-    font-size: 0.5em;
+    font-size: 0.4em;
   }
 
   .fixture-info {

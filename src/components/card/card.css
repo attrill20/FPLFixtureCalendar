@@ -85,6 +85,30 @@ th {
   border-bottom: 2px solid #000000;
 }
 
+.sortable-header {
+  cursor: pointer;
+  user-select: none;
+  position: relative;
+  transition: background 0.2s;
+}
+
+.sortable-header:hover {
+  background-color: rgba(0, 0, 0, 0.08);
+}
+
+.sortable-header .sort-icon {
+  position: absolute;
+  right: 1px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 0.9em;
+  opacity: 0.4;
+}
+
+.sortable-header .sort-icon.active {
+  opacity: 1;
+}
+
 .fdr-number {
   margin: 0;
   padding: 0;
@@ -137,33 +161,38 @@ th {
       width: 80px !important;
       min-width: 80px !important;
     }
-    
+
     .fdr-column {
-      width: 50px !important;
-      min-width: 50px !important;
+      width: 55px !important;
+      min-width: 55px !important;
     }
   }
 
-    /* Extra narrow FDR column for mobile screens under 500px */
+    /* FDR column for screens under 1300px */
     @media (max-width: 1300px) {
       .fdr-column {
-        width: 40px !important;
-        min-width: 40px !important;
+        width: 50px !important;
+        min-width: 50px !important;
       }
     }
-  
-  /* Extra narrow FDR column for mobile screens under 600px */
+
+  /* FDR column for screens under 600px */
   @media (max-width: 599px) {
     .fdr-number {
       font-size: 0.5em;
     }
+
+    .fdr-column {
+      width: 42px !important;
+      min-width: 42px !important;
+    }
   }
 
-  /* Extra narrow FDR column for mobile screens under 500px */
+  /* FDR column for mobile screens under 500px */
   @media (max-width: 499px) {
     .fdr-column {
-      width: 25px !important;
-      min-width: 25px !important;
+      width: 35px !important;
+      min-width: 35px !important;
     }
   }
   

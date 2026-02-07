@@ -8,6 +8,7 @@ export default function CardList({ teams, fixturesData, activeGameweek: initialA
   const [numberOfGameweeks, setNumberOfGameweeks] = useState(5);
   const [sortOrder, setSortOrder] = useState("desc");
   const [sortBy, setSortBy] = useState("custom");
+  const [sortColumn, setSortColumn] = useState("fdr"); // 'team', 'fdr', or 'gw-N'
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 800); 
   const [showOriginalScore] = useState(true);
   const [activeGameweek, setActiveGameweek] = useState(initialActiveGameweek || 1);
@@ -161,8 +162,36 @@ export default function CardList({ teams, fixturesData, activeGameweek: initialA
     setSortBy((prevSortBy) => (prevSortBy === "original" ? "custom" : "original"));
   };
 
-  const handleCustomSort = () => {
-    setSortOrder((prevSortOrder) => (prevSortOrder === "asc" ? "desc" : "asc"));
+  const handleColumnSort = (column) => {
+    if (sortColumn === column) {
+      setSortOrder(prev => prev === "asc" ? "desc" : "asc");
+    } else {
+      setSortColumn(column);
+      setSortOrder(column === "team" ? "asc" : "desc");
+    }
+  };
+
+  const sortArrow = (column) => {
+    const isActive = sortColumn === column;
+    const icon = isActive ? (sortOrder === 'asc' ? '▲' : '▼') : '↕';
+    return <span className={`sort-icon ${isActive ? 'active' : ''}`}>{icon}</span>;
+  };
+
+  const getGameweekDifficulty = (teamId, gwNumber) => {
+    if (!fixturesData) return 99;
+    const teamFixtures = fixturesData.filter(
+      f => (f.team_h === teamId || f.team_a === teamId) && f.event === gwNumber
+    );
+    if (teamFixtures.length === 0) return 99; // blank = sort to end
+    return teamFixtures.reduce((total, fixture) => {
+      const home = fixture.team_h === teamId;
+      if (sortBy === "original") {
+        return total + (home ? fixture.team_h_difficulty : fixture.team_a_difficulty);
+      } else {
+        const opponentNumber = home ? fixture.team_a : fixture.team_h;
+        return total + (home ? (teams[opponentNumber]?.a_diff || 0) : (teams[opponentNumber]?.h_diff || 0));
+      }
+    }, 0);
   };
 
   const teamsToRender = teams.slice(1);
@@ -182,12 +211,24 @@ export default function CardList({ teams, fixturesData, activeGameweek: initialA
   sortedTeams.sort((teamA, teamB) => {
     let valueA, valueB;
 
-    if (sortBy === "original") {
-      valueA = calculateReversedTotalDifficulty(teamA.id, numberOfGameweeks);
-      valueB = calculateReversedTotalDifficulty(teamB.id, numberOfGameweeks);
+    if (sortColumn === "team") {
+      const nameA = teams[teamA.id]?.name || teamA.name || '';
+      const nameB = teams[teamB.id]?.name || teamB.name || '';
+      const cmp = nameA.localeCompare(nameB);
+      return sortOrder === "asc" ? cmp : -cmp;
+    } else if (sortColumn.startsWith("gw-")) {
+      const gwNum = parseInt(sortColumn.split("-")[1], 10);
+      valueA = getGameweekDifficulty(teamA.id, gwNum);
+      valueB = getGameweekDifficulty(teamB.id, gwNum);
     } else {
-      valueA = calculateCustomDifficulty(teamA.id, numberOfGameweeks);
-      valueB = calculateCustomDifficulty(teamB.id, numberOfGameweeks);
+      // fdr
+      if (sortBy === "original") {
+        valueA = calculateReversedTotalDifficulty(teamA.id, numberOfGameweeks);
+        valueB = calculateReversedTotalDifficulty(teamB.id, numberOfGameweeks);
+      } else {
+        valueA = calculateCustomDifficulty(teamA.id, numberOfGameweeks);
+        valueB = calculateCustomDifficulty(teamB.id, numberOfGameweeks);
+      }
     }
 
     if (sortOrder === "asc") {
@@ -210,13 +251,11 @@ export default function CardList({ teams, fixturesData, activeGameweek: initialA
   return (
       <div>
         <div className="container-cardlist-tools">
-          <strong className="tool-text">FPL FDR</strong>
+          <div className="fdr-selector-group">
+            <strong className="tool-text">FPL FDR</strong>
             <Switch className="switch" {...label} defaultChecked={sortBy === 'custom'} onChange={handleTableReorder}/>
-          <strong className="tool-text">Oracle FDR</strong>
-
-          <button className={`button-sort ${sortBy === "custom" ? "active" : ""}`}onClick={handleCustomSort}>
-            {sortOrder === "asc" ? "Sort ↑" : "Sort ↓"}
-          </button>
+            <strong className="tool-text">Oracle FDR</strong>
+          </div>
 
           <div className="input-container-cardlist">
             <label htmlFor="gameweek" className="tool-text"><strong>{isMobile ? "GW: " : "Active GW: "}</strong></label>
@@ -244,12 +283,19 @@ export default function CardList({ teams, fixturesData, activeGameweek: initialA
         <table className="fixtures-table with-border">
           <thead className="table-header">
             <tr>
-              <th className="team-column">Team</th>
-              <th className="fdr-column">FDR</th>
+              <th className="team-column sortable-header" onClick={() => handleColumnSort('team')}>
+                Team{sortArrow('team')}
+              </th>
+              <th className="fdr-column sortable-header" onClick={() => handleColumnSort('fdr')}>
+                FDR{sortArrow('fdr')}
+              </th>
               {Array.from({length: numberOfGameweeks}, (_, index) => {
                 const gameweekNumber = activeGameweek + index;
+                const colKey = `gw-${gameweekNumber}`;
                 return gameweekNumber <= 38 ? (
-                  <th key={index}>{`GW ${gameweekNumber}`}</th>
+                  <th key={index} className="sortable-header" onClick={() => handleColumnSort(colKey)}>
+                    {`GW ${gameweekNumber}`}{sortArrow(colKey)}
+                  </th>
                 ) : null;
               })}
             </tr>

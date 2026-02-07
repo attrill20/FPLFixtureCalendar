@@ -391,7 +391,7 @@
   display: flex;
   flex-direction: column;
   gap: 6px;
-  width: 80%;
+  width: 70%;
   margin: 0 auto;
 }
 
@@ -420,11 +420,12 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 6px 14px;
+  padding: 6px 0;
   font-weight: 700;
   font-size: 1rem;
   color: #000;
-  min-width: 50px;
+  width: 50px;
+  flex-shrink: 0;
 }
 
 .summary-score.custom-difficulty-1 { background-color: rgb(159, 251, 159); }
@@ -694,31 +695,34 @@
   }
 
   .badge-stats {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 8px;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 4px;
     margin-top: 12px;
   }
 
   .badge-stat-box {
-    padding: 8px 10px;
-    gap: 8px;
+    padding: 4px 3px;
+    gap: 4px;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
   }
 
   .badge-stat-box img {
-    width: 32px;
-    height: 32px;
+    width: 22px;
+    height: 22px;
   }
 
   .badge-stat-label {
-    font-size: 0.5rem;
+    font-size: 0.35rem;
   }
 
   .badge-stat-team {
-    font-size: 0.75rem;
+    font-size: 0.5rem;
   }
 
   .badge-stat-diff {
-    font-size: 0.65rem;
+    font-size: 0.5rem;
   }
 
   .expand-arrow {
@@ -738,6 +742,10 @@
     font-size: 0.65rem;
     padding: 4px 8px;
     min-width: 35px;
+  }
+
+  .comparison-table td.clickable:hover {
+    box-shadow: inset 0 0 0 1px #37003c;
   }
 
   .breakdown-team-cell {
@@ -763,7 +771,8 @@
 
   .metric-tile-label {
     font-size: 0.5rem;
-    text-align: left;
+    text-align: right;
+    padding-right: 4px;
   }
 
   .metric-score {
@@ -839,25 +848,25 @@
   }
 
   .badge-stats {
-    grid-template-columns: 1fr 1fr;
-    gap: 6px;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 3px;
   }
 
   .badge-stat-box img {
-    width: 24px;
-    height: 24px;
+    width: 18px;
+    height: 18px;
   }
 
   .badge-stat-label {
-    font-size: 0.4rem;
+    font-size: 0.3rem;
   }
 
   .badge-stat-team {
-    font-size: 0.6rem;
+    font-size: 0.4rem;
   }
 
   .badge-stat-diff {
-    font-size: 0.55rem;
+    font-size: 0.4rem;
   }
 
   .expand-arrow {

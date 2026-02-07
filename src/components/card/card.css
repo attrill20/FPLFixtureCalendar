@@ -86,16 +86,20 @@ th {
 }
 
 .fdr-number {
-  margin-top: 0px;
+  margin: 0;
+  padding: 0;
   font-size: 1.3rem;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 
 /* DESKTOP */
-@media (min-width: 1200px) { 
+@media (min-width: 1200px) {
   .fdr-column {
-    width: 4%; 
+    width: 4%;
     overflow-wrap: break-word;
+    overflow: hidden;
   }
 }
 
@@ -148,6 +152,13 @@ th {
       }
     }
   
+  /* Extra narrow FDR column for mobile screens under 600px */
+  @media (max-width: 599px) {
+    .fdr-number {
+      font-size: 0.55em;
+    }
+  }
+
   /* Extra narrow FDR column for mobile screens under 500px */
   @media (max-width: 499px) {
     .fdr-column {
@@ -342,7 +353,7 @@ th {
   }
 
   .fdr-number {
-    font-size: 0.8em;
+    font-size: 0.65em;
   }
 
   .cards {
@@ -389,6 +400,10 @@ th {
 
   .fdr-column {
     width: 7%;
+  }
+
+  .fdr-number {
+    font-size: 0.5em;
   }
 
   .fixture-info {

@@ -182,8 +182,8 @@
   }
 
   .active-gameweek-input {
-    font-size: var(--font-size-xs);
-    width: 20px;
+    font-size: var(--font-size-sm);
+    width: 30px;
     padding: var(--spacing-xs);
   }
 

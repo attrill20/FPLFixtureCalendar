@@ -183,16 +183,16 @@ th {
     }
 
     .fdr-column {
-      width: 42px !important;
-      min-width: 42px !important;
+      width: 38px !important;
+      min-width: 38px !important;
     }
   }
 
   /* FDR column for mobile screens under 500px */
   @media (max-width: 499px) {
     .fdr-column {
-      width: 35px !important;
-      min-width: 35px !important;
+      width: 30px !important;
+      min-width: 30px !important;
     }
   }
   
@@ -382,7 +382,8 @@ th {
   }
 
   .fdr-number {
-    font-size: 0.6em;
+    font-size: 0.7em;
+    font-weight: 700;
   }
 
   .cards {

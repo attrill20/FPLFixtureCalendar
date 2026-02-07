@@ -603,16 +603,21 @@
 
   .comparison-table {
     font-size: 0.65rem;
+    border: 1px solid #000000;
   }
 
   .comparison-table th {
     padding: 6px 2px;
     font-size: 0.55rem;
     letter-spacing: 0;
+    border-right: 1px solid rgba(0, 0, 0, 0.3);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.3);
   }
 
   .comparison-table td {
     padding: 6px 2px;
+    border-right: 1px solid rgba(0, 0, 0, 0.2);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
   }
 
   .comparison-table .team-name {
@@ -637,6 +642,32 @@
   .comparison-table tfoot td {
     padding: 8px 2px;
     font-size: 0.65rem;
+  }
+
+  /* Soften purple dividers on mobile */
+  .comparison-table td.home-section:nth-child(2),
+  .comparison-table thead tr:first-child th.home-section,
+  .comparison-table thead tr:nth-child(2) th.home-section:nth-child(1) {
+    border-left: 1px solid #37003c;
+  }
+
+  .comparison-table td.home-section:nth-child(4),
+  .comparison-table thead tr:first-child th.home-section,
+  .comparison-table thead tr:nth-child(2) th.home-section:nth-child(3) {
+    border-right: 1px solid #37003c;
+  }
+
+  .comparison-table tfoot td.home-section:nth-child(2) {
+    border-left: 1px solid #37003c;
+  }
+
+  .comparison-table tfoot td.home-section:nth-child(4) {
+    border-right: 1px solid #37003c;
+  }
+
+  .breakdown-home-cell {
+    border-left: 1px solid #37003c !important;
+    border-right: 1px solid #37003c !important;
   }
 
   .stats-summary {
@@ -709,22 +740,30 @@
     min-width: 35px;
   }
 
-  .breakdown-spacer {
-    padding: 4px;
+  .breakdown-team-cell {
+    padding: 6px 4px !important;
   }
 
   .breakdown-summary {
     flex-direction: column;
     gap: 3px;
+    width: 90%;
   }
 
   .metric-tile {
-    padding: 5px 2px;
+    padding: 4px 2px;
     gap: 2px;
+    border-bottom-color: rgba(0, 0, 0, 0.2);
+    border-right-color: rgba(0, 0, 0, 0.2);
+  }
+
+  .metric-tile {
+    grid-template-columns: 1fr auto;
   }
 
   .metric-tile-label {
     font-size: 0.5rem;
+    text-align: left;
   }
 
   .metric-score {
@@ -736,7 +775,12 @@
   }
 
   .metric-raw {
-    font-size: 0.5rem;
+    display: none;
+  }
+
+  .sort-icon {
+    font-size: 0.8em;
+    right: 1px;
   }
 }
 
@@ -835,18 +879,21 @@
     min-width: 28px;
   }
 
-  .breakdown-spacer {
-    padding: 2px;
+  .breakdown-team-cell {
+    padding: 4px 2px !important;
   }
 
   .breakdown-summary {
     flex-direction: column;
     gap: 2px;
+    width: 95%;
   }
 
   .metric-tile {
     padding: 3px 1px;
     gap: 1px;
+    border-bottom-color: rgba(0, 0, 0, 0.15);
+    border-right-color: rgba(0, 0, 0, 0.15);
   }
 
   .metric-tile-label {
@@ -863,5 +910,10 @@
 
   .metric-raw {
     font-size: 0.4rem;
+  }
+
+  .sort-icon {
+    font-size: 0.65em;
+    right: 0;
   }
 }

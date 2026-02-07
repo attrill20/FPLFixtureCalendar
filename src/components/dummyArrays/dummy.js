@@ -56,8 +56,6 @@ export let teams = [
 // Fetch automated FDR ratings from Supabase
 const fetchFDRFromSupabase = async () => {
   try {
-    console.log('📊 Fetching automated FDR from Supabase...');
-
     // Fetch from team_fdr_calculations for full decimal precision (same as comparison page)
     const { data: fdrData, error: fdrError } = await supabase
       .from('team_fdr_calculations')
@@ -91,8 +89,6 @@ const fetchFDRFromSupabase = async () => {
       }
     });
 
-    console.log(`✅ Loaded automated FDR for ${updatedCount} teams from Supabase`);
-    console.log(`   Last updated: ${teamsData?.[0]?.updated_at || 'Unknown'}`);
     return true;
 
   } catch (error) {
@@ -104,8 +100,6 @@ const fetchFDRFromSupabase = async () => {
 // Fallback to Google Sheets (manual ratings)
 const fetchDataFromGoogleSheets = async () => {
   try {
-    console.log('📊 Fetching manual FDR from Google Sheets...');
-
     const spreadsheetId = process.env.REACT_APP_SPREADSHEET_ID;
     const apiKey = process.env.REACT_APP_GOOGLE_API_KEY;
     const sheetName = process.env.REACT_APP_SHEET_NAME;
@@ -127,7 +121,6 @@ const fetchDataFromGoogleSheets = async () => {
       }
     }
 
-    console.log('✅ Loaded manual FDR from Google Sheets');
     return true;
 
   } catch (error) {
@@ -142,12 +135,10 @@ const loadFDR = async () => {
   const supabaseSuccess = await fetchFDRFromSupabase();
 
   if (supabaseSuccess) {
-    console.log('🎯 Using automated FDR from Supabase');
     return;
   }
 
   // Fallback to manual Google Sheets ratings
-  console.log('🔄 Falling back to manual Google Sheets FDR...');
   const sheetsSuccess = await fetchDataFromGoogleSheets();
 
   if (!sheetsSuccess) {

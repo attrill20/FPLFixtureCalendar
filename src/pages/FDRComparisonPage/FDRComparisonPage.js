@@ -38,14 +38,14 @@ const formatRaw = (value, suffix = ' per 90', decimals = 2) => {
   return `${parseFloat(value).toFixed(decimals)}${suffix}`;
 };
 
-const BreakdownContent = ({ team, getDifficultyClass }) => {
+const BreakdownContent = ({ team, getDifficultyClass, isMobile }) => {
   const homeMetrics = [
     { label: 'Goals Scored', score: team.home_goals_scored_per_90_score, raw: team.home_goals_scored_per_90, suffix: ' per 90' },
     { label: 'xG', score: team.home_xg_per_90_score, raw: team.home_xg_per_90, suffix: ' per 90' },
     { label: 'Goals Conceded', score: team.home_goals_conceded_per_90_score, raw: team.home_goals_conceded_per_90, suffix: ' per 90' },
     { label: 'xGC', score: team.home_xgc_per_90_score, raw: team.home_xgc_per_90, suffix: ' per 90' },
     { label: 'Overall Form', score: team.recent_form_score, raw: team.recent_form, suffix: '' },
-    { label: 'Home PPG (Last 5)', score: team.home_ppg_recent_score, raw: team.home_ppg_recent, suffix: ' points', decimals: 0 },
+    { label: 'Home PPG (Last 5)', mobileLabel: 'Home PPG', score: team.home_ppg_recent_score, raw: team.home_ppg_recent, suffix: ' points', decimals: 0 },
   ];
 
   const awayMetrics = [
@@ -54,12 +54,12 @@ const BreakdownContent = ({ team, getDifficultyClass }) => {
     { label: 'Goals Conceded', score: team.away_goals_conceded_per_90_score, raw: team.away_goals_conceded_per_90, suffix: ' per 90' },
     { label: 'xGC', score: team.away_xgc_per_90_score, raw: team.away_xgc_per_90, suffix: ' per 90' },
     { label: 'Overall Form', score: team.recent_form_score, raw: team.recent_form, suffix: '' },
-    { label: 'Away PPG (Last 5)', score: team.away_ppg_recent_score, raw: team.away_ppg_recent, suffix: ' points', decimals: 0 },
+    { label: 'Away PPG (Last 5)', mobileLabel: 'Away PPG', score: team.away_ppg_recent_score, raw: team.away_ppg_recent, suffix: ' points', decimals: 0 },
   ];
 
   const renderTile = (m) => (
     <div className="metric-tile">
-      <span className="metric-tile-label">{m.label}</span>
+      <span className="metric-tile-label">{isMobile && m.mobileLabel ? m.mobileLabel : m.label}</span>
       <span className={`metric-score ${m.score != null ? getDifficultyClass(m.score) : ''}`}>
         {m.score != null ? Math.round(m.score) : '—'}
       </span>
@@ -78,6 +78,13 @@ const FDRComparisonPage = () => {
   const [sortBy, setSortBy] = useState('name'); // 'name', 'homeDiff', 'awayDiff', 'totalDiff'
   const [sortOrder, setSortOrder] = useState('asc'); // 'asc' or 'desc'
   const [expandedTeams, setExpandedTeams] = useState(new Set());
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth <= 768);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   const toggleBreakdown = (teamId) => {
     setExpandedTeams(prev => {
@@ -530,19 +537,19 @@ const FDRComparisonPage = () => {
                     </td>
                   </tr>
                   {isExpanded && (() => {
-                    const { homeMetrics, awayMetrics, renderTile } = BreakdownContent({ team, getDifficultyClass });
+                    const { homeMetrics, awayMetrics, renderTile } = BreakdownContent({ team, getDifficultyClass, isMobile });
                     return (
                       <tr className="breakdown-row">
                         <td className="breakdown-cell breakdown-team-cell">
                           <div className="breakdown-summary">
                             <div className="summary-line">
-                              <span className="summary-label">Home Strength:</span>
+                              <span className="summary-label">{isMobile ? 'Home:' : 'Home Strength:'}</span>
                               <span className={`summary-score ${getDifficultyClass(team.home_difficulty)}`}>
                                 {Number(team.home_difficulty).toFixed(1)}
                               </span>
                             </div>
                             <div className="summary-line">
-                              <span className="summary-label">Away Strength:</span>
+                              <span className="summary-label">{isMobile ? 'Away:' : 'Away Strength:'}</span>
                               <span className={`summary-score ${getDifficultyClass(team.away_difficulty)}`}>
                                 {Number(team.away_difficulty).toFixed(1)}
                               </span>

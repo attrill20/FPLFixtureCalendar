@@ -61,13 +61,6 @@ const fetchFDRFromSupabase = async () => {
       .from('team_fdr_calculations')
       .select('team_id, home_difficulty, away_difficulty');
 
-    // Get updated_at timestamp from teams table
-    const { data: teamsData } = await supabase
-      .from('teams')
-      .select('id, updated_at')
-      .order('id')
-      .limit(1);
-
     if (fdrError) {
       console.warn('⚠️ Supabase FDR fetch failed:', fdrError.message);
       return false;
@@ -79,13 +72,11 @@ const fetchFDRFromSupabase = async () => {
     }
 
     // Update teams array with automated FDR ratings (with decimal precision)
-    let updatedCount = 0;
     fdrData.forEach(fdr => {
       const team = teams.find(t => t.id === fdr.team_id);
       if (team) {
         team.h_diff = parseFloat(fdr.home_difficulty) || 5;
         team.a_diff = parseFloat(fdr.away_difficulty) || 5;
-        updatedCount++;
       }
     });
 

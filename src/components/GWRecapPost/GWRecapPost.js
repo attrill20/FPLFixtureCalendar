@@ -21,67 +21,120 @@ function getDifficultyColor(value) {
 }
 
 /**
- * Determines the primary reason for an FDR change by comparing metric deltas.
+ * Determines the primary reasons for an FDR change by comparing individual metric deltas.
+ * Each metric is evaluated independently for more specific reason text.
  */
 function generateReason(current, previous, direction) {
   const factors = [];
+  const up = direction === 'up';
 
-  // Form change
-  const formDelta = (current.recent_form_score || 0) - (previous.recent_form_score || 0);
+  // Helper: only compare when both snapshots have real data for a field
+  const hasBoth = (field) => current[field] != null && previous[field] != null && current[field] !== 0 && previous[field] !== 0;
+  const delta = (field) => (current[field] || 0) - (previous[field] || 0);
+
+  // Overall form
+  const formDelta = hasBoth('recent_form_score') ? delta('recent_form_score') : 0;
   if (Math.abs(formDelta) > 0.1) {
     factors.push({
       magnitude: Math.abs(formDelta),
-      text: direction === 'up'
-        ? 'Improved recent form'
-        : 'Declining recent form'
+      text: up ? 'Improved overall form' : 'Declining overall form'
     });
   }
 
-  // Goals conceded change (higher = leakier defence = easier to attack)
-  const gcHomeDelta = (current.home_goals_conceded_per_90 || 0) - (previous.home_goals_conceded_per_90 || 0);
-  const gcAwayDelta = (current.away_goals_conceded_per_90 || 0) - (previous.away_goals_conceded_per_90 || 0);
-  const gcAvgDelta = (gcHomeDelta + gcAwayDelta) / 2;
-  if (Math.abs(gcAvgDelta) > 0.05) {
+  // Goals scored per 90 — home
+  const gsHomeDelta = hasBoth('home_goals_scored_per_90') ? delta('home_goals_scored_per_90') : 0;
+  if (Math.abs(gsHomeDelta) > 0.05) {
     factors.push({
-      magnitude: Math.abs(gcAvgDelta) * 3, // Weight defence changes
-      text: direction === 'up'
-        ? 'Tighter defence'
-        : 'Leakier defence'
+      magnitude: Math.abs(gsHomeDelta) * 2.5,
+      text: up ? 'Scoring more goals at home' : 'Scoring less goals at home'
     });
   }
 
-  // Goals scored change
-  const gsHomeDelta = (current.home_goals_scored_per_90 || 0) - (previous.home_goals_scored_per_90 || 0);
-  const gsAwayDelta = (current.away_goals_scored_per_90 || 0) - (previous.away_goals_scored_per_90 || 0);
-  const gsAvgDelta = (gsHomeDelta + gsAwayDelta) / 2;
-  if (Math.abs(gsAvgDelta) > 0.05) {
+  // Goals scored per 90 — away
+  const gsAwayDelta = hasBoth('away_goals_scored_per_90') ? delta('away_goals_scored_per_90') : 0;
+  if (Math.abs(gsAwayDelta) > 0.05) {
     factors.push({
-      magnitude: Math.abs(gsAvgDelta) * 2.5,
-      text: direction === 'up'
-        ? 'More attacking threat'
-        : 'Less attacking threat'
+      magnitude: Math.abs(gsAwayDelta) * 2.5,
+      text: up ? 'Scoring more goals away' : 'Scoring less goals away'
     });
   }
 
-  // xG / xGC changes
-  const xgHomeDelta = (current.home_xg_per_90 || 0) - (previous.home_xg_per_90 || 0);
-  const xgAwayDelta = (current.away_xg_per_90 || 0) - (previous.away_xg_per_90 || 0);
-  const xgcHomeDelta = (current.home_xgc_per_90 || 0) - (previous.home_xgc_per_90 || 0);
-  const xgcAwayDelta = (current.away_xgc_per_90 || 0) - (previous.away_xgc_per_90 || 0);
-  const xgAvg = Math.abs((xgHomeDelta + xgAwayDelta + xgcHomeDelta + xgcAwayDelta) / 4);
-  if (xgAvg > 0.05) {
+  // Goals conceded per 90 — home
+  const gcHomeDelta = hasBoth('home_goals_conceded_per_90') ? delta('home_goals_conceded_per_90') : 0;
+  if (Math.abs(gcHomeDelta) > 0.05) {
     factors.push({
-      magnitude: xgAvg * 2,
-      text: direction === 'up'
-        ? 'Better underlying numbers'
-        : 'Worse underlying numbers'
+      magnitude: Math.abs(gcHomeDelta) * 3,
+      text: up ? 'Conceding less goals at home' : 'Conceding more goals at home'
+    });
+  }
+
+  // Goals conceded per 90 — away
+  const gcAwayDelta = hasBoth('away_goals_conceded_per_90') ? delta('away_goals_conceded_per_90') : 0;
+  if (Math.abs(gcAwayDelta) > 0.05) {
+    factors.push({
+      magnitude: Math.abs(gcAwayDelta) * 3,
+      text: up ? 'Conceding less goals away' : 'Conceding more goals away'
+    });
+  }
+
+  // xG per 90 — home
+  const xgHomeDelta = hasBoth('home_xg_per_90') ? delta('home_xg_per_90') : 0;
+  if (Math.abs(xgHomeDelta) > 0.05) {
+    factors.push({
+      magnitude: Math.abs(xgHomeDelta) * 2,
+      text: up ? 'Creating higher home xG' : 'Creating lower home xG'
+    });
+  }
+
+  // xG per 90 — away
+  const xgAwayDelta = hasBoth('away_xg_per_90') ? delta('away_xg_per_90') : 0;
+  if (Math.abs(xgAwayDelta) > 0.05) {
+    factors.push({
+      magnitude: Math.abs(xgAwayDelta) * 2,
+      text: up ? 'Creating higher away xG' : 'Creating lower away xG'
+    });
+  }
+
+  // xGC per 90 — home
+  const xgcHomeDelta = hasBoth('home_xgc_per_90') ? delta('home_xgc_per_90') : 0;
+  if (Math.abs(xgcHomeDelta) > 0.05) {
+    factors.push({
+      magnitude: Math.abs(xgcHomeDelta) * 2,
+      text: up ? 'Conceding lower home xGC' : 'Conceding higher home xGC'
+    });
+  }
+
+  // xGC per 90 — away
+  const xgcAwayDelta = hasBoth('away_xgc_per_90') ? delta('away_xgc_per_90') : 0;
+  if (Math.abs(xgcAwayDelta) > 0.05) {
+    factors.push({
+      magnitude: Math.abs(xgcAwayDelta) * 2,
+      text: up ? 'Conceding lower away xGC' : 'Conceding higher away xGC'
+    });
+  }
+
+  // Home PPG (Last 5)
+  const homePpgDelta = hasBoth('home_ppg_recent_score') ? delta('home_ppg_recent_score') : 0;
+  if (Math.abs(homePpgDelta) > 0.1) {
+    factors.push({
+      magnitude: Math.abs(homePpgDelta) * 1.5,
+      text: up ? 'Increasing home PPG (last 5)' : 'Decreasing home PPG (last 5)'
+    });
+  }
+
+  // Away PPG (Last 5)
+  const awayPpgDelta = hasBoth('away_ppg_recent_score') ? delta('away_ppg_recent_score') : 0;
+  if (Math.abs(awayPpgDelta) > 0.1) {
+    factors.push({
+      magnitude: Math.abs(awayPpgDelta) * 1.5,
+      text: up ? 'Better away PPG (last 5)' : 'Worse away PPG (last 5)'
     });
   }
 
   // Sort by magnitude and pick top 2 reasons
   factors.sort((a, b) => b.magnitude - a.magnitude);
   if (factors.length === 0) {
-    return [direction === 'up' ? 'Marginal improvements across metrics' : 'Marginal decline across metrics'];
+    return [up ? 'Small improvements across metrics' : 'Small declines across metrics'];
   }
   return factors.slice(0, 2).map(f => f.text);
 }

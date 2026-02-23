@@ -52,8 +52,12 @@ const HomePage = () => {
           currentSnapshots={recap.currentSnapshots}
           previousSnapshots={recap.previousSnapshots}
           gameweekName={recap.gameweekName}
+          lastKickoff={recap.lastKickoff}
           teams={teams}
           isLight={index % 2 === 0}
+          isLive={recap.isLive}
+          matchesPlayed={recap.matchesPlayed}
+          updatedAt={recap.updatedAt}
         />
       ))}
 

@@ -277,15 +277,19 @@ const FDRComparisonPage = () => {
       const fpl = fplRatings.find(f => f.id === oracle.id);
       if (!fpl) return null;
 
-      const homeDiff = Math.abs(fpl.home_difficulty - oracle.home_difficulty);
-      const awayDiff = Math.abs(fpl.away_difficulty - oracle.away_difficulty);
+      const homeDiffSigned = fpl.home_difficulty - oracle.home_difficulty;
+      const awayDiffSigned = fpl.away_difficulty - oracle.away_difficulty;
+      const homeDiff = Math.abs(homeDiffSigned);
+      const awayDiff = Math.abs(awayDiffSigned);
       const totalDiff = homeDiff + awayDiff;
 
       return {
         ...oracle,
         fpl,
         homeDiff,
+        homeDiffSigned,
         awayDiff,
+        awayDiffSigned,
         totalDiff
       };
     }).filter(Boolean);
@@ -304,7 +308,7 @@ const FDRComparisonPage = () => {
           compareValue = a.home_difficulty - b.home_difficulty;
           break;
         case 'homeDiff':
-          compareValue = a.homeDiff - b.homeDiff;
+          compareValue = a.homeDiffSigned - b.homeDiffSigned;
           break;
         case 'fplAway':
           compareValue = a.fpl.away_difficulty - b.fpl.away_difficulty;
@@ -313,7 +317,7 @@ const FDRComparisonPage = () => {
           compareValue = a.away_difficulty - b.away_difficulty;
           break;
         case 'awayDiff':
-          compareValue = a.awayDiff - b.awayDiff;
+          compareValue = a.awayDiffSigned - b.awayDiffSigned;
           break;
         case 'totalDiff':
           compareValue = a.totalDiff - b.totalDiff;
@@ -399,9 +403,9 @@ const FDRComparisonPage = () => {
 
         <div className="stats-summary">
           <div className="stat-box">
-            <div className="stat-label">Oracle vs FPL</div>
-            <div className="stat-value">{stats.avgDiff}</div>
-            <div className="stat-subtitle">average  difference</div>
+            <div className="stat-label">FPL v Oracle</div>
+            <div className="stat-value">{parseFloat(stats.avgDiff) > 0 ? `+${stats.avgDiff}` : stats.avgDiff}</div>
+            <div className="stat-subtitle">average difference</div>
           </div>
           <div className="stat-box">
             <div className="stat-label">Exact Matches</div>

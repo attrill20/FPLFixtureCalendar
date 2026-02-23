@@ -17,6 +17,24 @@
   white-space: nowrap;
 }
 
+/* LIVE badge */
+.recap-live-badge {
+  display: inline-block;
+  background: #c62828;
+  color: #fff;
+  font-size: var(--font-size-xs);
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: var(--radius-sm);
+  letter-spacing: 0.05em;
+  animation: live-pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes live-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
+}
+
 /* Container for both risers and fallers sections */
 .movers-container {
   margin-top: var(--spacing-md);
@@ -230,6 +248,11 @@
 
   .recap-date {
     font-size: var(--font-size-xs);
+  }
+
+  .recap-live-badge {
+    font-size: 0.6rem;
+    padding: 1px 5px;
   }
 
   .mover-badge {

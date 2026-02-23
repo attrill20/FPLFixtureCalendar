@@ -149,7 +149,7 @@ function generateReason(current, previous, direction) {
  *  - teams: teams array from dummy.js (for badges and names)
  *  - isLight: boolean for alternating background
  */
-const GWRecapPost = ({ currentSnapshots, previousSnapshots, gameweekName, teams, isLight }) => {
+const GWRecapPost = ({ currentSnapshots, previousSnapshots, gameweekName, lastKickoff, teams, isLight, isLive, matchesPlayed, updatedAt }) => {
   // Build lookup maps by team_id
   const currMap = {};
   currentSnapshots.forEach(s => { currMap[s.team_id] = s; });
@@ -266,12 +266,21 @@ const GWRecapPost = ({ currentSnapshots, previousSnapshots, gameweekName, teams,
   // Extract GW number from name (e.g. "Gameweek 12" → "12")
   const gwNumber = gameweekName ? gameweekName.replace(/\D/g, '') : '';
 
-  // Format the posted date from the snapshot's created_at, or fall back to now
-  const postedDate = (() => {
-    const timestamp = currentSnapshots[0]?.created_at;
-    const date = timestamp ? new Date(timestamp) : new Date();
-    return date.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+  // Format date string depending on live vs finished state
+  const dateDisplay = (() => {
+    if (isLive && updatedAt) {
+      const date = new Date(updatedAt);
+      const dateStr = date.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+      const timeStr = date.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' });
+      return `Last updated: ${dateStr} at ${timeStr}`;
+    }
+    const date = lastKickoff ? new Date(lastKickoff) : new Date();
+    return `Posted: ${date.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}`;
   })();
+
+  const description = isLive
+    ? `Here are the biggest FDR changes during Gameweek ${gwNumber} (${matchesPlayed}/10 matches played) — updates hourly based on goals, xG, defensive record, and recent form.`
+    : `Here are the biggest FDR changes following Gameweek ${gwNumber}, automatically calculated based on goals, xG, defensive record, and recent form.`;
 
   return (
     <section className={isLight ? 'section-light' : 'section-white'}>
@@ -279,9 +288,10 @@ const GWRecapPost = ({ currentSnapshots, previousSnapshots, gameweekName, teams,
         <div className="fdr-heading">
           <div className="recap-title-row">
             <h2>GW{gwNumber} FDR Movers</h2>
-            <span className="recap-date">Posted: <strong>{postedDate}</strong></span>
+            {isLive && <span className="recap-live-badge">LIVE</span>}
+            <span className="recap-date">{dateDisplay}</span>
           </div>
-          <p>Here are the biggest FDR changes following Gameweek {gwNumber}, automatically calculated based on goals, xG, defensive record, and recent form.</p>
+          <p>{description}</p>
 
           <div className="movers-container">
             {risers.length > 0 && (

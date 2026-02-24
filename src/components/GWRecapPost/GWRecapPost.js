@@ -164,19 +164,23 @@ const GWRecapPost = ({ currentSnapshots, previousSnapshots, gameweekName, lastKi
     const prev = prevMap[tid];
     if (!curr || !prev) return;
 
-    const currTotal = parseFloat(curr.home_difficulty) + parseFloat(curr.away_difficulty);
-    const prevTotal = parseFloat(prev.home_difficulty) + parseFloat(prev.away_difficulty);
-    const change = currTotal - prevTotal;
+    // Round to 1dp first so displayed values and change are consistent
+    const round1 = (v) => Math.round(parseFloat(v) * 10) / 10;
+    const currHome = round1(curr.home_difficulty);
+    const currAway = round1(curr.away_difficulty);
+    const prevHome = round1(prev.home_difficulty);
+    const prevAway = round1(prev.away_difficulty);
+    const change = (currHome + currAway) - (prevHome + prevAway);
 
     movers.push({
       team_id: tid,
       change,
-      homeChange: parseFloat(curr.home_difficulty) - parseFloat(prev.home_difficulty),
-      awayChange: parseFloat(curr.away_difficulty) - parseFloat(prev.away_difficulty),
-      currHome: parseFloat(curr.home_difficulty),
-      currAway: parseFloat(curr.away_difficulty),
-      prevHome: parseFloat(prev.home_difficulty),
-      prevAway: parseFloat(prev.away_difficulty),
+      homeChange: currHome - prevHome,
+      awayChange: currAway - prevAway,
+      currHome,
+      currAway,
+      prevHome,
+      prevAway,
       current: curr,
       previous: prev
     });

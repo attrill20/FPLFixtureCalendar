@@ -11,6 +11,8 @@ export default function CardList({ teams, fixturesData, activeGameweek: initialA
   const [sortColumn, setSortColumn] = useState("fdr"); // 'team', 'fdr', or 'gw-N'
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 800); 
   const [showOriginalScore] = useState(true);
+  const [showAttack, setShowAttack] = useState(true);
+  const [showDefense, setShowDefense] = useState(true);
   const [activeGameweek, setActiveGameweek] = useState(initialActiveGameweek || 1);
 
   // Update activeGameweek when the prop changes
@@ -26,6 +28,28 @@ export default function CardList({ teams, fixturesData, activeGameweek: initialA
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
+
+  // Determine which difficulty property to use based on ATT/DEF filter
+  // diffMode: 'overall' (both or neither), 'attack' (ATT only), 'defense' (DEF only)
+  const diffMode = (showAttack && showDefense) || (!showAttack && !showDefense)
+    ? 'overall'
+    : showAttack ? 'attack' : 'defense';
+
+  const getTeamDiff = (opponentNumber, isHome) => {
+    const opponent = teams[opponentNumber];
+    if (!opponent) return 0;
+    if (diffMode === 'attack') {
+      // ATT filter: how easy to score against opponent → opponent's defense rating
+      // Low defense = weak defense = easy to score against
+      return isHome ? (opponent.a_def || 5) : (opponent.h_def || 5);
+    } else if (diffMode === 'defense') {
+      // DEF filter: how dangerous opponent's attack is → opponent's attack rating
+      // Low attack = weak attack = easy clean sheet
+      return isHome ? (opponent.a_att || 5) : (opponent.h_att || 5);
+    }
+    // Overall
+    return isHome ? (opponent.a_diff || 0) : (opponent.h_diff || 0);
+  };
 
   const calculateReversedTotalDifficulty = (teamId, numberOfFixtures) => {
     if (!fixturesData) return 0;
@@ -133,9 +157,7 @@ export default function CardList({ teams, fixturesData, activeGameweek: initialA
       customTotalDifficulty += gameweek.reduce((acc, fixture) => {
         const home = fixture.team_h === teamId;
         const opponentNumber = home ? fixture.team_a : fixture.team_h;
-        const difficulty = home
-          ? teams[opponentNumber]?.a_diff || 0
-          : teams[opponentNumber]?.h_diff || 0;
+        const difficulty = getTeamDiff(opponentNumber, home);
 
         return acc + difficulty;
       }, 0);
@@ -189,7 +211,7 @@ export default function CardList({ teams, fixturesData, activeGameweek: initialA
         return total + (home ? fixture.team_h_difficulty : fixture.team_a_difficulty);
       } else {
         const opponentNumber = home ? fixture.team_a : fixture.team_h;
-        return total + (home ? (teams[opponentNumber]?.a_diff || 0) : (teams[opponentNumber]?.h_diff || 0));
+        return total + getTeamDiff(opponentNumber, home);
       }
     }, 0);
   };
@@ -257,6 +279,25 @@ export default function CardList({ teams, fixturesData, activeGameweek: initialA
             <strong className="tool-text">Oracle FDR</strong>
           </div>
 
+          {sortBy === "custom" && (
+            <div className="att-def-filter-group">
+              <button
+                className={`att-def-filter-btn ${showAttack ? 'active' : ''}`}
+                onClick={() => setShowAttack(prev => !prev)}
+                title="Attack: how easy to score against opponent"
+              >
+                ATT
+              </button>
+              <button
+                className={`att-def-filter-btn ${showDefense ? 'active' : ''}`}
+                onClick={() => setShowDefense(prev => !prev)}
+                title="Defense: how dangerous opponent's attack is"
+              >
+                DEF
+              </button>
+            </div>
+          )}
+
           <div className="input-container-cardlist">
             <label htmlFor="gameweek" className="tool-text"><strong>{isMobile ? "GW: " : "Active GW: "}</strong></label>
             <div className="input-wrapper">
@@ -312,6 +353,7 @@ export default function CardList({ teams, fixturesData, activeGameweek: initialA
                 activeGameweek={activeGameweek}
                 showOriginalScore={sortBy === "original"}
                 showCustomScore={sortBy === "custom"}
+                diffMode={diffMode}
                 key={index}
                 isTableRow={true}
                 isNarrowScreen={isNarrowScreen}

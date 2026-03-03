@@ -9,11 +9,26 @@ export default function Row({
   activeGameweek,
   showOriginalScore,
   showCustomScore,
+  diffMode = 'overall',
   isNarrowScreen,
   shouldCompactOpponents,
   isTableRow = false,
 }) {
   const [teamFixturesData, setTeamFixturesData] = useState(null);
+
+  // Get difficulty based on diffMode (attack/defense/overall)
+  // ATT filter → opponent's defense rating (weak defense = easy to score)
+  // DEF filter → opponent's attack rating (weak attack = easy clean sheet)
+  const getCustomDiff = (opponentNumber, isHome) => {
+    const opponent = teams[opponentNumber];
+    if (!opponent) return 0;
+    if (diffMode === 'attack') {
+      return isHome ? (opponent.a_def || 5) : (opponent.h_def || 5);
+    } else if (diffMode === 'defense') {
+      return isHome ? (opponent.a_att || 5) : (opponent.h_att || 5);
+    }
+    return isHome ? (opponent.a_diff || 0) : (opponent.h_diff || 0);
+  };
 
   useEffect(() => {
     function getFixturesForTeam(teamId) {
@@ -77,9 +92,7 @@ export default function Row({
             const home = fixture.team_h === teamId;
             const opponentNumber =
               fixture.team_h === teamId ? fixture.team_a : fixture.team_h;
-            const difficulty = home
-              ? teams[opponentNumber]?.a_diff || 0
-              : teams[opponentNumber]?.h_diff || 0;
+            const difficulty = getCustomDiff(opponentNumber, home);
 
             return acc + difficulty;
           }, 0);
@@ -111,7 +124,7 @@ export default function Row({
 
     const newFixturesData = getFixturesForTeam(teamIndex);
     setTeamFixturesData(newFixturesData);
-  }, [teamIndex, numberOfFixtures, fixturesData, teams, activeGameweek]);
+  }, [teamIndex, numberOfFixtures, fixturesData, teams, activeGameweek, diffMode]);
 
   const team = teams[teamIndex];
   const teamName = team ? team.name : "";
@@ -150,10 +163,7 @@ export default function Row({
                     {gameweek.map((fixture, index) => {
                       const diffClass = showOriginalScore
                         ? `difficulty-${fixture.difficulty}`
-                        : `custom-difficulty-${Math.round(fixture.home
-                            ? teams[fixture.opponentNumber]?.a_diff
-                            : teams[fixture.opponentNumber]?.h_diff
-                          )}`;
+                        : `custom-difficulty-${Math.round(getCustomDiff(fixture.opponentNumber, fixture.home))}`;
                       const compactClass = shouldCompactOpponents ? 'opponent-name-compact' : '';
                       const badge = fixture.opponentNumber !== null && teams[fixture.opponentNumber]?.badge;
                       return (
@@ -188,10 +198,7 @@ export default function Row({
                       className={`fixture-info ${
                         showOriginalScore
                           ? `difficulty-${fixture.difficulty}`
-                          : `custom-difficulty-${Math.round(fixture.home
-                              ? teams[fixture.opponentNumber]?.a_diff
-                              : teams[fixture.opponentNumber]?.h_diff
-                            )}`
+                          : `custom-difficulty-${Math.round(getCustomDiff(fixture.opponentNumber, fixture.home))}`
                       }`}
                       key={index}
                     >
@@ -281,10 +288,7 @@ export default function Row({
                         {gameweek.map((fixture, index) => {
                           const diffClass = showOriginalScore
                             ? `difficulty-${fixture.difficulty}`
-                            : `custom-difficulty-${Math.round(fixture.home
-                                ? teams[fixture.opponentNumber]?.a_diff
-                                : teams[fixture.opponentNumber]?.h_diff
-                              )}`;
+                            : `custom-difficulty-${Math.round(getCustomDiff(fixture.opponentNumber, fixture.home))}`;
                           const compactClass = shouldCompactOpponents ? 'opponent-name-compact' : '';
                           const badge = fixture.opponentNumber !== null && teams[fixture.opponentNumber]?.badge;
                           return (
@@ -319,10 +323,7 @@ export default function Row({
                           className={`fixture-info ${
                             showOriginalScore
                               ? `difficulty-${fixture.difficulty}`
-                              : `custom-difficulty-${Math.round(fixture.home
-                                  ? teams[fixture.opponentNumber]?.a_diff
-                                  : teams[fixture.opponentNumber]?.h_diff
-                                )}`
+                              : `custom-difficulty-${Math.round(getCustomDiff(fixture.opponentNumber, fixture.home))}`
                           }`}
                           key={index}
                         >

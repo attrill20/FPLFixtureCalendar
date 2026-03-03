@@ -30,27 +30,27 @@ import axios from 'axios';
 import { supabase } from '../../supabaseClient';
 
 export let teams = [
-  { id: 0, name: "Blank", initial: "NULL", badge: null, h_diff: 11, a_diff: 11 },
-  { id: 1, name: "Arsenal", initial: "ARS", badge: ARSbadge, h_diff: 8, a_diff: 9, code: 3 },
-  { id: 2, name: "Aston Villa", initial: "AVL", badge: AVLbadge, h_diff: 5, a_diff: 10, code: 7 },
-  { id: 3, name: "Burnley", initial: "BUR", badge: BURbadge, h_diff: 2, a_diff: 1, code: 90 },
-  { id: 4, name: "Bournemouth", initial: "BOU", badge: BOUbadge, h_diff: 4, a_diff: 4, code: 91 },
-  { id: 5, name: "Brentford", initial: "BRE", badge: BREbadge, h_diff: 3, a_diff: 6, code: 94 },
-  { id: 6, name: "Brighton", initial: "BHA", badge: BHAbadge, h_diff: 5, a_diff: 7, code: 36 },
-  { id: 7, name: "Chelsea", initial: "CHE", badge: CHEbadge, h_diff: 5, a_diff: 4, code: 8 },
-  { id: 8, name: "Crystal Palace", initial: "CRY", badge: CRYbadge, h_diff: 5, a_diff: 2, code: 31 },
-  { id: 9, name: "Everton", initial: "EVE", badge: EVEbadge, h_diff: 6, a_diff: 3, code: 11 },
-  { id: 10, name: "Fulham", initial: "FUL", badge: FULbadge, h_diff: 3, a_diff: 6, code: 54 },
-  { id: 11, name: "Leeds United", initial: "LEE", badge: LEEbadge, h_diff: 2, a_diff: 3, code: 2 },
-  { id: 12, name: "Liverpool", initial: "LIV", badge: LIVbadge2, h_diff: 7, a_diff: 10, code: 14 },
-  { id: 13, name: "Man City", initial: "MCI", badge: MCIbadge, h_diff: 7, a_diff: 9, code: 43 },
-  { id: 14, name: "Man United", initial: "MUN", badge: MUNbadge, h_diff: 6, a_diff: 6, code: 1 },
-  { id: 15, name: "Newcastle", initial: "NEW", badge: NEWbadge, h_diff: 3, a_diff: 9, code: 4 },
-  { id: 16, name: "Notts Forest", initial: "NFO", badge: NFObadge, h_diff: 2, a_diff: 4, code: 17 },
-  { id: 17, name: "Sunderland", initial: "SUN", badge: SUNbadge, h_diff: 1, a_diff: 4, code: 56 },
-  { id: 18, name: "Spurs", initial: "TOT", badge: TOTbadge, h_diff: 7, a_diff: 6, code: 6 },
-  { id: 19, name: "West Ham", initial: "WHU", badge: WHUbadge, h_diff: 6, a_diff: 5, code: 21 },
-  { id: 20, name: "Wolves", initial: "WOL", badge: WOLbadge, h_diff: 3, a_diff: 5, code: 39 },
+  { id: 0, name: "Blank", initial: "NULL", badge: null, h_diff: 11, a_diff: 11, h_att: 11, a_att: 11, h_def: 11, a_def: 11 },
+  { id: 1, name: "Arsenal", initial: "ARS", badge: ARSbadge, h_diff: 8, a_diff: 9, h_att: 5, a_att: 5, h_def: 5, a_def: 5, code: 3 },
+  { id: 2, name: "Aston Villa", initial: "AVL", badge: AVLbadge, h_diff: 5, a_diff: 10, h_att: 5, a_att: 5, h_def: 5, a_def: 5, code: 7 },
+  { id: 3, name: "Burnley", initial: "BUR", badge: BURbadge, h_diff: 2, a_diff: 1, h_att: 5, a_att: 5, h_def: 5, a_def: 5, code: 90 },
+  { id: 4, name: "Bournemouth", initial: "BOU", badge: BOUbadge, h_diff: 4, a_diff: 4, h_att: 5, a_att: 5, h_def: 5, a_def: 5, code: 91 },
+  { id: 5, name: "Brentford", initial: "BRE", badge: BREbadge, h_diff: 3, a_diff: 6, h_att: 5, a_att: 5, h_def: 5, a_def: 5, code: 94 },
+  { id: 6, name: "Brighton", initial: "BHA", badge: BHAbadge, h_diff: 5, a_diff: 7, h_att: 5, a_att: 5, h_def: 5, a_def: 5, code: 36 },
+  { id: 7, name: "Chelsea", initial: "CHE", badge: CHEbadge, h_diff: 5, a_diff: 4, h_att: 5, a_att: 5, h_def: 5, a_def: 5, code: 8 },
+  { id: 8, name: "Crystal Palace", initial: "CRY", badge: CRYbadge, h_diff: 5, a_diff: 2, h_att: 5, a_att: 5, h_def: 5, a_def: 5, code: 31 },
+  { id: 9, name: "Everton", initial: "EVE", badge: EVEbadge, h_diff: 6, a_diff: 3, h_att: 5, a_att: 5, h_def: 5, a_def: 5, code: 11 },
+  { id: 10, name: "Fulham", initial: "FUL", badge: FULbadge, h_diff: 3, a_diff: 6, h_att: 5, a_att: 5, h_def: 5, a_def: 5, code: 54 },
+  { id: 11, name: "Leeds United", initial: "LEE", badge: LEEbadge, h_diff: 2, a_diff: 3, h_att: 5, a_att: 5, h_def: 5, a_def: 5, code: 2 },
+  { id: 12, name: "Liverpool", initial: "LIV", badge: LIVbadge2, h_diff: 7, a_diff: 10, h_att: 5, a_att: 5, h_def: 5, a_def: 5, code: 14 },
+  { id: 13, name: "Man City", initial: "MCI", badge: MCIbadge, h_diff: 7, a_diff: 9, h_att: 5, a_att: 5, h_def: 5, a_def: 5, code: 43 },
+  { id: 14, name: "Man United", initial: "MUN", badge: MUNbadge, h_diff: 6, a_diff: 6, h_att: 5, a_att: 5, h_def: 5, a_def: 5, code: 1 },
+  { id: 15, name: "Newcastle", initial: "NEW", badge: NEWbadge, h_diff: 3, a_diff: 9, h_att: 5, a_att: 5, h_def: 5, a_def: 5, code: 4 },
+  { id: 16, name: "Notts Forest", initial: "NFO", badge: NFObadge, h_diff: 2, a_diff: 4, h_att: 5, a_att: 5, h_def: 5, a_def: 5, code: 17 },
+  { id: 17, name: "Sunderland", initial: "SUN", badge: SUNbadge, h_diff: 1, a_diff: 4, h_att: 5, a_att: 5, h_def: 5, a_def: 5, code: 56 },
+  { id: 18, name: "Spurs", initial: "TOT", badge: TOTbadge, h_diff: 7, a_diff: 6, h_att: 5, a_att: 5, h_def: 5, a_def: 5, code: 6 },
+  { id: 19, name: "West Ham", initial: "WHU", badge: WHUbadge, h_diff: 6, a_diff: 5, h_att: 5, a_att: 5, h_def: 5, a_def: 5, code: 21 },
+  { id: 20, name: "Wolves", initial: "WOL", badge: WOLbadge, h_diff: 3, a_diff: 5, h_att: 5, a_att: 5, h_def: 5, a_def: 5, code: 39 },
 ];
 
 // Fetch automated FDR ratings from Supabase
@@ -59,7 +59,7 @@ const fetchFDRFromSupabase = async () => {
     // Fetch from team_fdr_calculations for full decimal precision (same as comparison page)
     const { data: fdrData, error: fdrError } = await supabase
       .from('team_fdr_calculations')
-      .select('team_id, home_difficulty, away_difficulty');
+      .select('team_id, home_difficulty, away_difficulty, home_attack_rating, away_attack_rating, home_defense_rating, away_defense_rating');
 
     if (fdrError) {
       console.warn('⚠️ Supabase FDR fetch failed:', fdrError.message);
@@ -77,6 +77,10 @@ const fetchFDRFromSupabase = async () => {
       if (team) {
         team.h_diff = parseFloat(fdr.home_difficulty) || 5;
         team.a_diff = parseFloat(fdr.away_difficulty) || 5;
+        team.h_att = parseFloat(fdr.home_attack_rating) || 5;
+        team.a_att = parseFloat(fdr.away_attack_rating) || 5;
+        team.h_def = parseFloat(fdr.home_defense_rating) || 5;
+        team.a_def = parseFloat(fdr.away_defense_rating) || 5;
       }
     });
 

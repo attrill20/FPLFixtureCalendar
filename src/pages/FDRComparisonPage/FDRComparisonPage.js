@@ -39,20 +39,28 @@ const formatRaw = (value, suffix = ' per 90', decimals = 2) => {
 };
 
 const BreakdownContent = ({ team, getDifficultyClass, isMobile }) => {
-  const homeMetrics = [
+  const homeAttackMetrics = [
     { label: 'Goals Scored', score: team.home_goals_scored_per_90_score, raw: team.home_goals_scored_per_90, suffix: ' per 90' },
     { label: 'xG', score: team.home_xg_per_90_score, raw: team.home_xg_per_90, suffix: ' per 90' },
+  ];
+  const homeDefenseMetrics = [
     { label: 'Goals Conceded', score: team.home_goals_conceded_per_90_score, raw: team.home_goals_conceded_per_90, suffix: ' per 90' },
     { label: 'xGC', score: team.home_xgc_per_90_score, raw: team.home_xgc_per_90, suffix: ' per 90' },
+  ];
+  const homeFormMetrics = [
     { label: 'Overall Form', score: team.recent_form_score, raw: team.recent_form, suffix: '' },
     { label: 'Home PPG (Last 5)', mobileLabel: 'Home PPG', score: team.home_ppg_recent_score, raw: team.home_ppg_recent, suffix: ' points', decimals: 0 },
   ];
 
-  const awayMetrics = [
+  const awayAttackMetrics = [
     { label: 'Goals Scored', score: team.away_goals_scored_per_90_score, raw: team.away_goals_scored_per_90, suffix: ' per 90' },
     { label: 'xG', score: team.away_xg_per_90_score, raw: team.away_xg_per_90, suffix: ' per 90' },
+  ];
+  const awayDefenseMetrics = [
     { label: 'Goals Conceded', score: team.away_goals_conceded_per_90_score, raw: team.away_goals_conceded_per_90, suffix: ' per 90' },
     { label: 'xGC', score: team.away_xgc_per_90_score, raw: team.away_xgc_per_90, suffix: ' per 90' },
+  ];
+  const awayFormMetrics = [
     { label: 'Overall Form', score: team.recent_form_score, raw: team.recent_form, suffix: '' },
     { label: 'Away PPG (Last 5)', mobileLabel: 'Away PPG', score: team.away_ppg_recent_score, raw: team.away_ppg_recent, suffix: ' points', decimals: 0 },
   ];
@@ -67,7 +75,25 @@ const BreakdownContent = ({ team, getDifficultyClass, isMobile }) => {
     </div>
   );
 
-  return { homeMetrics, awayMetrics, renderTile };
+  const renderSectionHeader = (label, rating) => (
+    <div className="metric-section-header">
+      <span className="metric-section-label">{label}</span>
+      <span className={`metric-section-score ${getDifficultyClass(rating)}`}>
+        {Number(rating).toFixed(1)}
+      </span>
+    </div>
+  );
+
+  // Average form rating: (overall form + venue PPG) / 2
+  const homeFormRating = ((team.recent_form_score || 5) + (team.home_ppg_recent_score || 5)) / 2;
+  const awayFormRating = ((team.recent_form_score || 5) + (team.away_ppg_recent_score || 5)) / 2;
+
+  return {
+    homeAttackMetrics, homeDefenseMetrics, homeFormMetrics,
+    awayAttackMetrics, awayDefenseMetrics, awayFormMetrics,
+    homeFormRating, awayFormRating,
+    renderTile, renderSectionHeader,
+  };
 };
 
 const FDRComparisonPage = () => {
@@ -112,7 +138,7 @@ const FDRComparisonPage = () => {
       // Get Oracle FDR from team_fdr_calculations (full decimal precision + metric breakdowns)
       const { data: fdrData, error: fdrError } = await supabase
         .from('team_fdr_calculations')
-        .select('team_id, home_difficulty, away_difficulty, home_goals_scored_per_90, home_goals_scored_per_90_score, home_goals_conceded_per_90, home_goals_conceded_per_90_score, home_xg_per_90, home_xg_per_90_score, home_xgc_per_90, home_xgc_per_90_score, away_goals_scored_per_90, away_goals_scored_per_90_score, away_goals_conceded_per_90, away_goals_conceded_per_90_score, away_xg_per_90, away_xg_per_90_score, away_xgc_per_90, away_xgc_per_90_score, recent_form, recent_form_score, home_ppg_recent, home_ppg_recent_score, away_ppg_recent, away_ppg_recent_score');
+        .select('team_id, home_difficulty, away_difficulty, home_attack_rating, away_attack_rating, home_defense_rating, away_defense_rating, home_goals_scored_per_90, home_goals_scored_per_90_score, home_goals_conceded_per_90, home_goals_conceded_per_90_score, home_xg_per_90, home_xg_per_90_score, home_xgc_per_90, home_xgc_per_90_score, away_goals_scored_per_90, away_goals_scored_per_90_score, away_goals_conceded_per_90, away_goals_conceded_per_90_score, away_xg_per_90, away_xg_per_90_score, away_xgc_per_90, away_xgc_per_90_score, recent_form, recent_form_score, home_ppg_recent, home_ppg_recent_score, away_ppg_recent, away_ppg_recent_score');
 
       if (teamsError) {
         console.error('Error fetching teams:', teamsError);
@@ -126,6 +152,11 @@ const FDRComparisonPage = () => {
             ...team,
             home_difficulty: fdr ? parseFloat(fdr.home_difficulty) : 5,
             away_difficulty: fdr ? parseFloat(fdr.away_difficulty) : 5,
+            // Attack/Defense sub-ratings
+            home_attack_rating: fdr ? parseFloat(fdr.home_attack_rating) : 5,
+            away_attack_rating: fdr ? parseFloat(fdr.away_attack_rating) : 5,
+            home_defense_rating: fdr ? parseFloat(fdr.home_defense_rating) : 5,
+            away_defense_rating: fdr ? parseFloat(fdr.away_defense_rating) : 5,
             // Metric breakdowns
             home_goals_scored_per_90: fdr?.home_goals_scored_per_90,
             home_goals_scored_per_90_score: fdr?.home_goals_scored_per_90_score,
@@ -541,7 +572,12 @@ const FDRComparisonPage = () => {
                     </td>
                   </tr>
                   {isExpanded && (() => {
-                    const { homeMetrics, awayMetrics, renderTile } = BreakdownContent({ team, getDifficultyClass, isMobile });
+                    const {
+                      homeAttackMetrics, homeDefenseMetrics, homeFormMetrics,
+                      awayAttackMetrics, awayDefenseMetrics, awayFormMetrics,
+                      homeFormRating, awayFormRating,
+                      renderTile, renderSectionHeader,
+                    } = BreakdownContent({ team, getDifficultyClass, isMobile });
                     return (
                       <tr className="breakdown-row">
                         <td className="breakdown-cell breakdown-team-cell">
@@ -561,13 +597,35 @@ const FDRComparisonPage = () => {
                           </div>
                         </td>
                         <td colSpan="3" className="breakdown-cell breakdown-home-cell">
-                          <div className="breakdown-side">
-                            {homeMetrics.map((m, i) => <React.Fragment key={i}>{renderTile(m)}</React.Fragment>)}
+                          <div className="breakdown-grouped">
+                            {renderSectionHeader(isMobile ? 'ATT' : 'Attack', team.home_attack_rating)}
+                            <div className="breakdown-side">
+                              {homeAttackMetrics.map((m, i) => <React.Fragment key={i}>{renderTile(m)}</React.Fragment>)}
+                            </div>
+                            {renderSectionHeader(isMobile ? 'DEF' : 'Defense', team.home_defense_rating)}
+                            <div className="breakdown-side">
+                              {homeDefenseMetrics.map((m, i) => <React.Fragment key={i}>{renderTile(m)}</React.Fragment>)}
+                            </div>
+                            {renderSectionHeader('Form', homeFormRating)}
+                            <div className="breakdown-side">
+                              {homeFormMetrics.map((m, i) => <React.Fragment key={i}>{renderTile(m)}</React.Fragment>)}
+                            </div>
                           </div>
                         </td>
                         <td colSpan="3" className="breakdown-cell breakdown-away-cell">
-                          <div className="breakdown-side">
-                            {awayMetrics.map((m, i) => <React.Fragment key={i}>{renderTile(m)}</React.Fragment>)}
+                          <div className="breakdown-grouped">
+                            {renderSectionHeader(isMobile ? 'ATT' : 'Attack', team.away_attack_rating)}
+                            <div className="breakdown-side">
+                              {awayAttackMetrics.map((m, i) => <React.Fragment key={i}>{renderTile(m)}</React.Fragment>)}
+                            </div>
+                            {renderSectionHeader(isMobile ? 'DEF' : 'Defense', team.away_defense_rating)}
+                            <div className="breakdown-side">
+                              {awayDefenseMetrics.map((m, i) => <React.Fragment key={i}>{renderTile(m)}</React.Fragment>)}
+                            </div>
+                            {renderSectionHeader('Form', awayFormRating)}
+                            <div className="breakdown-side">
+                              {awayFormMetrics.map((m, i) => <React.Fragment key={i}>{renderTile(m)}</React.Fragment>)}
+                            </div>
                           </div>
                         </td>
                       </tr>

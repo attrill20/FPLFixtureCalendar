@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import "./card.css";
 
 export default function Row({
@@ -19,7 +19,7 @@ export default function Row({
   // Get difficulty based on diffMode (attack/defense/overall)
   // ATT filter → opponent's defense rating (weak defense = easy to score)
   // DEF filter → opponent's attack rating (weak attack = easy clean sheet)
-  const getCustomDiff = (opponentNumber, isHome) => {
+  const getCustomDiff = useCallback((opponentNumber, isHome) => {
     const opponent = teams[opponentNumber];
     if (!opponent) return 0;
     if (diffMode === 'attack') {
@@ -28,7 +28,7 @@ export default function Row({
       return isHome ? (opponent.a_att || 5) : (opponent.h_att || 5);
     }
     return isHome ? (opponent.a_diff || 0) : (opponent.h_diff || 0);
-  };
+  }, [teams, diffMode]);
 
   useEffect(() => {
     function getFixturesForTeam(teamId) {
@@ -124,7 +124,7 @@ export default function Row({
 
     const newFixturesData = getFixturesForTeam(teamIndex);
     setTeamFixturesData(newFixturesData);
-  }, [teamIndex, numberOfFixtures, fixturesData, teams, activeGameweek, diffMode]);
+  }, [teamIndex, numberOfFixtures, fixturesData, teams, activeGameweek, getCustomDiff]);
 
   const team = teams[teamIndex];
   const teamName = team ? team.name : "";

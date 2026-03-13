@@ -225,7 +225,8 @@
 
   .container-cardlist-tools {
     margin-bottom: var(--spacing-xs);
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
+    gap: var(--spacing-sm);
   }
 
   .input-wrapper button {

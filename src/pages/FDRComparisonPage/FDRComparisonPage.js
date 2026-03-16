@@ -49,7 +49,7 @@ const BreakdownContent = ({ team, getDifficultyClass, isMobile }) => {
   ];
   const homeFormMetrics = [
     { label: 'Overall Form', score: team.recent_form_score, raw: team.recent_form, suffix: '' },
-    { label: 'Home PPG (Last 5)', mobileLabel: 'Home PPG', score: team.home_ppg_recent_score, raw: team.home_ppg_recent, suffix: ' points', decimals: 0 },
+    { label: 'Home PPG (Last 5)', mobileLabel: 'Home PPG', score: team.home_ppg_recent_score, raw: team.home_ppg_recent, suffix: ' avg', decimals: 2 },
   ];
 
   const awayAttackMetrics = [
@@ -62,7 +62,7 @@ const BreakdownContent = ({ team, getDifficultyClass, isMobile }) => {
   ];
   const awayFormMetrics = [
     { label: 'Overall Form', score: team.recent_form_score, raw: team.recent_form, suffix: '' },
-    { label: 'Away PPG (Last 5)', mobileLabel: 'Away PPG', score: team.away_ppg_recent_score, raw: team.away_ppg_recent, suffix: ' points', decimals: 0 },
+    { label: 'Away PPG (Last 5)', mobileLabel: 'Away PPG', score: team.away_ppg_recent_score, raw: team.away_ppg_recent, suffix: ' avg', decimals: 2 },
   ];
 
   const renderTile = (m) => (

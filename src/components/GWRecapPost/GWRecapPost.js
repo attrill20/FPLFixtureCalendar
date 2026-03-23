@@ -328,7 +328,7 @@ const GWRecapPost = ({ currentSnapshots, previousSnapshots, gameweekName, lastKi
     ? buildMidSeasonDescription()
     : isLive
       ? `Here are the biggest FDR changes during Gameweek ${gwNumber} (${matchesPlayed}/10 matches played). Our FDR ratings are automatically recalculated after every match, factoring in goals scored and conceded per 90, expected goals (xG and xGC), points per game over the last 5 home and away matches, and overall recent form — giving you the most up-to-date picture of team strength.`
-      : `Here are the biggest FDR changes following Gameweek ${gwNumber}. Our FDR ratings are automatically recalculated after every match, factoring in goals scored and conceded per 90, expected goals (xG and xGC), points per game over the last 5 home and away matches, and overall recent form — giving you the most up-to-date picture of team strength.`;
+      : `Here are the biggest FDR changes following Gameweek ${gwNumber}. Our FDR ratings are automatically recalculated after every match, factoring in goals scored and conceded per 90, expected goals (xG and xGC), points per game over the last 5 home and away matches, and overall recent form - giving the most up-to-date picture of team strength.`;
 
   const title = isMidSeason ? 'Mid-Season FDR Update' : `GW${gwNumber} FDR Review`;
 

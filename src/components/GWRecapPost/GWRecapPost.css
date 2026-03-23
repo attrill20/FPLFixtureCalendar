@@ -35,6 +35,18 @@
   50% { opacity: 0.6; }
 }
 
+/* INT. BREAK badge */
+.recap-break-badge {
+  display: inline-block;
+  background: #1565c0;
+  color: #fff;
+  font-size: var(--font-size-xs);
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: var(--radius-sm);
+  letter-spacing: 0.05em;
+}
+
 /* Container for both risers and fallers sections */
 .movers-container {
   margin-top: var(--spacing-md);
@@ -250,7 +262,8 @@
     font-size: var(--font-size-xs);
   }
 
-  .recap-live-badge {
+  .recap-live-badge,
+  .recap-break-badge {
     font-size: 0.6rem;
     padding: 1px 5px;
   }

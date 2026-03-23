@@ -148,8 +148,14 @@ function generateReason(current, previous, direction) {
  *  - gameweekName: string (e.g. "Gameweek 12")
  *  - teams: teams array from dummy.js (for badges and names)
  *  - isLight: boolean for alternating background
+ *  - isMidSeason: boolean for mid-season update rendering
+ *  - gameweeksElapsed: number of GWs between baseline and current
+ *  - baselineGWName: name of baseline gameweek (e.g. "Gameweek 8")
+ *  - currentGWName: name of current gameweek (e.g. "Gameweek 12")
+ *  - nextFixtureDate: ISO date string of next PL fixture
+ *  - createdAt: ISO date string when mid-season update was created
  */
-const GWRecapPost = ({ currentSnapshots, previousSnapshots, gameweekName, lastKickoff, teams, isLight, isLive, matchesPlayed, updatedAt }) => {
+const GWRecapPost = ({ currentSnapshots, previousSnapshots, gameweekName, lastKickoff, teams, isLight, isLive, matchesPlayed, updatedAt, isMidSeason, gameweeksElapsed, baselineGWName, currentGWName, nextFixtureDate, createdAt }) => {
   // Build lookup maps by team_id
   const currMap = {};
   currentSnapshots.forEach(s => { currMap[s.team_id] = s; });
@@ -270,8 +276,12 @@ const GWRecapPost = ({ currentSnapshots, previousSnapshots, gameweekName, lastKi
   // Extract GW number from name (e.g. "Gameweek 12" → "12")
   const gwNumber = gameweekName ? gameweekName.replace(/\D/g, '') : '';
 
-  // Format date string depending on live vs finished state
+  // Format date string depending on live vs finished vs mid-season state
   const dateDisplay = (() => {
+    if (isMidSeason && createdAt) {
+      const date = new Date(createdAt);
+      return `Posted: ${date.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}`;
+    }
     if (isLive && updatedAt) {
       const date = new Date(updatedAt);
       const dateStr = date.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
@@ -282,17 +292,53 @@ const GWRecapPost = ({ currentSnapshots, previousSnapshots, gameweekName, lastKi
     return `Posted: ${date.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}`;
   })();
 
-  const description = isLive
-    ? `Here are the biggest FDR changes during Gameweek ${gwNumber} (${matchesPlayed}/10 matches played) — updates hourly based on goals, xG, defensive record, and recent form.`
-    : `Here are the biggest FDR changes following Gameweek ${gwNumber}, automatically calculated based on goals, xG, defensive record, and recent form.`;
+  // Build mid-season summary description
+  const buildMidSeasonDescription = () => {
+    const nextDateStr = nextFixtureDate
+      ? new Date(nextFixtureDate).toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'long' })
+      : 'TBC';
+
+    let desc = `There are no Premier League matches this weekend, so time for a mid-season update!`;
+    const baselineNum = baselineGWName ? baselineGWName.replace(/\D/g, '') : '';
+    const currentNum = currentGWName ? currentGWName.replace(/\D/g, '') : '';
+    desc += ` Over the last ${gameweeksElapsed} gameweek${gameweeksElapsed !== 1 ? 's' : ''} (GW${baselineNum}-${currentNum})`;
+
+    // Helper to lowercase reason but preserve acronyms like PPG, xG, xGC
+    const lowerReason = (r) => r.charAt(0).toLowerCase() + r.slice(1);
+
+    if (risers.length > 0) {
+      const topRiser = risers[0];
+      const team = getTeam(topRiser.team_id);
+      const reasons = generateReason(topRiser.current, topRiser.previous, 'up');
+      desc += ` the biggest riser has been ${team.name} (${formatChange(topRiser.change)}) due to their ${lowerReason(reasons[0])}`;
+    }
+    if (fallers.length > 0) {
+      const topFaller = fallers[0];
+      const team = getTeam(topFaller.team_id);
+      const reasons = generateReason(topFaller.current, topFaller.previous, 'down');
+      desc += ` and the biggest faller has been ${team.name} (${formatChange(topFaller.change)}) because of their ${lowerReason(reasons[0])}.`;
+    }
+    desc += ` Check out the other major changes in form for teams below. The next GW deadline is ${nextDateStr}, so enjoy the break before then and plan your transfers well! `;
+
+    return desc;
+  };
+
+  const description = isMidSeason
+    ? buildMidSeasonDescription()
+    : isLive
+      ? `Here are the biggest FDR changes during Gameweek ${gwNumber} (${matchesPlayed}/10 matches played) — updates hourly based on goals, xG, defensive record, and recent form.`
+      : `Here are the biggest FDR changes following Gameweek ${gwNumber}, automatically calculated based on goals, xG, defensive record, and recent form.`;
+
+  const title = isMidSeason ? 'Mid-Season FDR Update' : `GW${gwNumber} FDR Movers`;
 
   return (
     <section className={isLight ? 'section-light' : 'section-white'}>
       <div className="fdr-wrapper">
         <div className="fdr-heading">
           <div className="recap-title-row">
-            <h2>GW{gwNumber} FDR Movers</h2>
-            {isLive && <span className="recap-live-badge">LIVE</span>}
+            <h2>{title}</h2>
+
+            {isLive && !isMidSeason && <span className="recap-live-badge">LIVE</span>}
             <span className="recap-date">{dateDisplay}</span>
           </div>
           <p>{description}</p>

@@ -8,10 +8,12 @@ import oct_24_fdr from '../../components/images/oct_24_fdr.png';
 import nov_24_fdr from '../../components/images/nov_24_fdr.png';
 import GWRecapPost from '../../components/GWRecapPost/GWRecapPost';
 import { useFDRMovers } from '../../hooks/useFDRMovers';
+import { useMidSeasonUpdate } from '../../hooks/useMidSeasonUpdate';
 import { teams } from '../../components/dummyArrays/dummy';
 
 const HomePage = () => {
   const { recaps, loading } = useFDRMovers();
+  const { data: midSeasonData, loading: msLoading } = useMidSeasonUpdate();
   return (
     <div>
       {/* Hero Section */}
@@ -45,21 +47,66 @@ const HomePage = () => {
         </div>
       </section>
 
-      {/* Auto-generated GW Recap Movers */}
-      {!loading && recaps.map((recap, index) => (
-        <GWRecapPost
-          key={recap.gameweekId}
-          currentSnapshots={recap.currentSnapshots}
-          previousSnapshots={recap.previousSnapshots}
-          gameweekName={recap.gameweekName}
-          lastKickoff={recap.lastKickoff}
-          teams={teams}
-          isLight={index % 2 === 0}
-          isLive={recap.isLive}
-          matchesPlayed={recap.matchesPlayed}
-          updatedAt={recap.updatedAt}
-        />
-      ))}
+      {/* Auto-generated GW Recap Movers + Mid-Season Updates */}
+      {!loading && !msLoading && (() => {
+        const allPosts = [];
+
+        recaps.forEach(recap => {
+          allPosts.push({
+            type: 'recap',
+            data: recap,
+            date: recap.lastKickoff || recap.updatedAt || new Date().toISOString()
+          });
+        });
+
+        if (midSeasonData) {
+          allPosts.push({
+            type: 'midseason',
+            data: midSeasonData,
+            date: midSeasonData.update.created_at
+          });
+        }
+
+        allPosts.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+        return allPosts.map((post, index) => {
+          if (post.type === 'recap') {
+            const recap = post.data;
+            return (
+              <GWRecapPost
+                key={recap.gameweekId}
+                currentSnapshots={recap.currentSnapshots}
+                previousSnapshots={recap.previousSnapshots}
+                gameweekName={recap.gameweekName}
+                lastKickoff={recap.lastKickoff}
+                teams={teams}
+                isLight={index % 2 === 0}
+                isLive={recap.isLive}
+                matchesPlayed={recap.matchesPlayed}
+                updatedAt={recap.updatedAt}
+              />
+            );
+          } else {
+            const ms = post.data;
+            return (
+              <GWRecapPost
+                key={`midseason-${ms.update.id}`}
+                currentSnapshots={ms.currentSnapshots}
+                previousSnapshots={ms.baselineSnapshots}
+                gameweekName={ms.currentGWName}
+                teams={teams}
+                isLight={index % 2 === 0}
+                isMidSeason
+                gameweeksElapsed={ms.update.gameweeks_elapsed}
+                baselineGWName={ms.baselineGWName}
+                currentGWName={ms.currentGWName}
+                nextFixtureDate={ms.update.next_fixture_date}
+                createdAt={ms.update.created_at}
+              />
+            );
+          }
+        });
+      })()}
 
       {/* Latest FDR Update Section - Light Green */}
       <section className="section-light">

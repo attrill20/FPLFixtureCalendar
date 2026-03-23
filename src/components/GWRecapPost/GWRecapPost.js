@@ -345,7 +345,6 @@ const GWRecapPost = ({ currentSnapshots, previousSnapshots, gameweekName, lastKi
     gwFixtures.forEach(f => {
       const margin = Math.abs(f.team_h_score - f.team_a_score);
       const homeWon = f.team_h_score > f.team_a_score;
-      const awayWon = f.team_a_score > f.team_h_score;
 
       // Big wins: 3+ goal margin
       if (margin >= 3) {

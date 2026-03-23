@@ -154,8 +154,9 @@ function generateReason(current, previous, direction) {
  *  - currentGWName: name of current gameweek (e.g. "Gameweek 12")
  *  - nextFixtureDate: ISO date string of next PL fixture
  *  - createdAt: ISO date string when mid-season update was created
+ *  - fixturesData: array of FPL fixture objects (for shock results and big wins)
  */
-const GWRecapPost = ({ currentSnapshots, previousSnapshots, gameweekName, lastKickoff, teams, isLight, isLive, matchesPlayed, updatedAt, isMidSeason, gameweeksElapsed, baselineGWName, currentGWName, nextFixtureDate, createdAt }) => {
+const GWRecapPost = ({ currentSnapshots, previousSnapshots, gameweekName, lastKickoff, teams, isLight, isLive, matchesPlayed, updatedAt, isMidSeason, gameweeksElapsed, baselineGWName, currentGWName, nextFixtureDate, createdAt, fixturesData }) => {
   // Build lookup maps by team_id
   const currMap = {};
   currentSnapshots.forEach(s => { currMap[s.team_id] = s; });
@@ -326,10 +327,79 @@ const GWRecapPost = ({ currentSnapshots, previousSnapshots, gameweekName, lastKi
   const description = isMidSeason
     ? buildMidSeasonDescription()
     : isLive
-      ? `Here are the biggest FDR changes during Gameweek ${gwNumber} (${matchesPlayed}/10 matches played) — updates hourly based on goals, xG, defensive record, and recent form.`
-      : `Here are the biggest FDR changes following Gameweek ${gwNumber}, automatically calculated based on goals, xG, defensive record, and recent form.`;
+      ? `Here are the biggest FDR changes during Gameweek ${gwNumber} (${matchesPlayed}/10 matches played). Our FDR ratings are automatically recalculated after every match, factoring in goals scored and conceded per 90, expected goals (xG and xGC), points per game over the last 5 home and away matches, and overall recent form — giving you the most up-to-date picture of team strength.`
+      : `Here are the biggest FDR changes following Gameweek ${gwNumber}. Our FDR ratings are automatically recalculated after every match, factoring in goals scored and conceded per 90, expected goals (xG and xGC), points per game over the last 5 home and away matches, and overall recent form — giving you the most up-to-date picture of team strength.`;
 
-  const title = isMidSeason ? 'Mid-Season FDR Update' : `GW${gwNumber} FDR Movers`;
+  const title = isMidSeason ? 'Mid-Season FDR Update' : `GW${gwNumber} FDR Review`;
+
+  // Analyse fixtures for this GW: biggest shock and big wins (3+ goals)
+  const gwEvent = gwNumber ? parseInt(gwNumber) : null;
+  const gwFixtures = (!isMidSeason && fixturesData && gwEvent)
+    ? fixturesData.filter(f => f.event === gwEvent && f.finished && f.team_h_score != null)
+    : [];
+
+  let biggestShock = null;
+  const bigWins = [];
+
+  if (gwFixtures.length > 0) {
+    gwFixtures.forEach(f => {
+      const margin = Math.abs(f.team_h_score - f.team_a_score);
+      const homeWon = f.team_h_score > f.team_a_score;
+      const awayWon = f.team_a_score > f.team_h_score;
+
+      // Big wins: 3+ goal margin
+      if (margin >= 3) {
+        const winnerId = homeWon ? f.team_h : f.team_a;
+        const loserId = homeWon ? f.team_a : f.team_h;
+        const winnerTeam = getTeam(winnerId);
+        const loserTeam = getTeam(loserId);
+        bigWins.push({
+          winner: winnerTeam.name,
+          loser: loserTeam.name,
+          score: homeWon ? `${f.team_h_score}-${f.team_a_score}` : `${f.team_a_score}-${f.team_h_score}`,
+          margin,
+          winnerBadge: winnerTeam.badge
+        });
+      }
+
+      // Shock result: weaker FDR team (lower difficulty = easier opponent) beats stronger team
+      if (margin > 0) {
+        const winnerId = homeWon ? f.team_h : f.team_a;
+        const loserId = homeWon ? f.team_a : f.team_h;
+        const winnerPrev = prevMap[winnerId];
+        const loserPrev = prevMap[loserId];
+        if (winnerPrev && loserPrev) {
+          // Use the relevant venue difficulty: winner's home/away vs loser's home/away
+          const winnerFDR = homeWon
+            ? (winnerPrev.home_difficulty || 5)
+            : (winnerPrev.away_difficulty || 5);
+          const loserFDR = homeWon
+            ? (loserPrev.away_difficulty || 5)
+            : (loserPrev.home_difficulty || 5);
+          // Shock = winner had lower FDR than loser (weaker team won)
+          const fdrGap = loserFDR - winnerFDR;
+          if (fdrGap > 0 && (!biggestShock || fdrGap > biggestShock.fdrGap || (fdrGap === biggestShock.fdrGap && margin > biggestShock.margin))) {
+            const winnerTeam = getTeam(winnerId);
+            const loserTeam = getTeam(loserId);
+            biggestShock = {
+              winner: winnerTeam.name,
+              loser: loserTeam.name,
+              score: `${f.team_h_score}-${f.team_a_score}`,
+              fdrGap: fdrGap,
+              margin,
+              winnerBadge: winnerTeam.badge,
+              winnerFDR: winnerFDR.toFixed(1),
+              loserFDR: loserFDR.toFixed(1),
+              homeWon
+            };
+          }
+        }
+      }
+    });
+
+    // Sort big wins by margin descending
+    bigWins.sort((a, b) => b.margin - a.margin);
+  }
 
   return (
     <section className={isLight ? 'section-light' : 'section-white'}>
@@ -342,6 +412,23 @@ const GWRecapPost = ({ currentSnapshots, previousSnapshots, gameweekName, lastKi
             <span className="recap-date">{dateDisplay}</span>
           </div>
           <p>{description}</p>
+
+          {biggestShock && (
+            <p className="recap-shock">
+              <strong>Shock of the week:</strong> {biggestShock.winner} ({biggestShock.winnerFDR}) won {biggestShock.homeWon ? 'at home' : 'away'} against {biggestShock.loser} ({biggestShock.loserFDR}) {biggestShock.score}
+            </p>
+          )}
+
+          {bigWins.length > 0 && (
+            <p className="recap-big-wins">
+              <strong>Big win{bigWins.length !== 1 ? 's' : ''}:</strong>{' '}
+              {bigWins.map((w, i) => (
+                <span key={i}>
+                  {w.winner} {w.score} {w.loser}{i < bigWins.length - 1 ? ', ' : ''}
+                </span>
+              ))}
+            </p>
+          )}
 
           <div className="movers-container">
             {risers.length > 0 && (

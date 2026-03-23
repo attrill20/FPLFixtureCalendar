@@ -47,6 +47,26 @@
   letter-spacing: 0.05em;
 }
 
+/* Shock result and big wins */
+.recap-shock,
+.recap-big-wins {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  margin: var(--spacing-xs) 0;
+  padding: var(--spacing-xs) var(--spacing-sm);
+  background: rgba(0, 0, 0, 0.03);
+  border-radius: var(--radius-sm);
+  border-left: 3px solid var(--color-border);
+}
+
+.recap-shock {
+  border-left-color: #f57c00;
+}
+
+.recap-big-wins {
+  border-left-color: #1565c0;
+}
+
 /* Container for both risers and fallers sections */
 .movers-container {
   margin-top: var(--spacing-md);

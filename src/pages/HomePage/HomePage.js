@@ -6,7 +6,7 @@ import { useFDRMovers } from '../../hooks/useFDRMovers';
 import { useMidSeasonUpdate } from '../../hooks/useMidSeasonUpdate';
 import { teams } from '../../components/dummyArrays/dummy';
 
-const HomePage = () => {
+const HomePage = ({ fixturesData }) => {
   const { recaps, loading } = useFDRMovers();
   const { data: midSeasonData, loading: msLoading } = useMidSeasonUpdate();
   return (
@@ -79,6 +79,7 @@ const HomePage = () => {
                 isLive={recap.isLive}
                 matchesPlayed={recap.matchesPlayed}
                 updatedAt={recap.updatedAt}
+                fixturesData={fixturesData}
               />
             );
           } else {

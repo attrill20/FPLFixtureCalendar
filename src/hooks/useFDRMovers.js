@@ -23,7 +23,7 @@ export function useFDRMovers() {
             .select('id, name')
             .eq('finished', true)
             .order('id', { ascending: false })
-            .limit(4),
+            .limit(6),
           supabase
             .from('gameweeks')
             .select('id, name')
@@ -173,7 +173,7 @@ export function useFDRMovers() {
 
         // Reverse so most recent is first (live GW at top), limit to 3
         if (!cancelled) {
-          setRecaps(recapData.reverse().slice(0, 3));
+          setRecaps(recapData.reverse().slice(0, 5));
           setLoading(false);
         }
       } catch (err) {

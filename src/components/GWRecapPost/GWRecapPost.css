@@ -332,3 +332,217 @@
     height: 20px;
   }
 }
+
+/* =============================================
+   Easiest Fixtures Ahead — Compact Table Layout
+   ============================================= */
+.outlook-section {
+  margin-top: var(--spacing-md);
+  padding-top: var(--spacing-md);
+  border-top: 1px solid var(--color-border);
+}
+
+.outlook-title {
+  font-size: var(--font-size-base) !important;
+  font-weight: 600;
+  margin: 0 0 var(--spacing-sm) 0;
+  color: var(--color-text-primary);
+}
+
+/* 3 tables side by side */
+.outlook-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--spacing-lg);
+}
+
+.outlook-table-wrapper {
+  min-width: 0;
+  border: 1.5px solid #333;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+
+.outlook-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--font-size-base);
+}
+
+.outlook-table th,
+.outlook-table td {
+  padding: 3px 3px;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.outlook-th-team {
+  text-align: left !important;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  font-size: var(--font-size-sm);
+  border-bottom: 1px solid #333;
+}
+
+.outlook-th-avg {
+  font-weight: 600;
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-sm);
+  border-bottom: 1px solid #333;
+  width: 20%;
+}
+
+.outlook-td-team {
+  text-align: left !important;
+  padding: 2px 4px;
+  white-space: nowrap;
+}
+
+.outlook-badge {
+  width: 16px;
+  height: 16px;
+  object-fit: contain;
+  vertical-align: middle;
+  margin-right: 4px;
+}
+
+.outlook-name {
+  font-weight: 600;
+  font-size: var(--font-size-sm);
+  color: var(--color-text-primary);
+}
+
+.outlook-initial {
+  display: none;
+  font-weight: 600;
+  font-size: var(--font-size-xs);
+  color: var(--color-text-primary);
+}
+
+.outlook-td-avg {
+  padding: 2px 4px;
+  width: 20%;
+}
+
+.outlook-avg-pill {
+  display: inline-block;
+  padding: 2px 6px;
+  border-radius: var(--radius-sm);
+  font-weight: 600;
+  font-size: var(--font-size-sm);
+  color: var(--color-text-primary);
+  min-width: 28px;
+  text-align: center;
+}
+
+/* Row striping */
+.outlook-table tbody tr:nth-child(even) {
+  background: rgba(0, 0, 0, 0.03);
+}
+
+/* Responsive: 1200px */
+@media (max-width: 1200px) {
+  .outlook-row {
+    gap: var(--spacing-md);
+  }
+
+  .outlook-avg-pill {
+    font-size: 0.6rem;
+    padding: 1px 3px;
+    min-width: 20px;
+  }
+
+  .outlook-badge {
+    width: 14px;
+    height: 14px;
+  }
+
+  .outlook-initial {
+    font-size: 0.6rem;
+  }
+
+  .outlook-th-team,
+  .outlook-th-avg {
+    font-size: 0.6rem;
+  }
+}
+
+/* Responsive: 800px — switch to initials */
+@media (max-width: 800px) {
+  .outlook-section {
+    grid-column: 1 / -1;
+  }
+
+  .outlook-name {
+    display: none;
+  }
+
+  .outlook-initial {
+    display: inline;
+    font-size: 0.5rem;
+  }
+
+  .outlook-row {
+    gap: var(--spacing-sm);
+  }
+
+  .outlook-table th,
+  .outlook-table td {
+    padding: 2px 2px;
+  }
+
+  .outlook-avg-pill {
+    font-size: 0.5rem;
+    padding: 1px 2px;
+    min-width: 18px;
+  }
+
+  .outlook-badge {
+    width: 12px;
+    height: 12px;
+    margin-right: 2px;
+  }
+
+  .outlook-th-team,
+  .outlook-th-avg {
+    font-size: 0.45rem;
+    padding: 2px 1px;
+  }
+
+  .outlook-title {
+    font-size: var(--font-size-sm) !important;
+  }
+
+  .outlook-table-wrapper {
+    border-width: 1px;
+  }
+}
+
+/* Responsive: 420px */
+@media (max-width: 420px) {
+  .outlook-avg-pill {
+    font-size: 0.45rem;
+    padding: 1px 1px;
+    min-width: 16px;
+  }
+
+  .outlook-badge {
+    width: 10px;
+    height: 10px;
+    margin-right: 1px;
+  }
+
+  .outlook-initial {
+    font-size: 0.45rem;
+  }
+
+  .outlook-th-team,
+  .outlook-th-avg {
+    font-size: 0.4rem;
+  }
+
+  .outlook-table th,
+  .outlook-table td {
+    padding: 2px 1px;
+  }
+}

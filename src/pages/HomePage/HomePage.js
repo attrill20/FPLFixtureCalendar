@@ -12,7 +12,7 @@ const toolkitCards = [
   { emoji: '🏆', title: 'Player Stats', desc: 'Rankings of top players', to: '/players' },
   { emoji: '🏟️', title: 'Team Stats', desc: 'Overall club analytics', to: '/teams' },
   { emoji: '🔍', title: 'FDR Comparison', desc: 'Oracle vs Official FPL', to: '/fdr-comparison' },
-  { emoji: '❓', title: 'FAQs', desc: 'Understand how it works', to: '/faq' },
+  { emoji: '❓', title: 'FAQs', desc: 'Understand our site!', to: '/faq' },
 ];
 
 const HomePage = ({ fixturesData }) => {

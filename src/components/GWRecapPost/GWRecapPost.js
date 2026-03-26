@@ -400,6 +400,83 @@ const GWRecapPost = ({ currentSnapshots, previousSnapshots, gameweekName, lastKi
     bigWins.sort((a, b) => b.margin - a.margin);
   }
 
+  // --- Easiest Fixtures Ahead computation ---
+  const nextGW = gwNumber ? parseInt(gwNumber) + 1 : null;
+  const outlookData = (() => {
+    if (!nextGW || !fixturesData || !teams || teams.length === 0) return null;
+
+    const horizons = [
+      { label: 'Next GW', gws: 1 },
+      { label: 'Next 3 GWs', gws: 3 },
+      { label: 'Next 6 GWs', gws: 6 }
+    ];
+
+    // Build a lookup: teams by id
+    const teamById = {};
+    teams.forEach(t => { teamById[t.id] = t; });
+
+    return horizons.map(({ label, gws }) => {
+      const startGW = nextGW;
+      const endGW = Math.min(nextGW + gws - 1, 38);
+      const gwRange = [];
+      for (let gw = startGW; gw <= endGW; gw++) gwRange.push(gw);
+
+      const teamRows = teams.filter(t => t.id > 0).map(team => {
+        // Build per-GW fixture info
+        const gwFixtures = gwRange.map(gw => {
+          const fixtures = fixturesData.filter(
+            f => f.event === gw && (f.team_h === team.id || f.team_a === team.id)
+          );
+          if (fixtures.length === 0) return [{ blank: true }];
+          return fixtures.map(f => {
+            const isHome = f.team_h === team.id;
+            const opponentId = isHome ? f.team_a : f.team_h;
+            const opponent = teamById[opponentId];
+            const overall = opponent ? (isHome ? (opponent.a_diff || 5) : (opponent.h_diff || 5)) : 5;
+            const att = opponent ? (isHome ? (opponent.a_def || 5) : (opponent.h_def || 5)) : 5;
+            const def = opponent ? (isHome ? (opponent.a_att || 5) : (opponent.h_att || 5)) : 5;
+            return {
+              opponentInitial: opponent ? opponent.initial : '???',
+              isHome,
+              overall,
+              att,
+              def
+            };
+          });
+        });
+
+        // Compute reversed custom difficulty (matches calendar logic)
+        // Sum raw difficulties, count extra fixtures (DGWs), then reverse
+        let totalOverall = 0, totalAtt = 0, totalDef = 0;
+        let extraFixtures = 0;
+        gwRange.forEach((gw, i) => {
+          const fixs = gwFixtures[i];
+          if (fixs[0] && fixs[0].blank) {
+            totalOverall += 11; totalAtt += 11; totalDef += 11;
+          } else {
+            if (fixs.length > 1) extraFixtures += fixs.length - 1;
+            fixs.forEach(f => {
+              totalOverall += f.overall;
+              totalAtt += f.att;
+              totalDef += f.def;
+            });
+          }
+        });
+        const numGWs = gwRange.length;
+        const maxScore = (numGWs + extraFixtures) * 11;
+        const revOverall = maxScore - totalOverall;
+        const revAtt = maxScore - totalAtt;
+        const revDef = maxScore - totalDef;
+
+        return { team, gwFixtures, revOverall, revAtt, revDef };
+      });
+
+      // Sort by reversed overall descending (highest = easiest)
+      teamRows.sort((a, b) => b.revOverall - a.revOverall);
+      return { label, gws, gwRange, top5: teamRows.slice(0, 5) };
+    });
+  })();
+
   return (
     <section className={isLight ? 'section-light' : 'section-white'}>
       <div className="fdr-wrapper">
@@ -443,6 +520,60 @@ const GWRecapPost = ({ currentSnapshots, previousSnapshots, gameweekName, lastKi
                 <h3 className="movers-section-title movers-title-down">Biggest Fallers</h3>
                 <div className="movers-row">
                   {fallers.map(m => renderMoverCard(m, 'down'))}
+                </div>
+              </div>
+            )}
+
+            {outlookData && (
+              <div className="outlook-section">
+                <h3 className="outlook-title">Best Upcoming Fixtures</h3>
+                <div className="outlook-row">
+                  {outlookData.map(({ label, gws, top5 }) => (
+                    <div key={label} className="outlook-table-wrapper">
+                      <table className="outlook-table">
+                        <thead>
+                          <tr>
+                            <th className="outlook-th-team">{label}</th>
+                            <th className="outlook-th-avg">OVR</th>
+                            <th className="outlook-th-avg">ATT</th>
+                            <th className="outlook-th-avg">DEF</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {top5.map(({ team, revOverall, revAtt, revDef }) => {
+                            // Normalize to 1-10 for coloring (higher rev = greener)
+                            const colorScale = (val) => getDifficultyColor(11 - val / gws);
+                            return (
+                            <tr key={team.id}>
+                              <td className="outlook-td-team">
+                                {team.badge && (
+                                  <img src={team.badge} alt={team.initial} className="outlook-badge" />
+                                )}
+                                <span className="outlook-name">{team.name}</span>
+                                <span className="outlook-initial">{team.initial}</span>
+                              </td>
+                              <td className="outlook-td-avg">
+                                <span className="outlook-avg-pill" style={{ backgroundColor: colorScale(revOverall) }}>
+                                  {revOverall.toFixed(1)}
+                                </span>
+                              </td>
+                              <td className="outlook-td-avg">
+                                <span className="outlook-avg-pill" style={{ backgroundColor: colorScale(revAtt) }}>
+                                  {revAtt.toFixed(1)}
+                                </span>
+                              </td>
+                              <td className="outlook-td-avg">
+                                <span className="outlook-avg-pill" style={{ backgroundColor: colorScale(revDef) }}>
+                                  {revDef.toFixed(1)}
+                                </span>
+                              </td>
+                            </tr>
+                          );
+                          })}
+                        </tbody>
+                      </table>
+                    </div>
+                  ))}
                 </div>
               </div>
             )}

@@ -55,8 +55,12 @@ export function useFDRMovers() {
 
         const gwIds = allGWs.map(gw => gw.id);
 
-        // Fetch snapshots and kickoff times
-        const [{ data: snapshots, error: snapError }, { data: kickoffs, error: koError }] = await Promise.all([
+        // Fetch snapshots, kickoff times, and player stats for match reconstruction
+        const [
+          { data: snapshots, error: snapError },
+          { data: kickoffs, error: koError },
+          { data: playerStats, error: psError }
+        ] = await Promise.all([
           supabase
             .from('fdr_weekly_snapshots')
             .select('*')
@@ -65,11 +69,17 @@ export function useFDRMovers() {
             .from('player_gameweek_stats')
             .select('gameweek_id, kickoff_time')
             .in('gameweek_id', gwIds)
-            .order('kickoff_time', { ascending: false })
+            .order('kickoff_time', { ascending: false }),
+          supabase
+            .from('player_gameweek_stats')
+            .select('gameweek_id, goals_conceded, was_home, opponent_team, players(team_id)')
+            .in('gameweek_id', gwIds)
+            .gt('minutes', 0)
         ]);
 
         if (snapError) throw snapError;
         if (koError) throw koError;
+        if (psError) console.warn('Could not fetch player stats for match reconstruction:', psError.message);
 
         // Count matches played in live GW (separate try/catch so failure doesn't break finished recaps)
         let liveMatchesPlayed = 0;
@@ -97,6 +107,39 @@ export function useFDRMovers() {
             if (!lastKickoffByGW[k.gameweek_id] || k.kickoff_time > lastKickoffByGW[k.gameweek_id]) {
               lastKickoffByGW[k.gameweek_id] = k.kickoff_time;
             }
+          });
+        }
+
+        // Reconstruct match results from goals_conceded (more reliable than summing goals_scored).
+        // Logic: a team's score = MAX(goals_conceded) of the OPPOSING team's players who played.
+        // goals_conceded is a defensive team stat always present on the opposing side, so it works
+        // even when the goal scorer's row is missing from our DB.
+        const matchesByGW = {};
+        if (playerStats && playerStats.length > 0) {
+          const groups = {};
+          playerStats.forEach(row => {
+            const teamId = row.players?.team_id;
+            if (!teamId || row.opponent_team == null) return;
+            const key = `${row.gameweek_id}-${teamId}-${row.opponent_team}-${row.was_home}`;
+            if (!groups[key]) {
+              groups[key] = { gameweek_id: row.gameweek_id, team_id: teamId, opponent_team: row.opponent_team, was_home: row.was_home, maxGoalsConceded: 0 };
+            }
+            groups[key].maxGoalsConceded = Math.max(groups[key].maxGoalsConceded, row.goals_conceded || 0);
+          });
+
+          Object.values(groups).forEach(group => {
+            if (!group.was_home) return;
+            const team_h = group.team_id;
+            const team_a = group.opponent_team;
+            const gwId = group.gameweek_id;
+            const awayKey = `${gwId}-${team_a}-${team_h}-false`;
+            const awayGroup = groups[awayKey];
+            // Home team's score = MAX goals_conceded of away team players (away GC = home goals scored)
+            // Away team's score = MAX goals_conceded of home team players (home GC = away goals scored)
+            const team_h_score = awayGroup ? awayGroup.maxGoalsConceded : 0;
+            const team_a_score = group.maxGoalsConceded;
+            if (!matchesByGW[gwId]) matchesByGW[gwId] = [];
+            matchesByGW[gwId].push({ team_h, team_a, team_h_score, team_a_score });
           });
         }
 
@@ -145,7 +188,8 @@ export function useFDRMovers() {
               previousSnapshots: prevSnaps,
               isLive: false,
               matchesPlayed: null,
-              updatedAt: null
+              updatedAt: null,
+              matches: matchesByGW[currGW.id] || []
             });
           }
         }
@@ -166,7 +210,8 @@ export function useFDRMovers() {
               previousSnapshots: byGW[lastFinishedGW.id],
               isLive: true,
               matchesPlayed: liveMatchesPlayed,
-              updatedAt: liveUpdatedAt
+              updatedAt: liveUpdatedAt,
+              matches: matchesByGW[currentGW.id] || []
             });
           }
         }

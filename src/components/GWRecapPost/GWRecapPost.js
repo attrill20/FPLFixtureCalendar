@@ -156,7 +156,7 @@ function generateReason(current, previous, direction) {
  *  - createdAt: ISO date string when mid-season update was created
  *  - fixturesData: array of FPL fixture objects (for shock results and big wins)
  */
-const GWRecapPost = ({ currentSnapshots, previousSnapshots, gameweekName, lastKickoff, teams, isLight, isLive, matchesPlayed, updatedAt, isMidSeason, gameweeksElapsed, baselineGWName, currentGWName, nextFixtureDate, createdAt, fixturesData }) => {
+const GWRecapPost = ({ currentSnapshots, previousSnapshots, gameweekName, lastKickoff, teams, isLight, isLive, matchesPlayed, updatedAt, isMidSeason, gameweeksElapsed, baselineGWName, currentGWName, nextFixtureDate, createdAt, fixturesData, matches }) => {
   // Build lookup maps by team_id
   const currMap = {};
   currentSnapshots.forEach(s => { currMap[s.team_id] = s; });
@@ -333,9 +333,22 @@ const GWRecapPost = ({ currentSnapshots, previousSnapshots, gameweekName, lastKi
   const title = isMidSeason ? 'Mid-Season FDR Update' : `GW${gwNumber} FDR Review`;
 
   // Analyse fixtures for this GW: biggest shock and big wins (3+ goals)
+  // For finished GWs: prefer FPL API fixturesData (authoritative, immune to post-season player transfers
+  // corrupting the player_gameweek_stats team_id join). For live GWs: prefer Supabase matches (more
+  // up-to-date mid-GW) and fall back to FPL API for already-finished matches.
   const gwEvent = gwNumber ? parseInt(gwNumber) : null;
-  const gwFixtures = (!isMidSeason && fixturesData && gwEvent)
-    ? fixturesData.filter(f => f.event === gwEvent && f.finished && f.team_h_score != null)
+  const gwFixtures = !isMidSeason
+    ? (() => {
+        if (!gwEvent) return [];
+        const apiMatches = fixturesData
+          ? fixturesData.filter(f => f.event === gwEvent && f.finished && f.team_h_score != null)
+          : [];
+        if (!isLive) {
+          return apiMatches.length > 0 ? apiMatches : (matches || []);
+        } else {
+          return matches && matches.length > 0 ? matches : apiMatches;
+        }
+      })()
     : [];
 
   let biggestShock = null;
@@ -346,8 +359,9 @@ const GWRecapPost = ({ currentSnapshots, previousSnapshots, gameweekName, lastKi
       const margin = Math.abs(f.team_h_score - f.team_a_score);
       const homeWon = f.team_h_score > f.team_a_score;
 
-      // Big wins: 3+ goal margin
-      if (margin >= 3) {
+      // Big wins: 3+ goal margin OR winner scored 4+ goals
+      const winnerScore = homeWon ? f.team_h_score : f.team_a_score;
+      if (margin >= 3 || (margin > 0 && winnerScore >= 4)) {
         const winnerId = homeWon ? f.team_h : f.team_a;
         const loserId = homeWon ? f.team_a : f.team_h;
         const winnerTeam = getTeam(winnerId);
@@ -368,28 +382,61 @@ const GWRecapPost = ({ currentSnapshots, previousSnapshots, gameweekName, lastKi
         const winnerPrev = prevMap[winnerId];
         const loserPrev = prevMap[loserId];
         if (winnerPrev && loserPrev) {
-          // Use the relevant venue difficulty: winner's home/away vs loser's home/away
           const winnerFDR = homeWon
             ? (winnerPrev.home_difficulty || 5)
             : (winnerPrev.away_difficulty || 5);
           const loserFDR = homeWon
             ? (loserPrev.away_difficulty || 5)
             : (loserPrev.home_difficulty || 5);
-          // Shock = winner had lower FDR than loser (weaker team won)
           const fdrGap = loserFDR - winnerFDR;
-          if (fdrGap > 0 && (!biggestShock || fdrGap > biggestShock.fdrGap || (fdrGap === biggestShock.fdrGap && margin > biggestShock.margin))) {
+          const compareScore = fdrGap; // wins have no handicap
+          if (fdrGap > 0 && (!biggestShock || compareScore > biggestShock.compareScore || (compareScore === biggestShock.compareScore && margin > biggestShock.margin))) {
             const winnerTeam = getTeam(winnerId);
             const loserTeam = getTeam(loserId);
             biggestShock = {
               winner: winnerTeam.name,
               loser: loserTeam.name,
               score: `${f.team_h_score}-${f.team_a_score}`,
-              fdrGap: fdrGap,
+              fdrGap,
+              compareScore,
               margin,
               winnerBadge: winnerTeam.badge,
               winnerFDR: winnerFDR.toFixed(1),
               loserFDR: loserFDR.toFixed(1),
-              homeWon
+              homeWon,
+              isDraw: false
+            };
+          }
+        }
+      }
+
+      // Draw shock: weaker team holds much stronger team, FDR gap must be >= 2.0
+      if (margin === 0) {
+        const homePrev = prevMap[f.team_h];
+        const awayPrev = prevMap[f.team_a];
+        if (homePrev && awayPrev) {
+          const homeFDR = homePrev.home_difficulty || 5;
+          const awayFDR = awayPrev.away_difficulty || 5;
+          const fdrGap = Math.abs(homeFDR - awayFDR);
+          const compareScore = fdrGap - 2.0; // 2.0 handicap: draw must gap 2+ more than a win to beat it
+          if (fdrGap >= 2.0 && (!biggestShock || compareScore > biggestShock.compareScore || (compareScore === biggestShock.compareScore && margin > biggestShock.margin))) {
+            const weakerIsHome = homeFDR < awayFDR;
+            const weakerTeam = getTeam(weakerIsHome ? f.team_h : f.team_a);
+            const strongerTeam = getTeam(weakerIsHome ? f.team_a : f.team_h);
+            const weakerFDR = weakerIsHome ? homeFDR : awayFDR;
+            const strongerFDR = weakerIsHome ? awayFDR : homeFDR;
+            biggestShock = {
+              winner: weakerTeam.name,
+              loser: strongerTeam.name,
+              score: `${f.team_h_score}-${f.team_a_score}`,
+              fdrGap,
+              compareScore,
+              margin: 0,
+              winnerBadge: weakerTeam.badge,
+              winnerFDR: weakerFDR.toFixed(1),
+              loserFDR: strongerFDR.toFixed(1),
+              weakerIsHome,
+              isDraw: true
             };
           }
         }
@@ -405,11 +452,18 @@ const GWRecapPost = ({ currentSnapshots, previousSnapshots, gameweekName, lastKi
   const outlookData = (() => {
     if (!nextGW || !fixturesData || !teams || teams.length === 0) return null;
 
-    const horizons = [
-      { label: 'Next GW', gws: 1 },
-      { label: 'Next 3 GWs', gws: 3 },
-      { label: 'Next 6 GWs', gws: 6 }
-    ];
+    const gwsRemaining = Math.max(0, 38 - nextGW + 1);
+    const horizons = gwsRemaining >= 6
+      ? [
+          { label: 'Next GW', gws: 1 },
+          { label: 'Next 3 GWs', gws: 3 },
+          { label: 'Next 6 GWs', gws: 6 }
+        ]
+      : [
+          { label: 'Next GW', gws: 1 },
+          { label: 'Next 2 GWs', gws: 2 },
+          { label: 'Next 3 GWs', gws: 3 }
+        ];
 
     // Build a lookup: teams by id
     const teamById = {};
@@ -473,7 +527,7 @@ const GWRecapPost = ({ currentSnapshots, previousSnapshots, gameweekName, lastKi
 
       // Sort by reversed overall descending (highest = easiest)
       teamRows.sort((a, b) => b.revOverall - a.revOverall);
-      return { label, gws, gwRange, top5: teamRows.slice(0, 5) };
+      return { label, gws, actualGWs: gwRange.length, gwRange, top5: teamRows.slice(0, 5) };
     });
   })();
 
@@ -491,18 +545,25 @@ const GWRecapPost = ({ currentSnapshots, previousSnapshots, gameweekName, lastKi
 
           {biggestShock && (
             <p className="recap-shock">
-              <strong>Shock of the week:</strong> {biggestShock.winner} ({biggestShock.winnerFDR}) won {biggestShock.homeWon ? 'at home' : 'away'} against {biggestShock.loser} ({biggestShock.loserFDR}) {biggestShock.score}
+              <strong>Shock of the week:</strong>{' '}
+              {biggestShock.isDraw
+                ? `${biggestShock.winner} (${biggestShock.winnerFDR}) managed a draw ${biggestShock.weakerIsHome ? 'at home' : 'away'} against ${biggestShock.loser} (${biggestShock.loserFDR}) ${biggestShock.score}`
+                : `${biggestShock.winner} (${biggestShock.winnerFDR}) won ${biggestShock.homeWon ? 'at home' : 'away'} against ${biggestShock.loser} (${biggestShock.loserFDR}) ${biggestShock.score}`
+              }
             </p>
           )}
 
-          {bigWins.length > 0 && (
+          {!isMidSeason && (
             <p className="recap-big-wins">
               <strong>Big win{bigWins.length !== 1 ? 's' : ''}:</strong>{' '}
-              {bigWins.map((w, i) => (
-                <span key={i}>
-                  {w.winner} {w.score} {w.loser}{i < bigWins.length - 1 ? ', ' : ''}
-                </span>
-              ))}
+              {bigWins.length > 0
+                ? bigWins.map((w, i) => (
+                    <span key={i}>
+                      {w.winner} {w.score} {w.loser}{i < bigWins.length - 1 ? ', ' : ''}
+                    </span>
+                  ))
+                : (isLive ? 'There have been no big wins so far this GW' : 'There were no big wins this GW')
+              }
             </p>
           )}
 
@@ -528,7 +589,13 @@ const GWRecapPost = ({ currentSnapshots, previousSnapshots, gameweekName, lastKi
               <div className="outlook-section">
                 <h3 className="outlook-title">Best Upcoming Fixtures</h3>
                 <div className="outlook-row">
-                  {outlookData.map(({ label, gws, top5 }) => (
+                  {outlookData.filter(({ actualGWs }, i, arr) => {
+                    // Hide a grid if it covers the same number of actual GWs as the previous one
+                    // (e.g. "Next 6 GWs" when only 1 GW remains shows same data as "Next GW")
+                    if (actualGWs === 0) return false;
+                    if (i === 0) return true;
+                    return actualGWs > arr[i - 1].actualGWs;
+                  }).map(({ label, actualGWs, top5 }) => (
                     <div key={label} className="outlook-table-wrapper">
                       <table className="outlook-table">
                         <thead>
@@ -541,8 +608,9 @@ const GWRecapPost = ({ currentSnapshots, previousSnapshots, gameweekName, lastKi
                         </thead>
                         <tbody>
                           {top5.map(({ team, revOverall, revAtt, revDef }) => {
-                            // Normalize to 1-10 for coloring (higher rev = greener)
-                            const colorScale = (val) => getDifficultyColor(11 - val / gws);
+                            // Normalise by actual GWs available (not requested horizon)
+                            // so end-of-season grids aren't falsely red/orange
+                            const colorScale = (val) => getDifficultyColor(11 - val / actualGWs);
                             return (
                             <tr key={team.id}>
                               <td className="outlook-td-team">

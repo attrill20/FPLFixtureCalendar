@@ -81,6 +81,7 @@ const HomePage = ({ fixturesData }) => {
                 isLive={recap.isLive}
                 matchesPlayed={recap.matchesPlayed}
                 updatedAt={recap.updatedAt}
+                matches={recap.matches}
                 fixturesData={fixturesData}
               />
             );

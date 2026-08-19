@@ -10,9 +10,11 @@ const badgeMap = {
   'BRE': require('../../components/badges/BREbadge.png'),
   'BHA': require('../../components/badges/BHAbadge.png'),
   'CHE': require('../../components/badges/CHEbadge.png'),
+  'COV': require('../../components/badges/COVbadge.svg').default,
   'CRY': require('../../components/badges/CRYbadge.png'),
   'EVE': require('../../components/badges/EVEbadge.png'),
   'FUL': require('../../components/badges/FULbadge.png'),
+  'HUL': require('../../components/badges/HULbadge.webp'),
   'IPS': require('../../components/badges/IPSbadge.png'),
   'LEI': require('../../components/badges/LEIbadge.png'),
   'LIV': require('../../components/badges/LIVbadge2.png'),
@@ -31,7 +33,7 @@ const badgeMap = {
   'SHU': require('../../components/badges/SHUbadge.png'),
 };
 
-const getDisplayName = (team) => calendarTeams[team.id]?.name || team.name;
+const getDisplayName = (team) => calendarTeams.find(t => t.code === team.code)?.name || team.name;
 
 const formatRaw = (value, suffix = ' per 90', decimals = 2) => {
   if (value == null) return '—';
@@ -132,8 +134,7 @@ const FDRComparisonPage = () => {
       // Get team info and FPL ratings from teams table
       const { data: teamsData, error: teamsError } = await supabase
         .from('teams')
-        .select('id, name, short_name, fpl_home_difficulty, fpl_away_difficulty, updated_at')
-        .order('name');
+        .select('id, code, name, short_name, fpl_home_difficulty, fpl_away_difficulty, updated_at');
 
       // Get Oracle FDR from team_fdr_calculations (full decimal precision + metric breakdowns)
       const { data: fdrData, error: fdrError } = await supabase
@@ -145,13 +146,25 @@ const FDRComparisonPage = () => {
       } else if (fdrError) {
         console.error('Error fetching FDR calculations:', fdrError);
       } else {
-        // Merge Oracle FDR decimals + metric breakdowns into team data
-        const oracleData = (teamsData || []).map(team => {
-          const fdr = (fdrData || []).find(f => f.team_id === team.id);
+        // Drive the row set from this season's active teams in dummy.js (not Supabase's
+        // own `teams` table, which lags behind promotions/relegations) and enrich each
+        // with whatever Supabase data matches by the permanent FPL `code`.
+        const activeTeams = calendarTeams.filter(t => t.id !== 0);
+
+        const oracleData = activeTeams.map(localTeam => {
+          const supaTeam = (teamsData || []).find(t => t.code === localTeam.code);
+          const fdr = supaTeam ? (fdrData || []).find(f => f.team_id === supaTeam.id) : null;
+
           return {
-            ...team,
-            home_difficulty: fdr ? parseFloat(fdr.home_difficulty) : 5,
-            away_difficulty: fdr ? parseFloat(fdr.away_difficulty) : 5,
+            id: localTeam.id,
+            code: localTeam.code,
+            name: localTeam.name,
+            short_name: localTeam.initial,
+            fpl_home_difficulty: supaTeam?.fpl_home_difficulty,
+            fpl_away_difficulty: supaTeam?.fpl_away_difficulty,
+            updated_at: supaTeam?.updated_at,
+            home_difficulty: fdr ? parseFloat(fdr.home_difficulty) : 4.0,
+            away_difficulty: fdr ? parseFloat(fdr.away_difficulty) : 2.0,
             // Attack/Defense sub-ratings
             home_attack_rating: fdr ? parseFloat(fdr.home_attack_rating) : 5,
             away_attack_rating: fdr ? parseFloat(fdr.away_attack_rating) : 5,
@@ -183,10 +196,11 @@ const FDRComparisonPage = () => {
           };
         });
         setOracleRatings(oracleData);
-        setLastUpdated(teamsData[0]?.updated_at);
+        setLastUpdated(oracleData.find(t => t.updated_at)?.updated_at);
 
-        // FPL FDR (double 1-5 scale to get 2-10)
-        const fplTeams = (teamsData || []).map(team => ({
+        // FPL FDR (double 1-5 scale to get 2-10) — defaults to a neutral 3 (=6) for
+        // teams not yet synced to Supabase, e.g. newly promoted clubs
+        const fplTeams = oracleData.map(team => ({
           id: team.id,
           name: team.name,
           home_difficulty: (team.fpl_home_difficulty || 3) * 2,

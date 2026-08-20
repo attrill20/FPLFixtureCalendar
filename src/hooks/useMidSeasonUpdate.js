@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '../supabaseClient';
+import { getSupaIdToLocalIdMap } from '../utils/teamIdMap';
 
 /**
  * Fetches the latest mid-season update and its associated FDR snapshots.
@@ -35,12 +36,14 @@ export function useMidSeasonUpdate() {
 
         const update = updates[0];
 
-        // Fetch snapshots and gameweek names in parallel
+        // Fetch snapshots, gameweek names, and the stale-Supabase-id -> this-season's-
+        // dummy.js-id translation map in parallel
         const [
           { data: baselineSnapshots, error: bsError },
           { data: currentSnapshots, error: csError },
           { data: baselineGW, error: bgError },
-          { data: currentGW, error: cgError }
+          { data: currentGW, error: cgError },
+          idMap
         ] = await Promise.all([
           supabase
             .from('fdr_weekly_snapshots')
@@ -59,7 +62,8 @@ export function useMidSeasonUpdate() {
             .from('gameweeks')
             .select('id, name')
             .eq('id', update.current_gameweek_id)
-            .single()
+            .single(),
+          getSupaIdToLocalIdMap()
         ]);
 
         if (bsError) throw bsError;
@@ -75,11 +79,17 @@ export function useMidSeasonUpdate() {
           return;
         }
 
+        // Translate snapshot team_ids from Supabase's stale season-numbering to this
+        // season's dummy.js ids; drop rows for clubs no longer in the league
+        const translateSnapshots = (rows) => rows
+          .map(s => ({ ...s, team_id: idMap[s.team_id] }))
+          .filter(s => s.team_id != null);
+
         if (!cancelled) {
           setData({
             update,
-            baselineSnapshots,
-            currentSnapshots,
+            baselineSnapshots: translateSnapshots(baselineSnapshots),
+            currentSnapshots: translateSnapshots(currentSnapshots),
             baselineGWName: baselineGW.name,
             currentGWName: currentGW.name
           });

@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '../supabaseClient';
+import { getSupaIdToLocalIdMap } from '../utils/teamIdMap';
 
 /**
  * Fetches FDR weekly snapshots and computes week-over-week movers.
@@ -16,8 +17,9 @@ export function useFDRMovers() {
 
     async function fetchMovers() {
       try {
-        // Fetch finished GWs and current in-progress GW in parallel
-        const [finishedResult, currentResult] = await Promise.all([
+        // Fetch finished GWs, current in-progress GW, and the stale-Supabase-id ->
+        // this-season's-dummy.js-id translation map in parallel
+        const [finishedResult, currentResult, idMap] = await Promise.all([
           supabase
             .from('gameweeks')
             .select('id, name')
@@ -29,7 +31,8 @@ export function useFDRMovers() {
             .select('id, name')
             .eq('is_current', true)
             .eq('finished', false)
-            .limit(1)
+            .limit(1),
+          getSupaIdToLocalIdMap()
         ]);
 
         if (finishedResult.error) throw finishedResult.error;
@@ -81,6 +84,13 @@ export function useFDRMovers() {
         if (koError) throw koError;
         if (psError) console.warn('Could not fetch player stats for match reconstruction:', psError.message);
 
+        // Translate snapshot team_ids from Supabase's stale season-numbering to
+        // this season's dummy.js ids; drop rows for clubs no longer in the league
+        // (e.g. relegated teams) rather than let them collide with a reused id
+        const translatedSnapshots = (snapshots || [])
+          .map(s => ({ ...s, team_id: idMap[s.team_id] }))
+          .filter(s => s.team_id != null);
+
         // Count matches played in live GW (separate try/catch so failure doesn't break finished recaps)
         let liveMatchesPlayed = 0;
         if (currentGW) {
@@ -118,11 +128,12 @@ export function useFDRMovers() {
         if (playerStats && playerStats.length > 0) {
           const groups = {};
           playerStats.forEach(row => {
-            const teamId = row.players?.team_id;
-            if (!teamId || row.opponent_team == null) return;
-            const key = `${row.gameweek_id}-${teamId}-${row.opponent_team}-${row.was_home}`;
+            const teamId = idMap[row.players?.team_id];
+            const opponentId = idMap[row.opponent_team];
+            if (teamId == null || opponentId == null) return;
+            const key = `${row.gameweek_id}-${teamId}-${opponentId}-${row.was_home}`;
             if (!groups[key]) {
-              groups[key] = { gameweek_id: row.gameweek_id, team_id: teamId, opponent_team: row.opponent_team, was_home: row.was_home, maxGoalsConceded: 0 };
+              groups[key] = { gameweek_id: row.gameweek_id, team_id: teamId, opponent_team: opponentId, was_home: row.was_home, maxGoalsConceded: 0 };
             }
             groups[key].maxGoalsConceded = Math.max(groups[key].maxGoalsConceded, row.goals_conceded || 0);
           });
@@ -143,7 +154,7 @@ export function useFDRMovers() {
           });
         }
 
-        if (!snapshots || snapshots.length === 0) {
+        if (translatedSnapshots.length === 0) {
           if (!cancelled) {
             setRecaps([]);
             setLoading(false);
@@ -153,7 +164,7 @@ export function useFDRMovers() {
 
         // Group snapshots by gameweek_id
         const byGW = {};
-        snapshots.forEach(s => {
+        translatedSnapshots.forEach(s => {
           if (!byGW[s.gameweek_id]) byGW[s.gameweek_id] = [];
           byGW[s.gameweek_id].push(s);
         });

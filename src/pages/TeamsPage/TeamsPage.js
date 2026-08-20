@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { supabase } from "../../supabaseClient";
+import { getSupaIdToLocalIdMap } from "../../utils/teamIdMap";
 import "./TeamsPage.css";
 
 const TeamsPage = ({ teams }) => {
@@ -12,11 +13,14 @@ const TeamsPage = ({ teams }) => {
     const fetchTeamStats = async () => {
       setLoading(true);
       try {
-        // Fetch all team stats from Supabase
-        const [overallResult, homeResult, awayResult] = await Promise.all([
+        // Fetch all team stats from Supabase, plus the stale-Supabase-id -> this-
+        // season's-dummy.js-id translation map (RPC results key by team_id on
+        // Supabase's old season numbering, not this season's ids)
+        const [overallResult, homeResult, awayResult, idMap] = await Promise.all([
           supabase.rpc('get_team_xg_stats'),
           supabase.rpc('get_team_home_stats'),
-          supabase.rpc('get_team_away_stats')
+          supabase.rpc('get_team_away_stats'),
+          getSupaIdToLocalIdMap()
         ]);
 
         if (overallResult.error) {
@@ -24,13 +28,14 @@ const TeamsPage = ({ teams }) => {
           return;
         }
 
-        // Convert overall stats to object keyed by team_id
+        // Convert overall stats to object keyed by (translated) team_id
         const statsMap = {};
         overallResult.data.forEach(stat => {
-          const team = teams.find(t => t.id === stat.team_id);
+          const localId = idMap[stat.team_id];
+          const team = localId != null ? teams.find(t => t.id === localId) : null;
           if (team) {
-            statsMap[stat.team_id] = {
-              teamName: stat.team_name,
+            statsMap[localId] = {
+              teamName: team.name,
               badge: team.badge,
               totalXG: parseFloat(stat.total_xg) || 0,
               totalXGC: parseFloat(stat.total_xgc) || 0,
@@ -40,14 +45,15 @@ const TeamsPage = ({ teams }) => {
           }
         });
 
-        // Convert home stats to object keyed by team_id
+        // Convert home stats to object keyed by (translated) team_id
         const homeStatsMap = {};
         if (!homeResult.error && homeResult.data) {
           homeResult.data.forEach(stat => {
-            const team = teams.find(t => t.id === stat.team_id);
+            const localId = idMap[stat.team_id];
+            const team = localId != null ? teams.find(t => t.id === localId) : null;
             if (team) {
-              homeStatsMap[stat.team_id] = {
-                teamName: stat.team_name,
+              homeStatsMap[localId] = {
+                teamName: team.name,
                 badge: team.badge,
                 xg: parseFloat(stat.total_xg) || 0,
                 xgc: parseFloat(stat.total_xgc) || 0,
@@ -58,14 +64,15 @@ const TeamsPage = ({ teams }) => {
           });
         }
 
-        // Convert away stats to object keyed by team_id
+        // Convert away stats to object keyed by (translated) team_id
         const awayStatsMap = {};
         if (!awayResult.error && awayResult.data) {
           awayResult.data.forEach(stat => {
-            const team = teams.find(t => t.id === stat.team_id);
+            const localId = idMap[stat.team_id];
+            const team = localId != null ? teams.find(t => t.id === localId) : null;
             if (team) {
-              awayStatsMap[stat.team_id] = {
-                teamName: stat.team_name,
+              awayStatsMap[localId] = {
+                teamName: team.name,
                 badge: team.badge,
                 xg: parseFloat(stat.total_xg) || 0,
                 xgc: parseFloat(stat.total_xgc) || 0,

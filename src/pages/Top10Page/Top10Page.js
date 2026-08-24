@@ -2,6 +2,12 @@ import React, { useState, useRef, useEffect, useMemo, useCallback } from 'react'
 import { supabase } from "../../supabaseClient";
 import "./Top10Page.css";
 
+// Historical season totals never change once a season is over, so cache each
+// season's computed player list at module scope — switching seasons after the
+// first load (even across remounts of this page) is then instant instead of
+// re-firing ~600 element-summary requests through the proxy every time.
+const historicalDataCache = new Map();
+
 const Top10Page = ({ mainData, teams, fixturesData }) => {
   const elements = useMemo(() => mainData && Array.isArray(mainData.elements) ? mainData.elements : [], [mainData]);
 
@@ -232,6 +238,18 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
       return;
     }
 
+    if (historicalDataCache.has(season)) {
+      const cached = historicalDataCache.get(season);
+      if (season === "all-time") {
+        setAllTimeData(cached);
+        setHistoricalData(null);
+      } else {
+        setHistoricalData(cached);
+        setAllTimeData(null);
+      }
+      return;
+    }
+
     setLoadingHistorical(true);
     try {
       const historicalPlayers = [];
@@ -306,6 +324,8 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
         }
       }
       
+      historicalDataCache.set(season, historicalPlayers);
+
       if (season === "all-time") {
         setAllTimeData(historicalPlayers);
         setHistoricalData(null);

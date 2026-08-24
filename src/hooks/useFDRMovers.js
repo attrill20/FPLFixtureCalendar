@@ -78,6 +78,13 @@ export function useFDRMovers() {
             .select('gameweek_id, goals_conceded, was_home, opponent_team, players(team_id)')
             .in('gameweek_id', gwIds)
             .gt('minutes', 0)
+            // 7 GWs' worth of rows exceeds Supabase's server-enforced max-rows cap
+            // (fixed project setting — a client-side .limit() can't raise it), which
+            // was silently truncating this result before it ever reached the most
+            // recent gameweek(s). Order newest-first so the live GW's rows are always
+            // among the ones that make it through, even though older GWs in this
+            // batch may now get cut off instead.
+            .order('gameweek_id', { ascending: false })
         ]);
 
         if (snapError) throw snapError;

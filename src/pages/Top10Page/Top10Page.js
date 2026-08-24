@@ -35,7 +35,8 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
 
   const seasons = [
     { id: "all-time", name: "All Time" },
-    { id: "current", name: "2025/26" },
+    { id: "current", name: "2026/27" },
+    { id: "2025/26", name: "2025/26" },
     { id: "2024/25", name: "2024/25" },
     { id: "2023/24", name: "2023/24" },
     { id: "2022/23", name: "2022/23" },
@@ -600,7 +601,7 @@ const Top10Page = ({ mainData, teams, fixturesData }) => {
     
     const displaySelectedSeason = () => {
       const season = seasons.find(s => s.id === selectedSeason);
-      return season ? season.name : "2025/26";
+      return season ? season.name : "2026/27";
     };
   
     // Get the appropriate data source based on selected season

@@ -46,10 +46,15 @@ export default function App() {
         const fixturesData = await fixturesResponse.json();
         setFixturesData(fixturesData);
 
-        // Find the active gameweek and update the state
-        const activeEvent = fetchedData.events.find(
-          (event) => !event.finished
-        );
+        // Find the active gameweek: the first one not yet fully played, judged
+        // by each fixture's finished_provisional flag (flips true right after
+        // the final whistle) rather than the event's own `finished` flag,
+        // which lags by hours while FPL confirms bonus points.
+        const sortedEvents = [...fetchedData.events].sort((a, b) => a.id - b.id);
+        const activeEvent = sortedEvents.find((event) => {
+          const eventFixtures = fixturesData.filter((f) => f.event === event.id);
+          return eventFixtures.length === 0 || eventFixtures.some((f) => !f.finished_provisional);
+        });
         if (activeEvent) {
           setActiveGameweek(activeEvent.id);
         } else {

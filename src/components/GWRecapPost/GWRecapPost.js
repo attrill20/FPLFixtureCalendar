@@ -288,6 +288,15 @@ const GWRecapPost = ({ currentSnapshots, previousSnapshots, gameweekName, lastKi
 
   // Extract GW number from name (e.g. "Gameweek 12" → "12")
   const gwNumber = gameweekName ? gameweekName.replace(/\D/g, '') : '';
+  const gwEvent = gwNumber ? parseInt(gwNumber) : null;
+
+  // Treat this GW as no longer live once every one of its fixtures has
+  // actually finished (finished_provisional flips right after the final
+  // whistle), rather than trusting the isLive prop alone — that stays true
+  // until the next gameweek's snapshot exists, a gap of hours/days after the
+  // GW itself is over.
+  const gwEventFixtures = gwEvent && fixturesData ? fixturesData.filter(f => f.event === gwEvent) : [];
+  const stillLive = isLive && (gwEventFixtures.length === 0 || gwEventFixtures.some(f => !f.finished_provisional));
 
   // Format date string depending on live vs finished vs mid-season state
   const dateDisplay = (() => {
@@ -295,7 +304,7 @@ const GWRecapPost = ({ currentSnapshots, previousSnapshots, gameweekName, lastKi
       const date = new Date(createdAt);
       return `Posted: ${date.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}`;
     }
-    if (isLive && updatedAt) {
+    if (stillLive && updatedAt) {
       const date = new Date(updatedAt);
       const dateStr = date.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
       const timeStr = date.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' });
@@ -338,7 +347,7 @@ const GWRecapPost = ({ currentSnapshots, previousSnapshots, gameweekName, lastKi
 
   const description = isMidSeason
     ? buildMidSeasonDescription()
-    : isLive
+    : stillLive
       ? `Here are the biggest FDR changes during Gameweek ${gwNumber} (${matchesPlayed}/10 matches played). Our FDR ratings are automatically recalculated after every match, factoring in goals scored and conceded per 90, expected goals (xG and xGC), points per game over the last 5 home and away matches, and overall recent form — giving you the most up-to-date picture of team strength.`
       : `Here are the biggest FDR changes following Gameweek ${gwNumber}. Our FDR ratings are automatically recalculated after every match, factoring in goals scored and conceded per 90, expected goals (xG and xGC), points per game over the last 5 home and away matches, and overall recent form - giving the most up-to-date picture of team strength.`;
 
@@ -348,7 +357,6 @@ const GWRecapPost = ({ currentSnapshots, previousSnapshots, gameweekName, lastKi
   // For finished GWs: prefer FPL API fixturesData (authoritative, immune to post-season player transfers
   // corrupting the player_gameweek_stats team_id join). For live GWs: prefer Supabase matches (more
   // up-to-date mid-GW) and fall back to FPL API for already-finished matches.
-  const gwEvent = gwNumber ? parseInt(gwNumber) : null;
   const gwFixtures = !isMidSeason
     ? (() => {
         if (!gwEvent) return [];
@@ -550,7 +558,7 @@ const GWRecapPost = ({ currentSnapshots, previousSnapshots, gameweekName, lastKi
           <div className="recap-title-row">
             <h2>{title}</h2>
 
-            {isLive && !isMidSeason && <span className="recap-live-badge">LIVE</span>}
+            {stillLive && !isMidSeason && <span className="recap-live-badge">LIVE</span>}
             <span className="recap-date">{dateDisplay}</span>
           </div>
           <p>{description}</p>
@@ -574,7 +582,7 @@ const GWRecapPost = ({ currentSnapshots, previousSnapshots, gameweekName, lastKi
                       {w.winner} {w.score} {w.loser}{i < bigWins.length - 1 ? ', ' : ''}
                     </span>
                   ))
-                : (isLive ? 'There have been no big wins so far this GW' : 'There were no big wins this GW')
+                : (stillLive ? 'There have been no big wins so far this GW' : 'There were no big wins this GW')
               }
             </p>
           )}

@@ -239,7 +239,6 @@ const FDRComparisonPage = () => {
       return { avgDiff: 0, matchCount: 0, closeMatches: 0, totalComparisons: 0 };
     }
 
-    let totalDiff = 0;
     let signedTotalDiff = 0;
     let matchCount = 0;
     let closeMatches = 0;
@@ -254,7 +253,6 @@ const FDRComparisonPage = () => {
         const homeDiff = Math.abs(homeDiffSigned);
         const awayDiff = Math.abs(awayDiffSigned);
 
-        totalDiff += homeDiff + awayDiff;
         signedTotalDiff += homeDiffSigned + awayDiffSigned;
         if (homeDiff === 0) matchCount++;
         if (awayDiff === 0) matchCount++;

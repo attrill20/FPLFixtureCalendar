@@ -240,6 +240,7 @@ const FDRComparisonPage = () => {
     }
 
     let totalDiff = 0;
+    let signedTotalDiff = 0;
     let matchCount = 0;
     let closeMatches = 0;
     let bigDiscrepancies = 0;
@@ -248,10 +249,13 @@ const FDRComparisonPage = () => {
     oracleRatings.forEach(oracle => {
       const fpl = fplRatings.find(f => f.id === oracle.id);
       if (fpl) {
-        const homeDiff = Math.abs(oracle.home_difficulty - fpl.home_difficulty);
-        const awayDiff = Math.abs(oracle.away_difficulty - fpl.away_difficulty);
+        const homeDiffSigned = oracle.home_difficulty - fpl.home_difficulty;
+        const awayDiffSigned = oracle.away_difficulty - fpl.away_difficulty;
+        const homeDiff = Math.abs(homeDiffSigned);
+        const awayDiff = Math.abs(awayDiffSigned);
 
         totalDiff += homeDiff + awayDiff;
+        signedTotalDiff += homeDiffSigned + awayDiffSigned;
         if (homeDiff === 0) matchCount++;
         if (awayDiff === 0) matchCount++;
         if (homeDiff <= 1) closeMatches++;
@@ -263,7 +267,8 @@ const FDRComparisonPage = () => {
     });
 
     return {
-      avgDiff: totalComparisons > 0 ? (totalDiff / totalComparisons).toFixed(2) : 0,
+      // Signed: positive means Oracle rates fixtures harder than FPL on average.
+      avgDiff: totalComparisons > 0 ? (signedTotalDiff / totalComparisons).toFixed(2) : 0,
       matchCount,
       closeMatches,
       bigDiscrepancies,
@@ -286,14 +291,17 @@ const FDRComparisonPage = () => {
       const fpl = fplRatings.find(f => f.id === oracle.id);
       if (!fpl) return;
 
-      const homeDiff = parseFloat((fpl.home_difficulty - oracle.home_difficulty).toFixed(1));
-      const awayDiff = parseFloat((fpl.away_difficulty - oracle.away_difficulty).toFixed(1));
+      // Diff shows how Oracle differs from FPL (Oracle − FPL), so "overrated by
+      // FPL" (FPL rates them harder than Oracle does) is now the most NEGATIVE
+      // value rather than the most positive.
+      const homeDiff = parseFloat((oracle.home_difficulty - fpl.home_difficulty).toFixed(1));
+      const awayDiff = parseFloat((oracle.away_difficulty - fpl.away_difficulty).toFixed(1));
       const team = { ...oracle, homeDiff, awayDiff };
 
-      if (!mostOverratedHome || homeDiff > mostOverratedHome.homeDiff) mostOverratedHome = team;
-      if (!mostUnderratedHome || homeDiff < mostUnderratedHome.homeDiff) mostUnderratedHome = team;
-      if (!mostOverratedAway || awayDiff > mostOverratedAway.awayDiff) mostOverratedAway = team;
-      if (!mostUnderratedAway || awayDiff < mostUnderratedAway.awayDiff) mostUnderratedAway = team;
+      if (!mostOverratedHome || homeDiff < mostOverratedHome.homeDiff) mostOverratedHome = team;
+      if (!mostUnderratedHome || homeDiff > mostUnderratedHome.homeDiff) mostUnderratedHome = team;
+      if (!mostOverratedAway || awayDiff < mostOverratedAway.awayDiff) mostOverratedAway = team;
+      if (!mostUnderratedAway || awayDiff > mostUnderratedAway.awayDiff) mostUnderratedAway = team;
     });
 
     return { mostOverratedHome, mostUnderratedHome, mostOverratedAway, mostUnderratedAway };
@@ -322,8 +330,9 @@ const FDRComparisonPage = () => {
       const fpl = fplRatings.find(f => f.id === oracle.id);
       if (!fpl) return null;
 
-      const homeDiffSigned = fpl.home_difficulty - oracle.home_difficulty;
-      const awayDiffSigned = fpl.away_difficulty - oracle.away_difficulty;
+      // Oracle − FPL: shows how Oracle differs from the official FPL rating.
+      const homeDiffSigned = oracle.home_difficulty - fpl.home_difficulty;
+      const awayDiffSigned = oracle.away_difficulty - fpl.away_difficulty;
       const homeDiff = Math.abs(homeDiffSigned);
       const awayDiff = Math.abs(awayDiffSigned);
       const totalDiff = homeDiff + awayDiff;
@@ -411,10 +420,10 @@ const FDRComparisonPage = () => {
     return {
       avgFplHome: avgFplHome.toFixed(1),
       avgOracleHome: avgOracleHome.toFixed(1),
-      avgHomeDiff: (avgFplHome - avgOracleHome).toFixed(1),
+      avgHomeDiff: (avgOracleHome - avgFplHome).toFixed(1),
       avgFplAway: avgFplAway.toFixed(1),
       avgOracleAway: avgOracleAway.toFixed(1),
-      avgAwayDiff: (avgFplAway - avgOracleAway).toFixed(1)
+      avgAwayDiff: (avgOracleAway - avgFplAway).toFixed(1)
     };
   };
 
@@ -448,7 +457,7 @@ const FDRComparisonPage = () => {
 
         <div className="stats-summary">
           <div className="stat-box">
-            <div className="stat-label">FPL v Oracle</div>
+            <div className="stat-label">Oracle v FPL</div>
             <div className="stat-value">{parseFloat(stats.avgDiff) > 0 ? `+${stats.avgDiff}` : stats.avgDiff}</div>
             <div className="stat-subtitle">average difference</div>
           </div>
@@ -538,8 +547,8 @@ const FDRComparisonPage = () => {
           </thead>
           <tbody>
             {sortedTeams.map((team) => {
-              const homeDiffSigned = parseFloat((team.fpl.home_difficulty - team.home_difficulty).toFixed(1));
-              const awayDiffSigned = parseFloat((team.fpl.away_difficulty - team.away_difficulty).toFixed(1));
+              const homeDiffSigned = parseFloat((team.home_difficulty - team.fpl.home_difficulty).toFixed(1));
+              const awayDiffSigned = parseFloat((team.away_difficulty - team.fpl.away_difficulty).toFixed(1));
               const isExpanded = expandedTeams.has(team.id);
 
               return (

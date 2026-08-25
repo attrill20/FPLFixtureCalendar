@@ -163,13 +163,13 @@ const FDRComparisonPage = () => {
             fpl_home_difficulty: supaTeam?.fpl_home_difficulty,
             fpl_away_difficulty: supaTeam?.fpl_away_difficulty,
             updated_at: supaTeam?.updated_at,
-            home_difficulty: fdr ? parseFloat(fdr.home_difficulty) : 4.0,
+            home_difficulty: fdr ? parseFloat(fdr.home_difficulty) : 3.0,
             away_difficulty: fdr ? parseFloat(fdr.away_difficulty) : 2.0,
             // Attack/Defense sub-ratings
-            home_attack_rating: fdr ? parseFloat(fdr.home_attack_rating) : 5,
-            away_attack_rating: fdr ? parseFloat(fdr.away_attack_rating) : 5,
-            home_defense_rating: fdr ? parseFloat(fdr.home_defense_rating) : 5,
-            away_defense_rating: fdr ? parseFloat(fdr.away_defense_rating) : 5,
+            home_attack_rating: fdr ? parseFloat(fdr.home_attack_rating) : 3.0,
+            away_attack_rating: fdr ? parseFloat(fdr.away_attack_rating) : 2.0,
+            home_defense_rating: fdr ? parseFloat(fdr.home_defense_rating) : 3.0,
+            away_defense_rating: fdr ? parseFloat(fdr.away_defense_rating) : 2.0,
             // Metric breakdowns
             home_goals_scored_per_90: fdr?.home_goals_scored_per_90,
             home_goals_scored_per_90_score: fdr?.home_goals_scored_per_90_score,

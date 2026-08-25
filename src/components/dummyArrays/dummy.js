@@ -39,12 +39,12 @@ export let teams = [
   { id: 4, name: "Brentford", initial: "BRE", badge: BREbadge, h_diff: 3, a_diff: 6, h_att: 5, a_att: 5, h_def: 5, a_def: 5, code: 94 },
   { id: 5, name: "Brighton", initial: "BHA", badge: BHAbadge, h_diff: 5, a_diff: 7, h_att: 5, a_att: 5, h_def: 5, a_def: 5, code: 36 },
   { id: 6, name: "Chelsea", initial: "CHE", badge: CHEbadge, h_diff: 5, a_diff: 4, h_att: 5, a_att: 5, h_def: 5, a_def: 5, code: 8 },
-  { id: 7, name: "Coventry City", initial: "COV", badge: COVbadge, h_diff: 4, a_diff: 2, h_att: 5, a_att: 5, h_def: 5, a_def: 5, code: 9 },
+  { id: 7, name: "Coventry City", initial: "COV", badge: COVbadge, h_diff: 3, a_diff: 2, h_att: 3, a_att: 2, h_def: 3, a_def: 2, code: 9 },
   { id: 8, name: "Crystal Palace", initial: "CRY", badge: CRYbadge, h_diff: 5, a_diff: 2, h_att: 5, a_att: 5, h_def: 5, a_def: 5, code: 31 },
   { id: 9, name: "Everton", initial: "EVE", badge: EVEbadge, h_diff: 6, a_diff: 3, h_att: 5, a_att: 5, h_def: 5, a_def: 5, code: 11 },
   { id: 10, name: "Fulham", initial: "FUL", badge: FULbadge, h_diff: 3, a_diff: 6, h_att: 5, a_att: 5, h_def: 5, a_def: 5, code: 54 },
-  { id: 11, name: "Hull City", initial: "HUL", badge: HULbadge, h_diff: 4, a_diff: 2, h_att: 5, a_att: 5, h_def: 5, a_def: 5, code: 88 },
-  { id: 12, name: "Ipswich Town", initial: "IPS", badge: IPSbadge, h_diff: 4, a_diff: 2, h_att: 5, a_att: 5, h_def: 5, a_def: 5, code: 40 },
+  { id: 11, name: "Hull City", initial: "HUL", badge: HULbadge, h_diff: 3, a_diff: 2, h_att: 3, a_att: 2, h_def: 3, a_def: 2, code: 88 },
+  { id: 12, name: "Ipswich Town", initial: "IPS", badge: IPSbadge, h_diff: 3, a_diff: 2, h_att: 3, a_att: 2, h_def: 3, a_def: 2, code: 40 },
   { id: 13, name: "Leeds United", initial: "LEE", badge: LEEbadge, h_diff: 2, a_diff: 3, h_att: 5, a_att: 5, h_def: 5, a_def: 5, code: 2 },
   { id: 14, name: "Liverpool", initial: "LIV", badge: LIVbadge2, h_diff: 7, a_diff: 10, h_att: 5, a_att: 5, h_def: 5, a_def: 5, code: 14 },
   { id: 15, name: "Man City", initial: "MCI", badge: MCIbadge, h_diff: 7, a_diff: 9, h_att: 5, a_att: 5, h_def: 5, a_def: 5, code: 43 },
@@ -78,10 +78,14 @@ const fetchFDRFromSupabase = async () => {
       return false;
     }
 
-    // Update teams array with automated FDR ratings (with decimal precision)
+    // Update teams array with automated FDR ratings (with decimal precision).
+    // Newly-promoted teams get a Supabase row before they have a computed rating
+    // (home_difficulty/away_difficulty come through as null) — skip the overwrite
+    // entirely in that case so they keep their season-start default instead of
+    // collapsing to a generic fallback.
     fdrData.forEach(fdr => {
       const team = teams.find(t => t.code === fdr.code);
-      if (team) {
+      if (team && fdr.home_difficulty != null) {
         team.h_diff = parseFloat(fdr.home_difficulty) || 5;
         team.a_diff = parseFloat(fdr.away_difficulty) || 5;
         team.h_att = parseFloat(fdr.home_attack_rating) || 5;

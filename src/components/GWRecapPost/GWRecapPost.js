@@ -163,6 +163,18 @@ const GWRecapPost = ({ currentSnapshots, previousSnapshots, gameweekName, lastKi
   const prevMap = {};
   previousSnapshots.forEach(s => { prevMap[s.team_id] = s; });
 
+  // Newly promoted teams have no snapshot from a season they weren't in the
+  // top flight for, so they'd otherwise be silently excluded from every
+  // riser/faller/shock comparison even once they have real current-season
+  // data. Give them a synthetic "previous" entry at the season-start baseline
+  // (3.0 home / 2.0 away) so their actual movement from that point still shows.
+  Object.keys(currMap).forEach(teamId => {
+    const tid = parseInt(teamId);
+    if (!prevMap[tid]) {
+      prevMap[tid] = { team_id: tid, home_difficulty: 3.0, away_difficulty: 2.0 };
+    }
+  });
+
   // Compute total difficulty change for each team present in both snapshots
   const movers = [];
   Object.keys(currMap).forEach(teamId => {

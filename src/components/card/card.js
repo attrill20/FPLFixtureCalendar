@@ -42,7 +42,6 @@ export default function Row({
         .fill(null)
         .map(() => []);
 
-      let extraFixturesCount = 0;
       let totalDifficulty = 0;
       let customTotalDifficulty = 0;
 
@@ -50,10 +49,6 @@ export default function Row({
         const gameweek = teamFixtures.filter(
           (fixture) => fixture.event === activeGameweek + i
         );
-
-        if (gameweek.length > 1) {
-          extraFixturesCount += gameweek.length - 1;
-        }
 
         const gameweekDifficulty = gameweek.reduce((acc, fixture) => {
           const home = fixture.team_h === teamId;
@@ -110,15 +105,10 @@ export default function Row({
         totalDifficulty += gameweekDifficulty;
       }
 
-      const reversedTotalDifficulty =
-        numberOfFixtures * 6 + extraFixturesCount * 6 - totalDifficulty;
-
       return {
         fixtures: gameweekFixtures,
         totalDifficulty,
-        reversedTotalDifficulty,
         customTotalDifficulty,
-        reversedCustomDifficulty: numberOfFixtures * 11 + extraFixturesCount * 11 - customTotalDifficulty,
       };
     }
 
@@ -141,12 +131,12 @@ export default function Row({
         <td className="fdr-column">
           {showOriginalScore && teamFixturesData && (
             <h2 className="fdr-number">
-              {teamFixturesData.reversedTotalDifficulty}
+              {teamFixturesData.totalDifficulty}
             </h2>
           )}
           {showCustomScore && teamFixturesData && (
             <h2 className="fdr-number">
-              {Number(teamFixturesData.reversedCustomDifficulty).toFixed(1)}
+              {Number(teamFixturesData.customTotalDifficulty).toFixed(1)}
             </h2>
           )}
         </td>
@@ -266,12 +256,12 @@ export default function Row({
             <td className="fdr-column">
               {showOriginalScore && teamFixturesData && (
                 <h2 className="fdr-number">
-                  {teamFixturesData.reversedTotalDifficulty}
+                  {teamFixturesData.totalDifficulty}
                 </h2>
               )}
               {showCustomScore && teamFixturesData && (
                 <h2 className="fdr-number">
-                  {Number(teamFixturesData.reversedCustomDifficulty).toFixed(1)}
+                  {Number(teamFixturesData.customTotalDifficulty).toFixed(1)}
                 </h2>
               )}
             </td>

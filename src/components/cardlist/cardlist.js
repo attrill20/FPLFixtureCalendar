@@ -6,7 +6,7 @@ import Switch from '@mui/material/Switch';
 
 export default function CardList({ teams, fixturesData, activeGameweek: initialActiveGameweek}) {
   const [numberOfGameweeks, setNumberOfGameweeks] = useState(5);
-  const [sortOrder, setSortOrder] = useState("desc");
+  const [sortOrder, setSortOrder] = useState("asc");
   const [sortBy, setSortBy] = useState("custom");
   const [sortColumn, setSortColumn] = useState("fdr"); // 'team', 'fdr', or 'gw-N'
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 800); 
@@ -51,7 +51,7 @@ export default function CardList({ teams, fixturesData, activeGameweek: initialA
     return isHome ? (opponent.a_diff || 0) : (opponent.h_diff || 0);
   };
 
-  const calculateReversedTotalDifficulty = (teamId, numberOfFixtures) => {
+  const calculateTotalDifficulty = (teamId, numberOfFixtures) => {
     if (!fixturesData) return 0;
 
     const teamFixtures = fixturesData.filter(
@@ -63,18 +63,11 @@ export default function CardList({ teams, fixturesData, activeGameweek: initialA
       .map(() => []);
 
     let totalDifficulty = 0; // Initialize totalDifficulty for the team
-    let extraFixturesCount = 0; // Initialize extra fixtures count for the specified team
 
     for (let i = activeGameweek - 1; i < Math.min(activeGameweek + numberOfGameweeks - 1, 38); i++) {
       const gameweek = teamFixtures.filter(
         (fixture) => fixture.event === i + 1
       );
-
-      // Check if the team has more than one fixture in the same gameweek
-      if (gameweek.length > 1) {
-        // Only add extra fixtures for the specified team
-        extraFixturesCount += gameweek.length - 1;
-      }
 
       const gameweekDifficulty = gameweek.reduce((acc, fixture) => {
         const home = fixture.team_h === teamId;
@@ -122,10 +115,7 @@ export default function CardList({ teams, fixturesData, activeGameweek: initialA
       totalDifficulty += gameweekDifficulty;
     }
 
-    const reversedTotalDifficulty =
-      (numberOfFixtures + extraFixturesCount) * 6 - totalDifficulty;
-
-    return reversedTotalDifficulty;
+    return totalDifficulty;
   };
 
   const calculateCustomDifficulty = (teamId, numberOfFixtures) => {
@@ -136,17 +126,11 @@ export default function CardList({ teams, fixturesData, activeGameweek: initialA
     );
 
     let customTotalDifficulty = 0;
-    let extraFixturesCount = 0;
 
     for (let i = activeGameweek - 1; i < Math.min(activeGameweek + numberOfGameweeks - 1, 38); i++) {
       const gameweek = teamFixtures.filter(
         (fixture) => fixture.event === i + 1
       );
-
-    // Check if the team has more than one fixture in the same gameweek
-    if (gameweek.length > 1) {
-      extraFixturesCount += gameweek.length - 1;
-    }
 
       if (gameweek.length === 0) {
         // Add 11 for each blank gameweek
@@ -163,10 +147,7 @@ export default function CardList({ teams, fixturesData, activeGameweek: initialA
       }, 0);
     }
 
-    const reversedCustomDifficulty =
-    (numberOfFixtures + extraFixturesCount) * 11 - customTotalDifficulty;
-
-    return reversedCustomDifficulty;
+    return customTotalDifficulty;
   };
 
   const handleGameweekChange = (event) => {
@@ -189,7 +170,7 @@ export default function CardList({ teams, fixturesData, activeGameweek: initialA
       setSortOrder(prev => prev === "asc" ? "desc" : "asc");
     } else {
       setSortColumn(column);
-      setSortOrder(column === "team" ? "asc" : "desc");
+      setSortOrder("asc");
     }
   };
 
@@ -245,8 +226,8 @@ export default function CardList({ teams, fixturesData, activeGameweek: initialA
     } else {
       // fdr
       if (sortBy === "original") {
-        valueA = calculateReversedTotalDifficulty(teamA.id, numberOfGameweeks);
-        valueB = calculateReversedTotalDifficulty(teamB.id, numberOfGameweeks);
+        valueA = calculateTotalDifficulty(teamA.id, numberOfGameweeks);
+        valueB = calculateTotalDifficulty(teamB.id, numberOfGameweeks);
       } else {
         valueA = calculateCustomDifficulty(teamA.id, numberOfGameweeks);
         valueB = calculateCustomDifficulty(teamB.id, numberOfGameweeks);
@@ -348,8 +329,6 @@ export default function CardList({ teams, fixturesData, activeGameweek: initialA
                 fixturesData={fixturesData}
                 teamIndex={team.id}
                 numberOfFixtures={numberOfGameweeks}
-                calculateDifficulty={sortBy === "original" ? calculateReversedTotalDifficulty : calculateCustomDifficulty}
-                reversedTotalDifficulty={sortBy === "original" ? calculateReversedTotalDifficulty(team.id, numberOfGameweeks) : calculateCustomDifficulty(team.id, numberOfGameweeks)}
                 activeGameweek={activeGameweek}
                 showOriginalScore={sortBy === "original"}
                 showCustomScore={sortBy === "custom"}

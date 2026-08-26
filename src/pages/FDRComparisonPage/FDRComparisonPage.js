@@ -444,7 +444,7 @@ const FDRComparisonPage = () => {
           <strong> Oracle FDR</strong> (automatically generated from home / away underlying data).
         </p>
         <p className="description">
-          <strong>Home Strength</strong> is a measure of how tough a team is when they are playing at home, <strong>Away Strength</strong> is their strength when they are playing on the road. The values on the Fixture Difficulty Calendar are reversed to show the fixture difficulty — e.g. Arsenal have a <strong>Home Strength: {arsenalHome}</strong>, so a team playing away at Arsenal would show as <strong>FDR: {arsenalHome} (A)</strong> for this fixture.
+          <strong>Home Strength</strong> is a measure of how tough a team is when they are playing at home, <strong>Away Strength</strong> is their strength when they are playing on the road. The Fixture Difficulty Calendar uses these values directly — e.g. Arsenal have a <strong>Home Strength: {arsenalHome}</strong>, so a team playing away at Arsenal would show as <strong>FDR: {arsenalHome} (A)</strong> for this fixture. Lower FDR numbers mean an easier fixture, higher numbers mean a tougher one.
         </p>
 
         {lastUpdated && (

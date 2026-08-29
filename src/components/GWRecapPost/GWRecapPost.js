@@ -113,30 +113,33 @@ function generateReason(current, previous, direction) {
     });
   }
 
-  // Home PPG (Last 5)
+  // Home PPG (Last 5) — full text on desktop, "(last 5)" dropped on mobile
   const homePpgDelta = hasBoth('home_ppg_recent_score') ? delta('home_ppg_recent_score') : 0;
   if (Math.abs(homePpgDelta) > 0.1) {
     factors.push({
       magnitude: Math.abs(homePpgDelta) * 1.5,
-      text: up ? 'Increasing home PPG' : 'Decreasing home PPG'
+      text: up ? 'Increasing home PPG (last 5)' : 'Decreasing home PPG (last 5)',
+      mobileText: up ? 'Increasing home PPG' : 'Decreasing home PPG'
     });
   }
 
-  // Away PPG (Last 5)
+  // Away PPG (Last 5) — full text on desktop, "(last 5)" dropped on mobile
   const awayPpgDelta = hasBoth('away_ppg_recent_score') ? delta('away_ppg_recent_score') : 0;
   if (Math.abs(awayPpgDelta) > 0.1) {
     factors.push({
       magnitude: Math.abs(awayPpgDelta) * 1.5,
-      text: up ? 'Better away PPG' : 'Worse away PPG'
+      text: up ? 'Better away PPG (last 5)' : 'Worse away PPG (last 5)',
+      mobileText: up ? 'Better away PPG' : 'Worse away PPG'
     });
   }
 
   // Sort by magnitude and pick top 2 reasons
   factors.sort((a, b) => b.magnitude - a.magnitude);
   if (factors.length === 0) {
-    return [up ? 'Small improvements across metrics' : 'Small declines across metrics'];
+    const fallback = up ? 'Small improvements across metrics' : 'Small declines across metrics';
+    return [{ text: fallback, mobileText: fallback }];
   }
-  return factors.slice(0, 2).map(f => f.text);
+  return factors.slice(0, 2).map(f => ({ text: f.text, mobileText: f.mobileText || f.text }));
 }
 
 /**
@@ -292,7 +295,10 @@ const GWRecapPost = ({ currentSnapshots, previousSnapshots, gameweekName, lastKi
         </div>
         <ul className="mover-reasons">
           {reasons.map((r, i) => (
-            <li key={i} className="mover-reason">{r}</li>
+            <li key={i} className="mover-reason">
+              <span className="reason-desktop">{r.text}</span>
+              <span className="reason-mobile">{r.mobileText}</span>
+            </li>
           ))}
         </ul>
       </div>
@@ -345,13 +351,13 @@ const GWRecapPost = ({ currentSnapshots, previousSnapshots, gameweekName, lastKi
       const topRiser = risers[0];
       const team = getTeam(topRiser.team_id);
       const reasons = generateReason(topRiser.current, topRiser.previous, 'up');
-      desc += ` the biggest riser has been ${team.name} (${formatChange(topRiser.change)}) due to their ${lowerReason(reasons[0])}`;
+      desc += ` the biggest riser has been ${team.name} (${formatChange(topRiser.change)}) due to their ${lowerReason(reasons[0].text)}`;
     }
     if (fallers.length > 0) {
       const topFaller = fallers[0];
       const team = getTeam(topFaller.team_id);
       const reasons = generateReason(topFaller.current, topFaller.previous, 'down');
-      desc += ` and the biggest faller has been ${team.name} (${formatChange(topFaller.change)}) because of their ${lowerReason(reasons[0])}.`;
+      desc += ` and the biggest faller has been ${team.name} (${formatChange(topFaller.change)}) because of their ${lowerReason(reasons[0].text)}.`;
     }
     desc += ` Check out the other major changes in form for teams below. The next GW deadline is ${nextDateStr}, so enjoy the break before then and plan your transfers well! `;
 

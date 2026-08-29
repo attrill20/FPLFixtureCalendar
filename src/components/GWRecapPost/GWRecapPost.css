@@ -160,7 +160,7 @@
   display: flex;
   align-items: center;
   gap: var(--spacing-sm);
-  margin-bottom: var(--spacing-xs);
+  margin-bottom: var(--spacing-md);
 }
 
 .mover-badge {
@@ -267,6 +267,11 @@
   text-overflow: ellipsis;
 }
 
+/* Full reason text on desktop, shorter variant swapped in on mobile below */
+.reason-mobile {
+  display: none;
+}
+
 /* Responsive: tablet - keep 3 across but tighter */
 @media (max-width: 1200px) {
   .movers-row {
@@ -362,6 +367,10 @@
     height: 24px;
   }
 
+  .mover-card-header {
+    margin-bottom: var(--spacing-xs);
+  }
+
   .mover-card {
     padding: var(--spacing-xs) 34px var(--spacing-xs) var(--spacing-xs);
   }
@@ -402,6 +411,14 @@
 
   .mover-reason {
     font-size: 0.6rem;
+  }
+
+  .reason-desktop {
+    display: none;
+  }
+
+  .reason-mobile {
+    display: inline;
   }
 
   .movers-section-title {

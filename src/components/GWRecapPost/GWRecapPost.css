@@ -104,12 +104,29 @@
 
 /* Individual Mover Card */
 .mover-card {
+  position: relative;
   background: var(--color-bg-primary);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
-  padding: var(--spacing-sm) var(--spacing-sm) 3px var(--spacing-sm);
+  padding: var(--spacing-sm) 46px 3px var(--spacing-sm);
   box-shadow: 0 2px 4px var(--color-shadow);
   transition: box-shadow 0.2s ease;
+}
+
+.mover-total-fdr {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  font-weight: 700;
+  font-size: var(--font-size-sm);
+  color: var(--color-text-primary);
+  box-shadow: 0 1px 3px var(--color-shadow);
 }
 
 .mover-card:hover {
@@ -168,35 +185,42 @@
   background: rgba(198, 40, 40, 0.1);
 }
 
-/* Difficulty detail rows */
+/* Difficulty detail: H and A side by side to use card width better */
 .mover-details {
-  display: flex;
-  flex-direction: column;
-  gap: 3px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--spacing-sm);
   margin-bottom: var(--spacing-xs);
 }
 
-.mover-difficulty-row {
+.mover-venue-block {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.mover-venue-values {
   display: flex;
   align-items: center;
-  gap: 6px;
-  font-size: var(--font-size-sm);
+  gap: 4px;
 }
 
 .mover-venue-label {
   font-weight: 600;
   color: var(--color-text-secondary);
-  width: 16px;
+  font-size: var(--font-size-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
 }
 
 .mover-difficulty-badge {
   display: inline-block;
-  padding: 2px 8px;
+  padding: 2px 6px;
   border-radius: var(--radius-sm);
   font-weight: 600;
   font-size: var(--font-size-sm);
   color: var(--color-text-primary);
-  min-width: 36px;
+  min-width: 32px;
   text-align: center;
 }
 
@@ -241,17 +265,29 @@
     padding: 1px 5px;
   }
 
-  .mover-difficulty-row {
-    font-size: var(--font-size-xs);
+  .mover-venue-label {
+    font-size: 0.6rem;
   }
 
   .mover-difficulty-badge {
     font-size: var(--font-size-xs);
-    min-width: 30px;
+    min-width: 28px;
     padding: 1px 5px;
   }
 
   .mover-reason {
+    font-size: var(--font-size-xs);
+  }
+
+  .mover-card {
+    padding-right: 40px;
+  }
+
+  .mover-total-fdr {
+    top: 6px;
+    right: 6px;
+    width: 26px;
+    height: 26px;
     font-size: var(--font-size-xs);
   }
 }
@@ -294,7 +330,15 @@
   }
 
   .mover-card {
-    padding: var(--spacing-xs);
+    padding: var(--spacing-xs) 34px var(--spacing-xs) var(--spacing-xs);
+  }
+
+  .mover-total-fdr {
+    top: 4px;
+    right: 4px;
+    width: 22px;
+    height: 22px;
+    font-size: 0.6rem;
   }
 
   .mover-team-name {
@@ -306,13 +350,13 @@
     padding: 1px 4px;
   }
 
-  .mover-difficulty-row {
-    font-size: 0.6rem;
+  .mover-venue-label {
+    font-size: 0.55rem;
   }
 
   .mover-difficulty-badge {
     font-size: 0.6rem;
-    min-width: 28px;
+    min-width: 26px;
     padding: 1px 4px;
   }
 
@@ -330,6 +374,16 @@
   .mover-badge {
     width: 20px;
     height: 20px;
+  }
+
+  .mover-card {
+    padding-right: 28px;
+  }
+
+  .mover-total-fdr {
+    width: 18px;
+    height: 18px;
+    font-size: 0.5rem;
   }
 }
 

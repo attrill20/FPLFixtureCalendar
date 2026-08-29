@@ -229,9 +229,17 @@ const GWRecapPost = ({ currentSnapshots, previousSnapshots, gameweekName, lastKi
   const renderMoverCard = (mover, direction) => {
     const team = getTeam(mover.team_id);
     const reasons = generateReason(mover.current, mover.previous, direction);
+    const totalFDR = (mover.currHome + mover.currAway) / 2;
 
     return (
       <div key={mover.team_id} className={`mover-card mover-${direction}`}>
+        <span
+          className="mover-total-fdr"
+          style={{ backgroundColor: getDifficultyColor(totalFDR) }}
+          title="Total FDR (average of home and away)"
+        >
+          {totalFDR.toFixed(1)}
+        </span>
         <div className="mover-card-header">
           {team.badge && (
             <img src={team.badge} alt={team.name} className="mover-badge" />
@@ -244,37 +252,41 @@ const GWRecapPost = ({ currentSnapshots, previousSnapshots, gameweekName, lastKi
           </div>
         </div>
         <div className="mover-details">
-          <div className="mover-difficulty-row">
-            <span className="mover-venue-label">H:</span>
-            <span
-              className="mover-difficulty-badge"
-              style={{ backgroundColor: getDifficultyColor(mover.prevHome) }}
-            >
-              {mover.prevHome.toFixed(1)}
-            </span>
-            <span className="mover-arrow">{'\u2192'}</span>
-            <span
-              className="mover-difficulty-badge"
-              style={{ backgroundColor: getDifficultyColor(mover.currHome) }}
-            >
-              {mover.currHome.toFixed(1)}
-            </span>
+          <div className="mover-venue-block">
+            <span className="mover-venue-label">H</span>
+            <div className="mover-venue-values">
+              <span
+                className="mover-difficulty-badge"
+                style={{ backgroundColor: getDifficultyColor(mover.prevHome) }}
+              >
+                {mover.prevHome.toFixed(1)}
+              </span>
+              <span className="mover-arrow">{'\u2192'}</span>
+              <span
+                className="mover-difficulty-badge"
+                style={{ backgroundColor: getDifficultyColor(mover.currHome) }}
+              >
+                {mover.currHome.toFixed(1)}
+              </span>
+            </div>
           </div>
-          <div className="mover-difficulty-row">
-            <span className="mover-venue-label">A:</span>
-            <span
-              className="mover-difficulty-badge"
-              style={{ backgroundColor: getDifficultyColor(mover.prevAway) }}
-            >
-              {mover.prevAway.toFixed(1)}
-            </span>
-            <span className="mover-arrow">{'\u2192'}</span>
-            <span
-              className="mover-difficulty-badge"
-              style={{ backgroundColor: getDifficultyColor(mover.currAway) }}
-            >
-              {mover.currAway.toFixed(1)}
-            </span>
+          <div className="mover-venue-block">
+            <span className="mover-venue-label">A</span>
+            <div className="mover-venue-values">
+              <span
+                className="mover-difficulty-badge"
+                style={{ backgroundColor: getDifficultyColor(mover.prevAway) }}
+              >
+                {mover.prevAway.toFixed(1)}
+              </span>
+              <span className="mover-arrow">{'\u2192'}</span>
+              <span
+                className="mover-difficulty-badge"
+                style={{ backgroundColor: getDifficultyColor(mover.currAway) }}
+              >
+                {mover.currAway.toFixed(1)}
+              </span>
+            </div>
           </div>
         </div>
         <ul className="mover-reasons">

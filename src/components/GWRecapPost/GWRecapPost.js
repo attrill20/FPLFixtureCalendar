@@ -570,7 +570,7 @@ const GWRecapPost = ({ currentSnapshots, previousSnapshots, gameweekName, lastKi
                 ? (biggestShock.isDraw
                     ? `${biggestShock.winner} (${biggestShock.winnerFDR}) managed a draw ${biggestShock.weakerIsHome ? 'at home' : 'away'} against ${biggestShock.loser} (${biggestShock.loserFDR}) ${biggestShock.score}`
                     : `${biggestShock.winner} (${biggestShock.winnerFDR}) won ${biggestShock.homeWon ? 'at home' : 'away'} against ${biggestShock.loser} (${biggestShock.loserFDR}) ${biggestShock.score}`)
-                : (stillLive ? 'There have been no major shocks so far this GW!' : 'There were no major shocks this GW')
+                : (stillLive ? 'There have been no major shocks so far this GW' : 'There were no major shocks this GW')
               }
             </p>
           )}

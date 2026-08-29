@@ -254,7 +254,7 @@ const GWRecapPost = ({ currentSnapshots, previousSnapshots, gameweekName, lastKi
         </div>
         <div className="mover-details">
           <div className="mover-venue-block">
-            <span className="mover-venue-label">H</span>
+            <span className="mover-venue-label">H:</span>
             <div className="mover-venue-values">
               <span
                 className="mover-difficulty-badge"
@@ -272,7 +272,7 @@ const GWRecapPost = ({ currentSnapshots, previousSnapshots, gameweekName, lastKi
             </div>
           </div>
           <div className="mover-venue-block">
-            <span className="mover-venue-label">A</span>
+            <span className="mover-venue-label">A:</span>
             <div className="mover-venue-values">
               <span
                 className="mover-difficulty-badge"

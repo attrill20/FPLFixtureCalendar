@@ -98,13 +98,15 @@
 /* Row of 3 cards */
 .movers-row {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: var(--spacing-sm);
 }
 
 /* Individual Mover Card */
 .mover-card {
   position: relative;
+  min-width: 0;
+  box-sizing: border-box;
   background: var(--color-bg-primary);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
@@ -173,6 +175,7 @@
   align-items: center;
   gap: var(--spacing-xs);
   flex-wrap: wrap;
+  min-width: 0;
 }
 
 .mover-team-name {
@@ -201,7 +204,7 @@
 /* Difficulty detail: H and A side by side to use card width better */
 .mover-details {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   gap: var(--spacing-sm);
   margin-bottom: var(--spacing-xs);
 }
@@ -210,12 +213,14 @@
   display: flex;
   align-items: center;
   gap: 6px;
+  min-width: 0;
 }
 
 .mover-venue-values {
   display: flex;
   align-items: center;
   gap: 4px;
+  min-width: 0;
 }
 
 .mover-venue-label {
@@ -320,7 +325,7 @@
 @media (max-width: 800px) {
   .movers-container {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
     gap: var(--spacing-xs);
     margin-top: var(--spacing-sm);
   }
@@ -330,8 +335,12 @@
   }
 
   .movers-row {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
     gap: var(--spacing-xs);
+  }
+
+  .mover-details {
+    grid-template-columns: minmax(0, 1fr);
   }
 
   .recap-title-row {

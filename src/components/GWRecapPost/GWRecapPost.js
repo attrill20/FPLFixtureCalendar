@@ -118,7 +118,7 @@ function generateReason(current, previous, direction) {
   if (Math.abs(homePpgDelta) > 0.1) {
     factors.push({
       magnitude: Math.abs(homePpgDelta) * 1.5,
-      text: up ? 'Increasing home PPG (last 5)' : 'Decreasing home PPG (last 5)'
+      text: up ? 'Increasing home PPG' : 'Decreasing home PPG'
     });
   }
 
@@ -127,7 +127,7 @@ function generateReason(current, previous, direction) {
   if (Math.abs(awayPpgDelta) > 0.1) {
     factors.push({
       magnitude: Math.abs(awayPpgDelta) * 1.5,
-      text: up ? 'Better away PPG (last 5)' : 'Worse away PPG (last 5)'
+      text: up ? 'Better away PPG' : 'Worse away PPG'
     });
   }
 

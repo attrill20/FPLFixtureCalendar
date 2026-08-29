@@ -233,13 +233,14 @@ const GWRecapPost = ({ currentSnapshots, previousSnapshots, gameweekName, lastKi
 
     return (
       <div key={mover.team_id} className={`mover-card mover-${direction}`}>
-        <span
+        <div
           className="mover-total-fdr"
           style={{ backgroundColor: getDifficultyColor(totalFDR) }}
           title="Total FDR (average of home and away)"
         >
-          {totalFDR.toFixed(1)}
-        </span>
+          <span className="mover-total-fdr-value">{totalFDR.toFixed(1)}</span>
+          <span className="mover-total-fdr-label">FDR</span>
+        </div>
         <div className="mover-card-header">
           {team.badge && (
             <img src={team.badge} alt={team.name} className="mover-badge" />

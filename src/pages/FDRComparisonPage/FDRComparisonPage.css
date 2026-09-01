@@ -266,35 +266,53 @@
 .diff {
   font-weight: 700;
   font-size: 0.95rem;
-  color: #000 !important;
+  color: #333 !important;
   padding: 6px 12px !important;
 }
 
-/* Diff colour scale based on difference magnitude */
-.comparison-table .diff.diff-0 {
-  background-color: #e8f5e9 !important;
+/* Diff text colour scale: darkening green for positive, darkening red for negative */
+.comparison-table .diff.diff-zero {
+  color: #333 !important;
+}
+
+.comparison-table .diff.diff-pos-1 {
+  color: #4caf50 !important;
+}
+
+.comparison-table .diff.diff-pos-2 {
+  color: #388e3c !important;
+}
+
+.comparison-table .diff.diff-pos-3 {
+  color: #2e7d32 !important;
+}
+
+.comparison-table .diff.diff-pos-4 {
   color: #1b5e20 !important;
 }
 
-.comparison-table .diff.diff-1 {
-  background-color: #fff9c4 !important;
+.comparison-table .diff.diff-pos-5 {
+  color: #0d3d10 !important;
 }
 
-.comparison-table .diff.diff-2 {
-  background-color: #ffe082 !important;
+.comparison-table .diff.diff-neg-1 {
+  color: #e53935 !important;
 }
 
-.comparison-table .diff.diff-3 {
-  background-color: #ffcc80 !important;
+.comparison-table .diff.diff-neg-2 {
+  color: #d32f2f !important;
 }
 
-.comparison-table .diff.diff-4 {
-  background-color: #ffab91 !important;
+.comparison-table .diff.diff-neg-3 {
+  color: #c62828 !important;
 }
 
-.comparison-table .diff.diff-5-plus {
-  background-color: #ef9a9a !important;
+.comparison-table .diff.diff-neg-4 {
   color: #b71c1c !important;
+}
+
+.comparison-table .diff.diff-neg-5 {
+  color: #7f0000 !important;
 }
 
 .diff-match {

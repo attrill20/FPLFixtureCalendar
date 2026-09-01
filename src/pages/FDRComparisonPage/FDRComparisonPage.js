@@ -40,6 +40,18 @@ const formatRaw = (value, suffix = ' per 90', decimals = 2) => {
   return `${parseFloat(value).toFixed(decimals)}${suffix}`;
 };
 
+// Always show the decimal for whole numbers (e.g. "3.0"), except zero itself ("0").
+const formatDecimal = (value, decimals = 1) => {
+  const num = Number(value);
+  if (num === 0) return '0';
+  return num.toFixed(decimals);
+};
+
+const formatSigned = (value, decimals = 1) => {
+  const num = Number(value);
+  return num > 0 ? `+${formatDecimal(num, decimals)}` : formatDecimal(num, decimals);
+};
+
 const BreakdownContent = ({ team, getDifficultyClass, isMobile }) => {
   const homeAttackMetrics = [
     { label: 'Goals Scored', score: team.home_goals_scored_per_90_score, raw: team.home_goals_scored_per_90, suffix: ' per 90' },
@@ -81,7 +93,7 @@ const BreakdownContent = ({ team, getDifficultyClass, isMobile }) => {
     <div className="metric-section-header">
       <span className="metric-section-label">{label}</span>
       <span className={`metric-section-score ${getDifficultyClass(rating)}`}>
-        {Number(rating).toFixed(1)}
+        {formatDecimal(rating)}
       </span>
     </div>
   );
@@ -224,14 +236,17 @@ const FDRComparisonPage = () => {
   };
 
   const getDiffClass = (diff) => {
-    // Colour scale based on absolute difference (rounds to nearest integer)
+    // Text colour scale: darkening green for positive, darkening red for negative
+    if (diff === 0) return 'diff-zero';
     const absDiff = Math.abs(diff);
-    if (absDiff < 0.5) return 'diff-0';
-    if (absDiff < 1.5) return 'diff-1';
-    if (absDiff < 2.5) return 'diff-2';
-    if (absDiff < 3.5) return 'diff-3';
-    if (absDiff < 4.5) return 'diff-4';
-    return 'diff-5-plus';
+    const sign = diff > 0 ? 'pos' : 'neg';
+    let tier;
+    if (absDiff < 1) tier = 1;
+    else if (absDiff < 2) tier = 2;
+    else if (absDiff < 3) tier = 3;
+    else if (absDiff < 4) tier = 4;
+    else tier = 5;
+    return `diff-${sign}-${tier}`;
   };
 
   const calculateStats = () => {
@@ -306,7 +321,7 @@ const FDRComparisonPage = () => {
   };
 
   const stats = calculateStats();
-  const arsenalHome = (() => { const ars = oracleRatings.find(t => t.short_name === 'ARS'); return ars ? Number(ars.home_difficulty).toFixed(1) : '...'; })();
+  const arsenalHome = (() => { const ars = oracleRatings.find(t => t.short_name === 'ARS'); return ars ? formatDecimal(ars.home_difficulty) : '...'; })();
 
   const handleSort = (column) => {
     if (sortBy === column) {
@@ -456,7 +471,7 @@ const FDRComparisonPage = () => {
         <div className="stats-summary">
           <div className="stat-box">
             <div className="stat-label">Oracle v FPL</div>
-            <div className="stat-value">{parseFloat(stats.avgDiff) > 0 ? `+${stats.avgDiff}` : stats.avgDiff}</div>
+            <div className="stat-value">{formatSigned(stats.avgDiff, 2)}</div>
             <div className="stat-subtitle">average difference</div>
           </div>
           <div className="stat-box">
@@ -493,7 +508,7 @@ const FDRComparisonPage = () => {
                     <div className="badge-stat-label">{label}</div>
                     <div className="badge-stat-team">{getDisplayName(team)}</div>
                     <div className={`badge-stat-diff ${type}`}>
-                      {diff > 0 ? `+${diff}` : diff}
+                      {formatSigned(diff)}
                     </div>
                   </div>
                 </div>
@@ -562,34 +577,34 @@ const FDRComparisonPage = () => {
 
                     {/* Home ratings */}
                     <td className={`rating home-section ${getDifficultyClass(team.fpl.home_difficulty)}`}>
-                      {team.fpl.home_difficulty}
+                      {formatDecimal(team.fpl.home_difficulty)}
                     </td>
                     <td
                       className={`rating home-section clickable ${getDifficultyClass(team.home_difficulty)}`}
                       onClick={() => toggleBreakdown(team.id)}
                       title="Click to see breakdown"
                     >
-                      {Number(team.home_difficulty).toFixed(1)}
+                      {formatDecimal(team.home_difficulty)}
                       <span className={`expand-arrow rating-arrow ${isExpanded ? 'expanded' : ''}`}>&#9662;</span>
                     </td>
                     <td className={`diff home-section ${getDiffClass(homeDiffSigned)}`}>
-                      {homeDiffSigned > 0 ? `+${homeDiffSigned}` : homeDiffSigned}
+                      {formatSigned(homeDiffSigned)}
                     </td>
 
                     {/* Away ratings */}
                     <td className={`rating away-section ${getDifficultyClass(team.fpl.away_difficulty)}`}>
-                      {team.fpl.away_difficulty}
+                      {formatDecimal(team.fpl.away_difficulty)}
                     </td>
                     <td
                       className={`rating away-section clickable ${getDifficultyClass(team.away_difficulty)}`}
                       onClick={() => toggleBreakdown(team.id)}
                       title="Click to see breakdown"
                     >
-                      {Number(team.away_difficulty).toFixed(1)}
+                      {formatDecimal(team.away_difficulty)}
                       <span className={`expand-arrow rating-arrow ${isExpanded ? 'expanded' : ''}`}>&#9662;</span>
                     </td>
                     <td className={`diff away-section ${getDiffClass(awayDiffSigned)}`}>
-                      {awayDiffSigned > 0 ? `+${awayDiffSigned}` : awayDiffSigned}
+                      {formatSigned(awayDiffSigned)}
                     </td>
                   </tr>
                   {isExpanded && (() => {
@@ -606,13 +621,13 @@ const FDRComparisonPage = () => {
                             <div className="summary-line">
                               <span className="summary-label">{isMobile ? 'Home:' : 'Home Strength:'}</span>
                               <span className={`summary-score ${getDifficultyClass(team.home_difficulty)}`}>
-                                {Number(team.home_difficulty).toFixed(1)}
+                                {formatDecimal(team.home_difficulty)}
                               </span>
                             </div>
                             <div className="summary-line">
                               <span className="summary-label">{isMobile ? 'Away:' : 'Away Strength:'}</span>
                               <span className={`summary-score ${getDifficultyClass(team.away_difficulty)}`}>
-                                {Number(team.away_difficulty).toFixed(1)}
+                                {formatDecimal(team.away_difficulty)}
                               </span>
                             </div>
                           </div>
@@ -662,24 +677,24 @@ const FDRComparisonPage = () => {
 
               {/* Home averages */}
               <td className="rating home-section">
-                <strong>{averages.avgFplHome}</strong>
+                <strong>{formatDecimal(averages.avgFplHome)}</strong>
               </td>
               <td className="rating home-section">
-                <strong>{averages.avgOracleHome}</strong>
+                <strong>{formatDecimal(averages.avgOracleHome)}</strong>
               </td>
               <td className="diff home-section">
-                <strong>{parseFloat(averages.avgHomeDiff) > 0 ? `+${averages.avgHomeDiff}` : averages.avgHomeDiff}</strong>
+                <strong>{formatSigned(averages.avgHomeDiff)}</strong>
               </td>
 
               {/* Away averages */}
               <td className="rating away-section">
-                <strong>{averages.avgFplAway}</strong>
+                <strong>{formatDecimal(averages.avgFplAway)}</strong>
               </td>
               <td className="rating away-section">
-                <strong>{averages.avgOracleAway}</strong>
+                <strong>{formatDecimal(averages.avgOracleAway)}</strong>
               </td>
               <td className="diff away-section">
-                <strong>{parseFloat(averages.avgAwayDiff) > 0 ? `+${averages.avgAwayDiff}` : averages.avgAwayDiff}</strong>
+                <strong>{formatSigned(averages.avgAwayDiff)}</strong>
               </td>
             </tr>
           </tfoot>

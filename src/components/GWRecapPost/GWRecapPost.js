@@ -32,12 +32,16 @@ function generateReason(current, previous, direction) {
   const hasBoth = (field) => current[field] != null && previous[field] != null && current[field] !== 0 && previous[field] !== 0;
   const delta = (field) => (current[field] || 0) - (previous[field] || 0);
 
+  // Each factor's wording must follow its OWN delta's sign, not the team's
+  // overall combined direction — a team can rise overall while one factor
+  // (e.g. away PPG) individually fell, and the text needs to say so.
+
   // Overall form
   const formDelta = hasBoth('recent_form_score') ? delta('recent_form_score') : 0;
   if (Math.abs(formDelta) > 0.1) {
     factors.push({
       magnitude: Math.abs(formDelta),
-      text: up ? 'Improved overall form' : 'Declining overall form'
+      text: formDelta > 0 ? 'Improved overall form' : 'Declining overall form'
     });
   }
 
@@ -46,7 +50,7 @@ function generateReason(current, previous, direction) {
   if (Math.abs(gsHomeDelta) > 0.05) {
     factors.push({
       magnitude: Math.abs(gsHomeDelta) * 2.5,
-      text: up ? 'Scoring more goals at home' : 'Scoring less goals at home'
+      text: gsHomeDelta > 0 ? 'Scoring more goals at home' : 'Scoring less goals at home'
     });
   }
 
@@ -55,7 +59,7 @@ function generateReason(current, previous, direction) {
   if (Math.abs(gsAwayDelta) > 0.05) {
     factors.push({
       magnitude: Math.abs(gsAwayDelta) * 2.5,
-      text: up ? 'Scoring more goals away' : 'Scoring less goals away'
+      text: gsAwayDelta > 0 ? 'Scoring more goals away' : 'Scoring less goals away'
     });
   }
 
@@ -64,7 +68,7 @@ function generateReason(current, previous, direction) {
   if (Math.abs(gcHomeDelta) > 0.05) {
     factors.push({
       magnitude: Math.abs(gcHomeDelta) * 3,
-      text: up ? 'Conceding less goals at home' : 'Conceding more goals at home'
+      text: gcHomeDelta < 0 ? 'Conceding less goals at home' : 'Conceding more goals at home'
     });
   }
 
@@ -73,7 +77,7 @@ function generateReason(current, previous, direction) {
   if (Math.abs(gcAwayDelta) > 0.05) {
     factors.push({
       magnitude: Math.abs(gcAwayDelta) * 3,
-      text: up ? 'Conceding less goals away' : 'Conceding more goals away'
+      text: gcAwayDelta < 0 ? 'Conceding less goals away' : 'Conceding more goals away'
     });
   }
 
@@ -82,7 +86,7 @@ function generateReason(current, previous, direction) {
   if (Math.abs(xgHomeDelta) > 0.05) {
     factors.push({
       magnitude: Math.abs(xgHomeDelta) * 2,
-      text: up ? 'Creating higher home xG' : 'Creating lower home xG'
+      text: xgHomeDelta > 0 ? 'Creating higher home xG' : 'Creating lower home xG'
     });
   }
 
@@ -91,7 +95,7 @@ function generateReason(current, previous, direction) {
   if (Math.abs(xgAwayDelta) > 0.05) {
     factors.push({
       magnitude: Math.abs(xgAwayDelta) * 2,
-      text: up ? 'Creating higher away xG' : 'Creating lower away xG'
+      text: xgAwayDelta > 0 ? 'Creating higher away xG' : 'Creating lower away xG'
     });
   }
 
@@ -100,7 +104,7 @@ function generateReason(current, previous, direction) {
   if (Math.abs(xgcHomeDelta) > 0.05) {
     factors.push({
       magnitude: Math.abs(xgcHomeDelta) * 2,
-      text: up ? 'Conceding lower home xGC' : 'Conceding higher home xGC'
+      text: xgcHomeDelta < 0 ? 'Conceding lower home xGC' : 'Conceding higher home xGC'
     });
   }
 
@@ -109,7 +113,7 @@ function generateReason(current, previous, direction) {
   if (Math.abs(xgcAwayDelta) > 0.05) {
     factors.push({
       magnitude: Math.abs(xgcAwayDelta) * 2,
-      text: up ? 'Conceding lower away xGC' : 'Conceding higher away xGC'
+      text: xgcAwayDelta < 0 ? 'Conceding lower away xGC' : 'Conceding higher away xGC'
     });
   }
 
@@ -118,8 +122,8 @@ function generateReason(current, previous, direction) {
   if (Math.abs(homePpgDelta) > 0.1) {
     factors.push({
       magnitude: Math.abs(homePpgDelta) * 1.5,
-      text: up ? 'Increasing home PPG (last 5)' : 'Decreasing home PPG (last 5)',
-      mobileText: up ? 'Increasing home PPG' : 'Decreasing home PPG'
+      text: homePpgDelta > 0 ? 'Increasing home PPG (last 5)' : 'Decreasing home PPG (last 5)',
+      mobileText: homePpgDelta > 0 ? 'Increasing home PPG' : 'Decreasing home PPG'
     });
   }
 
@@ -128,14 +132,16 @@ function generateReason(current, previous, direction) {
   if (Math.abs(awayPpgDelta) > 0.1) {
     factors.push({
       magnitude: Math.abs(awayPpgDelta) * 1.5,
-      text: up ? 'Better away PPG (last 5)' : 'Worse away PPG (last 5)',
-      mobileText: up ? 'Better away PPG' : 'Worse away PPG'
+      text: awayPpgDelta > 0 ? 'Better away PPG (last 5)' : 'Worse away PPG (last 5)',
+      mobileText: awayPpgDelta > 0 ? 'Better away PPG' : 'Worse away PPG'
     });
   }
 
   // Sort by magnitude and pick top 2 reasons
   factors.sort((a, b) => b.magnitude - a.magnitude);
   if (factors.length === 0) {
+    // No individual factor cleared its threshold — fall back to the team's
+    // overall combined direction since there's nothing more specific to say.
     const fallback = up ? 'Small improvements across metrics' : 'Small declines across metrics';
     return [{ text: fallback, mobileText: fallback }];
   }

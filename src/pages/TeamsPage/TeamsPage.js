@@ -1,25 +1,75 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { supabase } from "../../supabaseClient";
 import { getSupaIdToLocalIdMap } from "../../utils/teamIdMap";
 import "./TeamsPage.css";
 
+// Stats for a finished season never change, so cache each season's fetched/
+// translated result at module scope - switching back to it is then instant.
+const statsCache = new Map();
+
 const TeamsPage = ({ teams }) => {
+  const [seasons, setSeasons] = useState([]);
+  const [selectedSeasonId, setSelectedSeasonId] = useState(null);
+  const [isSeasonDropdownOpen, setIsSeasonDropdownOpen] = useState(false);
   const [teamStats, setTeamStats] = useState({});
   const [homeStats, setHomeStats] = useState({});
   const [awayStats, setAwayStats] = useState({});
   const [loading, setLoading] = useState(true);
 
+  const seasonDropdownRef = useRef(null);
+
   useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (seasonDropdownRef.current && !seasonDropdownRef.current.contains(event.target)) {
+        setIsSeasonDropdownOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  // Only offer seasons that actually have gameweek data behind them.
+  useEffect(() => {
+    const fetchSeasons = async () => {
+      const [seasonsResult, gameweeksResult] = await Promise.all([
+        supabase.from('seasons').select('id, name, is_current').order('start_date', { ascending: false }),
+        supabase.from('gameweeks').select('season_id')
+      ]);
+
+      if (seasonsResult.error || !seasonsResult.data) return;
+
+      const seasonIdsWithData = new Set((gameweeksResult.data || []).map(gw => gw.season_id));
+      const available = seasonsResult.data.filter(s => seasonIdsWithData.has(s.id));
+
+      setSeasons(available);
+      const current = available.find(s => s.is_current) || available[0];
+      if (current) setSelectedSeasonId(current.id);
+    };
+
+    fetchSeasons();
+  }, []);
+
+  useEffect(() => {
+    if (!selectedSeasonId) return;
+
     const fetchTeamStats = async () => {
       setLoading(true);
       try {
+        const cached = statsCache.get(selectedSeasonId);
+        if (cached) {
+          setTeamStats(cached.teamStats);
+          setHomeStats(cached.homeStats);
+          setAwayStats(cached.awayStats);
+          return;
+        }
+
         // Fetch all team stats from Supabase, plus the stale-Supabase-id -> this-
         // season's-dummy.js-id translation map (RPC results key by team_id on
-        // Supabase's old season numbering, not this season's ids)
+        // Supabase's own numbering, not this season's ids)
         const [overallResult, homeResult, awayResult, idMap] = await Promise.all([
-          supabase.rpc('get_team_xg_stats'),
-          supabase.rpc('get_team_home_stats'),
-          supabase.rpc('get_team_away_stats'),
+          supabase.rpc('get_team_xg_stats', { p_season_id: selectedSeasonId }),
+          supabase.rpc('get_team_home_stats', { p_season_id: selectedSeasonId }),
+          supabase.rpc('get_team_away_stats', { p_season_id: selectedSeasonId }),
           getSupaIdToLocalIdMap()
         ]);
 
@@ -83,6 +133,7 @@ const TeamsPage = ({ teams }) => {
           });
         }
 
+        statsCache.set(selectedSeasonId, { teamStats: statsMap, homeStats: homeStatsMap, awayStats: awayStatsMap });
         setTeamStats(statsMap);
         setHomeStats(homeStatsMap);
         setAwayStats(awayStatsMap);
@@ -94,7 +145,14 @@ const TeamsPage = ({ teams }) => {
     };
 
     fetchTeamStats();
-  }, [teams]);
+  }, [teams, selectedSeasonId]);
+
+  const handleSeasonSelect = (seasonId) => {
+    setSelectedSeasonId(seasonId);
+    setIsSeasonDropdownOpen(false);
+  };
+
+  const selectedSeasonName = seasons.find(s => s.id === selectedSeasonId)?.name || '';
 
   const allTeamsXG = Object.values(teamStats)
     .sort((a, b) => b.totalXG - a.totalXG);
@@ -161,6 +219,25 @@ const TeamsPage = ({ teams }) => {
         <p>Below is a range of stats for all 20 of the Premier League teams.</p>
         <p>Use the data below to help identify which team has been over or under performing their underlying data!</p>
       </div>
+
+      {seasons.length > 1 && (
+        <div className="teams-dropdown-container">
+          <div className="dropdown" ref={seasonDropdownRef} onClick={() => setIsSeasonDropdownOpen(prev => !prev)}>
+            <span><strong>{selectedSeasonName}</strong></span>
+            <span className="dropdown-arrow">▼</span>
+            {isSeasonDropdownOpen && (
+              <div className="dropdown-list">
+                {seasons.map(season => (
+                  <div key={season.id} className="dropdown-item" onClick={(e) => { e.stopPropagation(); handleSeasonSelect(season.id); }}>
+                    <input type="radio" checked={selectedSeasonId === season.id} readOnly />
+                    {season.name}{season.is_current ? ' (Current)' : ''}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
+      )}
 
       <div className="player-pics player-pics-lists">
         <p className="top-10-title">Team xG (Goals Scored)</p>

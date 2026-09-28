@@ -7,6 +7,7 @@ import Top10Page from "./pages/Top10Page/Top10Page";
 import TeamsPage from "./pages/TeamsPage/TeamsPage";
 import FAQPage from "./pages/FAQPage/FAQPage";
 import FDRComparisonPage from "./pages/FDRComparisonPage/FDRComparisonPage";
+import DraftPage from "./pages/DraftPage/DraftPage";
 import { teams, fdrReady } from "./components/dummyArrays/dummy";
 import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 import Navbar from "./components/navbar/navbar";
@@ -122,6 +123,12 @@ export default function App() {
             path="/fdr-comparison"
             element={
               <FDRComparisonPage />
+            }
+          />
+          <Route
+            path="/draft"
+            element={
+              <DraftPage mainData={mainData} />
             }
           />
         </Routes>

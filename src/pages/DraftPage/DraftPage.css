@@ -1,0 +1,1071 @@
+/* ===== Page shell ===== */
+.draft-page-container {
+  --draft-red: #D93838;
+  --draft-amber: #E0B000;
+  --draft-card-shadow: 0 2px 8px var(--color-shadow);
+
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: var(--spacing-lg) var(--spacing-md) var(--spacing-xxl);
+  color: var(--color-text-primary);
+}
+
+/* ===== Header ===== */
+.draft-hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin: var(--spacing-md) auto var(--spacing-lg);
+  max-width: 720px;
+}
+
+.draft-hero-eyebrow {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 999px;
+  background-color: rgba(255, 255, 255, 0.7);
+  color: var(--color-accent-green-darker);
+  font-size: var(--font-size-xs);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.draft-page-container .draft-hero h1 {
+  margin: var(--spacing-sm) 0 var(--spacing-xs) 0;
+  font-size: var(--font-size-4xl);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.05;
+  color: var(--color-text-primary);
+}
+
+.draft-hero-lede {
+  margin: 0;
+  font-size: var(--font-size-base);
+  color: #3D3D3D;
+}
+
+.draft-page-subtitle {
+  color: var(--color-text-secondary);
+  margin: 0 0 var(--spacing-lg) 0;
+  text-align: center;
+  font-size: var(--font-size-sm);
+}
+
+.draft-panel,
+.draft-manager-card,
+.draft-history-item,
+.draft-ranking-inner {
+  background-color: var(--color-bg-primary);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--draft-card-shadow);
+}
+
+.draft-panel {
+  padding: var(--spacing-sm) var(--spacing-md);
+  min-width: 0;
+}
+
+/* ===== Tabs (segmented control) ===== */
+.draft-tabs {
+  display: flex;
+  justify-content: center;
+  gap: 4px;
+  width: fit-content;
+  max-width: 100%;
+  margin: 0 auto var(--spacing-lg) auto;
+  padding: 4px;
+  background-color: var(--color-bg-primary);
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  box-shadow: var(--draft-card-shadow);
+}
+
+.draft-tabs button {
+  background: none;
+  border: none;
+  border-radius: 999px;
+  padding: var(--spacing-sm) var(--spacing-md);
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  cursor: pointer;
+  color: var(--color-text-secondary);
+  white-space: nowrap;
+}
+
+.draft-tabs button:hover {
+  color: var(--color-text-primary);
+  background-color: var(--color-bg-tertiary);
+}
+
+.draft-tabs button.active {
+  color: var(--color-text-white);
+  background-color: var(--color-accent-green-dark);
+}
+
+/* ===== Form controls ===== */
+.draft-page-container select {
+  appearance: none;
+  background-color: var(--color-bg-primary);
+  background-image: linear-gradient(45deg, transparent 50%, var(--color-text-secondary) 50%),
+    linear-gradient(135deg, var(--color-text-secondary) 50%, transparent 50%);
+  background-position: calc(100% - 14px) 50%, calc(100% - 9px) 50%;
+  background-size: 5px 5px;
+  background-repeat: no-repeat;
+  border: 1px solid var(--color-border-dark);
+  border-radius: var(--radius-md);
+  padding: 6px 28px 6px 10px;
+  font-size: var(--font-size-sm);
+  color: var(--color-text-primary);
+  cursor: pointer;
+}
+
+.draft-page-container select:focus-visible {
+  outline: 2px solid var(--color-accent-green);
+  outline-offset: 1px;
+}
+
+/* ===== Tables (reset global th/td/table rules from other pages) ===== */
+.draft-page-container table {
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: collapse;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  background: none;
+  overflow: visible;
+  margin: 0;
+  font-size: var(--font-size-sm);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Extra "table tr >" specificity beats card.css's global tr:not(:last-child) td borders */
+.draft-page-container table tr > th,
+.draft-page-container table tr > td {
+  border: none;
+  border-bottom: 1px solid var(--color-border);
+  text-align: left;
+  padding: 7px 6px;
+  margin: 0;
+  color: var(--color-text-primary);
+}
+
+.draft-page-container table tr > th {
+  font-size: var(--font-size-xs);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--color-text-secondary);
+  border-bottom: 1px solid var(--color-border-dark);
+  padding-top: var(--spacing-sm);
+  padding-bottom: var(--spacing-sm);
+}
+
+.draft-page-container table tbody tr:last-child > td {
+  border-bottom: none;
+}
+
+.draft-page-container tbody tr:hover td {
+  background-color: var(--color-accent-green-ultra-light);
+}
+
+.draft-page-container th.num,
+.draft-page-container td.num {
+  text-align: right;
+}
+
+/* ===== Position chips ===== */
+.draft-pos-chip {
+  display: inline-block;
+  min-width: 32px;
+  padding: 1px 6px;
+  border-radius: var(--radius-sm);
+  font-size: var(--font-size-xs);
+  font-weight: 700;
+  text-align: center;
+  line-height: 1.6;
+  background-color: var(--color-bg-tertiary);
+  color: var(--color-text-secondary);
+}
+
+.draft-pos-chip.pos-1 {
+  background-color: #FFF1CC;
+  color: #8A6100;
+}
+
+.draft-pos-chip.pos-2 {
+  background-color: #DDF3D6;
+  color: var(--color-accent-green-darker);
+}
+
+.draft-pos-chip.pos-3 {
+  background-color: #DCEBFB;
+  color: #1D5A99;
+}
+
+.draft-pos-chip.pos-4 {
+  background-color: #FBE0E0;
+  color: #A02828;
+}
+
+.draft-pos-unknown {
+  display: inline-block;
+  min-width: 32px;
+  text-align: center;
+  color: var(--color-text-secondary);
+}
+
+/* ===== Current squads ===== */
+.draft-squads-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  align-items: start;
+  gap: var(--spacing-md);
+}
+
+.draft-manager-card {
+  padding: var(--spacing-md);
+  min-width: 0;
+}
+
+.draft-manager-card h3 {
+  margin: 0;
+  text-align: center;
+  font-size: var(--font-size-lg);
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+.draft-manager-points {
+  font-size: var(--font-size-2xl);
+  font-weight: 700;
+  text-align: center;
+  margin: 2px 0 0 0;
+  color: var(--color-accent-green-darker);
+}
+
+.draft-manager-summary {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-secondary);
+  text-align: center;
+  margin: 2px 0 var(--spacing-sm) 0;
+}
+
+.draft-squad-table th:first-child,
+.draft-squad-table td:first-child {
+  width: 38%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.draft-squad-table th:nth-child(2),
+.draft-squad-table td:nth-child(2) {
+  width: 18%;
+}
+
+.draft-squad-table th:nth-child(3),
+.draft-squad-table td:nth-child(3) {
+  width: 26%;
+}
+
+/* Price sits centred between Pos and Pts in the squad + history cards */
+.draft-page-container .draft-squad-table tr > th:nth-child(3),
+.draft-page-container .draft-squad-table tr > td:nth-child(3) {
+  text-align: center;
+}
+
+.draft-squad-table th:nth-child(4),
+.draft-squad-table td:nth-child(4) {
+  width: 18%;
+}
+
+.draft-page-container .draft-squad-table tr > th,
+.draft-page-container .draft-squad-table tr > td {
+  padding-left: 3px;
+  padding-right: 3px;
+}
+
+.draft-empty-state {
+  color: var(--color-text-secondary);
+  font-style: italic;
+  font-size: var(--font-size-sm);
+}
+
+/* ===== Draft history ===== */
+.draft-history-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+.draft-history-item {
+  padding: var(--spacing-md);
+}
+
+.draft-history-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.draft-history-label {
+  font-weight: 700;
+  font-size: var(--font-size-lg);
+}
+
+.draft-history-badge {
+  background-color: var(--color-accent-green-light);
+  color: var(--color-accent-green-darker);
+  border-radius: var(--radius-sm);
+  padding: 2px 8px;
+  font-size: var(--font-size-xs);
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.draft-history-budget {
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-sm);
+}
+
+.draft-history-note {
+  margin: var(--spacing-xs) 0 0 0;
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-sm);
+}
+
+.draft-history-grid {
+  margin-top: var(--spacing-md);
+}
+
+.draft-history-grid .draft-manager-card {
+  background-color: var(--color-bg-secondary);
+  box-shadow: none;
+}
+
+.draft-history-table th:first-child,
+.draft-history-table td:first-child {
+  width: 56%;
+}
+
+.draft-history-table th:nth-child(2),
+.draft-history-table td:nth-child(2) {
+  width: 20%;
+}
+
+.draft-history-table th:nth-child(3),
+.draft-history-table td:nth-child(3) {
+  width: 24%;
+}
+
+.draft-swap-col-name {
+  width: 56%;
+}
+
+.draft-swap-col-pos {
+  width: 22%;
+}
+
+.draft-swap-col-price {
+  width: 22%;
+}
+
+.draft-page-container .draft-swap-table tr > th,
+.draft-page-container .draft-swap-table tr > td {
+  padding-left: 3px;
+  padding-right: 3px;
+}
+
+.draft-page-container .draft-swap-table tr > td:first-child {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.draft-page-container table tr.draft-swap-heading > th {
+  padding-top: var(--spacing-sm);
+  border-bottom: none;
+}
+
+.draft-page-container table tr.draft-swap-heading.out > th {
+  color: var(--draft-red);
+}
+
+.draft-page-container table tr.draft-swap-heading.in > th {
+  color: var(--color-accent-green-darker);
+  border-top: 1px solid var(--color-border-dark);
+  padding-top: var(--spacing-md);
+}
+
+.draft-swap-marker {
+  display: inline-block;
+  width: 12px;
+  font-weight: 700;
+}
+
+.draft-swap-row.out .draft-swap-marker {
+  color: var(--draft-red);
+}
+
+.draft-swap-row.in .draft-swap-marker {
+  color: var(--color-accent-green-dark);
+}
+
+.draft-page-container table tr.draft-swap-row.empty > td {
+  color: var(--color-text-secondary);
+}
+
+.draft-history-summary {
+  margin: var(--spacing-sm) 0 0 0;
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+}
+
+/* ===== Keep/Drop ranking ===== */
+.draft-ranking-inner {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: var(--spacing-md);
+}
+
+.draft-ranking-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-sm) var(--spacing-lg);
+  margin-bottom: var(--spacing-sm);
+}
+
+.draft-ranking-controls label,
+.draft-available-controls label {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+.draft-ranking-inner .draft-page-subtitle {
+  text-align: left;
+  font-size: var(--font-size-xs);
+  margin-bottom: 0;
+}
+
+.draft-reset-btn {
+  background-color: var(--color-bg-primary);
+  border: 1px solid var(--color-border-dark);
+  border-radius: var(--radius-md);
+  padding: 6px var(--spacing-sm);
+  font-size: var(--font-size-sm);
+  cursor: pointer;
+  color: var(--color-text-secondary);
+}
+
+.draft-ranking-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--spacing-sm);
+}
+
+.draft-save-state {
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+  color: var(--color-text-secondary);
+}
+
+.draft-save-state.saved {
+  color: var(--color-accent-green-darker);
+}
+
+.draft-save-state.error {
+  color: var(--draft-red);
+}
+
+.draft-reset-btn:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+
+.draft-reset-btn:hover {
+  border-color: var(--color-accent-green);
+  color: var(--color-accent-green-darker);
+}
+
+.draft-reset-btn.confirming,
+.draft-reset-btn.confirming:hover {
+  border-color: var(--draft-red);
+  color: var(--draft-red);
+}
+
+.draft-ranking-list {
+  list-style: none;
+  margin: var(--spacing-md) 0 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.draft-ranking-row {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  background-color: var(--color-bg-primary);
+  border: 1px solid var(--color-border);
+  border-left: 4px solid var(--color-border-dark);
+  border-radius: var(--radius-md);
+  padding: 6px var(--spacing-sm);
+  cursor: grab;
+  font-size: var(--font-size-sm);
+  transition: background-color 0.15s ease, border-color 0.15s ease;
+}
+
+.draft-ranking-row:hover {
+  border-color: var(--color-border-dark);
+}
+
+.draft-ranking-row.dragging {
+  opacity: 0.4;
+}
+
+.draft-ranking-position {
+  width: 22px;
+  flex-shrink: 0;
+  color: var(--color-text-secondary);
+  font-weight: 700;
+}
+
+.draft-ranking-name {
+  flex: 1;
+  text-align: left;
+  min-width: 0;
+  font-weight: 600;
+}
+
+.draft-ranking-pos-tag {
+  width: 40px;
+  flex-shrink: 0;
+}
+
+.draft-ranking-price,
+.draft-ranking-points {
+  width: 64px;
+  flex-shrink: 0;
+  text-align: right;
+  color: var(--color-text-secondary);
+  font-variant-numeric: tabular-nums;
+}
+
+.draft-ranking-points {
+  color: var(--color-text-primary);
+  font-weight: 600;
+}
+
+.draft-ranking-row.status-keep {
+  background-color: #EAF8E4;
+  border-color: #BFE5B0;
+  border-left-color: var(--color-accent-green);
+}
+
+.draft-ranking-row.status-maybe {
+  background-color: #FFF8E0;
+  border-color: #F0DC94;
+  border-left-color: var(--draft-amber);
+}
+
+.draft-ranking-row.status-drop {
+  background-color: #FDECEC;
+  border-color: #F2BDBD;
+  border-left-color: var(--draft-red);
+}
+
+.draft-status-buttons {
+  display: flex;
+  gap: 4px;
+  flex-shrink: 0;
+  margin-left: auto;
+  padding-left: var(--spacing-lg);
+}
+
+.draft-status-btn {
+  background: var(--color-bg-primary);
+  border: 1px solid var(--color-border-dark);
+  border-radius: 999px;
+  padding: 3px 10px;
+  font-size: var(--font-size-xs);
+  font-weight: 700;
+  color: var(--color-text-secondary);
+  cursor: pointer;
+}
+
+.draft-status-btn.keep:hover {
+  border-color: var(--color-accent-green);
+  color: var(--color-accent-green-darker);
+}
+
+.draft-status-btn.maybe:hover {
+  border-color: var(--draft-amber);
+  color: #8A6100;
+}
+
+.draft-status-btn.drop:hover {
+  border-color: var(--draft-red);
+  color: var(--draft-red);
+}
+
+.draft-status-btn.keep.selected {
+  background-color: var(--color-accent-green-dark);
+  border-color: var(--color-accent-green-dark);
+  color: var(--color-text-white);
+}
+
+.draft-status-btn.maybe.selected {
+  background-color: var(--draft-amber);
+  border-color: var(--draft-amber);
+  color: var(--color-text-white);
+}
+
+.draft-status-btn.drop.selected {
+  background-color: var(--draft-red);
+  border-color: var(--draft-red);
+  color: var(--color-text-white);
+}
+
+/* ===== Availability icons + tooltip ===== */
+/* Tooltip anchors to the name cell, not the icon, so it can't run off the left edge */
+.draft-ranking-name,
+.draft-available-table td.draft-available-name {
+  position: relative;
+}
+
+.draft-availability {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 6px;
+  vertical-align: middle;
+  cursor: help;
+}
+
+.draft-availability.injured,
+.draft-availability.doubtful,
+.draft-availability.left,
+.draft-availability.unavailable {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  color: var(--color-text-white);
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.draft-availability.injured {
+  background-color: var(--draft-red);
+}
+
+.draft-availability.doubtful {
+  background-color: var(--draft-amber);
+}
+
+.draft-availability.left {
+  background-color: #4A4A4A;
+  font-size: 10px;
+}
+
+.draft-availability.unavailable {
+  background-color: #8C8C8C;
+  font-size: 11px;
+}
+
+.draft-red-card {
+  display: block;
+  width: 9px;
+  height: 13px;
+  border-radius: 2px;
+  background-color: var(--draft-red);
+}
+
+.draft-availability-tip {
+  display: none;
+  position: absolute;
+  bottom: calc(100% + 6px);
+  left: 50%;
+  transform: translateX(-50%);
+  width: max-content;
+  max-width: 220px;
+  padding: 6px 8px;
+  border-radius: var(--radius-sm);
+  background-color: #1A1A1A;
+  color: var(--color-text-white);
+  font-size: var(--font-size-xs);
+  font-weight: 500;
+  line-height: 1.3;
+  text-align: left;
+  white-space: normal;
+  z-index: 10;
+  pointer-events: none;
+}
+
+.draft-available-table .draft-availability-tip {
+  left: 0;
+  transform: none;
+}
+
+.draft-availability:hover .draft-availability-tip,
+.draft-availability:focus .draft-availability-tip {
+  display: block;
+}
+
+/* ===== Available players ===== */
+.draft-available-section {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.draft-available-controls {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--spacing-sm) var(--spacing-lg);
+  margin-bottom: var(--spacing-md);
+}
+
+.draft-search-input {
+  background-color: var(--color-bg-primary);
+  border: 1px solid var(--color-border-dark);
+  border-radius: 999px;
+  padding: 6px 14px;
+  font-size: var(--font-size-sm);
+  color: var(--color-text-primary);
+  min-width: 200px;
+}
+
+.draft-search-input::placeholder {
+  color: var(--color-text-secondary);
+}
+
+.draft-search-input:focus-visible {
+  outline: 2px solid var(--color-accent-green);
+  outline-offset: 1px;
+}
+
+.draft-toggle-btn {
+  background-color: var(--color-bg-primary);
+  border: 1px solid var(--color-border-dark);
+  border-radius: 999px;
+  padding: 6px 14px;
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  color: var(--color-text-secondary);
+  cursor: pointer;
+}
+
+.draft-toggle-btn:hover {
+  border-color: var(--color-accent-green);
+  color: var(--color-accent-green-darker);
+}
+
+.draft-toggle-btn.on {
+  background-color: var(--color-accent-green-dark);
+  border-color: var(--color-accent-green-dark);
+  color: var(--color-text-white);
+}
+
+.draft-page-container .draft-available-table tr > th.draft-sortable {
+  cursor: pointer;
+  user-select: none;
+  white-space: nowrap;
+}
+
+.draft-page-container .draft-available-table tr > th.draft-sortable:hover,
+.draft-page-container .draft-available-table tr > th.sorted {
+  color: var(--color-text-primary);
+}
+
+.draft-sort-arrow {
+  margin-left: 3px;
+  font-size: 8px;
+  vertical-align: 1px;
+}
+
+.draft-owner-tag {
+  display: inline-block;
+  margin-left: 6px;
+  padding: 0 6px;
+  border-radius: 999px;
+  background-color: var(--color-bg-tertiary);
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+  line-height: 1.6;
+  vertical-align: middle;
+}
+
+.draft-page-container .draft-available-table tr.drafted > td {
+  background-color: var(--color-bg-secondary);
+}
+
+.draft-available-table .draft-available-rank {
+  width: 38px;
+  color: var(--color-text-secondary);
+  font-weight: 600;
+}
+
+.draft-available-table .draft-col-star {
+  width: 28px;
+}
+
+/* Player gets a fixed share so Team/Pos/Price sit together right after it.
+   Percentages total ~94% so the fixed # and star columns keep their px width. */
+.draft-available-table th.draft-col-web_name {
+  width: 27%;
+}
+
+.draft-available-table th.draft-col-team {
+  width: 6%;
+}
+
+.draft-available-table th.draft-col-element_type {
+  width: 7%;
+}
+
+.draft-available-table th.draft-col-now_cost {
+  width: 8%;
+}
+
+.draft-available-table th.draft-col-total_points,
+.draft-available-table th.draft-col-form,
+.draft-available-table th.draft-col-minutes {
+  width: 7%;
+}
+
+.draft-available-table th.draft-col-goals_scored,
+.draft-available-table th.draft-col-assists,
+.draft-available-table th.draft-col-clean_sheets,
+.draft-available-table th.draft-col-defcon_bonuses,
+.draft-available-table th.draft-col-bonus {
+  width: 5%;
+}
+
+/* Stat columns centre under their headers; groups (minutes | attacking | defensive | bonus | form + points)
+   are separated by extra space before each group's first column rather than rules */
+.draft-page-container .draft-available-table tr > th.num,
+.draft-page-container .draft-available-table tr > td.num {
+  text-align: center;
+}
+
+.draft-page-container .draft-available-table tr > th.group-start,
+.draft-page-container .draft-available-table tr > td.group-start {
+  padding-left: 18px;
+}
+
+.draft-page-container .draft-available-table tr > td.draft-col-team {
+  color: var(--color-text-secondary);
+  font-weight: 600;
+  font-size: var(--font-size-xs);
+}
+
+.draft-page-container .draft-available-table tr > td.draft-col-star {
+  padding-left: 0;
+  padding-right: 0;
+  text-align: center;
+}
+
+.draft-star-btn {
+  background: none;
+  border: none;
+  padding: 0;
+  font-size: 18px;
+  line-height: 1;
+  color: var(--color-border-dark);
+  cursor: pointer;
+}
+
+.draft-star-btn:hover {
+  color: var(--draft-amber);
+}
+
+.draft-star-btn.on {
+  color: var(--draft-amber);
+}
+
+.draft-watchlist-empty {
+  text-align: center;
+  padding: var(--spacing-lg) var(--spacing-md);
+  margin: 0;
+}
+
+.draft-pager {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-md);
+  padding: var(--spacing-md) 0 var(--spacing-sm);
+  border-top: 1px solid var(--color-border-dark);
+}
+
+.draft-pager button {
+  background-color: var(--color-bg-primary);
+  border: 1px solid var(--color-border-dark);
+  border-radius: 999px;
+  padding: 6px 14px;
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  color: var(--color-text-primary);
+  cursor: pointer;
+}
+
+.draft-pager button:hover:not(:disabled) {
+  border-color: var(--color-accent-green);
+  color: var(--color-accent-green-darker);
+}
+
+.draft-pager button:disabled {
+  color: var(--color-border-dark);
+  cursor: default;
+}
+
+.draft-pager-info {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  font-variant-numeric: tabular-nums;
+}
+
+.draft-table-scroll {
+  overflow-x: auto;
+}
+
+/* Nested tabs inside Available Players */
+.draft-subtabs {
+  display: flex;
+  justify-content: center;
+  gap: var(--spacing-lg);
+  margin-bottom: var(--spacing-md);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+}
+
+.draft-subtabs button {
+  background: none;
+  border: none;
+  border-bottom: 3px solid transparent;
+  margin-bottom: -1px;
+  padding: var(--spacing-xs) var(--spacing-xs) var(--spacing-sm);
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.draft-subtabs button:hover {
+  color: var(--color-text-primary);
+}
+
+.draft-subtabs button.active {
+  color: var(--color-text-primary);
+  border-bottom-color: var(--color-accent-green-dark);
+}
+
+.draft-subtab-count {
+  min-width: 18px;
+  padding: 0 5px;
+  border-radius: 999px;
+  background-color: var(--color-bg-primary);
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-xs);
+  line-height: 18px;
+  text-align: center;
+}
+
+.draft-subtabs button.active .draft-subtab-count {
+  background-color: var(--color-accent-green-dark);
+  color: var(--color-text-white);
+}
+
+.draft-available-table td.draft-available-name {
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+
+.draft-available-table td.draft-available-pts {
+  font-weight: 700;
+}
+
+/* ===== Mobile ===== */
+@media (max-width: 600px) {
+  .draft-page-container {
+    padding-left: var(--spacing-sm);
+    padding-right: var(--spacing-sm);
+  }
+
+  .draft-page-container .draft-hero h1 {
+    font-size: var(--font-size-3xl);
+  }
+
+  .draft-hero-lede {
+    font-size: var(--font-size-sm);
+  }
+
+  .draft-tabs {
+    flex-wrap: wrap;
+    border-radius: var(--radius-lg);
+  }
+
+  .draft-tabs button {
+    padding: 6px 10px;
+  }
+
+  .draft-panel {
+    padding: var(--spacing-xs) 6px;
+  }
+
+  .draft-ranking-inner {
+    padding: var(--spacing-sm);
+  }
+
+  .draft-ranking-row {
+    flex-wrap: wrap;
+  }
+
+  .draft-ranking-price,
+  .draft-ranking-points {
+    width: auto;
+  }
+
+  .draft-status-buttons {
+    width: 100%;
+    justify-content: flex-end;
+    padding-left: 0;
+  }
+
+  /* Too many stat columns for a phone: keep desktop proportions and scroll sideways inside the card */
+  .draft-available-table {
+    min-width: 660px;
+  }
+
+  .draft-page-container .draft-available-table tr > th,
+  .draft-page-container .draft-available-table tr > td {
+    padding-left: 4px;
+    padding-right: 4px;
+    font-size: 12px;
+  }
+
+  .draft-page-container .draft-available-table tr > th {
+    font-size: 10px;
+    letter-spacing: 0;
+  }
+}

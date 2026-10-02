@@ -742,6 +742,58 @@
   margin-bottom: var(--spacing-md);
 }
 
+.draft-pricing-note {
+  text-align: center;
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-xs);
+  margin: calc(-1 * var(--spacing-sm)) 0 var(--spacing-md);
+}
+
+.draft-live-mode-panel {
+  max-width: 640px;
+  margin: 0 auto var(--spacing-md);
+  padding: var(--spacing-sm) var(--spacing-md);
+  background-color: var(--color-bg-primary);
+  border: 1px solid var(--color-border-dark);
+  border-radius: var(--radius-md);
+}
+
+.draft-live-mode-panel label {
+  display: block;
+  font-size: var(--font-size-xs);
+  color: var(--color-text-secondary);
+  margin-bottom: var(--spacing-xs);
+}
+
+.draft-live-mode-panel label code {
+  font-size: inherit;
+}
+
+.draft-live-picks-input {
+  width: 100%;
+  box-sizing: border-box;
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: var(--font-size-sm);
+  padding: 6px 10px;
+  border: 1px solid var(--color-border-dark);
+  border-radius: var(--radius-sm);
+  background-color: var(--color-bg-secondary);
+  color: var(--color-text-primary);
+  resize: vertical;
+}
+
+.draft-live-status {
+  margin-top: var(--spacing-xs);
+  font-size: var(--font-size-xs);
+  color: var(--color-text-secondary);
+}
+
+.draft-live-errors {
+  margin: 4px 0 0;
+  padding-left: 18px;
+  color: var(--draft-red);
+}
+
 .draft-search-input {
   background-color: var(--color-bg-primary);
   border: 1px solid var(--color-border-dark);
@@ -828,17 +880,17 @@
 }
 
 /* Player gets a fixed share so Team/Pos/Price sit together right after it.
-   Percentages total ~94% so the fixed # and star columns keep their px width. */
+   Percentages total ~89% so the fixed # and star columns keep their px width. */
 .draft-available-table th.draft-col-web_name {
-  width: 27%;
+  width: 20%;
 }
 
 .draft-available-table th.draft-col-team {
-  width: 6%;
+  width: 5%;
 }
 
 .draft-available-table th.draft-col-element_type {
-  width: 7%;
+  width: 5%;
 }
 
 .draft-available-table th.draft-col-now_cost {
@@ -856,7 +908,15 @@
 .draft-available-table th.draft-col-clean_sheets,
 .draft-available-table th.draft-col-defcon_bonuses,
 .draft-available-table th.draft-col-bonus {
-  width: 5%;
+  width: 3%;
+}
+
+.draft-available-table th.draft-col-pre_price {
+  width: 7%;
+}
+
+.draft-available-table th.draft-col-live_price {
+  width: 8%;
 }
 
 /* Stat columns centre under their headers; groups (minutes | attacking | defensive | bonus | form + points)

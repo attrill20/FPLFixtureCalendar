@@ -128,7 +128,7 @@ export default function App() {
           <Route
             path="/draft"
             element={
-              <DraftPage mainData={mainData} />
+              <DraftPage mainData={mainData} teams={teamsData} fixturesData={fixturesData} />
             }
           />
         </Routes>

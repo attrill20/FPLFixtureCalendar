@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
 import "./DraftPage.css";
+import { supabase } from "../../supabaseClient";
 import { MANAGERS, DRAFT_EVENTS, TRANSACTIONS, computeOwnershipAsOf, draftReady } from "./draftData";
 import { fetchRanking, loadLocalRanking, saveRanking } from "./rankingStore";
 import { fetchWatchlist, loadLocalWatchlist, saveWatchlist } from "./watchlistStore";
@@ -66,6 +67,23 @@ const AVAILABLE_COLUMNS = [
     groupStart: true,
   },
   { key: "total_points", label: "Pts", value: (p) => p.total_points || 0, num: true },
+  {
+    key: "pre_price",
+    label: "Pre £",
+    title:
+      "Predicted Mini Draft 1 auction price before any picks: value-above-replacement, scaled across every unowned player and the full £500m budget. Fixed, so you can compare it against Live £ as the draft happens.",
+    value: (p) => p.prePrice || 0,
+    num: true,
+    groupStart: true,
+  },
+  {
+    key: "live_price",
+    label: "Live £",
+    title:
+      "Same method as Pre £, but re-run against whatever's actually left in Live Draft Mode — pool and budget shrink as picks come in, so this tracks the draft as it unfolds. Equal to Pre £ until you start entering picks.",
+    value: (p) => p.livePrice || 0,
+    num: true,
+  },
 ];
 
 // Current Squads table columns: click a header to sort every manager's card by it
@@ -93,14 +111,20 @@ const AVAILABILITY_ICONS = {
   unavailable: { label: "Unavailable", glyph: "!" },
 };
 
-const AvailabilityIcon = ({ status, news }) => {
-  let type = null;
-  if (status === "s") type = "suspended";
-  else if (status === "i") type = "injured";
-  else if (status === "d") type = "doubtful";
-  else if (status === "u" || status === "n") {
-    type = /joined|loan|left the club|departed|returned to|transferred/i.test(news || "") ? "left" : "unavailable";
+function getAvailabilityType(status, news) {
+  if (status === "s") return "suspended";
+  if (status === "i") return "injured";
+  if (status === "d") return "doubtful";
+  if (status === "u" || status === "n") {
+    return /joined|loan|left the club|departed|returned to|transferred/i.test(news || "")
+      ? "left"
+      : "unavailable";
   }
+  return null;
+}
+
+const AvailabilityIcon = ({ status, news }) => {
+  const type = getAvailabilityType(status, news);
   if (!type) return null;
 
   const { label, glyph } = AVAILABILITY_ICONS[type];
@@ -140,7 +164,253 @@ async function fetchDefconBonusCounts(eventIds) {
   });
   return counts;
 }
-const DraftPage = ({ mainData }) => {
+
+// --- Available-player pricing (draft-auction-helper skill) ---------------
+// Two predicted prices per available player, both value-above-replacement,
+// scaled so the whole pool sums to Mini Draft 1's total budget (£100m x 5
+// managers): "Pre £" is a fixed baseline across every unowned player and the
+// full £500m; "Live £" re-runs the same method against whatever Live Draft
+// Mode says is actually left, so the two can be compared as the draft
+// actually unfolds instead of just trusting a static pre-draft guess.
+const MINI_DRAFT_TOTAL_BUDGET = 100 * 5; // £100m budget x 5 managers
+const MINI_DRAFT_TOTAL_SLOTS = 5 * 5; // 5 managers x 5 new slots each
+// Rough share of a squad's 18 slots by position (CLAUDE.md's typical splits:
+// 2 GK, 6-7 DEF, 6-7 MID, 3-4 FWD), used only to pick each position's
+// replacement-level cutoff among the available pool.
+const POSITION_SHARE_OF_SLOTS = { 1: 0.11, 2: 0.36, 3: 0.36, 4: 0.17 };
+
+function availabilityMultiplier(status, news) {
+  switch (getAvailabilityType(status, news)) {
+    case "left":
+      return 0.05;
+    case "injured":
+      return 0.6;
+    case "unavailable":
+      return 0.7;
+    case "doubtful":
+      return 0.9;
+    case "suspended":
+      return 0.85;
+    default:
+      return 1;
+  }
+}
+
+function fixtureMultiplier(avgDifficulty) {
+  if (avgDifficulty == null) return 1;
+  return Math.min(1.15, Math.max(0.85, 1 + (5 - avgDifficulty) * 0.03));
+}
+
+// Team quality, independent of next-5-fixture ease above: MID/FWD lean on
+// attack rating (goal/assist environment), DEF/GK on defense rating (clean
+// sheet environment) — same h_/a_ FDR ratings as fixtureMultiplier, just the
+// player's own team's rating rather than their upcoming opponents'.
+function teamStrengthMultiplier(el, teamByTeamId) {
+  const team = teamByTeamId.get(el.team);
+  if (!team) return 1;
+  const attack = ((team.h_att ?? 5) + (team.a_att ?? 5)) / 2;
+  const defense = ((team.h_def ?? 5) + (team.a_def ?? 5)) / 2;
+  const relevant = el.element_type >= 3 ? attack : defense;
+  return Math.min(1.25, Math.max(0.8, 1 + (relevant - 5) * 0.035));
+}
+
+// Rewards nailed-on starters relative to rotation risks who happen to have a
+// similar scoring rate — a mild multiplier, not a replacement for actually
+// scoring points (hence the narrow 0.85-1.0 range).
+function reliabilityMultiplier(minutes, maxMinutes) {
+  if (!maxMinutes) return 1;
+  const share = Math.min(1, (minutes || 0) / maxMinutes);
+  return 0.85 + 0.15 * share;
+}
+
+// Builds element_code -> recency-weighted prior-seasons score from cached
+// element-summary `history_past` rows (api_cache, 2023/24-2025/26 so far).
+// Each season's total_points is scaled down if it came from a short/cameo
+// season (minutes < 2500), so one great-but-brief season isn't overweighted.
+function computePriorScoreByCode(historyPastRows) {
+  const byCode = new Map();
+  historyPastRows.forEach((entries) => {
+    (entries || []).forEach((h) => {
+      if (!h?.element_code) return;
+      if (!byCode.has(h.element_code)) byCode.set(h.element_code, []);
+      byCode.get(h.element_code).push(h);
+    });
+  });
+
+  const result = new Map();
+  byCode.forEach((entries, code) => {
+    const sorted = [...entries].sort((a, b) => (a.season_name < b.season_name ? 1 : -1));
+    let weightSum = 0;
+    let valueSum = 0;
+    sorted.slice(0, 3).forEach((h, i) => {
+      // A season's trust is recency x how much of it we actually saw — an
+      // injury-hit cameo season shouldn't outweigh two full healthy ones
+      // just for being the most recent; it should count for less of both.
+      const recencyWeight = 0.5 ** i;
+      const minutesConfidence = Math.min(1, (h.minutes || 0) / 2500);
+      const weight = recencyWeight * minutesConfidence;
+      valueSum += (h.total_points || 0) * weight;
+      weightSum += weight;
+    });
+    if (weightSum > 0) result.set(code, valueSum / weightSum);
+  });
+  return result;
+}
+
+// Blends this season's (multiplier-adjusted) score with a prior-seasons
+// score. No history at all -> untouched (a new signing could be anything).
+// A strong history lifts an underperforming-so-far player (proven quality
+// not yet shown in a tiny sample); a weak history only gently drags someone
+// down, since a breakout can be real improvement, not just noise. Both
+// effects fade out as this season's own sample grows.
+function blendWithHistory(currentScore, priorScore, minutesThisSeason) {
+  if (!priorScore) return currentScore;
+  const gamesPlayed = (minutesThisSeason || 0) / 90;
+  const fade = Math.min(1, gamesPlayed / 10); // fully current-season by ~10 games
+  const upWeight = 0.4 * (1 - fade);
+  const downWeight = 0.15 * (1 - fade);
+  return priorScore > currentScore
+    ? currentScore + (priorScore - currentScore) * upWeight
+    : currentScore - (currentScore - priorScore) * downWeight;
+}
+
+function playerStatScore(el) {
+  const form = parseFloat(el.form) || 0;
+  // Blend season-long proof (total_points) with current trajectory (form,
+  // annualized over ~38 GWs) so a hot streak or a cold patch both register.
+  return 0.5 * (el.total_points || 0) + 0.5 * (form * 38);
+}
+
+// --- Live Draft Mode parsing -----------------------------------------
+// Pasted lines look like "Haaland  162  Attrill" (tab- or space-separated,
+// manager name or alias last, price second-last, player name is everything
+// before that). This is local page state only — never written to Supabase;
+// the permanent record is still written by Claude via the Supabase MCP
+// tools once James confirms the event's results are final.
+function matchManager(name, managers) {
+  const q = name.trim().toLowerCase();
+  return managers.find(
+    (m) => m.name.toLowerCase() === q || (m.aliases || []).some((a) => a.toLowerCase() === q)
+  );
+}
+
+function matchPlayer(name, elements) {
+  const q = name.trim().toLowerCase();
+  let matches = elements.filter((el) => (el.web_name || "").toLowerCase() === q);
+  if (!matches.length) matches = elements.filter((el) => (el.second_name || "").toLowerCase() === q);
+  if (!matches.length) {
+    // Shorthand like "B.Fernandes" or "Bruno G." — first-initial + surname
+    const parts = q.replace(/\./g, "").split(/\s+/).filter(Boolean);
+    if (parts.length >= 2) {
+      const initial = parts[0][0];
+      const surname = parts.slice(1).join(" ");
+      matches = elements.filter(
+        (el) =>
+          (el.second_name || "").toLowerCase().startsWith(surname) &&
+          (el.first_name || "").toLowerCase().startsWith(initial)
+      );
+    }
+  }
+  return matches.length === 1 ? matches[0] : null;
+}
+
+function parseLivePicksText(text, elements, managers) {
+  return text
+    .split("\n")
+    .map((line) => line.trim())
+    .filter(Boolean)
+    .map((line) => {
+      const tokens = line.split(/\s+/).filter(Boolean);
+      if (tokens.length < 3) {
+        return { raw: line, error: "Expected: Player, Price, Manager" };
+      }
+      const managerToken = tokens[tokens.length - 1];
+      const priceToken = tokens[tokens.length - 2];
+      const playerName = tokens.slice(0, tokens.length - 2).join(" ");
+      const price = Number(priceToken);
+      if (!Number.isFinite(price)) {
+        return { raw: line, error: `Not a price: "${priceToken}"` };
+      }
+      const manager = matchManager(managerToken, managers);
+      if (!manager) {
+        return { raw: line, error: `No manager match: "${managerToken}"` };
+      }
+      const player = matchPlayer(playerName, elements);
+      if (!player) {
+        return { raw: line, error: `No single player match: "${playerName}"` };
+      }
+      return {
+        raw: line,
+        playerCode: player.code,
+        playerName: player.web_name,
+        price,
+        managerId: manager.id,
+      };
+    });
+}
+
+// Value-above-replacement price estimate for a pool of unowned/unsold players,
+// scaled so it sums to `budget` across `slots` remaining slots — see
+// .claude/skills/draft-auction-helper/SKILL.md (Step 5). Pure/stateless so it
+// can be run twice: once as a fixed pre-draft baseline, once live against
+// whatever Live Draft Mode has removed from the pool and the budget so far.
+function computeEstimates(
+  unowned,
+  avgDifficultyByTeamId,
+  teamByTeamId,
+  maxMinutes,
+  priorScoreByCode,
+  budget,
+  slots
+) {
+  const result = new Map();
+
+  const scored = unowned.map((el) => {
+    const currentScore =
+      playerStatScore(el) *
+      fixtureMultiplier(avgDifficultyByTeamId.get(el.team)) *
+      availabilityMultiplier(el.status, el.news) *
+      teamStrengthMultiplier(el, teamByTeamId) *
+      reliabilityMultiplier(el.minutes, maxMinutes);
+    return {
+      el,
+      score: blendWithHistory(currentScore, priorScoreByCode.get(el.code) || 0, el.minutes),
+    };
+  });
+
+  const byPosition = new Map();
+  scored.forEach((row) => {
+    const pos = row.el.element_type;
+    if (!byPosition.has(pos)) byPosition.set(pos, []);
+    byPosition.get(pos).push(row);
+  });
+
+  const replacementScoreByPosition = new Map();
+  byPosition.forEach((rows, pos) => {
+    const sorted = [...rows].sort((a, b) => b.score - a.score);
+    const share = POSITION_SHARE_OF_SLOTS[pos] || 0.25;
+    const replacementRank = Math.max(1, Math.round(slots * share));
+    const idx = Math.min(replacementRank, sorted.length) - 1;
+    replacementScoreByPosition.set(pos, sorted[idx]?.score || 0);
+  });
+
+  let totalVAR = 0;
+  const withVAR = scored.map((row) => {
+    const replacement = replacementScoreByPosition.get(row.el.element_type) || 0;
+    const valueAboveReplacement = Math.max(0, row.score - replacement);
+    totalVAR += valueAboveReplacement;
+    return { ...row, valueAboveReplacement };
+  });
+
+  withVAR.forEach(({ el, valueAboveReplacement }) => {
+    const price = totalVAR > 0 ? Math.round((valueAboveReplacement / totalVAR) * budget) : 0;
+    result.set(el.code, price);
+  });
+
+  return result;
+}
+
+const DraftPage = ({ mainData, teams: fdrTeams = [], fixturesData = [] }) => {
   const [activeTab, setActiveTab] = useState("squads");
   const [positionFilter, setPositionFilter] = useState("all");
   const [searchQuery, setSearchQuery] = useState("");
@@ -163,6 +433,9 @@ const DraftPage = ({ mainData }) => {
   const [savedRanking, setSavedRanking] = useState(null);
   const [rankingSaveState, setRankingSaveState] = useState("idle");
   const [confirmingReset, setConfirmingReset] = useState(false);
+  // Live Draft Mode: page-local only, never written to Supabase (see note above parseLivePicksText)
+  const [liveModeOn, setLiveModeOn] = useState(false);
+  const [livePicksText, setLivePicksText] = useState("");
 
   useEffect(() => {
     draftReady.then(() => setDataVersion((v) => v + 1));
@@ -277,6 +550,140 @@ const DraftPage = ({ mainData }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [enrichedOwnership, dataVersion]);
 
+  const teamByTeamId = useMemo(() => new Map(fdrTeams.map((t) => [t.id, t])), [fdrTeams]);
+
+  const maxMinutes = useMemo(
+    () => elements.reduce((max, el) => Math.max(max, el.minutes || 0), 0),
+    [elements]
+  );
+
+  // Prior-seasons score per player code, from cached element-summary
+  // `history_past` rows (api_cache) — fetched once on mount, not per render.
+  const [priorScoreByCode, setPriorScoreByCode] = useState(new Map());
+  useEffect(() => {
+    let cancelled = false;
+    supabase
+      .from("api_cache")
+      .select("history_past:data->history_past")
+      .like("endpoint", "%element-summary%")
+      .then(({ data, error }) => {
+        if (cancelled) return;
+        if (error) {
+          console.error("Failed to load player history from api_cache:", error.message);
+          return;
+        }
+        setPriorScoreByCode(computePriorScoreByCode((data || []).map((row) => row.history_past)));
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  // Average FDR difficulty of each team's next 5 unplayed fixtures, using the
+  // same opponent-strength convention as cardlist.js: a team's fixture
+  // difficulty is the OPPONENT's away rating when at home, or home rating
+  // when away.
+  const avgDifficultyByTeamId = useMemo(() => {
+    const map = new Map();
+    if (!fixturesData?.length || !teamByTeamId.size) return map;
+    const byTeam = new Map();
+    fixturesData
+      .filter((f) => !f.finished)
+      .forEach((f) => {
+        [
+          { teamId: f.team_h, home: true, oppId: f.team_a },
+          { teamId: f.team_a, home: false, oppId: f.team_h },
+        ].forEach(({ teamId, home, oppId }) => {
+          if (!byTeam.has(teamId)) byTeam.set(teamId, []);
+          byTeam.get(teamId).push({ event: f.event, home, oppId });
+        });
+      });
+    byTeam.forEach((fixtures, teamId) => {
+      const next = [...fixtures].sort((a, b) => (a.event || 999) - (b.event || 999)).slice(0, 5);
+      if (!next.length) return;
+      const total = next.reduce((sum, fx) => {
+        const opp = teamByTeamId.get(fx.oppId);
+        const diff = opp ? (fx.home ? opp.a_diff : opp.h_diff) : 5;
+        return sum + (diff || 5);
+      }, 0);
+      map.set(teamId, total / next.length);
+    });
+    return map;
+  }, [fixturesData, teamByTeamId]);
+
+  const livePicks = useMemo(
+    () => (liveModeOn ? parseLivePicksText(livePicksText, elements, MANAGERS) : []),
+    [liveModeOn, livePicksText, elements]
+  );
+  const liveValidPicks = useMemo(() => livePicks.filter((p) => !p.error), [livePicks]);
+  const liveSoldCodes = useMemo(
+    () => new Set(liveValidPicks.map((p) => p.playerCode)),
+    [liveValidPicks]
+  );
+  const liveSoldManagerByCode = useMemo(
+    () => new Map(liveValidPicks.map((p) => [p.playerCode, p.managerId])),
+    [liveValidPicks]
+  );
+  const liveSpend = useMemo(
+    () => liveValidPicks.reduce((sum, p) => sum + p.price, 0),
+    [liveValidPicks]
+  );
+
+  // Two predicted prices per player, both value-above-replacement (Step 5):
+  // "Pre £" is a fixed pre-draft baseline (every unowned player, full £500m/25
+  // slots) so it stays put for comparison; "Live £" re-runs the same method
+  // against whatever Live Draft Mode has actually removed from the pool and
+  // spent from the budget, so the two can be compared as the draft unfolds.
+  const pricedPool = useMemo(() => {
+    const result = new Map();
+    if (!elements.length) return result;
+
+    const persistedUnowned = elements.filter(
+      (el) => !(ownerByKey.get(`code:${el.code}`) ?? ownerByKey.get(`name:${el.web_name?.toLowerCase()}`))
+    );
+    const prePrices = computeEstimates(
+      persistedUnowned,
+      avgDifficultyByTeamId,
+      teamByTeamId,
+      maxMinutes,
+      priorScoreByCode,
+      MINI_DRAFT_TOTAL_BUDGET,
+      MINI_DRAFT_TOTAL_SLOTS
+    );
+
+    const stillAvailable = persistedUnowned.filter((el) => !liveSoldCodes.has(el.code));
+    const remainingBudget = Math.max(0, MINI_DRAFT_TOTAL_BUDGET - liveSpend);
+    const remainingSlots = Math.max(1, MINI_DRAFT_TOTAL_SLOTS - liveValidPicks.length);
+    const livePrices = computeEstimates(
+      stillAvailable,
+      avgDifficultyByTeamId,
+      teamByTeamId,
+      maxMinutes,
+      priorScoreByCode,
+      remainingBudget,
+      remainingSlots
+    );
+
+    persistedUnowned.forEach((el) => {
+      result.set(el.code, {
+        prePrice: prePrices.get(el.code) || 0,
+        livePrice: livePrices.get(el.code) || 0,
+      });
+    });
+
+    return result;
+  }, [
+    elements,
+    ownerByKey,
+    avgDifficultyByTeamId,
+    teamByTeamId,
+    maxMinutes,
+    priorScoreByCode,
+    liveSoldCodes,
+    liveSpend,
+    liveValidPicks.length,
+  ]);
+
   const availablePlayers = useMemo(() => {
     if (!elements.length) return [];
     const withOwners = elements.map((el) => ({
@@ -285,7 +692,13 @@ const DraftPage = ({ mainData }) => {
       // null until the gameweek live data arrives, then 0 for anyone who never earned it
       defconBonuses: defconBonusCounts ? defconBonusCounts.get(el.id) || 0 : null,
       ownerId:
-        ownerByKey.get(`code:${el.code}`) ?? ownerByKey.get(`name:${el.web_name?.toLowerCase()}`),
+        liveSoldManagerByCode.get(el.code) ??
+        ownerByKey.get(`code:${el.code}`) ??
+        ownerByKey.get(`name:${el.web_name?.toLowerCase()}`),
+      liveSold: liveSoldManagerByCode.has(el.code),
+      // Only ever set for players unowned as of before this draft — pricedPool
+      // prices that pool only (Pre £ fixed, Live £ shrinks as picks come in)
+      ...(pricedPool.get(el.code) || { prePrice: 0, livePrice: 0 }),
     }));
     const showingWatchlist = availableView === "watchlist";
     const query = searchQuery.trim().toLowerCase();
@@ -316,6 +729,8 @@ const DraftPage = ({ mainData }) => {
     teamShortNameById,
     defconBonusCounts,
     ownerByKey,
+    pricedPool,
+    liveSoldManagerByCode,
     includeDrafted,
     availableView,
     watchlistSet,
@@ -891,7 +1306,61 @@ const DraftPage = ({ mainData }) => {
                 {includeDrafted ? "Including drafted players" : "Excluding drafted players"}
               </button>
             )}
+            {availableView === "all" && (
+              <button
+                className={`draft-toggle-btn ${liveModeOn ? "on" : ""}`}
+                onClick={() => setLiveModeOn((v) => !v)}
+                aria-pressed={liveModeOn}
+              >
+                {liveModeOn ? "Live Draft Mode: on" : "Live Draft Mode: off"}
+              </button>
+            )}
           </div>
+
+          {availableView === "all" && elements.length > 0 && (
+            <p className="draft-pricing-note">
+              Pre £ and Live £ are both predicted Mini Draft 1 auction prices (£100m × 5 budget)
+              from current stats + fixtures — Pre £ is a fixed pre-draft baseline, Live £ re-runs
+              the same method against what Live Draft Mode says is actually left, so you can compare
+              them as the draft happens. Neither yet includes players managers might drop, since
+              drops aren't revealed until bidding starts.
+            </p>
+          )}
+
+          {availableView === "all" && liveModeOn && (
+            <div className="draft-live-mode-panel">
+              <label htmlFor="draft-live-picks">
+                Paste today's picks so far — one per line, <code>Player&nbsp;&nbsp;Price&nbsp;&nbsp;Manager</code>.
+                Nothing here is saved; it only recomputes Live £ for what's left as the draft happens.
+              </label>
+              <textarea
+                id="draft-live-picks"
+                className="draft-live-picks-input"
+                rows={4}
+                placeholder={"Haaland\t162\tAttrill\nSaka\t57\tEvil"}
+                value={livePicksText}
+                onChange={(e) => setLivePicksText(e.target.value)}
+              />
+              <div className="draft-live-status">
+                <span>
+                  {liveValidPicks.length} pick{liveValidPicks.length === 1 ? "" : "s"} applied — £
+                  {Math.max(0, MINI_DRAFT_TOTAL_BUDGET - liveSpend)}m left across{" "}
+                  {Math.max(0, MINI_DRAFT_TOTAL_SLOTS - liveValidPicks.length)} slots
+                </span>
+                {livePicks.some((p) => p.error) && (
+                  <ul className="draft-live-errors">
+                    {livePicks
+                      .filter((p) => p.error)
+                      .map((p, i) => (
+                        <li key={i}>
+                          "{p.raw}" — {p.error}
+                        </li>
+                      ))}
+                  </ul>
+                )}
+              </div>
+            </div>
+          )}
 
           {!elements.length ? (
             <p className="draft-empty-state">Loading FPL data...</p>
@@ -957,6 +1426,7 @@ const DraftPage = ({ mainData }) => {
                           {p.ownerId && (
                             <span className="draft-owner-tag">
                               {MANAGERS.find((m) => m.id === p.ownerId)?.name || p.ownerId}
+                              {p.liveSold ? " (live)" : ""}
                             </span>
                           )}
                         </td>
@@ -973,6 +1443,8 @@ const DraftPage = ({ mainData }) => {
                         <td className="num group-start">{p.bonus}</td>
                         <td className="num group-start">{p.form}</td>
                         <td className="num draft-available-pts">{p.total_points}</td>
+                        <td className="num group-start">£{p.prePrice || 0}m</td>
+                        <td className="num">£{p.livePrice || 0}m</td>
                       </tr>
                     ))}
                   </tbody>

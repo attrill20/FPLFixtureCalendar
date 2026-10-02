@@ -287,17 +287,27 @@ function playerStatScore(el) {
 // before that). This is local page state only — never written to Supabase;
 // the permanent record is still written by Claude via the Supabase MCP
 // tools once James confirms the event's results are final.
+// Soft match: fold case, strip diacritics, and expand ß -> ss so a plain
+// ASCII guess (e.g. "Gross") matches a name like "Groß".
+function normalizeName(str) {
+  return (str || "")
+    .toLowerCase()
+    .replace(/ß/g, "ss")
+    .normalize("NFD")
+    .replace(/[̀-ͯ]/g, "");
+}
+
 function matchManager(name, managers) {
-  const q = name.trim().toLowerCase();
+  const q = normalizeName(name.trim());
   return managers.find(
-    (m) => m.name.toLowerCase() === q || (m.aliases || []).some((a) => a.toLowerCase() === q)
+    (m) => normalizeName(m.name) === q || (m.aliases || []).some((a) => normalizeName(a) === q)
   );
 }
 
 function matchPlayer(name, elements) {
-  const q = name.trim().toLowerCase();
-  let matches = elements.filter((el) => (el.web_name || "").toLowerCase() === q);
-  if (!matches.length) matches = elements.filter((el) => (el.second_name || "").toLowerCase() === q);
+  const q = normalizeName(name.trim());
+  let matches = elements.filter((el) => normalizeName(el.web_name) === q);
+  if (!matches.length) matches = elements.filter((el) => normalizeName(el.second_name) === q);
   if (!matches.length) {
     // Shorthand like "B.Fernandes" or "Bruno G." — first-initial + surname
     const parts = q.replace(/\./g, "").split(/\s+/).filter(Boolean);
@@ -306,8 +316,8 @@ function matchPlayer(name, elements) {
       const surname = parts.slice(1).join(" ");
       matches = elements.filter(
         (el) =>
-          (el.second_name || "").toLowerCase().startsWith(surname) &&
-          (el.first_name || "").toLowerCase().startsWith(initial)
+          normalizeName(el.second_name).startsWith(surname) &&
+          normalizeName(el.first_name).startsWith(initial)
       );
     }
   }

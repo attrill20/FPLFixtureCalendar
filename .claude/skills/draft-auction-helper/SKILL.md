@@ -48,7 +48,7 @@ Saka    57    Evil
 or just a single line. Parse each as `PlayerName, Price, Manager`:
 
 - **Manager**: match against `draft_managers.name` or `aliases` (e.g. "Attrill" → james, "Evil"/"Ben" → ben).
-- **Player**: match against bootstrap-static `elements.web_name` first (case-insensitive). If that fails, try `second_name`, or a normalized "first-initial + second_name" match for shorthand like `B.Fernandes` or `Bruno G.` (strip periods, compare initials). If more than one plausible match, **ask James which one** rather than guessing — this becomes the permanent historical record later.
+- **Player**: match against bootstrap-static `elements.web_name` first, case- and diacritic-insensitive (`ß`→`ss`, accents stripped — "Gross" matches "Groß", same `normalizeName` as `DraftPage.js`'s Live Draft Mode parser). If that fails, try `second_name`, or a normalized "first-initial + second_name" match for shorthand like `B.Fernandes` or `Bruno G.` (strip periods, compare initials). If more than one plausible match, **ask James which one** rather than guessing — this becomes the permanent historical record later.
 - Treat these as `buy` actions for this event.
 
 Keep a running ledger for the rest of the conversation: each manager's spend and slots filled so far this event, and which players are now out of the pool. This ledger is conversation-only — nothing is written to Supabase until Step 5.

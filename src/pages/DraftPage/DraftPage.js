@@ -522,7 +522,8 @@ function computeEstimates(
     const totalValue = remaining.reduce((sum, row) => sum + row.valueAboveReplacement, 0);
     if (totalValue <= 0) break;
     const next = [];
-    remaining.forEach((row) => {
+    for (let i = 0; i < remaining.length; i++) {
+      const row = remaining[i];
       const share = (row.valueAboveReplacement / totalValue) * pool;
       if (share > MINI_DRAFT_MANAGER_BUDGET) {
         result.set(row.el.code, MINI_DRAFT_MANAGER_BUDGET);
@@ -531,7 +532,7 @@ function computeEstimates(
       } else {
         next.push(row);
       }
-    });
+    }
     remaining = next;
   }
   const totalValue = remaining.reduce((sum, row) => sum + row.valueAboveReplacement, 0);

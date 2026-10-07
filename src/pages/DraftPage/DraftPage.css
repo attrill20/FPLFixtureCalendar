@@ -729,8 +729,11 @@
 }
 
 /* ===== Available players ===== */
+/* Wide enough that the table (now 1041px with xG/xA + pricing columns) fits
+   without horizontal scroll on typical desktop widths. Caps on narrower
+   viewports via margin: 0 auto still apply — this only affects desktop. */
 .draft-available-section {
-  max-width: 1000px;
+  max-width: 1300px;
   margin: 0 auto;
 }
 
@@ -869,6 +872,18 @@
   background-color: var(--color-bg-secondary);
 }
 
+/* Percentages (not fixed px) so the table actually stretches to fill
+   .draft-available-section's width on desktop rather than leaving dead
+   space beside a fixed-width table. Proportions are carried over from a
+   px-per-column tuning pass (see git history) that confirmed each one is
+   wide enough for its content without labels/values running together —
+   these percentages preserve those ratios, just scaled to fill 100%.
+   Sums to ~89% so the fixed # and star columns keep their px width. */
+.draft-page-container .draft-available-table {
+  width: 100%;
+  table-layout: fixed;
+}
+
 .draft-available-table .draft-available-rank {
   width: 38px;
   color: var(--color-text-secondary);
@@ -879,8 +894,6 @@
   width: 28px;
 }
 
-/* Player gets a fixed share so Team/Pos/Price sit together right after it.
-   Percentages total ~89% so the fixed # and star columns keep their px width. */
 .draft-available-table th.draft-col-web_name {
   width: 20%;
 }
@@ -894,13 +907,13 @@
 }
 
 .draft-available-table th.draft-col-now_cost {
-  width: 8%;
+  width: 6%;
 }
 
 .draft-available-table th.draft-col-total_points,
 .draft-available-table th.draft-col-form,
 .draft-available-table th.draft-col-minutes {
-  width: 7%;
+  width: 5%;
 }
 
 .draft-available-table th.draft-col-goals_scored,
@@ -911,12 +924,17 @@
   width: 3%;
 }
 
+.draft-available-table th.draft-col-xg,
+.draft-available-table th.draft-col-xa {
+  width: 5%;
+}
+
 .draft-available-table th.draft-col-pre_price {
-  width: 7%;
+  width: 6%;
 }
 
 .draft-available-table th.draft-col-live_price {
-  width: 8%;
+  width: 7%;
 }
 
 /* Stat columns centre under their headers; groups (minutes | attacking | defensive | bonus | form + points)

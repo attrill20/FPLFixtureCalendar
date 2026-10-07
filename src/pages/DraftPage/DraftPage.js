@@ -37,6 +37,20 @@ const AVAILABLE_COLUMNS = [
   },
   { key: "assists", label: "A", title: "Assists", value: (p) => p.assists || 0, num: true },
   {
+    key: "xg",
+    label: "xG",
+    title: "Expected goals",
+    value: (p) => parseFloat(p.expected_goals) || 0,
+    num: true,
+  },
+  {
+    key: "xa",
+    label: "xA",
+    title: "Expected assists",
+    value: (p) => parseFloat(p.expected_assists) || 0,
+    num: true,
+  },
+  {
     key: "clean_sheets",
     label: "CS",
     title: "Clean sheets",
@@ -174,6 +188,9 @@ async function fetchDefconBonusCounts(eventIds) {
 // actually unfolds instead of just trusting a static pre-draft guess.
 const MINI_DRAFT_TOTAL_BUDGET = 100 * 5; // £100m budget x 5 managers
 const MINI_DRAFT_TOTAL_SLOTS = 5 * 5; // 5 managers x 5 new slots each
+// No single manager ever has more than this for one player, however the
+// pooled-budget VAR split comes out — clamp every price to it.
+const MINI_DRAFT_MANAGER_BUDGET = 100;
 // Rough share of a squad's 18 slots by position (CLAUDE.md's typical splits:
 // 2 GK, 6-7 DEF, 6-7 MID, 3-4 FWD), used only to pick each position's
 // replacement-level cutoff among the available pool.
@@ -212,6 +229,81 @@ function teamStrengthMultiplier(el, teamByTeamId) {
   const defense = ((team.h_def ?? 5) + (team.a_def ?? 5)) / 2;
   const relevant = el.element_type >= 3 ? attack : defense;
   return Math.min(1.25, Math.max(0.8, 1 + (relevant - 5) * 0.035));
+}
+
+// Current hot form from an older player is less likely to hold for a full
+// season — rotation, injury risk and decline all climb with age. GKs get a
+// higher threshold since they typically age more gracefully than outfielders.
+function ageMultiplier(birthDate, elementType) {
+  if (!birthDate) return 1;
+  const parsed = new Date(birthDate);
+  if (Number.isNaN(parsed.getTime())) return 1;
+  const ageYears = (Date.now() - parsed.getTime()) / (365.25 * 24 * 60 * 60 * 1000);
+
+  // Peak age window, full value, no discount either side of it. GKs get a
+  // later window — they mature and decline later than outfield players.
+  const isGK = elementType === 1;
+  const peakStart = isGK ? 25 : 22;
+  const peakEnd = isGK ? 35 : 32;
+
+  if (ageYears < peakStart) {
+    // Younger than peak: likely to be inconsistent, not yet the finished article
+    return Math.max(0.85, 1 - (peakStart - ageYears) * 0.025);
+  }
+  if (ageYears > peakEnd) {
+    // Older than peak: rotation/injury/decline risk climbs with age
+    return Math.max(0.85, 1 - (ageYears - peakEnd) * 0.02);
+  }
+  return 1;
+}
+
+// Regresses actual output toward underlying process (xG/xA for MID/FWD,
+// goals conceded vs xGC for GK/DEF) — overperforming the process pulls the
+// score back down (it's running hotter than the chances/process justify),
+// underperforming lifts it (positive regression is likely). Needs a minimum
+// amount of underlying data before it'll touch anything.
+// Attacking returns (goals+assists) vs xG+xA — applies to every outfield
+// position (DEF included: a defender's goals/assists are just as "lucky or
+// deserved" as an attacker's).
+function attackingLuckMultiplier(el) {
+  const expected = parseFloat(el.expected_goal_involvements) || 0;
+  if (expected < 0.5) return 1;
+  const actual = (el.goals_scored || 0) + (el.assists || 0);
+  const ratio = actual / expected;
+  return Math.min(1.25, Math.max(0.75, 1 - (ratio - 1) * 0.5));
+}
+
+// Goals conceded vs xGC — clean-sheet luck, GK/DEF only.
+function defensiveLuckMultiplier(el) {
+  const xGC = parseFloat(el.expected_goals_conceded) || 0;
+  if (xGC < 1) return 1;
+  const ratio = (el.goals_conceded || 0) / xGC;
+  return Math.min(1.25, Math.max(0.75, 1 + (ratio - 1) * 0.5));
+}
+
+function luckRegressionMultiplier(el) {
+  if (el.element_type === 3 || el.element_type === 4) return attackingLuckMultiplier(el);
+  if (el.element_type === 2) return attackingLuckMultiplier(el) * defensiveLuckMultiplier(el);
+  if (el.element_type === 1) return defensiveLuckMultiplier(el);
+  return 1;
+}
+
+// Penalties/free-kicks/corners are a repeatable source of returns
+// independent of current form — a small, flat reliability nudge.
+function setPieceMultiplier(el) {
+  const onSetPieces =
+    el.penalties_order === 1 || el.direct_freekicks_order === 1 || el.corners_and_indirect_freekicks_order === 1;
+  return onSetPieces ? 1.05 : 1;
+}
+
+// Separate from the minutes-volume reliabilityMultiplier above: this checks
+// the RATE at which played minutes come from actual starts (starts_per_90
+// near 1) vs frequent substitute cameos, which can hide rotation risk behind
+// an otherwise-decent total-minutes figure.
+function startsConsistencyMultiplier(el) {
+  const startsPer90 = parseFloat(el.starts_per_90);
+  if (!Number.isFinite(startsPer90) || !el.minutes) return 1;
+  return Math.min(1.05, Math.max(0.85, 0.85 + startsPer90 * 0.2));
 }
 
 // Rewards nailed-on starters relative to rotation risks who happen to have a
@@ -381,7 +473,11 @@ function computeEstimates(
       fixtureMultiplier(avgDifficultyByTeamId.get(el.team)) *
       availabilityMultiplier(el.status, el.news) *
       teamStrengthMultiplier(el, teamByTeamId) *
-      reliabilityMultiplier(el.minutes, maxMinutes);
+      reliabilityMultiplier(el.minutes, maxMinutes) *
+      ageMultiplier(el.birth_date, el.element_type) *
+      luckRegressionMultiplier(el) *
+      setPieceMultiplier(el) *
+      startsConsistencyMultiplier(el);
     return {
       el,
       score: blendWithHistory(currentScore, priorScoreByCode.get(el.code) || 0, el.minutes),
@@ -404,17 +500,43 @@ function computeEstimates(
     replacementScoreByPosition.set(pos, sorted[idx]?.score || 0);
   });
 
-  let totalVAR = 0;
   const withVAR = scored.map((row) => {
     const replacement = replacementScoreByPosition.get(row.el.element_type) || 0;
-    const valueAboveReplacement = Math.max(0, row.score - replacement);
-    totalVAR += valueAboveReplacement;
-    return { ...row, valueAboveReplacement };
+    return { ...row, valueAboveReplacement: Math.max(0, row.score - replacement) };
   });
 
-  withVAR.forEach(({ el, valueAboveReplacement }) => {
-    const price = totalVAR > 0 ? Math.round((valueAboveReplacement / totalVAR) * budget) : 0;
-    result.set(el.code, price);
+  // Split `budget` proportionally to VAR, but no single player can ever be
+  // worth more than one manager's whole budget — cap at MINI_DRAFT_MANAGER_
+  // BUDGET and push the excess back into the pool for everyone else, so the
+  // total still sums to `budget` instead of just vanishing at the cap.
+  // Iterative because capping one player can push another over the cap too.
+  let pool = budget;
+  let remaining = withVAR.filter((row) => row.valueAboveReplacement > 0);
+  withVAR
+    .filter((row) => row.valueAboveReplacement <= 0)
+    .forEach((row) => result.set(row.el.code, 0));
+
+  let capped = true;
+  while (capped && remaining.length) {
+    capped = false;
+    const totalValue = remaining.reduce((sum, row) => sum + row.valueAboveReplacement, 0);
+    if (totalValue <= 0) break;
+    const next = [];
+    remaining.forEach((row) => {
+      const share = (row.valueAboveReplacement / totalValue) * pool;
+      if (share > MINI_DRAFT_MANAGER_BUDGET) {
+        result.set(row.el.code, MINI_DRAFT_MANAGER_BUDGET);
+        pool -= MINI_DRAFT_MANAGER_BUDGET;
+        capped = true;
+      } else {
+        next.push(row);
+      }
+    });
+    remaining = next;
+  }
+  const totalValue = remaining.reduce((sum, row) => sum + row.valueAboveReplacement, 0);
+  remaining.forEach((row) => {
+    result.set(row.el.code, totalValue > 0 ? Math.round((row.valueAboveReplacement / totalValue) * pool) : 0);
   });
 
   return result;
@@ -1448,6 +1570,8 @@ const DraftPage = ({ mainData, teams: fdrTeams = [], fixturesData = [] }) => {
                         <td className="num group-start">{p.minutes}</td>
                         <td className="num group-start">{p.goals_scored}</td>
                         <td className="num">{p.assists}</td>
+                        <td className="num">{(parseFloat(p.expected_goals) || 0).toFixed(2)}</td>
+                        <td className="num">{(parseFloat(p.expected_assists) || 0).toFixed(2)}</td>
                         <td className="num group-start">{p.clean_sheets}</td>
                         <td className="num">{p.defconBonuses ?? "…"}</td>
                         <td className="num group-start">{p.bonus}</td>

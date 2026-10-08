@@ -390,13 +390,6 @@ function normalizeName(str) {
     .replace(/[̀-ͯ]/g, "");
 }
 
-function matchManager(name, managers) {
-  const q = normalizeName(name.trim());
-  return managers.find(
-    (m) => normalizeName(m.name) === q || (m.aliases || []).some((a) => normalizeName(a) === q)
-  );
-}
-
 function matchPlayer(name, elements) {
   const q = normalizeName(name.trim());
   let matches = elements.filter((el) => normalizeName(el.web_name) === q);
@@ -417,38 +410,29 @@ function matchPlayer(name, elements) {
   return matches.length === 1 ? matches[0] : null;
 }
 
-function parseLivePicksText(text, elements, managers) {
+// Each manager has their own box now, so a line is just "Player  Price" —
+// no manager column to parse, that's implicit from whose box it's typed in.
+function parseManagerPicks(text, elements) {
   return text
     .split("\n")
     .map((line) => line.trim())
     .filter(Boolean)
     .map((line) => {
       const tokens = line.split(/\s+/).filter(Boolean);
-      if (tokens.length < 3) {
-        return { raw: line, error: "Expected: Player, Price, Manager" };
+      if (tokens.length < 2) {
+        return { raw: line, error: "Expected: Player, Price" };
       }
-      const managerToken = tokens[tokens.length - 1];
-      const priceToken = tokens[tokens.length - 2];
-      const playerName = tokens.slice(0, tokens.length - 2).join(" ");
+      const priceToken = tokens[tokens.length - 1];
+      const playerName = tokens.slice(0, tokens.length - 1).join(" ");
       const price = Number(priceToken);
       if (!Number.isFinite(price)) {
         return { raw: line, error: `Not a price: "${priceToken}"` };
-      }
-      const manager = matchManager(managerToken, managers);
-      if (!manager) {
-        return { raw: line, error: `No manager match: "${managerToken}"` };
       }
       const player = matchPlayer(playerName, elements);
       if (!player) {
         return { raw: line, error: `No single player match: "${playerName}"` };
       }
-      return {
-        raw: line,
-        playerCode: player.code,
-        playerName: player.web_name,
-        price,
-        managerId: manager.id,
-      };
+      return { raw: line, playerCode: player.code, playerName: player.web_name, price };
     });
 }
 
@@ -568,8 +552,9 @@ const DraftPage = ({ mainData, teams: fdrTeams = [], fixturesData = [] }) => {
   const [rankingSaveState, setRankingSaveState] = useState("idle");
   const [confirmingReset, setConfirmingReset] = useState(false);
   // Live Draft Mode: page-local only, never written to Supabase (see note above
-  // parseLivePicksText) — but kept in localStorage (this device only) so an
-  // accidental refresh mid-draft doesn't lose what's been typed in.
+  // parseManagerPicks) — but kept in localStorage (this device only) so an
+  // accidental refresh mid-draft doesn't lose what's been typed in. One text
+  // block per manager, keyed by manager id — each manager has their own box.
   const [liveModeOn, setLiveModeOn] = useState(() => {
     try {
       return localStorage.getItem("draft-live-mode-on") === "true";
@@ -577,11 +562,13 @@ const DraftPage = ({ mainData, teams: fdrTeams = [], fixturesData = [] }) => {
       return false;
     }
   });
-  const [livePicksText, setLivePicksText] = useState(() => {
+  const [livePicksByManager, setLivePicksByManager] = useState(() => {
     try {
-      return localStorage.getItem("draft-live-picks-text") || "";
+      const raw = localStorage.getItem("draft-live-picks-by-manager");
+      const parsed = raw ? JSON.parse(raw) : null;
+      return parsed && typeof parsed === "object" ? parsed : {};
     } catch {
-      return "";
+      return {};
     }
   });
 
@@ -595,11 +582,11 @@ const DraftPage = ({ mainData, teams: fdrTeams = [], fixturesData = [] }) => {
 
   useEffect(() => {
     try {
-      localStorage.setItem("draft-live-picks-text", livePicksText);
+      localStorage.setItem("draft-live-picks-by-manager", JSON.stringify(livePicksByManager));
     } catch {
       // localStorage unavailable — Live Draft Mode still works, just won't survive a refresh
     }
-  }, [livePicksText]);
+  }, [livePicksByManager]);
 
   useEffect(() => {
     draftReady.then(() => setDataVersion((v) => v + 1));
@@ -775,10 +762,12 @@ const DraftPage = ({ mainData, teams: fdrTeams = [], fixturesData = [] }) => {
     return map;
   }, [fixturesData, teamByTeamId]);
 
-  const livePicks = useMemo(
-    () => (liveModeOn ? parseLivePicksText(livePicksText, elements, MANAGERS) : []),
-    [liveModeOn, livePicksText, elements]
-  );
+  const livePicks = useMemo(() => {
+    if (!liveModeOn) return [];
+    return MANAGERS.flatMap((m) =>
+      parseManagerPicks(livePicksByManager[m.id] || "", elements).map((p) => ({ ...p, managerId: m.id }))
+    );
+  }, [liveModeOn, livePicksByManager, elements]);
   const liveValidPicks = useMemo(() => livePicks.filter((p) => !p.error), [livePicks]);
   const liveSoldCodes = useMemo(
     () => new Set(liveValidPicks.map((p) => p.playerCode)),
@@ -795,20 +784,22 @@ const DraftPage = ({ mainData, teams: fdrTeams = [], fixturesData = [] }) => {
 
   // Per-manager Mini Draft board: each manager has exactly MINI_DRAFT_SLOTS_
   // PER_MANAGER slots and MINI_DRAFT_MANAGER_BUDGET to fill them — shown as
-  // picks-so-far padded with empty slots, not just an aggregate line.
+  // picks-so-far padded with empty slots, plus that manager's own parse errors.
   const liveBoard = useMemo(
     () =>
       MANAGERS.map((manager) => {
         const picks = liveValidPicks.filter((p) => p.managerId === manager.id);
+        const errors = livePicks.filter((p) => p.managerId === manager.id && p.error);
         const spent = picks.reduce((sum, p) => sum + p.price, 0);
         return {
           manager,
           picks,
+          errors,
           spent,
           remaining: Math.max(0, MINI_DRAFT_MANAGER_BUDGET - spent),
         };
       }),
-    [liveValidPicks]
+    [liveValidPicks, livePicks]
   );
 
   // Two predicted prices per player, both value-above-replacement (Step 5):
@@ -1511,21 +1502,13 @@ const DraftPage = ({ mainData, teams: fdrTeams = [], fixturesData = [] }) => {
 
           {availableView === "all" && liveModeOn && (
             <div className="draft-live-mode-panel">
-              <label htmlFor="draft-live-picks">
-                Paste today's picks so far — one per line, <code>Player&nbsp;&nbsp;Price&nbsp;&nbsp;Manager</code>.
+              <p className="draft-live-board-intro">
+                Type each manager's picks in their own box — one per line, <code>Player&nbsp;&nbsp;Price</code>.
                 Kept on this device only (survives a refresh, never sent to Supabase); it recomputes Live £
                 for what's left as the draft happens.
-              </label>
-              <textarea
-                id="draft-live-picks"
-                className="draft-live-picks-input"
-                rows={4}
-                placeholder={"Haaland\t162\tAttrill\nSaka\t57\tEvil"}
-                value={livePicksText}
-                onChange={(e) => setLivePicksText(e.target.value)}
-              />
+              </p>
               <div className="draft-live-board">
-                {liveBoard.map(({ manager, picks, spent, remaining }) => (
+                {liveBoard.map(({ manager, picks, errors, spent, remaining }) => (
                   <div className="draft-live-board-manager" key={manager.id}>
                     <div className="draft-live-board-header">
                       <span className="draft-live-board-name">{manager.name}</span>
@@ -1533,6 +1516,24 @@ const DraftPage = ({ mainData, teams: fdrTeams = [], fixturesData = [] }) => {
                         £{remaining}m left{spent > 0 ? ` (of £${MINI_DRAFT_MANAGER_BUDGET}m)` : ""}
                       </span>
                     </div>
+                    <textarea
+                      className="draft-live-board-input"
+                      rows={MINI_DRAFT_SLOTS_PER_MANAGER}
+                      placeholder={"Haaland\t162"}
+                      value={livePicksByManager[manager.id] || ""}
+                      onChange={(e) =>
+                        setLivePicksByManager((prev) => ({ ...prev, [manager.id]: e.target.value }))
+                      }
+                    />
+                    {errors.length > 0 && (
+                      <ul className="draft-live-board-errors">
+                        {errors.map((p, i) => (
+                          <li key={i}>
+                            "{p.raw}" — {p.error}
+                          </li>
+                        ))}
+                      </ul>
+                    )}
                     <ol className="draft-live-board-slots">
                       {Array.from({ length: MINI_DRAFT_SLOTS_PER_MANAGER }).map((_, i) => {
                         const pick = picks[i];
@@ -1565,17 +1566,6 @@ const DraftPage = ({ mainData, teams: fdrTeams = [], fixturesData = [] }) => {
                   {Math.max(0, MINI_DRAFT_TOTAL_BUDGET - liveSpend)}m left league-wide across{" "}
                   {Math.max(0, MINI_DRAFT_TOTAL_SLOTS - liveValidPicks.length)} slots
                 </span>
-                {livePicks.some((p) => p.error) && (
-                  <ul className="draft-live-errors">
-                    {livePicks
-                      .filter((p) => p.error)
-                      .map((p, i) => (
-                        <li key={i}>
-                          "{p.raw}" — {p.error}
-                        </li>
-                      ))}
-                  </ul>
-                )}
               </div>
             </div>
           )}

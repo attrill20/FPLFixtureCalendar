@@ -837,40 +837,41 @@
   color: var(--draft-red);
 }
 
-.draft-live-mode-panel label {
-  display: block;
+.draft-live-board-intro {
   font-size: var(--font-size-xs);
   color: var(--color-text-secondary);
-  margin-bottom: var(--spacing-xs);
+  margin: 0 0 var(--spacing-xs);
 }
 
-.draft-live-mode-panel label code {
+.draft-live-board-intro code {
   font-size: inherit;
 }
 
-.draft-live-picks-input {
+.draft-live-board-input {
   width: 100%;
   box-sizing: border-box;
   font-family: ui-monospace, "SF Mono", Menlo, monospace;
-  font-size: var(--font-size-sm);
-  padding: 6px 10px;
+  font-size: var(--font-size-xs);
+  padding: 4px 6px;
   border: 1px solid var(--color-border-dark);
   border-radius: var(--radius-sm);
   background-color: var(--color-bg-secondary);
   color: var(--color-text-primary);
   resize: vertical;
+  margin-bottom: 4px;
+}
+
+.draft-live-board-errors {
+  margin: 0 0 4px;
+  padding-left: 16px;
+  font-size: var(--font-size-xs);
+  color: var(--draft-red);
 }
 
 .draft-live-status {
   margin-top: var(--spacing-xs);
   font-size: var(--font-size-xs);
   color: var(--color-text-secondary);
-}
-
-.draft-live-errors {
-  margin: 4px 0 0;
-  padding-left: 18px;
-  color: var(--draft-red);
 }
 
 .draft-search-input {

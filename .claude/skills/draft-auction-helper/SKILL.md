@@ -36,7 +36,7 @@ A **Main Draft** wipes all 90 slots (5 × 18) and rebuilds from scratch — the 
 
 ## Step 3 — Track live picks as James pastes them
 
-**The Available Players tab on `/draft` already does this itself** via its "Live Draft Mode" toggle (`src/pages/DraftPage/DraftPage.js`) — James can paste picks straight into a textarea there and the Live £ column recomputes (Pre £ stays fixed for comparison), no chat needed. That panel is page-local state only (never written to Supabase) and uses the same parsing rules described below (`parseLivePicksText`/`matchPlayer`/`matchManager` in `DraftPage.js`).
+**The Available Players tab on `/draft` already does this itself** via its "Live Draft Mode" toggle (`src/pages/DraftPage/DraftPage.js`) — James can paste picks straight into a textarea there and the Live £ column recomputes (Pre £ stays fixed for comparison), no chat needed. It also renders a 5-manager board (`liveBoard`) showing each manager's remaining budget and their 5 slots filled in as picks come in, padded with empty slots — not just an aggregate line. That panel is page-local state only (persisted to `localStorage` on this device so a refresh mid-draft doesn't lose it, but never written to Supabase) and uses the same parsing rules described below (`parseLivePicksText`/`matchPlayer`/`matchManager` in `DraftPage.js`).
 
 In chat, he may still paste snippets directly to you instead (e.g. while away from the page), one or many lines, tab- or space-separated, in whatever order they happened:
 

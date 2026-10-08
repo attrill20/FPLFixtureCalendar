@@ -186,8 +186,9 @@ async function fetchDefconBonusCounts(eventIds) {
 // full £500m; "Live £" re-runs the same method against whatever Live Draft
 // Mode says is actually left, so the two can be compared as the draft
 // actually unfolds instead of just trusting a static pre-draft guess.
+const MINI_DRAFT_SLOTS_PER_MANAGER = 5;
 const MINI_DRAFT_TOTAL_BUDGET = 100 * 5; // £100m budget x 5 managers
-const MINI_DRAFT_TOTAL_SLOTS = 5 * 5; // 5 managers x 5 new slots each
+const MINI_DRAFT_TOTAL_SLOTS = MINI_DRAFT_SLOTS_PER_MANAGER * 5; // 5 managers x 5 new slots each
 // No single manager ever has more than this for one player, however the
 // pooled-budget VAR split comes out — clamp every price to it.
 const MINI_DRAFT_MANAGER_BUDGET = 100;
@@ -789,6 +790,24 @@ const DraftPage = ({ mainData, teams: fdrTeams = [], fixturesData = [] }) => {
   );
   const liveSpend = useMemo(
     () => liveValidPicks.reduce((sum, p) => sum + p.price, 0),
+    [liveValidPicks]
+  );
+
+  // Per-manager Mini Draft board: each manager has exactly MINI_DRAFT_SLOTS_
+  // PER_MANAGER slots and MINI_DRAFT_MANAGER_BUDGET to fill them — shown as
+  // picks-so-far padded with empty slots, not just an aggregate line.
+  const liveBoard = useMemo(
+    () =>
+      MANAGERS.map((manager) => {
+        const picks = liveValidPicks.filter((p) => p.managerId === manager.id);
+        const spent = picks.reduce((sum, p) => sum + p.price, 0);
+        return {
+          manager,
+          picks,
+          spent,
+          remaining: Math.max(0, MINI_DRAFT_MANAGER_BUDGET - spent),
+        };
+      }),
     [liveValidPicks]
   );
 
@@ -1494,7 +1513,8 @@ const DraftPage = ({ mainData, teams: fdrTeams = [], fixturesData = [] }) => {
             <div className="draft-live-mode-panel">
               <label htmlFor="draft-live-picks">
                 Paste today's picks so far — one per line, <code>Player&nbsp;&nbsp;Price&nbsp;&nbsp;Manager</code>.
-                Nothing here is saved; it only recomputes Live £ for what's left as the draft happens.
+                Kept on this device only (survives a refresh, never sent to Supabase); it recomputes Live £
+                for what's left as the draft happens.
               </label>
               <textarea
                 id="draft-live-picks"
@@ -1504,10 +1524,45 @@ const DraftPage = ({ mainData, teams: fdrTeams = [], fixturesData = [] }) => {
                 value={livePicksText}
                 onChange={(e) => setLivePicksText(e.target.value)}
               />
+              <div className="draft-live-board">
+                {liveBoard.map(({ manager, picks, spent, remaining }) => (
+                  <div className="draft-live-board-manager" key={manager.id}>
+                    <div className="draft-live-board-header">
+                      <span className="draft-live-board-name">{manager.name}</span>
+                      <span className="draft-live-board-budget">
+                        £{remaining}m left{spent > 0 ? ` (of £${MINI_DRAFT_MANAGER_BUDGET}m)` : ""}
+                      </span>
+                    </div>
+                    <ol className="draft-live-board-slots">
+                      {Array.from({ length: MINI_DRAFT_SLOTS_PER_MANAGER }).map((_, i) => {
+                        const pick = picks[i];
+                        return (
+                          <li key={i} className={pick ? "filled" : "empty"}>
+                            {pick ? (
+                              <>
+                                <span className="draft-live-board-player">{pick.playerName}</span>
+                                <span className="draft-live-board-price">£{pick.price}m</span>
+                              </>
+                            ) : (
+                              <span className="draft-live-board-player draft-live-board-tbd">—</span>
+                            )}
+                          </li>
+                        );
+                      })}
+                    </ol>
+                    {picks.length > MINI_DRAFT_SLOTS_PER_MANAGER && (
+                      <p className="draft-live-board-overflow">
+                        +{picks.length - MINI_DRAFT_SLOTS_PER_MANAGER} more than the usual 5 — check for a
+                        duplicate/typo'd line
+                      </p>
+                    )}
+                  </div>
+                ))}
+              </div>
               <div className="draft-live-status">
                 <span>
                   {liveValidPicks.length} pick{liveValidPicks.length === 1 ? "" : "s"} applied — £
-                  {Math.max(0, MINI_DRAFT_TOTAL_BUDGET - liveSpend)}m left across{" "}
+                  {Math.max(0, MINI_DRAFT_TOTAL_BUDGET - liveSpend)}m left league-wide across{" "}
                   {Math.max(0, MINI_DRAFT_TOTAL_SLOTS - liveValidPicks.length)} slots
                 </span>
                 {livePicks.some((p) => p.error) && (

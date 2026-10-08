@@ -410,30 +410,29 @@ function matchPlayer(name, elements) {
   return matches.length === 1 ? matches[0] : null;
 }
 
-// Each manager has their own box now, so a line is just "Player  Price" —
-// no manager column to parse, that's implicit from whose box it's typed in.
-function parseManagerPicks(text, elements) {
-  return text
-    .split("\n")
-    .map((line) => line.trim())
-    .filter(Boolean)
-    .map((line) => {
-      const tokens = line.split(/\s+/).filter(Boolean);
-      if (tokens.length < 2) {
-        return { raw: line, error: "Expected: Player, Price" };
-      }
-      const priceToken = tokens[tokens.length - 1];
-      const playerName = tokens.slice(0, tokens.length - 1).join(" ");
-      const price = Number(priceToken);
-      if (!Number.isFinite(price)) {
-        return { raw: line, error: `Not a price: "${priceToken}"` };
-      }
-      const player = matchPlayer(playerName, elements);
-      if (!player) {
-        return { raw: line, error: `No single player match: "${playerName}"` };
-      }
-      return { raw: line, playerCode: player.code, playerName: player.web_name, price };
-    });
+const EMPTY_LIVE_SLOT = { player: "", price: "" };
+const EMPTY_LIVE_SLOTS = Array.from({ length: MINI_DRAFT_SLOTS_PER_MANAGER }, () => EMPTY_LIVE_SLOT);
+
+function getManagerSlotsFrom(liveSlotsByManager, managerId) {
+  const slots = liveSlotsByManager[managerId];
+  return Array.isArray(slots) && slots.length === MINI_DRAFT_SLOTS_PER_MANAGER ? slots : EMPTY_LIVE_SLOTS;
+}
+
+// A manager's 5 slots are now two discrete fields each (player, price), not a
+// free-typed line — no manager column needed either way, that's implicit from
+// whose 5 slots these are. Returns null for a genuinely empty/untouched slot.
+function parseLiveSlot(slot, elements) {
+  const playerText = (slot.player || "").trim();
+  const priceText = (slot.price || "").trim();
+  if (!playerText && !priceText) return null;
+  if (!playerText) return { error: "Missing player name" };
+  const price = Number(priceText);
+  if (priceText === "" || !Number.isFinite(price)) {
+    return { error: `Not a price: "${priceText || "blank"}"` };
+  }
+  const player = matchPlayer(playerText, elements);
+  if (!player) return { error: `No single player match: "${playerText}"` };
+  return { playerCode: player.code, playerName: player.web_name, price };
 }
 
 // Value-above-replacement price estimate for a pool of unowned/unsold players,
@@ -552,9 +551,10 @@ const DraftPage = ({ mainData, teams: fdrTeams = [], fixturesData = [] }) => {
   const [rankingSaveState, setRankingSaveState] = useState("idle");
   const [confirmingReset, setConfirmingReset] = useState(false);
   // Live Draft Mode: page-local only, never written to Supabase (see note above
-  // parseManagerPicks) — but kept in localStorage (this device only) so an
-  // accidental refresh mid-draft doesn't lose what's been typed in. One text
-  // block per manager, keyed by manager id — each manager has their own box.
+  // parseLiveSlot) — but kept in localStorage (this device only) so an
+  // accidental refresh mid-draft doesn't lose what's been typed in. Exactly
+  // MINI_DRAFT_SLOTS_PER_MANAGER {player, price} slots per manager, keyed by
+  // manager id — each manager has their own 5 rows.
   const [liveModeOn, setLiveModeOn] = useState(() => {
     try {
       return localStorage.getItem("draft-live-mode-on") === "true";
@@ -562,15 +562,25 @@ const DraftPage = ({ mainData, teams: fdrTeams = [], fixturesData = [] }) => {
       return false;
     }
   });
-  const [livePicksByManager, setLivePicksByManager] = useState(() => {
+  const [liveSlotsByManager, setLiveSlotsByManager] = useState(() => {
     try {
-      const raw = localStorage.getItem("draft-live-picks-by-manager");
+      const raw = localStorage.getItem("draft-live-slots-by-manager");
       const parsed = raw ? JSON.parse(raw) : null;
       return parsed && typeof parsed === "object" ? parsed : {};
     } catch {
       return {};
     }
   });
+
+  const getManagerSlots = (managerId) => getManagerSlotsFrom(liveSlotsByManager, managerId);
+
+  const updateLiveSlot = (managerId, index, field, value) => {
+    setLiveSlotsByManager((prev) => {
+      const current = getManagerSlotsFrom(prev, managerId);
+      const next = current.map((s, i) => (i === index ? { ...s, [field]: value } : s));
+      return { ...prev, [managerId]: next };
+    });
+  };
 
   useEffect(() => {
     try {
@@ -582,11 +592,11 @@ const DraftPage = ({ mainData, teams: fdrTeams = [], fixturesData = [] }) => {
 
   useEffect(() => {
     try {
-      localStorage.setItem("draft-live-picks-by-manager", JSON.stringify(livePicksByManager));
+      localStorage.setItem("draft-live-slots-by-manager", JSON.stringify(liveSlotsByManager));
     } catch {
       // localStorage unavailable — Live Draft Mode still works, just won't survive a refresh
     }
-  }, [livePicksByManager]);
+  }, [liveSlotsByManager]);
 
   useEffect(() => {
     draftReady.then(() => setDataVersion((v) => v + 1));
@@ -762,12 +772,28 @@ const DraftPage = ({ mainData, teams: fdrTeams = [], fixturesData = [] }) => {
     return map;
   }, [fixturesData, teamByTeamId]);
 
+  // Each manager's 5 slots parsed independently — null for an untouched slot,
+  // {error} for a slot with something in it that doesn't resolve, otherwise a
+  // resolved {playerCode, playerName, price}.
+  const parsedSlotsByManager = useMemo(() => {
+    const result = {};
+    if (!liveModeOn) return result;
+    MANAGERS.forEach((m) => {
+      result[m.id] = getManagerSlots(m.id).map((slot) => parseLiveSlot(slot, elements));
+    });
+    return result;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [liveModeOn, liveSlotsByManager, elements]);
+
   const livePicks = useMemo(() => {
-    if (!liveModeOn) return [];
-    return MANAGERS.flatMap((m) =>
-      parseManagerPicks(livePicksByManager[m.id] || "", elements).map((p) => ({ ...p, managerId: m.id }))
-    );
-  }, [liveModeOn, livePicksByManager, elements]);
+    const list = [];
+    MANAGERS.forEach((m) => {
+      (parsedSlotsByManager[m.id] || []).forEach((parsed) => {
+        if (parsed) list.push({ ...parsed, managerId: m.id });
+      });
+    });
+    return list;
+  }, [parsedSlotsByManager]);
   const liveValidPicks = useMemo(() => livePicks.filter((p) => !p.error), [livePicks]);
   const liveSoldCodes = useMemo(
     () => new Set(liveValidPicks.map((p) => p.playerCode)),
@@ -782,24 +808,24 @@ const DraftPage = ({ mainData, teams: fdrTeams = [], fixturesData = [] }) => {
     [liveValidPicks]
   );
 
-  // Per-manager Mini Draft board: each manager has exactly MINI_DRAFT_SLOTS_
-  // PER_MANAGER slots and MINI_DRAFT_MANAGER_BUDGET to fill them — shown as
-  // picks-so-far padded with empty slots, plus that manager's own parse errors.
+  // Per-manager Mini Draft board: 5 slots and MINI_DRAFT_MANAGER_BUDGET each,
+  // rendered directly from their own slot inputs + parse results.
   const liveBoard = useMemo(
     () =>
       MANAGERS.map((manager) => {
-        const picks = liveValidPicks.filter((p) => p.managerId === manager.id);
-        const errors = livePicks.filter((p) => p.managerId === manager.id && p.error);
-        const spent = picks.reduce((sum, p) => sum + p.price, 0);
+        const slots = getManagerSlots(manager.id);
+        const parsedSlots = parsedSlotsByManager[manager.id] || [];
+        const spent = parsedSlots.reduce((sum, p) => sum + (p && !p.error ? p.price : 0), 0);
         return {
           manager,
-          picks,
-          errors,
+          slots,
+          parsedSlots,
           spent,
           remaining: Math.max(0, MINI_DRAFT_MANAGER_BUDGET - spent),
         };
       }),
-    [liveValidPicks, livePicks]
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [liveSlotsByManager, parsedSlotsByManager]
   );
 
   // Two predicted prices per player, both value-above-replacement (Step 5):
@@ -1503,12 +1529,12 @@ const DraftPage = ({ mainData, teams: fdrTeams = [], fixturesData = [] }) => {
           {availableView === "all" && liveModeOn && (
             <div className="draft-live-mode-panel">
               <p className="draft-live-board-intro">
-                Type each manager's picks in their own box — one per line, <code>Player&nbsp;&nbsp;Price</code>.
+                Fill in each manager's 5 slots directly — a player field and a price field per row.
                 Kept on this device only (survives a refresh, never sent to Supabase); it recomputes Live £
                 for what's left as the draft happens.
               </p>
               <div className="draft-live-board">
-                {liveBoard.map(({ manager, picks, errors, spent, remaining }) => (
+                {liveBoard.map(({ manager, slots, parsedSlots, spent, remaining }) => (
                   <div className="draft-live-board-manager" key={manager.id}>
                     <div className="draft-live-board-header">
                       <span className="draft-live-board-name">{manager.name}</span>
@@ -1516,46 +1542,45 @@ const DraftPage = ({ mainData, teams: fdrTeams = [], fixturesData = [] }) => {
                         £{remaining}m left{spent > 0 ? ` (of £${MINI_DRAFT_MANAGER_BUDGET}m)` : ""}
                       </span>
                     </div>
-                    <textarea
-                      className="draft-live-board-input"
-                      rows={MINI_DRAFT_SLOTS_PER_MANAGER}
-                      placeholder={"Haaland\t162"}
-                      value={livePicksByManager[manager.id] || ""}
-                      onChange={(e) =>
-                        setLivePicksByManager((prev) => ({ ...prev, [manager.id]: e.target.value }))
-                      }
-                    />
-                    {errors.length > 0 && (
-                      <ul className="draft-live-board-errors">
-                        {errors.map((p, i) => (
-                          <li key={i}>
-                            "{p.raw}" — {p.error}
-                          </li>
-                        ))}
-                      </ul>
-                    )}
                     <ol className="draft-live-board-slots">
-                      {Array.from({ length: MINI_DRAFT_SLOTS_PER_MANAGER }).map((_, i) => {
-                        const pick = picks[i];
+                      {slots.map((slot, i) => {
+                        const parsed = parsedSlots[i];
                         return (
-                          <li key={i} className={pick ? "filled" : "empty"}>
-                            {pick ? (
-                              <>
-                                <span className="draft-live-board-player">{pick.playerName}</span>
-                                <span className="draft-live-board-price">£{pick.price}m</span>
-                              </>
-                            ) : (
-                              <span className="draft-live-board-player draft-live-board-tbd">—</span>
-                            )}
+                          <li
+                            key={i}
+                            className={parsed?.error ? "error" : parsed ? "filled" : "empty"}
+                          >
+                            <input
+                              type="text"
+                              className="draft-live-slot-player"
+                              placeholder="Player"
+                              value={slot.player}
+                              onChange={(e) => updateLiveSlot(manager.id, i, "player", e.target.value)}
+                              title={parsed?.error || undefined}
+                            />
+                            <input
+                              type="text"
+                              inputMode="decimal"
+                              className="draft-live-slot-price"
+                              placeholder="£m"
+                              value={slot.price}
+                              onChange={(e) => updateLiveSlot(manager.id, i, "price", e.target.value)}
+                            />
                           </li>
                         );
                       })}
                     </ol>
-                    {picks.length > MINI_DRAFT_SLOTS_PER_MANAGER && (
-                      <p className="draft-live-board-overflow">
-                        +{picks.length - MINI_DRAFT_SLOTS_PER_MANAGER} more than the usual 5 — check for a
-                        duplicate/typo'd line
-                      </p>
+                    {parsedSlots.some((p) => p?.error) && (
+                      <ul className="draft-live-board-errors">
+                        {parsedSlots.map(
+                          (p, i) =>
+                            p?.error && (
+                              <li key={i}>
+                                Slot {i + 1}: {p.error}
+                              </li>
+                            )
+                        )}
+                      </ul>
                     )}
                   </div>
                 ))}

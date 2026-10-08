@@ -799,41 +799,45 @@
 
 .draft-live-board-slots li {
   display: flex;
-  justify-content: space-between;
-  gap: 6px;
+  gap: 4px;
   padding: 3px 0;
   border-top: 1px solid var(--color-border);
-  font-size: var(--font-size-xs);
 }
 
 .draft-live-board-slots li:first-child {
   border-top: none;
 }
 
-.draft-live-board-player {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.draft-live-board-tbd {
-  color: var(--color-text-secondary);
-}
-
-.draft-live-board-price {
-  flex-shrink: 0;
-  font-variant-numeric: tabular-nums;
-  color: var(--color-text-secondary);
-}
-
-.draft-live-board-slots li.filled .draft-live-board-price {
+.draft-live-slot-player,
+.draft-live-slot-price {
+  box-sizing: border-box;
+  font-size: var(--font-size-xs);
+  padding: 4px 6px;
+  border: 1px solid var(--color-border-dark);
+  border-radius: var(--radius-sm);
+  background-color: var(--color-bg-secondary);
   color: var(--color-text-primary);
+}
+
+.draft-live-slot-player {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.draft-live-slot-price {
+  flex: 0 0 48px;
+  width: 48px;
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+}
+
+.draft-live-board-slots li.filled .draft-live-slot-player,
+.draft-live-board-slots li.filled .draft-live-slot-price {
   font-weight: 600;
 }
 
-.draft-live-board-overflow {
-  margin: 4px 0 0;
-  font-size: var(--font-size-xs);
+.draft-live-board-slots li.error .draft-live-slot-player {
+  border-color: var(--draft-red);
   color: var(--draft-red);
 }
 
@@ -843,26 +847,8 @@
   margin: 0 0 var(--spacing-xs);
 }
 
-.draft-live-board-intro code {
-  font-size: inherit;
-}
-
-.draft-live-board-input {
-  width: 100%;
-  box-sizing: border-box;
-  font-family: ui-monospace, "SF Mono", Menlo, monospace;
-  font-size: var(--font-size-xs);
-  padding: 4px 6px;
-  border: 1px solid var(--color-border-dark);
-  border-radius: var(--radius-sm);
-  background-color: var(--color-bg-secondary);
-  color: var(--color-text-primary);
-  resize: vertical;
-  margin-bottom: 4px;
-}
-
 .draft-live-board-errors {
-  margin: 0 0 4px;
+  margin: 4px 0 0;
   padding-left: 16px;
   font-size: var(--font-size-xs);
   color: var(--draft-red);

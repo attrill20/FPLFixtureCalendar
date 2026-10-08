@@ -181,17 +181,19 @@ async function fetchDefconBonusCounts(eventIds) {
 
 // --- Available-player pricing (draft-auction-helper skill) ---------------
 // Two predicted prices per available player, both value-above-replacement,
-// scaled so the whole pool sums to Mini Draft 1's total budget (£100m x 5
-// managers): "Pre £" is a fixed baseline across every unowned player and the
-// full £500m; "Live £" re-runs the same method against whatever Live Draft
-// Mode says is actually left, so the two can be compared as the draft
-// actually unfolds instead of just trusting a static pre-draft guess.
-const MINI_DRAFT_SLOTS_PER_MANAGER = 5;
-const MINI_DRAFT_TOTAL_BUDGET = 100 * 5; // £100m budget x 5 managers
-const MINI_DRAFT_TOTAL_SLOTS = MINI_DRAFT_SLOTS_PER_MANAGER * 5; // 5 managers x 5 new slots each
-// No single manager ever has more than this for one player, however the
-// pooled-budget VAR split comes out — clamp every price to it.
-const MINI_DRAFT_MANAGER_BUDGET = 100;
+// scaled so the whole pool sums to the selected draft's total budget (5
+// managers x the selected type's per-manager budget): "Pre £" is a fixed
+// baseline across the relevant pool; "Live £" re-runs the same method
+// against whatever Live Draft Mode says is actually left, so the two can be
+// compared as the draft actually unfolds instead of just trusting a static
+// pre-draft guess.
+// Mini Draft only pools free agents + explicit drops (5 slots/£100m each);
+// Main Draft wipes every squad and rebuilds from the whole player universe
+// (18 slots/£250m each) — see DraftPage's draftType selector.
+const DRAFT_TYPES = {
+  mini: { id: "mini", label: "Mini Draft (£100m / 5 slots)", managerBudget: 100, slotsPerManager: 5 },
+  main: { id: "main", label: "Main Draft (£250m / 18 slots)", managerBudget: 250, slotsPerManager: 18 },
+};
 // Rough share of a squad's 18 slots by position (CLAUDE.md's typical splits:
 // 2 GK, 6-7 DEF, 6-7 MID, 3-4 FWD), used only to pick each position's
 // replacement-level cutoff among the available pool.
@@ -390,6 +392,11 @@ function normalizeName(str) {
     .replace(/[̀-ͯ]/g, "");
 }
 
+// Returns { match, candidates }: match is the element when exactly one
+// resolves, otherwise null — candidates is whatever list produced that (so
+// callers can tell "no match at all" apart from "ambiguous, here's who" and
+// suggest the first-initial shorthand to disambiguate, e.g. two players both
+// called "Thomas" need "B Thomas" / "S Thomas" to tell them apart).
 function matchPlayer(name, elements) {
   const q = normalizeName(name.trim());
   let matches = elements.filter((el) => normalizeName(el.web_name) === q);
@@ -407,20 +414,22 @@ function matchPlayer(name, elements) {
       );
     }
   }
-  return matches.length === 1 ? matches[0] : null;
+  return { match: matches.length === 1 ? matches[0] : null, candidates: matches };
 }
 
-const EMPTY_LIVE_SLOT = { player: "", price: "" };
-const EMPTY_LIVE_SLOTS = Array.from({ length: MINI_DRAFT_SLOTS_PER_MANAGER }, () => EMPTY_LIVE_SLOT);
+function makeEmptySlots(count) {
+  return Array.from({ length: count }, () => ({ player: "", price: "" }));
+}
 
-function getManagerSlotsFrom(liveSlotsByManager, managerId) {
+function getManagerSlotsFrom(liveSlotsByManager, managerId, slotsPerManager) {
   const slots = liveSlotsByManager[managerId];
-  return Array.isArray(slots) && slots.length === MINI_DRAFT_SLOTS_PER_MANAGER ? slots : EMPTY_LIVE_SLOTS;
+  return Array.isArray(slots) && slots.length === slotsPerManager ? slots : makeEmptySlots(slotsPerManager);
 }
 
-// A manager's 5 slots are now two discrete fields each (player, price), not a
+// A manager's slots are two discrete fields each (player, price), not a
 // free-typed line — no manager column needed either way, that's implicit from
-// whose 5 slots these are. Returns null for a genuinely empty/untouched slot.
+// whose slots these are. Returns null for a genuinely empty/untouched slot.
+// Carries `position` (FPL element_type) along too, needed when submitting.
 function parseLiveSlot(slot, elements) {
   const playerText = (slot.player || "").trim();
   const priceText = (slot.price || "").trim();
@@ -430,9 +439,25 @@ function parseLiveSlot(slot, elements) {
   if (priceText === "" || !Number.isFinite(price)) {
     return { error: `Not a price: "${priceText || "blank"}"` };
   }
-  const player = matchPlayer(playerText, elements);
-  if (!player) return { error: `No single player match: "${playerText}"` };
-  return { playerCode: player.code, playerName: player.web_name, price };
+  const { match: player, candidates } = matchPlayer(playerText, elements);
+  if (!player) {
+    if (candidates.length > 1) {
+      const names = candidates.slice(0, 4).map((c) => `${c.first_name} ${c.second_name}`);
+      const example = candidates[0];
+      return {
+        error:
+          `"${playerText}" matches ${candidates.length}: ${names.join(", ")}` +
+          `${candidates.length > 4 ? ", …" : ""} — try "${example.first_name[0]} ${example.second_name}"`,
+      };
+    }
+    return { error: `No single player match: "${playerText}"` };
+  }
+  return {
+    playerCode: player.code,
+    playerName: player.web_name,
+    position: player.element_type,
+    price,
+  };
 }
 
 // Value-above-replacement price estimate for a pool of unowned/unsold players,
@@ -447,7 +472,8 @@ function computeEstimates(
   maxMinutes,
   priorScoreByCode,
   budget,
-  slots
+  slots,
+  managerBudget
 ) {
   const result = new Map();
 
@@ -490,10 +516,10 @@ function computeEstimates(
   });
 
   // Split `budget` proportionally to VAR, but no single player can ever be
-  // worth more than one manager's whole budget — cap at MINI_DRAFT_MANAGER_
-  // BUDGET and push the excess back into the pool for everyone else, so the
-  // total still sums to `budget` instead of just vanishing at the cap.
-  // Iterative because capping one player can push another over the cap too.
+  // worth more than one manager's whole budget — cap at `managerBudget` and
+  // push the excess back into the pool for everyone else, so the total still
+  // sums to `budget` instead of just vanishing at the cap. Iterative because
+  // capping one player can push another over the cap too.
   let pool = budget;
   let remaining = withVAR.filter((row) => row.valueAboveReplacement > 0);
   withVAR
@@ -509,9 +535,9 @@ function computeEstimates(
     for (let i = 0; i < remaining.length; i++) {
       const row = remaining[i];
       const share = (row.valueAboveReplacement / totalValue) * pool;
-      if (share > MINI_DRAFT_MANAGER_BUDGET) {
-        result.set(row.el.code, MINI_DRAFT_MANAGER_BUDGET);
-        pool -= MINI_DRAFT_MANAGER_BUDGET;
+      if (share > managerBudget) {
+        result.set(row.el.code, managerBudget);
+        pool -= managerBudget;
         capped = true;
       } else {
         next.push(row);
@@ -550,11 +576,33 @@ const DraftPage = ({ mainData, teams: fdrTeams = [], fixturesData = [] }) => {
   const [savedRanking, setSavedRanking] = useState(null);
   const [rankingSaveState, setRankingSaveState] = useState("idle");
   const [confirmingReset, setConfirmingReset] = useState(false);
-  // Live Draft Mode: page-local only, never written to Supabase (see note above
-  // parseLiveSlot) — but kept in localStorage (this device only) so an
-  // accidental refresh mid-draft doesn't lose what's been typed in. Exactly
-  // MINI_DRAFT_SLOTS_PER_MANAGER {player, price} slots per manager, keyed by
-  // manager id — each manager has their own 5 rows.
+  // Which draft this is — Mini (£100m/5 slots) or Main (£250m/18 slots) —
+  // drives the budget/slot shape everywhere below.
+  const [draftType, setDraftType] = useState(() => {
+    try {
+      return localStorage.getItem("draft-type") === "main" ? "main" : "mini";
+    } catch {
+      return "mini";
+    }
+  });
+  useEffect(() => {
+    try {
+      localStorage.setItem("draft-type", draftType);
+    } catch {
+      // localStorage unavailable — draftType still works, just won't survive a refresh
+    }
+  }, [draftType]);
+  const draftConfig = DRAFT_TYPES[draftType];
+  // The specific upcoming event each draft type currently targets for
+  // submission (Step 6) — update if the league adds another main/mini event.
+  const targetEventId = draftType === "main" ? "main-2" : "mini-1";
+
+  // Live Draft Mode: page-local only, never written to Supabase until the
+  // "Submit" button below (which goes through a validated, password-gated
+  // Supabase function, not a raw table write) — but kept in localStorage
+  // (this device only) so an accidental refresh mid-draft doesn't lose what's
+  // been typed in. Exactly draftConfig.slotsPerManager {player, price} slots
+  // per manager, keyed by manager id — each manager has their own rows.
   const [liveModeOn, setLiveModeOn] = useState(() => {
     try {
       return localStorage.getItem("draft-live-mode-on") === "true";
@@ -572,11 +620,12 @@ const DraftPage = ({ mainData, teams: fdrTeams = [], fixturesData = [] }) => {
     }
   });
 
-  const getManagerSlots = (managerId) => getManagerSlotsFrom(liveSlotsByManager, managerId);
+  const getManagerSlots = (managerId) =>
+    getManagerSlotsFrom(liveSlotsByManager, managerId, draftConfig.slotsPerManager);
 
   const updateLiveSlot = (managerId, index, field, value) => {
     setLiveSlotsByManager((prev) => {
-      const current = getManagerSlotsFrom(prev, managerId);
+      const current = getManagerSlotsFrom(prev, managerId, draftConfig.slotsPerManager);
       const next = current.map((s, i) => (i === index ? { ...s, [field]: value } : s));
       return { ...prev, [managerId]: next };
     });
@@ -783,7 +832,7 @@ const DraftPage = ({ mainData, teams: fdrTeams = [], fixturesData = [] }) => {
     });
     return result;
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [liveModeOn, liveSlotsByManager, elements]);
+  }, [liveModeOn, liveSlotsByManager, elements, draftConfig]);
 
   const livePicks = useMemo(() => {
     const list = [];
@@ -808,8 +857,9 @@ const DraftPage = ({ mainData, teams: fdrTeams = [], fixturesData = [] }) => {
     [liveValidPicks]
   );
 
-  // Per-manager Mini Draft board: 5 slots and MINI_DRAFT_MANAGER_BUDGET each,
-  // rendered directly from their own slot inputs + parse results.
+  // Per-manager draft board: draftConfig.slotsPerManager slots and
+  // draftConfig.managerBudget each, rendered directly from slot inputs +
+  // parse results.
   const liveBoard = useMemo(
     () =>
       MANAGERS.map((manager) => {
@@ -821,38 +871,46 @@ const DraftPage = ({ mainData, teams: fdrTeams = [], fixturesData = [] }) => {
           slots,
           parsedSlots,
           spent,
-          remaining: Math.max(0, MINI_DRAFT_MANAGER_BUDGET - spent),
+          remaining: Math.max(0, draftConfig.managerBudget - spent),
         };
       }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [liveSlotsByManager, parsedSlotsByManager]
+    [liveSlotsByManager, parsedSlotsByManager, draftConfig]
   );
 
   // Two predicted prices per player, both value-above-replacement (Step 5):
-  // "Pre £" is a fixed pre-draft baseline (every unowned player, full £500m/25
-  // slots) so it stays put for comparison; "Live £" re-runs the same method
-  // against whatever Live Draft Mode has actually removed from the pool and
-  // spent from the budget, so the two can be compared as the draft unfolds.
+  // "Pre £" is a fixed pre-draft baseline so it stays put for comparison;
+  // "Live £" re-runs the same method against whatever Live Draft Mode has
+  // actually removed from the pool and spent from the budget, so the two can
+  // be compared as the draft unfolds. Pool differs by draftType: Mini only
+  // pools free agents (current ownership respected); Main wipes every squad,
+  // so the whole player universe is in scope regardless of who owns whom now.
   const pricedPool = useMemo(() => {
     const result = new Map();
     if (!elements.length) return result;
 
-    const persistedUnowned = elements.filter(
-      (el) => !(ownerByKey.get(`code:${el.code}`) ?? ownerByKey.get(`name:${el.web_name?.toLowerCase()}`))
-    );
+    const persistedUnowned =
+      draftType === "main"
+        ? elements
+        : elements.filter(
+            (el) => !(ownerByKey.get(`code:${el.code}`) ?? ownerByKey.get(`name:${el.web_name?.toLowerCase()}`))
+          );
+    const totalBudget = draftConfig.managerBudget * 5;
+    const totalSlots = draftConfig.slotsPerManager * 5;
     const prePrices = computeEstimates(
       persistedUnowned,
       avgDifficultyByTeamId,
       teamByTeamId,
       maxMinutes,
       priorScoreByCode,
-      MINI_DRAFT_TOTAL_BUDGET,
-      MINI_DRAFT_TOTAL_SLOTS
+      totalBudget,
+      totalSlots,
+      draftConfig.managerBudget
     );
 
     const stillAvailable = persistedUnowned.filter((el) => !liveSoldCodes.has(el.code));
-    const remainingBudget = Math.max(0, MINI_DRAFT_TOTAL_BUDGET - liveSpend);
-    const remainingSlots = Math.max(1, MINI_DRAFT_TOTAL_SLOTS - liveValidPicks.length);
+    const remainingBudget = Math.max(0, totalBudget - liveSpend);
+    const remainingSlots = Math.max(1, totalSlots - liveValidPicks.length);
     const livePrices = computeEstimates(
       stillAvailable,
       avgDifficultyByTeamId,
@@ -860,7 +918,8 @@ const DraftPage = ({ mainData, teams: fdrTeams = [], fixturesData = [] }) => {
       maxMinutes,
       priorScoreByCode,
       remainingBudget,
-      remainingSlots
+      remainingSlots,
+      draftConfig.managerBudget
     );
 
     persistedUnowned.forEach((el) => {
@@ -874,6 +933,8 @@ const DraftPage = ({ mainData, teams: fdrTeams = [], fixturesData = [] }) => {
   }, [
     elements,
     ownerByKey,
+    draftType,
+    draftConfig,
     avgDifficultyByTeamId,
     teamByTeamId,
     maxMinutes,
@@ -1497,6 +1558,18 @@ const DraftPage = ({ mainData, teams: fdrTeams = [], fixturesData = [] }) => {
               </select>
             </label>
             {availableView === "all" && (
+              <label>
+                Draft:
+                <select value={draftType} onChange={(e) => setDraftType(e.target.value)}>
+                  {Object.values(DRAFT_TYPES).map((dt) => (
+                    <option key={dt.id} value={dt.id}>
+                      {dt.label}
+                    </option>
+                  ))}
+                </select>
+              </label>
+            )}
+            {availableView === "all" && (
               <button
                 className={`draft-toggle-btn ${includeDrafted ? "on" : ""}`}
                 onClick={() => setIncludeDrafted((v) => !v)}
@@ -1518,11 +1591,14 @@ const DraftPage = ({ mainData, teams: fdrTeams = [], fixturesData = [] }) => {
 
           {availableView === "all" && elements.length > 0 && (
             <p className="draft-pricing-note">
-              Pre £ and Live £ are both predicted Mini Draft 1 auction prices (£100m × 5 budget)
-              from current stats + fixtures — Pre £ is a fixed pre-draft baseline, Live £ re-runs
-              the same method against what Live Draft Mode says is actually left, so you can compare
-              them as the draft happens. Neither yet includes players managers might drop, since
-              drops aren't revealed until bidding starts.
+              Pre £ and Live £ are both predicted {draftConfig.label} auction prices (£
+              {draftConfig.managerBudget} × 5 budget, targeting <code>{targetEventId}</code>) from
+              current stats + fixtures — Pre £ is a fixed pre-draft baseline, Live £ re-runs the same
+              method against what Live Draft Mode says is actually left, so you can compare them as
+              the draft happens.
+              {draftType === "mini"
+                ? " Neither yet includes players managers might drop, since drops aren't revealed until bidding starts."
+                : " A Main Draft wipes every squad, so every player is in scope regardless of who currently owns whom."}
             </p>
           )}
 
@@ -1539,7 +1615,7 @@ const DraftPage = ({ mainData, teams: fdrTeams = [], fixturesData = [] }) => {
                     <div className="draft-live-board-header">
                       <span className="draft-live-board-name">{manager.name}</span>
                       <span className="draft-live-board-budget">
-                        £{remaining}m left{spent > 0 ? ` (of £${MINI_DRAFT_MANAGER_BUDGET}m)` : ""}
+                        £{remaining}m left{spent > 0 ? ` (of £${draftConfig.managerBudget}m)` : ""}
                       </span>
                     </div>
                     <ol className="draft-live-board-slots">
@@ -1588,8 +1664,8 @@ const DraftPage = ({ mainData, teams: fdrTeams = [], fixturesData = [] }) => {
               <div className="draft-live-status">
                 <span>
                   {liveValidPicks.length} pick{liveValidPicks.length === 1 ? "" : "s"} applied — £
-                  {Math.max(0, MINI_DRAFT_TOTAL_BUDGET - liveSpend)}m left league-wide across{" "}
-                  {Math.max(0, MINI_DRAFT_TOTAL_SLOTS - liveValidPicks.length)} slots
+                  {Math.max(0, draftConfig.managerBudget * 5 - liveSpend)}m left league-wide across{" "}
+                  {Math.max(0, draftConfig.slotsPerManager * 5 - liveValidPicks.length)} slots
                 </span>
               </div>
             </div>

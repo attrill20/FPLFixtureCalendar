@@ -409,7 +409,9 @@ function matchPlayer(name, elements) {
       const surname = parts.slice(1).join(" ");
       matches = elements.filter(
         (el) =>
-          normalizeName(el.second_name).startsWith(surname) &&
+          // Exact surname, not startsWith — "thomas" must not also match
+          // "Thomas-Asante" just because it's a prefix of a longer surname.
+          normalizeName(el.second_name) === surname &&
           normalizeName(el.first_name).startsWith(initial)
       );
     }

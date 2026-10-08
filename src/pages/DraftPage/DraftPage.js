@@ -566,9 +566,39 @@ const DraftPage = ({ mainData, teams: fdrTeams = [], fixturesData = [] }) => {
   const [savedRanking, setSavedRanking] = useState(null);
   const [rankingSaveState, setRankingSaveState] = useState("idle");
   const [confirmingReset, setConfirmingReset] = useState(false);
-  // Live Draft Mode: page-local only, never written to Supabase (see note above parseLivePicksText)
-  const [liveModeOn, setLiveModeOn] = useState(false);
-  const [livePicksText, setLivePicksText] = useState("");
+  // Live Draft Mode: page-local only, never written to Supabase (see note above
+  // parseLivePicksText) — but kept in localStorage (this device only) so an
+  // accidental refresh mid-draft doesn't lose what's been typed in.
+  const [liveModeOn, setLiveModeOn] = useState(() => {
+    try {
+      return localStorage.getItem("draft-live-mode-on") === "true";
+    } catch {
+      return false;
+    }
+  });
+  const [livePicksText, setLivePicksText] = useState(() => {
+    try {
+      return localStorage.getItem("draft-live-picks-text") || "";
+    } catch {
+      return "";
+    }
+  });
+
+  useEffect(() => {
+    try {
+      localStorage.setItem("draft-live-mode-on", String(liveModeOn));
+    } catch {
+      // localStorage unavailable — Live Draft Mode still works, just won't survive a refresh
+    }
+  }, [liveModeOn]);
+
+  useEffect(() => {
+    try {
+      localStorage.setItem("draft-live-picks-text", livePicksText);
+    } catch {
+      // localStorage unavailable — Live Draft Mode still works, just won't survive a refresh
+    }
+  }, [livePicksText]);
 
   useEffect(() => {
     draftReady.then(() => setDataVersion((v) => v + 1));

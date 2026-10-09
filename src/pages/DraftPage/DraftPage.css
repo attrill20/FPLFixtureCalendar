@@ -860,6 +860,50 @@
   color: var(--color-text-secondary);
 }
 
+.draft-live-submit {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--spacing-sm);
+  margin-top: var(--spacing-sm);
+  padding-top: var(--spacing-sm);
+  border-top: 1px solid var(--color-border);
+}
+
+.draft-login-form {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.draft-login-label {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-secondary);
+}
+
+.draft-login-form input {
+  box-sizing: border-box;
+  font-size: var(--font-size-sm);
+  padding: 6px 10px;
+  border: 1px solid var(--color-border-dark);
+  border-radius: var(--radius-sm);
+  background-color: var(--color-bg-secondary);
+  color: var(--color-text-primary);
+}
+
+.draft-live-submit-message {
+  font-size: var(--font-size-xs);
+}
+
+.draft-live-submit-message.success {
+  color: var(--color-accent-green-dark);
+}
+
+.draft-live-submit-message.error {
+  color: var(--draft-red);
+}
+
 .draft-search-input {
   background-color: var(--color-bg-primary);
   border: 1px solid var(--color-border-dark);

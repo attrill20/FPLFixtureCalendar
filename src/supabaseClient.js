@@ -17,7 +17,10 @@ if (!supabaseUrl || !supabaseAnonKey) {
 
 export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
   auth: {
-    persistSession: false // We don't need auth sessions for this read-only access
+    // The /draft page's own login (gates writes there) needs the session to
+    // persist across reloads. Every other page stays read-only and never
+    // calls auth.signIn, so this has no effect on them.
+    persistSession: true
   }
 });
 

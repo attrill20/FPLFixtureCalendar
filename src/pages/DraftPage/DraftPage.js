@@ -599,12 +599,42 @@ const DraftPage = ({ mainData, teams: fdrTeams = [], fixturesData = [] }) => {
   // submission (Step 6) — update if the league adds another main/mini event.
   const targetEventId = draftType === "main" ? "main-2" : "mini-1";
 
+  // Auth for the Submit button below — just gates that one write; viewing
+  // the rest of /draft needs no login, same as always. Session persists via
+  // supabaseClient's persistSession so a refresh doesn't log James out.
+  const [session, setSession] = useState(null);
+  const [loginEmail, setLoginEmail] = useState("");
+  const [loginPassword, setLoginPassword] = useState("");
+  const [loginError, setLoginError] = useState("");
+  const [submitState, setSubmitState] = useState("idle"); // idle | submitting | success | error
+  const [submitMessage, setSubmitMessage] = useState("");
+
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data }) => setSession(data.session));
+    const { data: listener } = supabase.auth.onAuthStateChange((_event, newSession) => {
+      setSession(newSession);
+    });
+    return () => listener.subscription.unsubscribe();
+  }, []);
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    setLoginError("");
+    const { error } = await supabase.auth.signInWithPassword({ email: loginEmail, password: loginPassword });
+    if (error) setLoginError(error.message);
+    else setLoginPassword("");
+  };
+
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
+  };
+
   // Live Draft Mode: page-local only, never written to Supabase until the
-  // "Submit" button below (which goes through a validated, password-gated
-  // Supabase function, not a raw table write) — but kept in localStorage
-  // (this device only) so an accidental refresh mid-draft doesn't lose what's
-  // been typed in. Exactly draftConfig.slotsPerManager {player, price} slots
-  // per manager, keyed by manager id — each manager has their own rows.
+  // "Submit" button below (which goes through a validated Supabase function
+  // that requires James's login, not a raw table write) — but kept in
+  // localStorage (this device only) so an accidental refresh mid-draft
+  // doesn't lose what's been typed in. Exactly draftConfig.slotsPerManager
+  // {player, price} slots per manager, keyed by manager id.
   const [liveModeOn, setLiveModeOn] = useState(() => {
     try {
       return localStorage.getItem("draft-live-mode-on") === "true";
@@ -879,6 +909,28 @@ const DraftPage = ({ mainData, teams: fdrTeams = [], fixturesData = [] }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [liveSlotsByManager, parsedSlotsByManager, draftConfig]
   );
+
+  const handleSubmitLivePicks = async () => {
+    if (!liveValidPicks.length) return;
+    setSubmitState("submitting");
+    setSubmitMessage("");
+    const rows = liveValidPicks.map((p) => ({
+      manager_id: p.managerId,
+      player_code: p.playerCode,
+      player_name: p.playerName,
+      position: p.position,
+      price: p.price,
+      action: "buy",
+    }));
+    const { error } = await supabase.rpc("submit_draft_picks", { event_id: targetEventId, rows });
+    if (error) {
+      setSubmitState("error");
+      setSubmitMessage(error.message);
+    } else {
+      setSubmitState("success");
+      setSubmitMessage(`Submitted ${rows.length} pick${rows.length === 1 ? "" : "s"} to ${targetEventId}.`);
+    }
+  };
 
   // Two predicted prices per player, both value-above-replacement (Step 5):
   // "Pre £" is a fixed pre-draft baseline so it stays put for comparison;
@@ -1669,6 +1721,52 @@ const DraftPage = ({ mainData, teams: fdrTeams = [], fixturesData = [] }) => {
                   {Math.max(0, draftConfig.managerBudget * 5 - liveSpend)}m left league-wide across{" "}
                   {Math.max(0, draftConfig.slotsPerManager * 5 - liveValidPicks.length)} slots
                 </span>
+              </div>
+              <div className="draft-live-submit">
+                {!session ? (
+                  <form className="draft-login-form" onSubmit={handleLogin}>
+                    <span className="draft-login-label">Log in to submit results:</span>
+                    <input
+                      type="email"
+                      placeholder="Email"
+                      value={loginEmail}
+                      onChange={(e) => setLoginEmail(e.target.value)}
+                      autoComplete="username"
+                    />
+                    <input
+                      type="password"
+                      placeholder="Password"
+                      value={loginPassword}
+                      onChange={(e) => setLoginPassword(e.target.value)}
+                      autoComplete="current-password"
+                    />
+                    <button type="submit" className="draft-toggle-btn">
+                      Log in
+                    </button>
+                    {loginError && <span className="draft-live-submit-message error">{loginError}</span>}
+                  </form>
+                ) : (
+                  <>
+                    <span className="draft-login-label">Logged in as {session.user.email}</span>
+                    <button className="draft-toggle-btn" onClick={handleLogout}>
+                      Log out
+                    </button>
+                    <button
+                      className="draft-toggle-btn on"
+                      disabled={submitState === "submitting" || liveValidPicks.length === 0}
+                      onClick={handleSubmitLivePicks}
+                    >
+                      {submitState === "submitting"
+                        ? "Submitting…"
+                        : `Submit ${liveValidPicks.length} pick${
+                            liveValidPicks.length === 1 ? "" : "s"
+                          } to ${targetEventId}`}
+                    </button>
+                    {submitMessage && (
+                      <span className={`draft-live-submit-message ${submitState}`}>{submitMessage}</span>
+                    )}
+                  </>
+                )}
               </div>
             </div>
           )}

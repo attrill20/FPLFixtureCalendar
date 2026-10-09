@@ -594,6 +594,13 @@ const DraftPage = ({ mainData, teams: fdrTeams = [], fixturesData = [] }) => {
       // localStorage unavailable — draftType still works, just won't survive a refresh
     }
   }, [draftType]);
+  // Default "include drafted players" to the sensible starting point for
+  // each draft type — a Main Draft wipes every squad so drafted players are
+  // back in play by default; a Mini Draft only pools free agents, so they
+  // stay hidden by default. Still a manual toggle from there.
+  useEffect(() => {
+    setIncludeDrafted(draftType === "main");
+  }, [draftType]);
   const draftConfig = DRAFT_TYPES[draftType];
   // The specific upcoming event each draft type currently targets: the
   // earliest (by sort_order) event of that type not yet marked done. Falls

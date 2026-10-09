@@ -16,7 +16,10 @@ export async function loadDraftData() {
   try {
     const [managersRes, eventsRes, transactionsRes] = await Promise.all([
       supabase.from("draft_managers").select("id, name, aliases"),
-      supabase.from("draft_events").select("id, type, label, note, budget, sort_order").order("sort_order"),
+      supabase
+        .from("draft_events")
+        .select("id, type, label, note, budget, sort_order, completed_at")
+        .order("sort_order"),
       supabase
         .from("draft_transactions")
         .select("event_id, manager_id, player_code, player_name, position, price, action")

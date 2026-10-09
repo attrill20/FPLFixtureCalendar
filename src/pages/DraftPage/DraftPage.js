@@ -595,9 +595,16 @@ const DraftPage = ({ mainData, teams: fdrTeams = [], fixturesData = [] }) => {
     }
   }, [draftType]);
   const draftConfig = DRAFT_TYPES[draftType];
-  // The specific upcoming event each draft type currently targets for
-  // submission (Step 6) — update if the league adds another main/mini event.
-  const targetEventId = draftType === "main" ? "main-2" : "mini-1";
+  // The specific upcoming event each draft type currently targets: the
+  // earliest (by sort_order) event of that type not yet marked done. Falls
+  // back to the known pre-season pair if DRAFT_EVENTS hasn't loaded yet.
+  const nextEventOfType = (type) => {
+    const candidate = DRAFT_EVENTS.filter((e) => e.type === type && !e.completed_at).sort(
+      (a, b) => a.sort_order - b.sort_order
+    )[0];
+    return candidate ? candidate.id : type === "main" ? "main-2" : "mini-1";
+  };
+  const targetEventId = nextEventOfType(draftType);
 
   // Auth for the Submit button below — just gates that one write; viewing
   // the rest of /draft needs no login, same as always. Session persists via
@@ -607,6 +614,9 @@ const DraftPage = ({ mainData, teams: fdrTeams = [], fixturesData = [] }) => {
   const [loginPassword, setLoginPassword] = useState("");
   const [loginError, setLoginError] = useState("");
   const [submitState, setSubmitState] = useState("idle"); // idle | submitting | success | error
+  const [markDoneState, setMarkDoneState] = useState("idle"); // idle | working | success | error
+  const [markDoneMessage, setMarkDoneMessage] = useState("");
+  const [confirmingMarkDone, setConfirmingMarkDone] = useState(false);
   const [submitMessage, setSubmitMessage] = useState("");
 
   useEffect(() => {
@@ -934,6 +944,39 @@ const DraftPage = ({ mainData, teams: fdrTeams = [], fixturesData = [] }) => {
       setSubmitState("success");
       setSubmitMessage(`Submitted ${rows.length} pick${rows.length === 1 ? "" : "s"} to ${targetEventId}.`);
     }
+  };
+
+  // Locks the current event in (draft_events.completed_at), then pivots
+  // planning to whatever's next overall — clears the local board (it was for
+  // the event just finished) and switches draftType to the next event's
+  // type, e.g. Mini Draft 1 done -> Main Draft 2 (price up every player).
+  const handleMarkEventDone = async () => {
+    if (!confirmingMarkDone) {
+      setConfirmingMarkDone(true);
+      return;
+    }
+    setConfirmingMarkDone(false);
+    setMarkDoneState("working");
+    setMarkDoneMessage("");
+    const { error } = await supabase.rpc("mark_draft_event_done", { event_id: targetEventId });
+    if (error) {
+      setMarkDoneState("error");
+      setMarkDoneMessage(error.message);
+      return;
+    }
+    await loadDraftData();
+    setDataVersion((v) => v + 1);
+    setLiveSlotsByManager({});
+    const upcoming = [...DRAFT_EVENTS]
+      .filter((e) => !e.completed_at)
+      .sort((a, b) => a.sort_order - b.sort_order)[0];
+    if (upcoming) setDraftType(upcoming.type);
+    setMarkDoneState("success");
+    setMarkDoneMessage(
+      upcoming
+        ? `${targetEventId} marked done. Now planning for ${upcoming.label} (${upcoming.id}).`
+        : `${targetEventId} marked done. No further events scheduled.`
+    );
   };
 
   // Two predicted prices per player, both value-above-replacement (Step 5):
@@ -1768,6 +1811,21 @@ const DraftPage = ({ mainData, teams: fdrTeams = [], fixturesData = [] }) => {
                     </button>
                     {submitMessage && (
                       <span className={`draft-live-submit-message ${submitState}`}>{submitMessage}</span>
+                    )}
+                    <button
+                      className={`draft-toggle-btn ${confirmingMarkDone ? "confirming" : ""}`}
+                      disabled={markDoneState === "working"}
+                      onClick={handleMarkEventDone}
+                      title="Locks this event in and moves planning on to whatever's next"
+                    >
+                      {markDoneState === "working"
+                        ? "Marking done…"
+                        : confirmingMarkDone
+                        ? `Click again to confirm — lock in ${targetEventId}`
+                        : `Mark ${targetEventId} as done`}
+                    </button>
+                    {markDoneMessage && (
+                      <span className={`draft-live-submit-message ${markDoneState}`}>{markDoneMessage}</span>
                     )}
                   </>
                 )}

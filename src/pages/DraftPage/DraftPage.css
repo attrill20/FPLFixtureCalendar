@@ -945,6 +945,18 @@
   color: var(--color-text-white);
 }
 
+.draft-toggle-btn.confirming,
+.draft-toggle-btn.confirming:hover {
+  background-color: var(--draft-red);
+  border-color: var(--draft-red);
+  color: var(--color-text-white);
+}
+
+.draft-toggle-btn:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
 .draft-page-container .draft-available-table tr > th.draft-sortable {
   cursor: pointer;
   user-select: none;

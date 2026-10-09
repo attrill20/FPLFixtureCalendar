@@ -619,6 +619,9 @@ const DraftPage = ({ mainData, teams: fdrTeams = [], fixturesData = [] }) => {
   const [markDoneMessage, setMarkDoneMessage] = useState("");
   const [confirmingMarkDone, setConfirmingMarkDone] = useState(false);
   const [submitMessage, setSubmitMessage] = useState("");
+  const [seasonDoneState, setSeasonDoneState] = useState("idle"); // idle | working | success | error
+  const [seasonDoneMessage, setSeasonDoneMessage] = useState("");
+  const [confirmingSeasonDone, setConfirmingSeasonDone] = useState(false);
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data }) => setSession(data.session));
@@ -947,10 +950,24 @@ const DraftPage = ({ mainData, teams: fdrTeams = [], fixturesData = [] }) => {
     }
   };
 
+  // Rolling over to a new cycle (event or season) starts the next round's
+  // research from a clean slate — last cycle's shortlist doesn't carry over.
+  const clearWatchlistForRollover = () => {
+    setWatchlist([]);
+    setWatchlistSaveState("saving");
+    saveWatchlist([])
+      .then(() => setWatchlistSaveState((s) => (s === "saving" ? "saved" : s)))
+      .catch(() => setWatchlistSaveState("error"));
+  };
+
   // Locks the current event in (draft_events.completed_at), then pivots
   // planning to whatever's next overall — clears the local board (it was for
   // the event just finished) and switches draftType to the next event's
   // type, e.g. Mini Draft 1 done -> Main Draft 2 (price up every player).
+  // Re-pricing for the new cycle needs no extra code here: pricedPool is a
+  // memo over draftType + current ownership, both of which just changed, so
+  // it recomputes on next render — the whole pool for a Main Draft, or just
+  // the free-agent pool for a Mini Draft.
   const handleMarkEventDone = async () => {
     if (!confirmingMarkDone) {
       setConfirmingMarkDone(true);
@@ -968,6 +985,7 @@ const DraftPage = ({ mainData, teams: fdrTeams = [], fixturesData = [] }) => {
     await loadDraftData();
     setDataVersion((v) => v + 1);
     setLiveSlotsByManager({});
+    clearWatchlistForRollover();
     const upcoming = [...DRAFT_EVENTS]
       .filter((e) => !e.completed_at)
       .sort((a, b) => a.sort_order - b.sort_order)[0];
@@ -977,6 +995,44 @@ const DraftPage = ({ mainData, teams: fdrTeams = [], fixturesData = [] }) => {
       upcoming
         ? `${targetEventId} marked done. Now planning for ${upcoming.label} (${upcoming.id}).`
         : `${targetEventId} marked done. No further events scheduled.`
+    );
+  };
+
+  // Whether every known draft event is locked in — the season-rollover
+  // button only makes sense once there's nothing left pending.
+  const seasonComplete = DRAFT_EVENTS.length > 0 && DRAFT_EVENTS.every((e) => e.completed_at);
+
+  // Closes out the season: mark_season_done() (server-side, also refuses if
+  // anything's still pending) creates the next season's 4 events (Main 1,
+  // Mini 1, Main 2, Mini 2) and this pivots planning onto the new Main Draft
+  // 1, same as handleMarkEventDone does for a single event.
+  const handleMarkSeasonDone = async () => {
+    if (!confirmingSeasonDone) {
+      setConfirmingSeasonDone(true);
+      return;
+    }
+    setConfirmingSeasonDone(false);
+    setSeasonDoneState("working");
+    setSeasonDoneMessage("");
+    const { error } = await supabase.rpc("mark_season_done");
+    if (error) {
+      setSeasonDoneState("error");
+      setSeasonDoneMessage(error.message);
+      return;
+    }
+    await loadDraftData();
+    setDataVersion((v) => v + 1);
+    setLiveSlotsByManager({});
+    clearWatchlistForRollover();
+    const upcoming = [...DRAFT_EVENTS]
+      .filter((e) => !e.completed_at)
+      .sort((a, b) => a.sort_order - b.sort_order)[0];
+    if (upcoming) setDraftType(upcoming.type);
+    setSeasonDoneState("success");
+    setSeasonDoneMessage(
+      upcoming
+        ? `New season started. Now planning for ${upcoming.label} (${upcoming.id}).`
+        : "New season started."
     );
   };
 
@@ -1827,6 +1883,29 @@ const DraftPage = ({ mainData, teams: fdrTeams = [], fixturesData = [] }) => {
                       </button>
                       {markDoneMessage && (
                         <span className={`draft-live-submit-message ${markDoneState}`}>{markDoneMessage}</span>
+                      )}
+                      <button
+                        className={`draft-toggle-btn draft-markdone-btn ${
+                          confirmingSeasonDone ? "confirming" : ""
+                        }`}
+                        disabled={!seasonComplete || seasonDoneState === "working"}
+                        onClick={handleMarkSeasonDone}
+                        title={
+                          seasonComplete
+                            ? "Closes out the season and starts next season's Main Draft 1"
+                            : "Available once every draft event this season is marked done"
+                        }
+                      >
+                        {seasonDoneState === "working"
+                          ? "Starting new season…"
+                          : confirmingSeasonDone
+                          ? "Click again to confirm"
+                          : "Mark season as done"}
+                      </button>
+                      {seasonDoneMessage && (
+                        <span className={`draft-live-submit-message ${seasonDoneState}`}>
+                          {seasonDoneMessage}
+                        </span>
                       )}
                     </>
                   )}

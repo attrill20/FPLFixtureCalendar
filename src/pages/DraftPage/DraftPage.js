@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from "react";
 import "./DraftPage.css";
 import { supabase } from "../../supabaseClient";
-import { MANAGERS, DRAFT_EVENTS, TRANSACTIONS, computeOwnershipAsOf, draftReady } from "./draftData";
+import { MANAGERS, DRAFT_EVENTS, TRANSACTIONS, computeOwnershipAsOf, draftReady, loadDraftData } from "./draftData";
 import { fetchRanking, loadLocalRanking, saveRanking } from "./rankingStore";
 import { fetchWatchlist, loadLocalWatchlist, saveWatchlist } from "./watchlistStore";
 
@@ -927,6 +927,10 @@ const DraftPage = ({ mainData, teams: fdrTeams = [], fixturesData = [] }) => {
       setSubmitState("error");
       setSubmitMessage(error.message);
     } else {
+      // Re-fetch so Current Squads / Draft History reflect this immediately —
+      // TRANSACTIONS is otherwise only loaded once, at page mount.
+      await loadDraftData();
+      setDataVersion((v) => v + 1);
       setSubmitState("success");
       setSubmitMessage(`Submitted ${rows.length} pick${rows.length === 1 ? "" : "s"} to ${targetEventId}.`);
     }

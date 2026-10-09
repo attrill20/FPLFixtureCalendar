@@ -9,7 +9,10 @@ export let MANAGERS = [];
 export let DRAFT_EVENTS = [];
 export let TRANSACTIONS = [];
 
-async function loadDraftData() {
+// Exported so DraftPage can re-run it after a successful Live Draft Mode
+// submit, so Current Squads/Draft History reflect it without a full page
+// reload — the module-level arrays above are otherwise only fetched once.
+export async function loadDraftData() {
   try {
     const [managersRes, eventsRes, transactionsRes] = await Promise.all([
       supabase.from("draft_managers").select("id, name, aliases"),

@@ -861,13 +861,23 @@
 }
 
 .draft-live-submit {
+  margin-top: var(--spacing-sm);
+  padding-top: var(--spacing-sm);
+  border-top: 1px solid var(--color-border);
+}
+
+.draft-live-submit-title {
+  margin: 0 0 var(--spacing-sm);
+  font-size: var(--font-size-sm);
+  font-weight: 700;
+  color: var(--color-text-primary);
+}
+
+.draft-live-submit-controls {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   gap: var(--spacing-sm);
-  margin-top: var(--spacing-sm);
-  padding-top: var(--spacing-sm);
-  border-top: 1px solid var(--color-border);
 }
 
 .draft-login-form {

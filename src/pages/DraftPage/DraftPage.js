@@ -605,6 +605,7 @@ const DraftPage = ({ mainData, teams: fdrTeams = [], fixturesData = [] }) => {
     return candidate ? candidate.id : type === "main" ? "main-2" : "mini-1";
   };
   const targetEventId = nextEventOfType(draftType);
+  const targetEventLabel = DRAFT_EVENTS.find((e) => e.id === targetEventId)?.label || targetEventId;
 
   // Auth for the Submit button below — just gates that one write; viewing
   // the rest of /draft needs no login, same as always. Session persists via
@@ -1770,65 +1771,66 @@ const DraftPage = ({ mainData, teams: fdrTeams = [], fixturesData = [] }) => {
                 </span>
               </div>
               <div className="draft-live-submit">
-                {!session ? (
-                  <form className="draft-login-form" onSubmit={handleLogin}>
-                    <span className="draft-login-label">Log in to submit results:</span>
-                    <input
-                      type="email"
-                      placeholder="Email"
-                      value={loginEmail}
-                      onChange={(e) => setLoginEmail(e.target.value)}
-                      autoComplete="username"
-                    />
-                    <input
-                      type="password"
-                      placeholder="Password"
-                      value={loginPassword}
-                      onChange={(e) => setLoginPassword(e.target.value)}
-                      autoComplete="current-password"
-                    />
-                    <button type="submit" className="draft-toggle-btn">
-                      Log in
-                    </button>
-                    {loginError && <span className="draft-live-submit-message error">{loginError}</span>}
-                  </form>
-                ) : (
-                  <>
-                    <span className="draft-login-label">Logged in as {session.user.email}</span>
-                    <button className="draft-toggle-btn" onClick={handleLogout}>
-                      Log out
-                    </button>
-                    <button
-                      className="draft-toggle-btn on"
-                      disabled={submitState === "submitting" || liveValidPicks.length === 0}
-                      onClick={handleSubmitLivePicks}
-                    >
-                      {submitState === "submitting"
-                        ? "Submitting…"
-                        : `Submit ${liveValidPicks.length} pick${
-                            liveValidPicks.length === 1 ? "" : "s"
-                          } to ${targetEventId}`}
-                    </button>
-                    {submitMessage && (
-                      <span className={`draft-live-submit-message ${submitState}`}>{submitMessage}</span>
-                    )}
-                    <button
-                      className={`draft-toggle-btn draft-markdone-btn ${confirmingMarkDone ? "confirming" : ""}`}
-                      disabled={markDoneState === "working"}
-                      onClick={handleMarkEventDone}
-                      title="Locks this event in and moves planning on to whatever's next"
-                    >
-                      {markDoneState === "working"
-                        ? "Marking done…"
-                        : confirmingMarkDone
-                        ? `Click again to confirm — lock in ${targetEventId}`
-                        : `Mark ${targetEventId} as done`}
-                    </button>
-                    {markDoneMessage && (
-                      <span className={`draft-live-submit-message ${markDoneState}`}>{markDoneMessage}</span>
-                    )}
-                  </>
-                )}
+                <h3 className="draft-live-submit-title">{targetEventLabel}</h3>
+                <div className="draft-live-submit-controls">
+                  {!session ? (
+                    <form className="draft-login-form" onSubmit={handleLogin}>
+                      <span className="draft-login-label">Log in to submit results:</span>
+                      <input
+                        type="email"
+                        placeholder="Email"
+                        value={loginEmail}
+                        onChange={(e) => setLoginEmail(e.target.value)}
+                        autoComplete="username"
+                      />
+                      <input
+                        type="password"
+                        placeholder="Password"
+                        value={loginPassword}
+                        onChange={(e) => setLoginPassword(e.target.value)}
+                        autoComplete="current-password"
+                      />
+                      <button type="submit" className="draft-toggle-btn">
+                        Log in
+                      </button>
+                      {loginError && <span className="draft-live-submit-message error">{loginError}</span>}
+                    </form>
+                  ) : (
+                    <>
+                      <span className="draft-login-label">Logged in as {session.user.email}</span>
+                      <button className="draft-toggle-btn" onClick={handleLogout}>
+                        Log out
+                      </button>
+                      <button
+                        className="draft-toggle-btn on"
+                        disabled={submitState === "submitting" || liveValidPicks.length === 0}
+                        onClick={handleSubmitLivePicks}
+                      >
+                        {submitState === "submitting"
+                          ? "Submitting…"
+                          : `Submit ${liveValidPicks.length} pick${liveValidPicks.length === 1 ? "" : "s"}`}
+                      </button>
+                      {submitMessage && (
+                        <span className={`draft-live-submit-message ${submitState}`}>{submitMessage}</span>
+                      )}
+                      <button
+                        className={`draft-toggle-btn draft-markdone-btn ${confirmingMarkDone ? "confirming" : ""}`}
+                        disabled={markDoneState === "working"}
+                        onClick={handleMarkEventDone}
+                        title="Locks this event in and moves planning on to whatever's next"
+                      >
+                        {markDoneState === "working"
+                          ? "Marking done…"
+                          : confirmingMarkDone
+                          ? "Click again to confirm"
+                          : "Mark as done"}
+                      </button>
+                      {markDoneMessage && (
+                        <span className={`draft-live-submit-message ${markDoneState}`}>{markDoneMessage}</span>
+                      )}
+                    </>
+                  )}
+                </div>
               </div>
             </div>
           )}

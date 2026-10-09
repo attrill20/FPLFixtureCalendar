@@ -1813,7 +1813,7 @@ const DraftPage = ({ mainData, teams: fdrTeams = [], fixturesData = [] }) => {
                       <span className={`draft-live-submit-message ${submitState}`}>{submitMessage}</span>
                     )}
                     <button
-                      className={`draft-toggle-btn ${confirmingMarkDone ? "confirming" : ""}`}
+                      className={`draft-toggle-btn draft-markdone-btn ${confirmingMarkDone ? "confirming" : ""}`}
                       disabled={markDoneState === "working"}
                       onClick={handleMarkEventDone}
                       title="Locks this event in and moves planning on to whatever's next"

@@ -952,6 +952,19 @@
   color: var(--color-text-white);
 }
 
+/* Mark as Done: red always (not just once armed), pushed to the far right
+   of the submit row, away from the login/submit controls. */
+.draft-markdone-btn {
+  margin-left: auto;
+  border-color: var(--draft-red);
+  color: var(--draft-red);
+}
+
+.draft-markdone-btn:hover {
+  border-color: var(--draft-red);
+  color: var(--draft-red);
+}
+
 .draft-toggle-btn:disabled {
   opacity: 0.6;
   cursor: default;

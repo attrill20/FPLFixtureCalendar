@@ -1706,6 +1706,7 @@ const DraftPage = ({ mainData, teams: fdrTeams = [], fixturesData = [] }) => {
 
           {availableView === "all" && liveModeOn && (
             <div className="draft-live-mode-panel">
+              <h3 className="draft-live-submit-title">{targetEventLabel}</h3>
               <p className="draft-live-board-intro">
                 Fill in each manager's 5 slots directly — a player field and a price field per row.
                 Kept on this device only (survives a refresh, never sent to Supabase); it recomputes Live £
@@ -1771,7 +1772,6 @@ const DraftPage = ({ mainData, teams: fdrTeams = [], fixturesData = [] }) => {
                 </span>
               </div>
               <div className="draft-live-submit">
-                <h3 className="draft-live-submit-title">{targetEventLabel}</h3>
                 <div className="draft-live-submit-controls">
                   {!session ? (
                     <form className="draft-login-form" onSubmit={handleLogin}>
